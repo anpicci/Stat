@@ -1,0 +1,15 @@
+mv pulls_0_1100alloutv2.png pulls_0_1100.png
+mv pulls_0_1500alloutv2.png pulls_0_1500.png
+mv pulls_0_700alloutv2.png pulls_0_700.png
+mv pulls_10_1100alloutv2.png pulls_10_1100.png
+mv pulls_10_700alloutv2.png pulls_10_700.png
+mv pulls_120_700alloutv2.png pulls_120_700.png
+mv pulls_18_1500alloutv2.png pulls_18_1500.png
+mv pulls_30_700alloutv2.png pulls_30_700.png
+mv pulls_35_1100alloutv2.png pulls_35_1100.png
+mv pulls_35_1500alloutv2.png pulls_35_1500.png
+mv pulls_50_1100alloutv2.png pulls_50_1100.png
+mv pulls_5_1100alloutv2.png pulls_5_1100.png
+mv pulls_5_1500alloutv2.png pulls_5_1500.png
+mv pulls_75_1500alloutv2.png pulls_75_1500.png
+mv pulls_75_700alloutv2.png pulls_75_700.png

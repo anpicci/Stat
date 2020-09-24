@@ -1,0 +1,1 @@
+combine -M FitDiagnostics outdduncNovtestwFull/TprimeLH1500/TprimeLH1500_hist.txt --redefineSignalPOIs ZJetsCRZ1DDUncInv2018 -t 10 -n ZJetsParams --toysFile=higgsCombiner_75_1500_toysfinallarge9_300.GenerateOnly.mH120.123456.root

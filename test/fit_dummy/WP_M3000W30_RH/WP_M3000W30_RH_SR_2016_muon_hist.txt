@@ -1,0 +1,16 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/adeiorio/CMSSW_10_2_5/src/Stat/Limits/test/histo2016.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/adeiorio/CMSSW_10_2_5/src/Stat/Limits/test/histo2016.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               SR_2016_muon
+observation       6622
+-----------------------------------------------------------------------------------
+bin                                     SR_2016_muon                               SR_2016_muon                               SR_2016_muon                               SR_2016_muon                               SR_2016_muon                               
+process                                 WP_M3000W30_RH                             ST                                         QCD                                        TT_Mtt                                     WJets                                      
+process                                 0                                          1                                          2                                          3                                          4                                          
+rate                                    126.000481                                 542.93                                     661.69                                     5042.88                                    375.01                                     
+-----------------------------------------------------------------------------------
+lumi_2016           lnN                 1.025               1.025               1.025               1.025               1.025               
