@@ -14,7 +14,7 @@ In order to merge 2016 and 2017 root file, do:
 This file will be given as input to createDatacards.py script
 to create a set of datacrds, for each region and for the combination
 
-> python createDatacards -i histosFile.root -d outdir -m mode (hist or template) -c channels (list of regions, or all for including all of them) -u (to unblind)
+> python createDatacards.py -i histosFile.root -d outdir -m mode (hist or template) -c channels (list of regions, or all for including all of them) -u (to unblind)
 
 To run all limits together in local: 
 
