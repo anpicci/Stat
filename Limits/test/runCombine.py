@@ -18,7 +18,7 @@ parser.add_option('',"--runSingleCat",dest="runSingleCat",action='store_true', d
 
 (opt, args) = parser.parse_args()
 #interaction = opt.interaction
-path_ = "/afs/cern.ch/work/a/adeiorio/CMSSW_10_2_5/src/Stat/Limits/test/"
+path_ = os.path.abspath(os.getcwd()) + '/' 
 path_ += opt.dir
 
 if opt.years != "all": 
