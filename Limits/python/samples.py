@@ -2251,7 +2251,7 @@ DataMuD_2018 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMuD_2018")
 DataMuD_2018.runP = 'D'
 DataMuD_2018.year = 2018
 DataMuD_2018.dataset = '/SingleMuon/Run2018D-'+tag_data + '-v1/NANOAOD'
-DataMu_2018 = sample(ROOT.kBlack, 1, 1001, "Data", "DataDataMu_2018")
+DataMu_2018 = sample(ROOT.kBlack, 1, 1001, "Data", "DataMu_2018")
 DataMu_2018.year = 2018
 DataMu_2018.components = [DataMuA_2018, DataMuB_2018, DataMuC_2018, DataMuD_2018]
 

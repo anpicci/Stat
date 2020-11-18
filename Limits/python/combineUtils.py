@@ -43,7 +43,7 @@ m " + mZprime + " SVJ_mZprime" + mZprime + "_mDark" + mDark + "_rinv" + rinv + "
 
 
 
-def runSinglePointTprime(path_, mWprime, width, chir, categories, method, runSingleCat):
+def runSinglePointWprime(path_, mWprime, width, chir, categories, method, runSingleCat):
     mass=mWprime
     print "evaluate limit for mWprime = ", mWprime, " GeV"
     path = ("%s/WP_M%sW%s_%s" % (path_, mass, width, chir) )
@@ -54,27 +54,30 @@ def runSinglePointTprime(path_, mWprime, width, chir, categories, method, runSin
         os.chdir(path)
         print "We are in the right folder ",  len(categories)
         extraoption=""
-        if len(categories)>1: 
-            cmd = "combineCards.py WP_M%sW%s_%s.txt > WP_M%sW%s_%s_%s.txt" % (mass, width, chir, mass, width, chir, method)
-            print cmd
-            os.system(cmd)
-            if "30" in width and mass == "800": extraoption = "--rMax 10" 
-            if not ("Wp" in width) and "1400" in mass: extraoption = "--rRelAcc 0.008"
-            if not ("Wp" in width) and "1200" in mass: extraoption = "--rRelAcc 0.008"
-            runCombine("combine -M Asymptotic "+extraoption+" -n WP_M" + mass + "W" + width + "_" + chir + " -m " + mass + " WP_M" + mass + "W" + width + "_" + chir + "_" + method + ".txt", "asymptotic_WP_M"+mass+"W"+width+"_"  + chir + "_"  + method + ".log")
-            
-            for cat in categories:
-                print "category: " + (cat)
-                cat = cat+"_"+method
-                print  "WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt"
-                print "combine -M Asymptotic "+extraoption+" -S " + opt.syst + " -n WP_M"+mass+"W"+width+ "_" + chir + "_" + cat + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log"
-                if(runSingleCat): runCombine("combine -M Asymptotic "+extraoption+" -S " + opt.syst + " -n WP_M"+mass+"W"+width+ "_" + chir + "_" + cat + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log")  
+        if len(categories)>1:
+            for year in years:
+                cmd = "combineCards.py "
+                for cat in categories:
+                    cmd += cat+"=WP_M%sW%s_%s_%s_%s_%s.txt " %(mass, width, chir, cat, year, method)
+                cmd += "> WP_M%sW%s_%s_%s.txt" % (mass, width, chir, method)
+                print cmd
+                os.system(cmd)
+                runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir + "_" + method + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + method + ".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + method + ".log")
+                
+                if(runSingleCat): 
+                    for cat in categories:
+                        print "category: " + (cat)
+                        cat = cat+"_"+year+"_"+method
+                        print  "WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt"
+                        print "combine -M Asymptotic "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir + "_" + cat + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log"
+                        runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir +  "_" + cat+ " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_"  + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log")  
 
-        for lep in leptons:
-            for cat in categories:
-                print "category: " + (cat)
-                cat = cat+"_"+lep+"_"+method
-                if(runSingleCat): runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir +  "_" + cat+ " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_"  + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log")  
+        else:
+            for year in years:
+                for cat in categories:
+                    print "category: " + (cat)
+                    cat = cat+"_"+year+"_"+method
+                    if(runSingleCat): runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir +  "_" + cat+ " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_"  + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log")  
         os.chdir("..")
 
 

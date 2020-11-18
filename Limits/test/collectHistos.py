@@ -2,31 +2,29 @@ import ROOT
 import os, sys
 import optparse 
 import copy
-from Stat.Limits.settings import processes, histos, years
+from Stat.Limits.settings import processes, histos, years, leptons
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
 parser.add_option('-i', '--input', dest='path', type='string', default= "./histos2017v6/",help='Where can I find input histos?')
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
-parser.add_option("-l","--lep",dest="lepton", type='string', default= "muon",help='Which lepton channel are you searching for?')
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
-path_ =  opt.path
+path =  opt.path
 ofilename = opt.output
 mcstat = opt.mcstat
-leptons = []
-leptons.append(opt.lepton)
 # Creating output file
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
-
+sampFiles = {}
 # Getting list of files in histos
-print os.listdir(path_)
-for lep in leptons:
-    path_ = path_ + '/' + lep + '/'
-    sampFiles = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename )]
+print os.listdir(path)
+for year in years:
+    for lep in leptons:
+        path_ = path + '/' + lep + '/'
+        sampFiles[lep] = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
 
 #*******************************************************#
 #                                                       #
@@ -36,7 +34,8 @@ for lep in leptons:
 histos_data = []
 for year in years:
     for lep in leptons:
-        for f in sampFiles: 
+        path_ = path + '/' + lep + '/'
+        for f in sampFiles[lep]: 
             try:
                 ifile = ROOT.TFile.Open(path_ + f)
             except IOError:
@@ -44,17 +43,19 @@ for year in years:
             else:
                 print "Opening file ",  f
             ifile.cd()
-            samp = f.replace(".root", "").strip("_" + lep).strip("_" + year)         
-            print "We are looking into file: ", f
+            samp = f.replace(".root", "").replace("_" + lep, "").replace("_" + year, "")         
+            print 'ciao'
+            print samp
+            print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
             for k_, h_ in histos.iteritems():    
                 print "We are looking for object ", h_
                 h = ifile.Get(h_)
                 if not os.path.isdir(k_+ "_" + year):
-                    newsubdir = ofile.mkdir(k_ + "_" + year + "_" + lep)
-                ofile.cd(k_ + "_" + year + "_" + lep)
+                    newsubdir = ofile.mkdir(k_ + "_" + lep + "_" + year)
+                ofile.cd(k_ + "_" + lep + "_" + year)
                 if(samp.startswith("Data")): samp = "data_obs"
-                #print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
+                print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
                 h.SetName(samp)
                 h.Write(samp, ROOT.TObject.kWriteDelete)
                 if(samp.startswith("Data")): histos_data.append(h)
@@ -85,9 +86,12 @@ for year in years:
 #           CREATING TOTAL BACKGORUND HISTOS            #
 #                                                       #
 #*******************************************************#
-histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
+print histos.keys()
 for lep in leptons:
+    ofile = ROOT.TFile(ofilename,"UPDATE")    
+    histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
     for year in years:
+        path_ = path + '/' + lep + '/'
         for p in processes:
             try:
                 ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lep + ".root")
@@ -102,15 +106,11 @@ for lep in leptons:
                     histData[k_] = copy.deepcopy(tmphist)
                 else: histData[k_].Add(tmphist)
 
-ofile = ROOT.TFile(ofilename,"UPDATE")    
-
-for year in years:
-    for lep in leptons:
         for k_ in histos.keys():    
             print "Creating Bkg histogram "
             #if not os.path.isdir( k_ + "_" + year):
             #    newsubdir = ofile.mkdir(k_+"_" + year)
-            ofile.cd(k_+ "_" + year + "_" +lep)
+            ofile.cd(k_+ "_" + lep + "_" + year)
             histData[k_].SetName("Bkg")
             histData[k_].Write("Bkg", ROOT.TObject.kWriteDelete)
             print "Bkg integral ", histData[k_].Integral()
@@ -126,4 +126,4 @@ for year in years:
             histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
             print "MCSTAT ", mcstat
         ofile.Write()
-        ofile.Close()
+    ofile.Close()

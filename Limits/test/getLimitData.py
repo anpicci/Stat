@@ -45,11 +45,11 @@ print categories
  
 #models=["","Wp10","Wp20","Wp30"]
 
-for cat in categories:
-    for lep in leptons:
-        for method in methods:
-            post = "_" + cat + "_" + lep + "_" + method;
-            getLimits(opt.dir,post)
+#for cat in categories:
+#    for lep in leptons:
+for method in methods:
+    post = "_" + method
+    getLimits(opt.dir,post)
 
 #    for cat in categories:
 #        post = "_" + cat + "_" + method;

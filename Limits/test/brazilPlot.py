@@ -59,16 +59,20 @@ parser.add_option("-c","--compare",dest="compare", type='string', default = '', 
 parser.add_option('-m', '--method', dest='method', type='string', default = 'hist', help='Run a single method (all, hist, template)')
 parser.add_option('-y', '--year', dest='year', type='string', default = 'all', help='Run a single method (Run2, 2016, 2017, 2018, 2016_2017,2016_2017_2018)')
 parser.add_option('-v', '--variable', dest='variable', type='string', default = 'mZprime', help='Plot limit against variable v (mZPrime, mDark, rinv, alpha)')
+parser.add_option('-l', '--label', dest='label', type='string', default = '', help='Label to be added to canvas name')
 (opt, args) = parser.parse_args()
 
 addobserved=opt.addobserved
 #addobserved=False
 
 theo = not opt.ratio
-
-for lep in leptons:
+'''
+for year in years:
     for ch in channels:
-        l = readFile("data/limit_%s_%s_%s.txt" % (ch, lep, opt.method), "%s_%s_%s" %(ch, lep, opt.method))
+        l = readFile("data/limit_%s_%s_%s.txt" % (ch, year, opt.method), "%s_%s_%s" %(ch, year, opt.method))
+'''
+
+l = readFile("data/limit_%s.txt" % (opt.method), "%s" %(opt.method))                                                                                                                         
 
 if opt.compare!="":
     lc = readFile("%s" % opt.compare, "hist")
@@ -273,7 +277,7 @@ if(theo):
     maxY=y_xsec_vals[0]+y_bars_u2[0]
     minY=y_xsec_vals[-1]+y_bars_d2[-1]
 
-band_2sigma.GetYaxis().SetRangeUser(minY*0.1, maxY*5.)
+band_2sigma.GetYaxis().SetRangeUser(minY*0.1, maxY*200.)
 c1.Update()
 band_2sigma.GetXaxis().SetRangeUser(xvalues_[0], xvalues_[-1])
 band_2sigma.Draw("A3")
@@ -359,8 +363,8 @@ l_preliminary.DrawLatex(0.13, 0.81,"");
 #l_label.SetTextAlign(11);
 
 c1.Update()
-extrastr=""
-extrastr+="fwd0_"
+extrastr=opt.label
+#extrastr+="_nocut_old"
 if(addobserved):extrastr=extrastr+"obs"
 ofileName = "plots/test_limitPlot_%s_%s.pdf" % (opt.year, opt.method+extrastr)
 if theo: ofileName = "plots/test_limitPlot_%s_%s_xsec.pdf" % (opt.year, opt.method+extrastr)

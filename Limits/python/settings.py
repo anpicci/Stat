@@ -6,35 +6,31 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = {"SR":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag"}
-
+histos = {#"SR": "h_jets_best_Wprime_m_selectionsoft_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_250_AND_best_top_m_G_100", "CRTT":"h_jets_best_Wprime_m_selectionsoft_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_EQ_0_AND_best_top_m_L_250_AND_best_top_m_G_100", "CRWJ":"h_jets_best_Wprime_m_selectionsoft_AND_best_topjet_isbtag_EQ_0_AND_best_Wpjet_isbtag_AND_best_top_m_L_250_AND_best_top_m_G_100"
+#"SR": "h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag", "CRTT":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_EQ_0", "CRWJ":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_EQ_0_AND_best_Wpjet_isbtag" 
+    #"SR":"h_jets_best_Wprime_m_selection_lep180_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_400_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60", "CRTT":"h_jets_best_Wprime_m_selection_lep180_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_400_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60", "CRWJ":"h_jets_best_Wprime_m_selection_lep180_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_400_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60"
+    "SR":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_200_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60", "CRTT":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_200_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60", "CRWJ":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_L_200_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60"
+         #"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60"
+          #"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_G_130"
+      }
 ### List of regions for which creating the datacards
-channels = ["SR_2016"]
-channels_labels = {"SR":"Signal region"}
-leptons = ['muon']
+channels = ["SR_muon", "CRTT_muon", "CRWJ_muon", "SR_electron", "CRTT_electron", "CRWJ_electron"]
+channels_labels = {"SR":"Signal region", "CRTT":"\ttbar Control region", "CRWJ":"wjets Control region"}
+leptons = ['muon', 'electron']
+
 class rateParam(object):
     pass
+
 rateParams = {}
-'''
-sigZ="ZJetsCRZ1"
-#sigZ="ZJetsCRZ2"
-#sigZ="ZJets"
+TT_rate = rateParam()
+TT_rate.chs = ["SR_muon", "CRTT_muon", "CRWJ_muon", "SR_electron", "CRTT_electron", "CRWJ_electron"]
+TT_rate.bkg = "TT_Mtt"
+rateParams["TT_rate"] = TT_rate
 
-sigTTW="TTW"
-#sigTTW="TT"
-commonrp=True
-commonrp=False
-if(commonrp):
-    rateZJets = rateParam()
-    rateZJets.chs = ["Merged_nofwd", "SemiRes_nofwd"]
-    rateZJets.bkg = sigZ
-    rateParams["ZJets"] = rateZJets
-
-    rateZJetsFwd = rateParam()
-    rateZJetsFwd.chs = ["Merged_fwd", "SemiRes_fwd"]
-    rateZJetsFwd.bkg = sigZ
-    rateParams["ZJets_fwd"] = rateZJetsFwd
-'''
+WJ_rate = rateParam()
+WJ_rate.chs = ["SR_muon", "CRTT_muon", "CRWJ_muon", "SR_electron", "CRTT_electron", "CRWJ_electron"]
+WJ_rate.bkg = "WJets"
+rateParams["WJ_rate"] = WJ_rate
 
 #*********************************
 #                                *
@@ -56,10 +52,11 @@ syst["lumi_2016"] = ["lnN", "all", 1.025]
 #syst["lumi_2018"] = ["lnN", "all", 1.025]
 #syst["lumi_2018"] = ["lnN", "all", 1.023]
 #syst["trigger"] = ["lnN", "all", 1.02]
-#syst["mcstat"] = ["shape", ("QCD", sigTTW, "WJets", sigZ, "sig")]
+syst["autoMCstat"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["trigSF"] = ["shape", ["sig"]]
 #syst["trigSF"] = ["lnN", ["sig",sigTTW, sigZ, "QCD", "SingleTop"]]
-
+#syst["jes"] = ["shape", ("QCD", "TT_Mtt", "WJets", "sig")]
+syst["PF"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 years = ["2016"]
 #years = ["2016","2017","2018"]
 '''
