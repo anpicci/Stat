@@ -55,22 +55,32 @@ def runSinglePointWprime(path_, mWprime, width, chir, categories, method, runSin
         print "We are in the right folder ",  len(categories)
         extraoption=""
         if len(categories)>1:
-            for year in years:
+            if len(years)>1:
                 cmd = "combineCards.py "
-                for cat in categories:
-                    cmd += cat+"=WP_M%sW%s_%s_%s_%s_%s.txt " %(mass, width, chir, cat, year, method)
+                for year in years:
+                    for cat in categories:
+                        cmd += cat+year+"=WP_M%sW%s_%s_%s_%s_%s.txt " %(mass, width, chir, cat, year, method)
                 cmd += "> WP_M%sW%s_%s_%s.txt" % (mass, width, chir, method)
                 print cmd
                 os.system(cmd)
                 runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir + "_" + method + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + method + ".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + method + ".log")
-                
-                if(runSingleCat): 
+            else:
+                for year in years:
+                    cmd = "combineCards.py "
                     for cat in categories:
-                        print "category: " + (cat)
-                        cat = cat+"_"+year+"_"+method
-                        print  "WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt"
-                        print "combine -M Asymptotic "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir + "_" + cat + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log"
-                        runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir +  "_" + cat+ " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_"  + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log")  
+                        cmd += cat+"=WP_M%sW%s_%s_%s_%s_%s.txt " %(mass, width, chir, cat, year, method)
+                    cmd += "> WP_M%sW%s_%s_%s.txt" % (mass, width, chir, method)
+                    print cmd
+                    os.system(cmd)
+                    runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir + "_" + method + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + method + ".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + method + ".log")
+
+                    if(runSingleCat): 
+                        for cat in categories:
+                            print "category: " + (cat)
+                            cat = cat+"_"+year+"_"+method
+                            print  "WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt"
+                            print "combine -M Asymptotic "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir + "_" + cat + " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log"
+                            runCombine("combine -M AsymptoticLimits "+extraoption+" -n WP_M"+mass+"W"+width+ "_" + chir +  "_" + cat+ " -m" + mass + " WP_M"+mass+"W"+width+"_" + chir + "_"  + cat +".txt", "asymptotic_WP_M" + mass + "W" + width + "_" + chir + "_" + cat + ".log")  
 
         else:
             for year in years:

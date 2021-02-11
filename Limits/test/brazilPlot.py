@@ -363,7 +363,7 @@ l_preliminary.DrawLatex(0.13, 0.81,"");
 #l_label.SetTextAlign(11);
 
 c1.Update()
-extrastr=opt.label
+extrastr=opt.label.replace("/", "")
 #extrastr+="_nocut_old"
 if(addobserved):extrastr=extrastr+"obs"
 ofileName = "plots/test_limitPlot_%s_%s.pdf" % (opt.year, opt.method+extrastr)

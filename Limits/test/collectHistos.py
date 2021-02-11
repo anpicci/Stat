@@ -24,18 +24,19 @@ print os.listdir(path)
 for year in years:
     for lep in leptons:
         path_ = path + '/' + lep + '/'
-        sampFiles[lep] = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+        sampFiles[year+lep] = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
 
 #*******************************************************#
 #                                                       #
 #     FILLING IN THE INPUT ROOT FILE FOR COMBINE        #
 #                                                       #
 #*******************************************************#
+
 histos_data = []
 for year in years:
     for lep in leptons:
         path_ = path + '/' + lep + '/'
-        for f in sampFiles[lep]: 
+        for f in sampFiles[year+lep]: 
             try:
                 ifile = ROOT.TFile.Open(path_ + f)
             except IOError:
@@ -86,11 +87,17 @@ for year in years:
 #           CREATING TOTAL BACKGORUND HISTOS            #
 #                                                       #
 #*******************************************************#
+print '**********************************************************'
+print '**********************************************************'
+print '**********************************************************'
+print '**********************************************************'
+print '**********************************************************'
+print '**********************************************************'
 print histos.keys()
 for lep in leptons:
     ofile = ROOT.TFile(ofilename,"UPDATE")    
-    histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
     for year in years:
+        histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
         path_ = path + '/' + lep + '/'
         for p in processes:
             try:
@@ -100,7 +107,8 @@ for lep in leptons:
             else:
                 print "Opening file " +  p + "_" + year + "_" + lep + ".root"
             ifile.cd()
-            for k_, h_ in histos.iteritems():    
+            for k_, h_ in histos.iteritems():
+                print k_, h_
                 tmphist = ifile.Get( h_)
                 if histData[k_] is None: 
                     histData[k_] = copy.deepcopy(tmphist)
@@ -115,6 +123,12 @@ for lep in leptons:
             histData[k_].Write("Bkg", ROOT.TObject.kWriteDelete)
             print "Bkg integral ", histData[k_].Integral()
             bkgpdf =  histData[k_].Clone("BkgPdf")
+            # check for negative bins in bkg pdf 
+            for i in range(0, bkgpdf.GetNbinsX()+1):
+                content = bkgpdf.GetBinContent(i)
+                if(content<0.):
+                    bkgpdf.SetBinContent(i, 1.E-3)
+
             bkgpdf.Scale(1./ bkgpdf.Integral())
             print "Bkg pdf ", bkgpdf.Integral()
             histdata = bkgpdf.Clone("data_obs")
@@ -122,8 +136,9 @@ for lep in leptons:
             print "data pdf ", histdata.Integral()
             histdata.FillRandom(bkgpdf, int(histData[k_].Integral()))
             print "data  ", histdata.Integral()
-            #histData[k_].SetName("data_obs")
+            histData[k_].SetName("data_obs")
             histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
             print "MCSTAT ", mcstat
+
         ofile.Write()
     ofile.Close()

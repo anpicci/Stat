@@ -1,0 +1,30 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/adeiorio/CMSSW_10_2_5/src/Stat/Limits/test/histoall.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/adeiorio/CMSSW_10_2_5/src/Stat/Limits/test/histoall.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               SR_electron_2017
+observation       290
+-----------------------------------------------------------------------------------
+bin                                     SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           
+process                                 WP_M5000W50_RH                             QCD                                        DDFitWJetsTT_MttST                         
+process                                 0                                          1                                          2                                          
+rate                                    0.624564                                   12.85                                      277.26                                     
+-----------------------------------------------------------------------------------
+lumi_2017           lnN                 1.023               1.023               1.023               
+PF                       shape     1                   1                   -                   
+pu                       shape     1                   1                   -                   
+lep                      shape     1                   1                   -                   
+trig                     shape     1                   1                   -                   
+jes                      shape     1                   1                   -                   
+jer                      shape     1                   1                   -                   
+btag                     shape     1                   1                   -                   
+mistag                   shape     1                   1                   -                   
+pdf_total                shape     1                   1                   -                   
+TT_Mtt                   shape     -                   -                   1                   
+WJets                    shape     -                   -                   1                   
+ST                       shape     -                   -                   1                   
+TF                       shape     -                   -                   1                   
+DD                       shape     -                   -                   1                   
