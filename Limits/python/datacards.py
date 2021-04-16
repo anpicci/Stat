@@ -189,11 +189,18 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               if("2016" in sysName and "2016" not in ch): continue
               elif("2017" in sysName and "2017" not in ch): continue
               elif("2018" in sysName and "2018" not in ch): continue
+              if("mu" in sysName and "mu" not in ch): continue
+              elif("ele" in sysName and "ele" not in ch): continue
               if(sysValue[0]=="lnN"): 
                      card += "%-20s%-20s" % (sysName, sysValue[0])
                      if(sysValue[1]=="all" and len(sysValue)>2):
                             if(mode == "template"): card += "%-20s" % (sysValue[2]) * (2)
                             else:  card += "%-20s" % (sysValue[2]) * (len(processes) + 1)
+                     elif(sysValue[1]=="QCD" and len(sysValue)>2):
+                            if(mode == "template"):
+                                   card += "%-20s" % (sysValue[2]) * (2)
+                            else: 
+                                   card += "%-20s" % (sysValue[2]) * (len(processes) + 1)
                      else:
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
@@ -264,13 +271,28 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        # End for loop on syst unc.       
        for k, v in rateParams.items():
               for ch_ in v.chs:
+                     if("2016" in k and "2016" not in ch):
+                            continue
+                     elif("2017" in k and "2017" not in ch):
+                            continue
+                     elif("2018" in k and "2018" not in ch):
+                            continue
+                     if("mu" in k and "mu" not in ch):
+                            continue
+                     elif("ele" in k and "ele" not in ch):
+                            continue
                      if (ch_==("_").join(ch.split("_")[:-1])): 
                             if(("2016" in k) or ("2017" in k) or ("2018" in k)):
-                                   sameyear= ( ("2016" in k and "2016" in ch) or ("2017" in k and "2017" in ch) or ("2018" in k and "2018" in ch))
-                                   if(sameyear): card += "%-20s%-20s%-20s%-20s%-20d\n" % (k, "rateParam", ch, v.bkg, 1)
+                                   if ('mu' in k and 'mu' in ch):
+                                          card += "%-20s%-20s%-20s%-20s%-20d\n" % (k, "rateParam", ch, v.bkg, 1)
+                                   elif ('ele' in k and 'ele' in ch):
+                                          card += "%-20s%-20s%-20s%-20s%-20d\n" % (k, "rateParam", ch, v.bkg, 1)
+                                   else:
+                                          sameyear= ( ("2016" in k and "2016" in ch) or ("2017" in k and "2017" in ch) or ("2018" in k and "2018" in ch))
+                                          if(sameyear): card += "%-20s%-20s%-20s%-20s%-20d\n" % (k, "rateParam", ch, v.bkg, 1)                                   
                             else:
                                    card += "%-20s%-20s%-20s%-20s%-20d\n" % (k, "rateParam", ch, v.bkg, 1)
-              card += "\n"
+                            card += "\n"
 
        if not os.path.isdir(outdir): os.system('mkdir ' +outdir)
        if not os.path.isdir(outdir + "/" + sig): os.system('mkdir ' +outdir + "/" + sig)

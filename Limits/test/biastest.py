@@ -44,7 +44,8 @@ folder = "fit_fullrun2_DD_topmass120_220"
 folder = "fit_2018_DD_topmass120_220_noMCstats"
 folder = "fit_v15_fullrun2_DD_DDFitWJetsTT_MttST"
 folder = 'fit_v16_fullrun2_DD_DDFitWJetsTT_MttST'
-folder = 'fit_v16_full_DD_DDFitWJetsTT_MttST'
+folder = 'SR_all_comb_09Mar21_plot_newfit_07Mar21_split_rateparam'
+
 
 ROOT.gStyle.SetOptFit(1)
 gen_options = "--saveToys --toysFrequentist --bypassFrequentistFit "
@@ -79,7 +80,7 @@ for mi in xrange(0, len(mass_points)):
                 c1=ROOT.TCanvas()
                 h.SetTitle("(r-"+str(r)+")/rErr")
                 h.Fit(func, "", "", -2, 2)
-                h.Draw()
+                h.Draw("E")
                 func.Draw("SAME")
                 c1.Update()
                 c1.SaveAs("pulls_"+str(r)+"_"+mass_point+suffix+"_v16.png")

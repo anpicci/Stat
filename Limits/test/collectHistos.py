@@ -9,12 +9,15 @@ parser = optparse.OptionParser(usage)
 parser.add_option('-i', '--input', dest='path', type='string', default= "./histos2017v6/",help='Where can I find input histos?')
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
+parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
 path =  opt.path
 ofilename = opt.output
 mcstat = opt.mcstat
+unblind = opt.unblind
+print("ATENTION UNBLIND OPTION IS " + str(unblind))
 # Creating output file
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
@@ -32,10 +35,10 @@ for year in years:
 #                                                       #
 #*******************************************************#
 
-histos_data = []
 for year in years:
     for lep in leptons:
         path_ = path + '/' + lep + '/'
+        histos_data = []
         for f in sampFiles[year+lep]: 
             try:
                 ifile = ROOT.TFile.Open(path_ + f)
@@ -44,8 +47,7 @@ for year in years:
             else:
                 print "Opening file ",  f
             ifile.cd()
-            samp = f.replace(".root", "").replace("_" + lep, "").replace("_" + year, "")         
-            print 'ciao'
+            samp = f.replace(".root", "").replace(lep, "").replace("_" + year + "_", "")         
             print samp
             print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
@@ -55,11 +57,12 @@ for year in years:
                 if not os.path.isdir(k_+ "_" + year):
                     newsubdir = ofile.mkdir(k_ + "_" + lep + "_" + year)
                 ofile.cd(k_ + "_" + lep + "_" + year)
-                if(samp.startswith("Data")): samp = "data_obs"
                 print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
                 h.SetName(samp)
                 h.Write(samp, ROOT.TObject.kWriteDelete)
-                if(samp.startswith("Data")): histos_data.append(h)
+                if(samp.startswith("Data")):
+                    if unblind:
+                        h.Write("data_obs", ROOT.TObject.kWriteDelete)
                 nBinsX = h.GetNbinsX()
                 #print "SAMP ",samp
                 if k_ in samp:
@@ -128,17 +131,15 @@ for lep in leptons:
                 content = bkgpdf.GetBinContent(i)
                 if(content<0.):
                     bkgpdf.SetBinContent(i, 1.E-3)
-
             bkgpdf.Scale(1./ bkgpdf.Integral())
             print "Bkg pdf ", bkgpdf.Integral()
-            histdata = bkgpdf.Clone("data_obs")
-            histdata.Reset()
-            print "data pdf ", histdata.Integral()
-            histdata.FillRandom(bkgpdf, int(histData[k_].Integral()))
-            print "data  ", histdata.Integral()
-            histData[k_].SetName("data_obs")
-            histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
-            print "MCSTAT ", mcstat
-
+            if not unblind:
+                histdata = bkgpdf.Clone("data_obs")
+                histdata.Reset()
+                print "data pdf ", histdata.Integral()
+                histdata.FillRandom(bkgpdf, int(histData[k_].Integral()))
+                print "data  ", histdata.Integral()
+                histData[k_].SetName("data_obs")
+                histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         ofile.Write()
     ofile.Close()

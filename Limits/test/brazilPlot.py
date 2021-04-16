@@ -60,19 +60,20 @@ parser.add_option('-m', '--method', dest='method', type='string', default = 'his
 parser.add_option('-y', '--year', dest='year', type='string', default = 'all', help='Run a single method (Run2, 2016, 2017, 2018, 2016_2017,2016_2017_2018)')
 parser.add_option('-v', '--variable', dest='variable', type='string', default = 'mZprime', help='Plot limit against variable v (mZPrime, mDark, rinv, alpha)')
 parser.add_option('-l', '--label', dest='label', type='string', default = '', help='Label to be added to canvas name')
+parser.add_option('',"--runSingleCat",dest="runSingleCat",action='store_true', default=False)
 (opt, args) = parser.parse_args()
 
 addobserved=opt.addobserved
 #addobserved=False
 
 theo = not opt.ratio
-'''
-for year in years:
-    for ch in channels:
-        l = readFile("data/limit_%s_%s_%s.txt" % (ch, year, opt.method), "%s_%s_%s" %(ch, year, opt.method))
-'''
 
-l = readFile("data/limit_%s.txt" % (opt.method), "%s" %(opt.method))                                                                                                                         
+if opt.runSingleCat:
+    for year in years:
+        for ch in channels:
+            l = readFile("data/limit_%s_%s_%s.txt" % (ch, year, opt.method), "%s_%s_%s" %(ch, year, opt.method))
+else:
+    l = readFile("data/limit_%s.txt" % (opt.method), "%s" %(opt.method))                                                                                                                         
 
 if opt.compare!="":
     lc = readFile("%s" % opt.compare, "hist")

@@ -54,7 +54,7 @@ def runSinglePointWprime(path_, mWprime, width, chir, categories, method, runSin
         os.chdir(path)
         print "We are in the right folder ",  len(categories)
         extraoption=""
-        if len(categories)>1:
+        if len(categories)>=1:
             if len(years)>1:
                 cmd = "combineCards.py "
                 for year in years:
