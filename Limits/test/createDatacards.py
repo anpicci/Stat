@@ -27,11 +27,11 @@ signals = []
 
 print "Signal points: ", sigpoints
 for p in sigpoints:
-    mWprime = p[0]
-    width = p[1]
-    chir = p[2]
-    print "Creating datacards for WP_M%sW%s%s" %(mWprime, width, chir)
-    signal  = "WP_M%sW%s_%s" % (mWprime, width, chir) 
+    model = p[0]
+    #width = p[1]
+    #chir = p[2]
+    print "Creating datacards for VBS_M%s" %(model)#, width, chir)
+    signal  = "VBS_%s" % (model)#, width, chir) 
     print "Signal: ", signal
     signals.append(signal)
 

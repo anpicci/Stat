@@ -26,8 +26,10 @@ sampFiles = {}
 print os.listdir(path)
 for year in years:
     for lep in leptons:
-        path_ = path + '/' + lep + '/'
+        path_ = path + lep + '/'
         sampFiles[year+lep] = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+
+print sampFiles
 
 #*******************************************************#
 #                                                       #
@@ -37,7 +39,8 @@ for year in years:
 
 for year in years:
     for lep in leptons:
-        path_ = path + '/' + lep + '/'
+        lept = lep.replace("_vsjet2", "")
+        path_ = path + lep + '/'
         histos_data = []
         for f in sampFiles[year+lep]: 
             try:
@@ -47,11 +50,12 @@ for year in years:
             else:
                 print "Opening file ",  f
             ifile.cd()
-            samp = f.replace(".root", "").replace(lep, "").replace("_" + year + "_", "")         
+
+            samp = f.replace(".root", "").replace(lept, "").replace("_" + year + "_", "")         
             print samp
             print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
-            for k_, h_ in histos.iteritems():    
+            for k_, h_ in histos.iteritems():
                 print "We are looking for object ", h_
                 h = ifile.Get(h_)
                 if not os.path.isdir(k_+ "_" + year):
@@ -99,16 +103,17 @@ print '**********************************************************'
 print histos.keys()
 for lep in leptons:
     ofile = ROOT.TFile(ofilename,"UPDATE")    
+    lept = lep.replace("_vsjet2", "")
     for year in years:
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
-        path_ = path + '/' + lep + '/'
+        path_ = path + lep + '/'
         for p in processes:
             try:
-                ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lep + ".root")
+                ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lept + ".root")
             except IOError:
-                print "Cannot open " + p + "_" + year + "_" + lep + ".root"
+                print "Cannot open " + p + "_" + year + "_" + lept + ".root"
             else:
-                print "Opening file " +  p + "_" + year + "_" + lep + ".root"
+                print "Opening file " +  p + "_" + year + "_" + lept + ".root"
             ifile.cd()
             for k_, h_ in histos.iteritems():
                 print k_, h_

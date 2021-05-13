@@ -6,20 +6,20 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { #"SR":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_AND_best_top_m_G_120_AND_best_top_m_L_220_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60", "CRTT":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_AND_best_Wpjet_isbtag_EQ_0_AND_best_top_m_G_120_AND_best_top_m_L_220_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60", "CRWJ":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_EQ_0_AND_best_Wpjet_isbtag_AND_best_top_m_G_120_AND_best_top_m_L_220_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60"
-    "CR0B":"h_jets_best_Wprime_m_selection_AND_best_topjet_isbtag_EQ_0_AND_best_Wpjet_isbtag_EQ_0_AND_nbjet_pt100_EQ_0_AND_best_top_m_G_120_AND_best_top_m_L_220_AND_deltaR_bestWAK4_closestAK8_L_0p4_AND_WprAK8_mSD_L_60"
+histos = { "SR":"h_jets_m_jj_selection_upto_bveto",
+           "CRWJ":"h_jets_m_jj_wjets_CR",
 }
 ### List of regions for which creating the datacards
-channels = ["SR_muon", "CRTT_muon", "CRWJ_muon", "SR_electron", "CRTT_electron", "CRWJ_electron"]
-leptons = ['muon', 'electron']
-channels = ["CR0B_muon", "CR0B_electron"]
-leptons = ['muon', 'electron']
+channels = ["SR_muon", "CRWJ_muon"]#, "SR_electron", "CRWJ_electron"]
+leptons = ['muon_vsjet2']#, 'electron']
+#channels = ["CR0B_muon", "CR0B_electron"]
+#leptons = ['muon', 'electron']
 #channels = ["CR0B_muon"]
 #leptons = ['muon']
 #channels = ["CR0B_electron"]
 #leptons = ['electron']
 
-channels_labels = {"SR":"Signal region", "CRTT":"\ttbar Control region", "CRWJ":"wjets Control region"}
+channels_labels = {"SR":"Pre-signal region", "CRWJ":"wjets Control region"}
 #channels_labels = {"CR0B":"0 b-jet control region"}
 
 class rateParam(object):
@@ -27,6 +27,7 @@ class rateParam(object):
 
 rateParams = {}
 
+'''
 DD_rate_2016 = rateParam()
 DD_rate_2016.chs = channels
 DD_rate_2016.bkg = "DDFitWJetsTT_MttST"
@@ -51,6 +52,7 @@ DD_ele_rate_2018 = rateParam()
 DD_ele_rate_2018.chs = channels
 DD_ele_rate_2018.bkg = "DDFitWJetsTT_MttST"
 rateParams["DD_ele_rate_2018"] = DD_ele_rate_2018
+'''
 
 #TT_rate = rateParam()
 #TT_rate.chs = ["SR_muon", "CRTT_muon", "CRWJ_muon", "SR_electron", "CRTT_electron", "CRWJ_electron"]
@@ -69,7 +71,7 @@ rateParams["DD_ele_rate_2018"] = DD_ele_rate_2018
 #*********************************
 #processes = ["ST", "QCD", "TT_Mtt", "WJets"]
 #processes = ["ST", "QCD", "DDWJetsTT_Mtt"]
-processes = ["QCD", "DDFitWJetsTT_MttST"]
+processes = ["VG", "WpWpJJ_QCD", "TVX", "TTTo2L2Nu", "WZ", "OtherWS", "ZZtoLep", "FakeMu"]
 bkgs = []
 
 #*********************************
@@ -81,14 +83,14 @@ syst = collections.OrderedDict()
 syst["lumi_2016"] = ["lnN", "all", 1.025]
 syst["lumi_2017"] = ["lnN", "all", 1.023]
 syst["lumi_2018"] = ["lnN", "all", 1.025]
-syst["qcd_rate"] = ["lnN", "QCD", 1.25]
+syst["fake_rate"] = ["lnN", "FakeMu", 1.30]
 #syst["lumi_2018"] = ["lnN", "all", 1.023]
 #syst["trigger"] = ["lnN", "all", 1.02]
 #syst["trigSF"] = ["shape", ["sig"]]
 #syst["trigSF"] = ["lnN", ["sig",sigTTW, sigZ, "QCD", "SingleTop"]]
 #syst["jes"] = ["shape", ("QCD", "TT_Mtt", "WJets", "sig")]
 
-#syst["autoMCstat"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
+syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", "TTTo2L2Nu", "WZ", "OtherWS", "ZZtoLep", "FakeMu", "sig")]
 #syst["PF"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["pu"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["jes"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
@@ -107,6 +109,7 @@ syst["TT_Mtt"] = ["shape", ("QCD", "ST", "DDWJetsTT_Mtt", "sig")]
 syst["WJets"] = ["shape", ("QCD", "ST", "DDWJetsTT_Mtt", "sig")]
 '''
 #syst["autoMCstat"] = ["shape", ("QCD", "ST", "DDWJetsTT_Mtt", "sig")]
+'''
 syst["PF"] = ["shape", ("QCD",  "sig")]
 syst["pu"] = ["shape", ("QCD",  "sig")]
 syst["lep"] = ["shape", ("QCD",  "sig")]
@@ -139,9 +142,10 @@ syst["Alt_ele_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
 syst["TF_ele_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
 syst["DD_ele_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
 syst["Alt_ele_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
+'''
 #syst["AltBis_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
 
-years = ["2018"]
+years = ["2017"]
 #years = ["2016","2017","2018"]
 '''
 splityearjes=False
@@ -162,6 +166,10 @@ if(not splityearjes):
 #                                *
 #*********************************
 
+VBS_SSWW_SM = ("SM")
+VBS_SSWW_SM_BSM = ("SM_BSM")
+
+'''
 #*********************************************************#
 #                                                         #
 #                  Right-Handed samples                   #
@@ -293,9 +301,9 @@ LHvec9wp30 = ("5600", "1680", "LH")
 LHvec10wp30 = ("6000", "1800", "LH")
 
 sigspointswp30 = [LHvec1wp30, LHvec2wp30, LHvec3wp30, LHvec4wp30, LHvec5wp30, LHvec6wp30, LHvec7wp30, LHvec8wp30, LHvec9wp30, LHvec10wp30]
+'''
 
-
-sigpoints = [RHvec1, RHvec6, RHvec11, RHvec16, RHvec21]
+sigpoints = [VBS_SSWW_SM]#
 
 #sigpoints.extend( sigspointswp10)
 #sigpoints.extend( sigspointswp20)
