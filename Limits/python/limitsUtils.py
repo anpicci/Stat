@@ -11,13 +11,13 @@ def getLimits(optdir, post):
    i = 0;
    sigmodelpoints=0
    for item in sigpoints:
-      mass=item[0]
-      width=item[1]
-      chir = item[2]
+      model=item
+      #width=item[1]
+      #chir = item[2]
       postfix=""
    
       sigmodelpoints+=1
-      filename = "%s/WP_M%sW%s_%s/asymptotic_WP_M%sW%s_%s%s.log" %(optdir, mass, width, chir, mass, width, chir, post)
+      filename = "%s/VBS_SSWW_%s/asymptotic_VBS_SSWW_%s%s.log" %(optdir, model, model, post)
       os.system(("grep \"r < \" %s| awk '/Observed Limit/{f=1}f'") % (filename))
       os.system(("grep \"r < \" %s| awk '{print $5}' >> a%s") % (filename, i))
       

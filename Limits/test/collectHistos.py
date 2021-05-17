@@ -39,7 +39,6 @@ print sampFiles
 
 for year in years:
     for lep in leptons:
-        lept = lep.replace("_vsjet2", "")
         path_ = path + lep + '/'
         histos_data = []
         for f in sampFiles[year+lep]: 
@@ -51,8 +50,8 @@ for year in years:
                 print "Opening file ",  f
             ifile.cd()
 
-            samp = f.replace(".root", "").replace(lept, "").replace("_" + year + "_", "")         
-            print samp
+            samp = f.replace(".root", "").replace(lep, "").replace("_" + year + "_", "")         
+            #print samp
             print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
             for k_, h_ in histos.iteritems():
@@ -103,17 +102,16 @@ print '**********************************************************'
 print histos.keys()
 for lep in leptons:
     ofile = ROOT.TFile(ofilename,"UPDATE")    
-    lept = lep.replace("_vsjet2", "")
     for year in years:
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
         path_ = path + lep + '/'
         for p in processes:
             try:
-                ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lept + ".root")
+                ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lep + ".root")
             except IOError:
-                print "Cannot open " + p + "_" + year + "_" + lept + ".root"
+                print "Cannot open " + p + "_" + year + "_" + lep + ".root"
             else:
-                print "Opening file " +  p + "_" + year + "_" + lept + ".root"
+                print "Opening file " +  p + "_" + year + "_" + lep + ".root"
             ifile.cd()
             for k_, h_ in histos.iteritems():
                 print k_, h_

@@ -36,9 +36,11 @@ if opt.method != "all":
 print "Combinining the following categories: ", channels
 
 for point in sigpoints:
-    mWprime = point[0]
-    width = point[1]
-    chir = point[2]
+    model = point
+    print model
+    #width = point[1]
+    #chir = point[2]
     for method in methods:
-        runSinglePointWprime(path_, mWprime, width, chir, channels, method, opt.runSingleCat)
+        runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat)
+        #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
 

@@ -26,16 +26,20 @@ if opt.ch != "all":
 signals = []
 
 print "Signal points: ", sigpoints
+
 for p in sigpoints:
-    model = p[0]
+    model = p
+
+    print model
     #width = p[1]
     #chir = p[2]
-    print "Creating datacards for VBS_M%s" %(model)#, width, chir)
-    signal  = "VBS_%s" % (model)#, width, chir) 
+    print "Creating datacards for VBS_" + model#, width, chir)
+    signal  = "VBS_SSWW_" + model #, width, chir) 
     print "Signal: ", signal
     signals.append(signal)
 
     print "Signals: ", signals
+
 
 print "Fit Params", fitParam
 try:
