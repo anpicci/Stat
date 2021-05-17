@@ -2,7 +2,7 @@ import ROOT
 from ROOT import RooRealVar, RooDataHist, RooArgList, RooGenericPdf, RooExtendPdf, RooWorkspace, RooFit
 import os, sys, copy
 from Stat.Limits.settings import *
-from fits import *
+#from fits import *
 
 #*******************************************************#
 #                                                       #
@@ -39,6 +39,11 @@ def getHist(ch, process, ifile):
 #                                                       #
 #*******************************************************#
 def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
+       if '_SM' in sig:
+              processes.pop(-1)
+
+       print "processes:", processes
+
        try:
               ifile = ROOT.TFile.Open(ifilename)
        except IOError:

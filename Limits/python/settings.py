@@ -6,7 +6,8 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_m_jj_SR",
+histos = { #"SR":"h_jets_m_jj_SR_lepBDTcut",
+           "SR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
            #"CRWJ":"h_jets_m_jj_wjets_CR",
 }
 ### List of regions for which creating the datacards
@@ -55,7 +56,7 @@ processes = ["Fake",
              "TVX",
              "WpWpJJ_QCD",
              "VG",
-             "VBS_SSWW_SM"
+             "VBS_SSWW_SM",
 ]
 
 #bkgs = []
@@ -147,11 +148,11 @@ VBS_SSWW_cW_SM = ("cW_SM")
 VBS_SSWW_cHW_SM = ("cHW_SM")
 VBS_SSWW_cW = ("cW")
 VBS_SSWW_cHW = ("cHW")
-sigpoints = [#VBS_SSWW_SM,
-             #VBS_SSWW_BSM_SM,
+sigpoints = [VBS_SSWW_SM,
+             VBS_SSWW_BSM_SM,
              VBS_SSWW_BSM,
-             #VBS_SSWW_cHW_SM,
-             #VBS_SSWW_cW_SM,
+             VBS_SSWW_cHW_SM,
+             VBS_SSWW_cW_SM,
              VBS_SSWW_cHW,
              VBS_SSWW_cW,
 ]

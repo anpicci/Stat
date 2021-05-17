@@ -1,0 +1,18 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               SR_muon_2017
+observation       344
+-----------------------------------------------------------------------------------
+bin                                     SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               
+process                                 VBS_SSWW_BSM_INT                           Fake                                       ZZtoLep                                    OtherWS                                    WZ                                         TTTo2L2Nu                                  
+process                                 0                                          1                                          2                                          3                                          4                                          5                                          
+rate                                    3.701533                                   233.89                                     60.27                                      29.29                                      6.17                                       6.67                                       
+-----------------------------------------------------------------------------------
+lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               
+Frate_muon_2017     rateParam           SR_muon_2017        Fake                1                   
+

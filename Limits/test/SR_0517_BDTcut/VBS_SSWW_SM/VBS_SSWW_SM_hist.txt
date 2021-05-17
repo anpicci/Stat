@@ -1,0 +1,21 @@
+Combination of SR_muon=VBS_SSWW_SM_SR_muon_2017_hist.txt  SR_electron=VBS_SSWW_SM_SR_electron_2017_hist.txt
+imax 2 number of bins
+jmax 8 number of processes minus 1
+kmax 1 number of nuisance parameters
+----------------------------------------------------------------------------------------------------------------------------------
+shapes *            SR_electron  /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root SR_electron_2017/$PROCESS SR_electron_2017/$PROCESS_$SYSTEMATIC
+shapes data_obs     SR_electron  /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root SR_electron_2017/$PROCESS
+shapes *            SR_muon      /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root SR_muon_2017/$PROCESS SR_muon_2017/$PROCESS_$SYSTEMATIC
+shapes data_obs     SR_muon      /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root SR_muon_2017/$PROCESS
+----------------------------------------------------------------------------------------------------------------------------------
+bin          SR_muon      SR_electron
+observation  131          117        
+----------------------------------------------------------------------------------------------------------------------------------
+bin                             SR_muon      SR_muon      SR_muon      SR_muon      SR_muon      SR_muon      SR_muon      SR_muon      SR_muon      SR_electron  SR_electron  SR_electron  SR_electron  SR_electron  SR_electron
+process                         VBS_SSWW_SM  TVX          VG           TTTo2L2Nu    OtherWS      ZZtoLep      WpWpJJ_QCD   Fake         WZ           VBS_SSWW_SM  TVX          OtherWS      ZZtoLep      Fake         WpWpJJ_QCD 
+process                         0            1            2            3            4            5            6            7            8            0            1            4            5            7            6          
+rate                            4.893584     0.38         0.08         1.58         5.24         14.05        0.32         104.14       0.83         2.671959     0.19         45.01        9.49         60.27        0.17       
+----------------------------------------------------------------------------------------------------------------------------------
+lumi_2017               lnN     1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023        1.023      
+Frate_electron_2017  rateParam SR_electron Fake 1  
+Frate_muon_2017  rateParam SR_muon Fake 1  

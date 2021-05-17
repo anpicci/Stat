@@ -41,7 +41,7 @@ for p in sigpoints:
     print "Signals: ", signals
 
 
-print "Fit Params", fitParam
+#print "Fit Params", fitParam
 try:
     ifile = ROOT.TFile.Open(ifilename)
 except IOError:
