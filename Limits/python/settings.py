@@ -6,7 +6,7 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_m_jj_selection_upto_bveto",
+histos = { "SR":"h_jets_m_jj_SR",
            #"CRWJ":"h_jets_m_jj_wjets_CR",
 }
 ### List of regions for which creating the datacards

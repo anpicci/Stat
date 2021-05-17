@@ -1,4 +1,4 @@
-set folder='SR_0517'
+set folder='SR_0517_BDTcut'
 set EOSSPACE = /eos/home-a/apiccine
 python PrepareEOSfolder.py v70
 python collectHistos.py -i $EOSSPACE/VBS/nosynch/v70/plot/ -o histo2017.root 
