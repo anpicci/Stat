@@ -6,24 +6,24 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { #"SR":"h_jets_m_jj_SR_lepBDTcut",
-           "SR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
-           #"CRWJ":"h_jets_m_jj_wjets_CR",
+histos = { "SR":"h_jets_m_jj_SR",#_lepBDTcut",
+           #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
+           "CRWJ":"h_jets_countings_wjets_CR",
 }
 ### List of regions for which creating the datacards
-#channels = ["SR_muon", "CRWJ_muon", "SR_electron", "CRWJ_electron"]#
-channels = ["SR_muon", "SR_electron"]#
-leptons = ['muon', 'electron']
-#channels = ["CR0B_muon", "CR0B_electron"]
-#leptons = ['muon', 'electron']
-#channels = ["CR0B_muon"]
-#leptons = ['muon']
-#channels = ["CR0B_electron"]
-#leptons = ['electron']
+channels = ["SR_muon",
+            "CRWJ_muon",
+            "SR_electron",
+            "CRWJ_electron",
+]
 
-channels_labels = {"SR":"Pre-signal region", #"CRWJ":"Fake Leptons Control region"
+leptons = ['muon',
+           'electron',
+]
+
+channels_labels = {"SR":"Pre-signal region", 
+                   "CRWJ":"Fake Leptons Control region"
 }
-#channels_labels = {"CR0B":"0 b-jet control region"}
 
 class rateParam(object):
     pass
@@ -31,12 +31,16 @@ class rateParam(object):
 rateParams = {}
 
 FakeMu_rate_2017 = rateParam()
-FakeMu_rate_2017.chs = ["SR_muon"]#, "CRWJ_muon"]
+FakeMu_rate_2017.chs = [#"SR_muon",
+                        "CRWJ_muon",
+]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["Frate_muon_2017"] = FakeMu_rate_2017
 
 FakeEle_rate_2017 = rateParam()
-FakeEle_rate_2017.chs = ["SR_electron"]#, "CRWJ_electron"]
+FakeEle_rate_2017.chs = [#"SR_electron",
+                         "CRWJ_electron",
+]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["Frate_electron_2017"] = FakeEle_rate_2017
 
@@ -148,11 +152,11 @@ VBS_SSWW_cW_SM = ("cW_SM")
 VBS_SSWW_cHW_SM = ("cHW_SM")
 VBS_SSWW_cW = ("cW")
 VBS_SSWW_cHW = ("cHW")
-sigpoints = [VBS_SSWW_SM,
-             VBS_SSWW_BSM_SM,
-             VBS_SSWW_BSM,
-             VBS_SSWW_cHW_SM,
-             VBS_SSWW_cW_SM,
-             VBS_SSWW_cHW,
+sigpoints = [#VBS_SSWW_SM,
+             #VBS_SSWW_BSM_SM,
+             #VBS_SSWW_BSM,
+             #VBS_SSWW_cHW_SM,
+             #VBS_SSWW_cW_SM,
+             #VBS_SSWW_cHW,
              VBS_SSWW_cW,
 ]

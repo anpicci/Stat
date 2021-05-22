@@ -1,0 +1,18 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               CRWJ_electron_2017
+observation       460
+-----------------------------------------------------------------------------------
+bin                                     CRWJ_electron_2017                         CRWJ_electron_2017                         CRWJ_electron_2017                         CRWJ_electron_2017                         CRWJ_electron_2017                         
+process                                 VBS_SSWW_SM                                Fake                                       ZZtoLep                                    OtherWS                                    WZ                                         
+process                                 0                                          1                                          2                                          3                                          4                                          
+rate                                    0.588522                                   347.97                                     79.22                                      32.03                                      0.88                                       
+-----------------------------------------------------------------------------------
+lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               
+Frate_electron_2017 rateParam           CRWJ_electron_2017  Fake                1                   
+
