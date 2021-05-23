@@ -1,4 +1,4 @@
-set folder='SRandCRWJ_0522_m_taulep_lepBDTcut'
+set folder='SRandCRWJ_0522_m_o1_lepBDTcut'
 set EOSSPACE = /eos/home-a/apiccine
 reset
 rm histo2017.root
