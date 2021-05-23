@@ -6,7 +6,7 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_m_jj_SR_lepBDTcut",
+histos = { "SR":"h_jets_m_taulep_SR_lepBDTcut",
            #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":"h_jets_countings_wjets_CR_lepBDTcut",
 }
