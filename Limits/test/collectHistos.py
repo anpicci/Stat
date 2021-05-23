@@ -2,7 +2,7 @@ import ROOT
 import os, sys
 import optparse 
 import copy
-from Stat.Limits.settings import processes, histos, years, leptons
+from Stat.Limits.settings import bkg, histos, years, leptons
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
@@ -105,7 +105,7 @@ for lep in leptons:
     for year in years:
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
         path_ = path + lep + '/'
-        for p in processes:
+        for p in bkg:
             try:
                 ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lep + ".root")
             except IOError:

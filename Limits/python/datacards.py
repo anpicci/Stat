@@ -40,7 +40,9 @@ def getHist(ch, process, ifile):
 #*******************************************************#
 def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        if '_SM' in sig:
-              processes.pop(-1)
+              processes = processes_withoutSM
+       else:
+              processes = processes_withSM
 
        print "processes:", processes
 

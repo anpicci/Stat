@@ -52,15 +52,36 @@ rateParams["Frate_electron_2017"] = FakeEle_rate_2017
 #*********************************
 #processes = ["ST", "QCD", "TT_Mtt", "WJets"]
 #processes = ["ST", "QCD", "DDWJetsTT_Mtt"]
-processes = ["Fake",
-             "ZZtoLep",
-             "OtherWS",
-             "WZ",
-             "TTTo2L2Nu",
-             "TVX",
-             "WpWpJJ_QCD",
-             "VG",
-             "VBS_SSWW_SM",
+bkg = ["Fake",
+                    "ZZtoLep",
+                    "OtherWS",
+                    "WZ",
+                    "TTTo2L2Nu",
+                    "TVX",
+                    "WpWpJJ_QCD",
+                    "VG",
+                    "VBS_SSWW_SM",
+]
+
+processes_withSM = ["Fake",
+                    "ZZtoLep",
+                    "OtherWS",
+                    "WZ",
+                    "TTTo2L2Nu",
+                    "TVX",
+                    "WpWpJJ_QCD",
+                    "VG",
+                    "VBS_SSWW_SM",
+]
+
+processes_withoutSM = ["Fake",
+                       "ZZtoLep",
+                       "OtherWS",
+                       "WZ",
+                       "TTTo2L2Nu",
+                       "TVX",
+                       "WpWpJJ_QCD",
+                       "VG",
 ]
 
 #bkgs = []
