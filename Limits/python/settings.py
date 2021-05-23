@@ -6,9 +6,9 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_m_jj_SR",#_lepBDTcut",
+histos = { "SR":"h_jets_m_jj_SR_lepBDTcut",
            #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
-           "CRWJ":"h_jets_countings_wjets_CR",
+           "CRWJ":"h_jets_countings_wjets_CR_lepBDTcut",
 }
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
@@ -158,5 +158,5 @@ sigpoints = [#VBS_SSWW_SM,
              #VBS_SSWW_cHW_SM,
              #VBS_SSWW_cW_SM,
              #VBS_SSWW_cHW,
-             VBS_SSWW_cW,
+             #VBS_SSWW_cW,
 ]
