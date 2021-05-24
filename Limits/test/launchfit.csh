@@ -1,8 +1,8 @@
-set folder='SRandCRWJ_0522_m_o1_lepBDTcut'
+set folder='SRandCRWJ_0522_m_jj'#_lepBDTcut'
 set EOSSPACE = /eos/home-a/apiccine
 reset
+#python PrepareEOSfolder.py v70
 rm histo2017.root
-python PrepareEOSfolder.py v70
 python collectHistos.py -i $EOSSPACE/VBS/nosynch/v70/plot/ -o histo2017.root 
 python createDatacards.py -i histo2017.root -d $folder 
 ##python runCombine.py -c SR_2017 -y 2017 -d $folder --runSingleCat -m hist

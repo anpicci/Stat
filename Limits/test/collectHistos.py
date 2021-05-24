@@ -2,7 +2,7 @@ import ROOT
 import os, sys
 import optparse 
 import copy
-from Stat.Limits.settings import bkg, histos, years, leptons
+from Stat.Limits.settings import bkg, histos, years, leptons, sigpoints
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
@@ -10,6 +10,7 @@ parser.add_option('-i', '--input', dest='path', type='string', default= "./histo
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
+parser.add_option("--sm",dest="sm",action='store_true', default=False)
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
@@ -27,9 +28,45 @@ print os.listdir(path)
 for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
-        sampFiles[year+lep] = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+        tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+        sampFiles[year+lep] = []
+        for fn in tmp_list:
+            isSig = False
+            for sig in sigpoints:
+                if fn.startswith('VBS_SSWW_' + sig):
+                    isSig = True
+                    sampFiles[year+lep].append(fn)
 
-print sampFiles
+            if isSig:
+                continue
+                    
+            for p in bkg:
+                if not fn.startswith(p):
+                    continue
+
+                isSM = False
+
+                for sig in sigpoints:
+                    if '_SM' in sig or sig == 'SM':
+                        if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                            if sig in p or 'SSWW_SM' in p:
+                                isSM = True
+                                break
+                        elif '_SM' in p:
+                            isSM = True
+                            break
+                    else:
+                        if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                            isSM = True
+                            break
+                
+                if isSM:
+                    continue
+        
+                sampFiles[year+lep].append(fn)
+                break
+
+print 'sampFiles:', sampFiles
 
 #*******************************************************#
 #                                                       #
@@ -106,6 +143,26 @@ for lep in leptons:
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
         path_ = path + lep + '/'
         for p in bkg:
+            print p
+            isSM = False
+
+            for sig in sigpoints:
+                if '_SM' in sig or sig == 'SM':
+                    if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                        if sig in p or 'SSWW_SM' in p:
+                            isSM = True
+                            break
+                    elif '_SM' in p:
+                        isSM = True
+                        break
+                else:
+                    if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                        isSM = True
+                        break
+
+            if isSM:
+                continue
+
             try:
                 ifile = ROOT.TFile.Open(path_ + p + "_" + year + "_" + lep + ".root")
             except IOError:
@@ -146,3 +203,4 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         ofile.Write()
     ofile.Close()
+

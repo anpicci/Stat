@@ -39,10 +39,23 @@ def getHist(ch, process, ifile):
 #                                                       #
 #*******************************************************#
 def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
-       if '_SM' in sig:
-              processes = processes_withoutSM
-       else:
-              processes = processes_withSM
+       processes = []
+       for p in bkg:
+              isSM = False
+              if '_SM' in sig or sig == 'SM':
+                     if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                            if sig in p or 'SSWW_SM' in p:
+                                   isSM = True
+                     elif '_SM' in p:
+                            isSM = True
+              else:
+                     if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                            isSM = True
+
+              if isSM:
+                     continue
+
+              processes.append(p)
 
        print "processes:", processes
 
