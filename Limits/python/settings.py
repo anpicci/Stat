@@ -6,7 +6,7 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_m_jj_SR",#_lepBDTcut",
+histos = { "SR":"h_jets_lepBDT_output_SR",#_lepBDTcut",
            #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":"h_jets_countings_wjets_CR",#_lepBDTcut",
 }
@@ -24,26 +24,6 @@ leptons = ['muon',
 channels_labels = {"SR":"Pre-signal region", 
                    "CRWJ":"Fake Leptons Control region"
 }
-
-class rateParam(object):
-    pass
-
-rateParams = {}
-
-FakeMu_rate_2017 = rateParam()
-FakeMu_rate_2017.chs = [#"SR_muon",
-                        "CRWJ_muon",
-]
-FakeMu_rate_2017.bkg = "Fake"
-rateParams["Frate_muon_2017"] = FakeMu_rate_2017
-
-FakeEle_rate_2017 = rateParam()
-FakeEle_rate_2017.chs = [#"SR_electron",
-                         "CRWJ_electron",
-]
-FakeEle_rate_2017.bkg = "Fake"
-rateParams["Frate_electron_2017"] = FakeEle_rate_2017
-
 
 #*********************************
 #                                *
@@ -66,28 +46,26 @@ bkg = ["Fake",
        "VBS_SSWW_TT_SM",
 ]
 
-processes_withSM = ["Fake",
-                    "ZZtoLep",
-                    "OtherWS",
-                    "WZ",
-                    "TTTo2L2Nu",
-                    "TVX",
-                    "WpWpJJ_QCD",
-                    "VG",
-                    "VBS_SSWW_SM",
-]
+class rateParam(object):
+    pass
 
-processes_withoutSM = ["Fake",
-                       "ZZtoLep",
-                       "OtherWS",
-                       "WZ",
-                       "TTTo2L2Nu",
-                       "TVX",
-                       "WpWpJJ_QCD",
-                       "VG",
-]
+rateParams = {}
 
-#bkgs = []
+FakeMu_rate_2017 = rateParam()
+FakeMu_rate_2017.chs = [#"SR_muon",
+                        "CRWJ_muon",
+]
+FakeMu_rate_2017.bkg = "Fake"
+rateParams["Frate_muon_2017"] = FakeMu_rate_2017
+
+
+FakeEle_rate_2017 = rateParam()
+FakeEle_rate_2017.chs = [#"SR_electron",
+                         "CRWJ_electron",
+]
+FakeEle_rate_2017.bkg = "Fake"
+rateParams["Frate_electron_2017"] = FakeEle_rate_2017
+
 
 #*********************************
 #                                *
@@ -179,7 +157,7 @@ VBS_SSWW_cW_SM = ("cW_SM")
 VBS_SSWW_cHW_SM = ("cHW_SM")
 VBS_SSWW_cW = ("cW")
 VBS_SSWW_cHW = ("cHW")
-sigpoints = [VBS_SSWW_SM,
+sigpoints = [#VBS_SSWW_SM,
              #VBS_SSWW_SM_LL,
              #VBS_SSWW_SM_TL,
              #VBS_SSWW_SM_TT,
@@ -190,3 +168,4 @@ sigpoints = [VBS_SSWW_SM,
              #VBS_SSWW_cHW,
              #VBS_SSWW_cW,
 ]
+

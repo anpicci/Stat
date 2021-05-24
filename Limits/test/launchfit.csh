@@ -1,4 +1,4 @@
-set folder='SRandCRWJ_0522_m_jj'#_lepBDTcut'
+set folder='SRandCRWJ_0522_lepBDT_output'#_lepBDTcut'
 set EOSSPACE = /eos/home-a/apiccine
 reset
 #python PrepareEOSfolder.py v70

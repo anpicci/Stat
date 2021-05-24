@@ -1,0 +1,16 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               SR_muon_2017
+observation       117
+-----------------------------------------------------------------------------------
+bin                                     SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               SR_muon_2017                               
+process                                 VBS_SSWW_BSM_SM                            Fake                                       ZZtoLep                                    OtherWS                                    WZ                                         TTTo2L2Nu                                  TVX                                        WpWpJJ_QCD                                 VG                                         
+process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          
+rate                                    8.965755                                   95.53                                      13.56                                      6.15                                       0.30                                       1.58                                       0.41                                       0.33                                       0.09                                       
+-----------------------------------------------------------------------------------
+lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               
