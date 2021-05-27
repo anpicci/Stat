@@ -6,7 +6,7 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_lepBDT_output_SR",#_lepBDTcut",
+histos = { "SR":"h_jets_BDT_output_SR",#_lepBDTcut",
            #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":"h_jets_countings_wjets_CR",#_lepBDTcut",
 }
@@ -76,7 +76,7 @@ syst = collections.OrderedDict()
 syst["lumi_2016"] = ["lnN", "all", 1.025]
 syst["lumi_2017"] = ["lnN", "all", 1.023]
 syst["lumi_2018"] = ["lnN", "all", 1.025]
-#syst["fake_rate"] = ["lnN", "Fake", 1.30]
+syst["fake_rate"] = ["lnN", "Fake", 1.20]
 #syst["lumi_2018"] = ["lnN", "all", 1.023]
 #syst["trigger"] = ["lnN", "all", 1.02]
 #syst["trigSF"] = ["shape", ["sig"]]
@@ -157,7 +157,7 @@ VBS_SSWW_cW_SM = ("cW_SM")
 VBS_SSWW_cHW_SM = ("cHW_SM")
 VBS_SSWW_cW = ("cW")
 VBS_SSWW_cHW = ("cHW")
-sigpoints = [#VBS_SSWW_SM,
+sigpoints = [VBS_SSWW_SM,
              #VBS_SSWW_SM_LL,
              #VBS_SSWW_SM_TL,
              #VBS_SSWW_SM_TT,

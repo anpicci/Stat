@@ -221,6 +221,9 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                    card += "%-20s" % (sysValue[2]) * (2)
                             else: 
                                    card += "%-20s" % (sysValue[2]) * (len(processes) + 1)
+                     elif(sysValue[1]=="Fake"):
+                            if not mode == "template":
+                                   card += "%-20s" % ("-") + "%-20s" % (sysValue[2]) + "%-20s" % ("-") * (len(processes) - 1) 
                      else:
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
