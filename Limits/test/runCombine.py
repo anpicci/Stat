@@ -14,6 +14,8 @@ parser.add_option('-d', '--dir', dest='dir', type='string', default = 'outdir', 
 parser.add_option('',"--runSingleCat",dest="runSingleCat",action='store_true', default=False)
 (opt, args) = parser.parse_args()
 
+wilson = 'cHW'
+
 opt.ch = channels
 
 path_ = os.path.abspath(os.getcwd()) + '/' 
@@ -35,12 +37,15 @@ if opt.method != "all":
 
 print "Combinining the following categories: ", channels
 
+'''
 for point in sigpoints:
     model = point
     print model
     #width = point[1]
     #chir = point[2]
     for method in methods:
-        runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat)
+        #runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat)
         #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
-
+'''
+for method in methods:
+    runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat)

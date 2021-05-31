@@ -2,7 +2,7 @@ import ROOT
 import os, sys
 import optparse 
 import copy
-from Stat.Limits.settings import bkg, histos, years, leptons, sigpoints
+from Stat.Limits.settings import bkg, histos, years, leptons, sigpoints, lssamples_1D
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
@@ -10,7 +10,7 @@ parser.add_option('-i', '--input', dest='path', type='string', default= "./histo
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
-parser.add_option("--sm",dest="sm",action='store_true', default=False)
+parser.add_option("--ls",dest="ls",action='store_true', default=False)
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
@@ -23,6 +23,12 @@ print("ATENTION UNBLIND OPTION IS " + str(unblind))
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
 sampFiles = {}
+
+if opt.ls:
+    procs = bkg + lssamples_1D
+else:
+    procs = bkg
+
 # Getting list of files in histos
 print os.listdir(path)
 for year in years:
@@ -40,7 +46,7 @@ for year in years:
             if isSig:
                 continue
                     
-            for p in bkg:
+            for p in procs:
                 if not fn.startswith(p):
                     continue
 
@@ -65,7 +71,7 @@ for year in years:
         
                 sampFiles[year+lep].append(fn)
                 break
-
+                            
 print 'sampFiles:', sampFiles
 
 #*******************************************************#

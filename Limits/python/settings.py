@@ -6,7 +6,7 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_BDT_output_SR",#_lepBDTcut",
+histos = { "SR":"h_jets_m_o1_SR",#_lepBDTcut",
            #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":"h_jets_countings_wjets_CR",#_lepBDTcut",
 }
@@ -46,6 +46,11 @@ bkg = ["Fake",
        "VBS_SSWW_TT_SM",
 ]
 
+lssamples_1D = ['sm',
+               'sm_lin_quad_cHW',
+               'quad_cHW',
+]
+
 class rateParam(object):
     pass
 
@@ -76,7 +81,8 @@ syst = collections.OrderedDict()
 syst["lumi_2016"] = ["lnN", "all", 1.025]
 syst["lumi_2017"] = ["lnN", "all", 1.023]
 syst["lumi_2018"] = ["lnN", "all", 1.025]
-syst["fake_rate"] = ["lnN", "Fake", 1.20]
+syst["fake_rate_muon"] = ["lnN", "Fake", 1.15]
+syst["fake_rate_electron"] = ["lnN", "Fake", 1.22]
 #syst["lumi_2018"] = ["lnN", "all", 1.023]
 #syst["trigger"] = ["lnN", "all", 1.02]
 #syst["trigSF"] = ["shape", ["sig"]]
