@@ -4,14 +4,19 @@ import copy
 
 cc = ROOT.TCanvas("cc","", 800, 600);
 
+lumi = {
+    '2016': 35.9,
+    "2017": 41.53,
+    "2018": 59.7,
+}
+
 n = 0
 n_data = 0
   
 _file0 = ROOT.TFile.Open(str(sys.argv[1]), "READ")
 _file1 = ROOT.TFile.Open(str(sys.argv[2]), "READ")
 variable = str(sys.argv[3])
-year = int(sys.argv[4])
-
+year = str(sys.argv[4])
 
 limit = _file0.Get("limit")
 
@@ -72,7 +77,7 @@ tex2.SetTextFont(61)
 tex2.SetTextSize(0.04)
 tex2.SetLineWidth(2)
 
-tex3 = ROOT.TLatex(0.236,0.92,"L = XX fb^{-1}  Preliminary")
+tex3 = ROOT.TLatex(0.236,0.92,"L = " + str(lumi[year]) + " fb^{-1}  Preliminary")
 tex3.SetNDC()
 tex3.SetTextFont(52)
 tex3.SetTextSize(0.035)
@@ -219,7 +224,7 @@ line2.SetLineStyle(2)
 line2.SetLineColor(ROOT.kRed)
 line2.Draw()
   
-leg = ROOT.TLegend(0.45,0.75,0.65,0.9)
+leg = ROOT.TLegend(0.43,0.75,0.63,0.9)
 leg.AddEntry(graphScan,"Expected","l")
 if graphScanData:
     leg.AddEntry(graphScanData,"Observed","l")
@@ -257,7 +262,7 @@ print " (observed) data at minimum:   ", data_min_x, "\n"
 #   print " significance MC   at 0:   ", sqrt(graphScan    .Eval(0)), "\n"
   
   
-cc.SaveAs("ll.png")
+cc.SaveAs("LS_" + str(variable) + ".png")
 
 try:
     wait = input("Press Enter to continue.")
