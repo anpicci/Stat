@@ -110,7 +110,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat):
         os.chdir("..")
 
 def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
-    print "evaluate limit for model ", model
+    print "performing LikelihoodScan for operator ", model
     path = ("%s/%s" % (path_, model) )
     print "==>path: ", path
     print os.path.exists(path)

@@ -11,10 +11,12 @@ parser.add_option('-s', '--syst', dest='syst', type='string', default = '1', hel
 parser.add_option('-m', '--method', dest='method', type='string', default = 'hist', help='Run a single method (all, hist, template)')
 parser.add_option('-S', '--sig', dest='sig', type='int', default = 0, help='Set the flag to 1 to enable significance computation')
 parser.add_option('-d', '--dir', dest='dir', type='string', default = 'outdir', help='datacards direcotry')
-parser.add_option('',"--runSingleCat",dest="runSingleCat",action='store_true', default=False)
+parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
+parser.add_option("--runSingleCat",dest="runSingleCat",action='store_true', default=False)
+
 (opt, args) = parser.parse_args()
 
-wilson = 'cHW'
+wilson = opt.ls
 
 opt.ch = channels
 
@@ -37,16 +39,15 @@ if opt.method != "all":
 
 print "Combinining the following categories: ", channels
 
-
-for point in sigpoints:
-    model = point
-    print model
-    #width = point[1]
-    #chir = point[2]
+if wilson == "":
+    for point in sigpoints:
+        model = point
+        print model
+        #width = point[1]
+        #chir = point[2]
+        for method in methods:
+            runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat)
+            #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
+else:
     for method in methods:
-        runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat)
-        #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
-'''
-for method in methods:
-    runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat)
-'''
+        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat)

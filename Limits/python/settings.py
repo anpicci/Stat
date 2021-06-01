@@ -6,7 +6,7 @@ import collections
 #                                *
 #*********************************
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_m_jjtaulep_SR",#_BDTcut",
+histos = { "SR":"h_jets_BDT_output_SR",#_BDTcut",
            #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":"h_jets_countings_wjets_CR",
            "CRTT":"h_jets_countings_ttbar_CR",
@@ -26,7 +26,7 @@ leptons = ['muon',
 
 channels_labels = {"SR":"Pre-signal region", 
                    "CRWJ":"Fake Leptons Control region",
-                   "CRWJ":"ttbar Control region",
+                   "CRTT":"ttbar Control region",
 }
 
 #*********************************
@@ -51,7 +51,9 @@ bkg = ["Fake",
 ]
 
 lssamples_1D = ['sm',
+               'sm_lin_quad_cW',
                'sm_lin_quad_cHW',
+               'quad_cW',
                'quad_cHW',
 ]
 
@@ -187,7 +189,7 @@ VBS_SSWW_cHW_SM = ("cHW_SM")
 VBS_SSWW_cW = ("cW")
 VBS_SSWW_cHW = ("cHW")
 sigpoints = [
-    #VBS_SSWW_SM,
+    VBS_SSWW_SM,
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
     #VBS_SSWW_SM_TT,
@@ -195,7 +197,7 @@ sigpoints = [
     #VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,
     #VBS_SSWW_cW_SM,
-    VBS_SSWW_cHW,
+    #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
 ]
 

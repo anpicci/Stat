@@ -11,7 +11,7 @@ parser.add_option("-d","--outdir",dest="outdir",type="string",default="outdir",h
 parser.add_option("-m","--mode",dest="mode",type="string",default="hist",help="Kind of shape analysis: parametric fit or fit to histos?. Default is hist")
 parser.add_option("-c","--channel",dest="ch",type="string",default="all",help="Indicate channels of interest. Default is all")
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
-parser.add_option("--ls",dest="ls",action='store_true', default=False)
+parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
@@ -20,7 +20,7 @@ outdir = opt.outdir
 mode = opt.mode
 unblind = opt.unblind
 
-wilson = 'cHW'
+wilson = opt.ls
 
 if opt.ch != "all": 
     ch_clean = opt.ch.replace(" ", "")
@@ -30,7 +30,7 @@ signals = []
 
 print "Signal points: ", sigpoints
 
-if not opt.ls:
+if wilson == "":
     for p in sigpoints:
         model = p
         
@@ -68,8 +68,8 @@ print "====> CHANNELS: ", ch_year
 
 
 for ch in ch_year:
-    if opt.ls:
-        getCardLS('cHW', ch, ifilename, outdir, mode, unblind)
+    if wilson != "":
+        getCardLS(wilson, ch, ifilename, outdir, mode, unblind)
     else:
         for s in signals:
             getCard(s, ch, ifilename, outdir, mode, unblind)
