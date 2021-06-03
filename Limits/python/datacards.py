@@ -336,6 +336,9 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 #                                                       #
 #*******************************************************#
 def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
+
+       lssamp = [lss for lss in lssamples_1D if (lss=="sm" or ("_"+coeff) in lss)]
+
        processes = []
        for p in bkg:
               isSM = False
@@ -359,7 +362,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        WORKDIR = "/".join(workdir_) + "/"
        carddir = outdir+  "/"  + coeff + "/"
 
-       sig = lssamples_1D[0]
+       sig = lssamp[0]
        hist_filename = os.getcwd()+"/"+ifilename
        hist = getHist(ch, sig, ifile)
 
@@ -456,11 +459,11 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      if(bkgrate==0):
                             nproc=nproc -1
                             continue
-                     procNumbLine += ("%-43s") % (i + len(lssamples_1D))
+                     procNumbLine += ("%-43s") % (i + len(lssamp))
                      procLine += ("%-43s") % (p)
                      rateLine += ("%-43.2f") % (bkgrate)
                      i+=1
-              binString += (("%-43s") % (ch) ) * (nproc + len(lssamples_1D) - 1)
+              binString += (("%-43s") % (ch) ) * (nproc + len(lssamp) - 1)
               print 'rates:'
               for k, v in rates.items():
                      print k + ":", v
@@ -471,7 +474,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               print "Pseudo data rate: ", rates["data_obs"]
        else:
               rates["data_obs"] = getRate(ch, "data_obs", ifile)
-       for sgs in lssamples_1D:
+       for sgs in lssamp:
               rates[sgs] = getRate(ch, sgs, ifile)
        
        print 'rates:'
@@ -505,7 +508,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        procidxString = "process                                 "
        rateString = "rate                                    "
        
-       for sidx, sgs in enumerate(lssamples_1D):
+       for sidx, sgs in enumerate(lssamp):
               procnameString += "%-43s" % (sgs)
               procidxString += "%-43s" % (sidx)
               rateString += "%-43.6f" % (rates[sgs])
@@ -516,13 +519,13 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        procidxString += "%-43s\n" % (procNumbLine)
        rateString += "%-43s\n" % (rateLine)
        #card += "process                                 "
-       #for sidx, sgs in enumerate(lssamples_1D):
+       #for sidx, sgs in enumerate(lssamp):
               #card += "%-43s" % (sidx)
        #card += "%-43s\n" % (procNumbLine)
 
        #card += "rate                                    "
 
-       #for sgs in lssamples_1D:
+       #for sgs in lssamp:
        #"%-43.6f%-43s\n" % (rates[sig], rateLine) #signalYield[m].getVal(), nevents
        card += procnameString + procidxString + rateString
 
@@ -548,15 +551,15 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             if(sysValue[1]=="all"):
                                    if(mode == "template"):
                                           card += "%-20s" % (sysValue[2]) * (2)
-                                   else:  card += "%-20s" % (sysValue[2]) * (len(lssamples_1D) + len(processes))# + 1)
+                                   else:  card += "%-20s" % (sysValue[2]) * (len(lssamp) + len(processes))# + 1)
                             elif(sysValue[1]=="QCD" and len(sysValue)>2):
                                    if(mode == "template"):
                                           card += "%-20s" % (sysValue[2]) * (2)
                                    else: 
-                                          card += "%-20s" % (sysValue[2]) * (len(lssamples_1D) + len(processes))#+ 1)
+                                          card += "%-20s" % (sysValue[2]) * (len(lssamp) + len(processes))#+ 1)
                             else:#(sysValue[1]=="Fake"):
                                    idx_p = processes.index(sysValue[1])
-                                   idx_p_tot = idx_p + len(lssamples_1D)
+                                   idx_p_tot = idx_p + len(lssamp)
                                    if not mode == "template":
                                           card += "%-20s" % ("-") * (idx_p_tot) + "%-20s" % (sysValue[2]) + "%-20s" % ("-") * (len(processes) - (idx_p + 1)) 
                      else:
