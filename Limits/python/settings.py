@@ -5,19 +5,24 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
+sr_var = 'BDT_output'
+cr_var = 'BDT_output' # 'countings' # 
 ### List of histos to include in the root files
-histos = { "SR":"h_jets_BDT_output_SR",#_BDTcut",
-           #"PR":"h_jets_m_jj_selection_upto_bveto_lepBDTcut",
-           "CRWJ":"h_jets_countings_wjets_CR",
-           "CRTT":"h_jets_countings_ttbar_CR",
+histos = { "SR":"h_htau_" + sr_var + "_SR",
+           #"PR":"h_htau_m_jj_selection_upto_bveto_lepBDTcut",
+           "CRWJ":"h_htau_" + cr_var + "_wjets_CR",
+           "CRTT":"h_htau_" + cr_var + "_ttbar_CR",
+           "CRQCD":"h_htau_" + cr_var + "_QCD_CR",
 }
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
             "CRWJ_muon",
             "CRTT_muon",
+            "CRQCD_muon",
             "SR_electron",
             "CRWJ_electron",
             "CRTT_electron",
+            "CRQCD_electron",
 ]
 
 leptons = ['muon',
@@ -27,6 +32,7 @@ leptons = ['muon',
 channels_labels = {"SR":"Pre-signal region", 
                    "CRWJ":"Fake Leptons Control region",
                    "CRTT":"ttbar Control region",
+                   "CRQCD":"QCD Control region",
 }
 
 #*********************************
@@ -66,6 +72,7 @@ FakeMu_rate_2017 = rateParam()
 FakeMu_rate_2017.chs = [#"SR_muon",
                         "CRWJ_muon",
                         "CRTT_muon",
+                        "CRQCD_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["FRest_muon_2017"] = FakeMu_rate_2017
@@ -75,6 +82,7 @@ FakeEle_rate_2017 = rateParam()
 FakeEle_rate_2017.chs = [#"SR_electron",
                          "CRWJ_electron",
                          "CRTT_electron",
+                         "CRQCD_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
@@ -114,7 +122,7 @@ syst["FR_sys_electron"] = ["lnN", "Fake", 1.22]
 #syst["trigSF"] = ["lnN", ["sig",sigTTW, sigZ, "QCD", "SingleTop"]]
 #syst["jes"] = ["shape", ("QCD", "TT_Mtt", "WJets", "sig")]
 
-#syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", "TTTo2L2Nu", "WZ", "OtherWS", "ZZtoLep", "sig")]
+syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", "TTTo2L2Nu", "WZ", "OtherWS", "ZZtoLep", "sig")]
 #syst["PF"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["pu"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["jes"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]

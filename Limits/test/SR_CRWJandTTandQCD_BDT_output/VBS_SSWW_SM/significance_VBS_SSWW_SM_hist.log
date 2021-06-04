@@ -142,6 +142,53 @@ Bin        Contents        Error           Notes
 7          1340.000000     36.606010       Unweighted events, alpha=7.491469
   => Total parameter prop_binCRTT_muon_bin7[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
+Channel CRQCD_muon will use autoMCStats with settings: event-threshold=0, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRQCD_muon
+Poisson cut-off: 0
+Processes excluded for sums: VBS_SSWW_SM
+============================================================
+Bin        Contents        Error           Notes                         
+0          3675.466992     993.696181      total sum                     
+0          3675.214026     993.696181      excluding marked processes    
+0          14.000000       3.741657        Unweighted events, alpha=262.533357
+  => Total parameter prop_binCRQCD_muon_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          147.693755      37.590852       total sum                     
+1          147.634222      37.590852       excluding marked processes    
+1          15.000000       3.872983        Unweighted events, alpha=9.846250
+  => Total parameter prop_binCRQCD_muon_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          98.344889       24.584097       total sum                     
+2          98.285070       24.584096       excluding marked processes    
+2          16.000000       4.000000        Unweighted events, alpha=6.146556
+  => Total parameter prop_binCRQCD_muon_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          62.879309       16.249252       total sum                     
+3          62.817043       16.249252       excluding marked processes    
+3          15.000000       3.872983        Unweighted events, alpha=4.191954
+  => Total parameter prop_binCRQCD_muon_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          38.583051       9.865869        total sum                     
+4          38.511905       9.865868        excluding marked processes    
+4          15.000000       3.872983        Unweighted events, alpha=2.572203
+  => Total parameter prop_binCRQCD_muon_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          29.725119       7.407291        total sum                     
+5          29.661641       7.407290        excluding marked processes    
+5          16.000000       4.000000        Unweighted events, alpha=1.857820
+  => Total parameter prop_binCRQCD_muon_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          22.739716       5.759586        total sum                     
+6          22.677331       5.759584        excluding marked processes    
+6          16.000000       4.000000        Unweighted events, alpha=1.421232
+  => Total parameter prop_binCRQCD_muon_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          48.011769       11.201384       total sum                     
+7          47.737238       11.201381       excluding marked processes    
+7          18.000000       4.242641        Unweighted events, alpha=2.667320
+  => Total parameter prop_binCRQCD_muon_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
 Channel SR_electron will use autoMCStats with settings: event-threshold=0, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_electron
@@ -283,7 +330,54 @@ Bin        Contents        Error           Notes
 7          694.000000      26.343880       Unweighted events, alpha=7.585272
   => Total parameter prop_binCRTT_electron_bin7[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
+Channel CRQCD_electron will use autoMCStats with settings: event-threshold=0, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRQCD_electron
+Poisson cut-off: 0
+Processes excluded for sums: VBS_SSWW_SM
+============================================================
+Bin        Contents        Error           Notes                         
+0          2736.036179     711.951329      total sum                     
+0          2735.908830     711.951329      excluding marked processes    
+0          15.000000       3.872983        Unweighted events, alpha=182.402412
+  => Total parameter prop_binCRQCD_electron_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          156.198985      42.801465       total sum                     
+1          156.175110      42.801465       excluding marked processes    
+1          13.000000       3.605551        Unweighted events, alpha=12.015307
+  => Total parameter prop_binCRQCD_electron_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          106.413329      27.498193       total sum                     
+2          106.384731      27.498193       excluding marked processes    
+2          15.000000       3.872983        Unweighted events, alpha=7.094222
+  => Total parameter prop_binCRQCD_electron_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          65.177948       16.937414       total sum                     
+3          65.145067       16.937414       excluding marked processes    
+3          15.000000       3.872983        Unweighted events, alpha=4.345197
+  => Total parameter prop_binCRQCD_electron_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          38.148281       9.404367        total sum                     
+4          38.109618       9.404367        excluding marked processes    
+4          16.000000       4.000000        Unweighted events, alpha=2.384268
+  => Total parameter prop_binCRQCD_electron_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          24.894623       6.311685        total sum                     
+5          24.858263       6.311684        excluding marked processes    
+5          16.000000       4.000000        Unweighted events, alpha=1.555914
+  => Total parameter prop_binCRQCD_electron_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          16.154566       4.627254        total sum                     
+6          16.115537       4.627253        excluding marked processes    
+6          12.000000       3.464102        Unweighted events, alpha=1.346214
+  => Total parameter prop_binCRQCD_electron_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          31.125968       7.886048        total sum                     
+7          30.988138       7.886046        excluding marked processes    
+7          15.000000       3.872983        Unweighted events, alpha=2.075065
+  => Total parameter prop_binCRQCD_electron_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
 
  -- Significance -- 
-Significance: 0.446372
+Significance: 0.447283
 Done in 0.00 min (cpu), 0.00 min (real)

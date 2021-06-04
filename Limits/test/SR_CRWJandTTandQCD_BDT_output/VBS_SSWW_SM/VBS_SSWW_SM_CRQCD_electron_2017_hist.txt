@@ -2,20 +2,20 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTT_BDT_output.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTT_BDT_output.root    $CHANNEL/$PROCESS
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTTandQCD_BDT_output.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTTandQCD_BDT_output.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
-bin               CRTT_electron_2017
-observation       44289
+bin               CRQCD_electron_2017
+observation       3173
 -----------------------------------------------------------------------------------
-bin                                     CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         CRTT_electron_2017                         
+bin                                     CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        
 process                                 VBS_SSWW_SM                                Fake                                       ZZtoLep                                    OtherWS                                    WZ                                         TTTo2L2Nu                                  TVX                                        WpWpJJ_QCD                                 VG                                         
 process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          
-rate                                    0.025133                                   6964.13                                    294.06                                     29121.04                                   33.04                                      7807.18                                    69.78                                      0.02                                       0.03                                       
+rate                                    0.464586                                   2732.46                                    276.94                                     133.10                                     12.09                                      17.41                                      1.42                                       0.20                                       0.06                                       
 -----------------------------------------------------------------------------------
 lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               
 FR_sys_electron     lnN                 -                   1.22                -                   -                   -                   -                   -                   -                   -                   
-CRTT_electron_2017  autoMCStats         0                   
+CRQCD_electron_2017 autoMCStats         0                   
  
-FRest_electron_2017 rateParam           CRTT_electron_2017  Fake                1                   
+FRest_electron_2017 rateParam           CRQCD_electron_2017 Fake                1                   
 
