@@ -24,10 +24,7 @@ ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
 sampFiles = {}
 
-if opt.ls:
-    procs = bkg + lssamples_1D
-else:
-    procs = bkg
+procs = bkg
 
 # Getting list of files in histos
 print os.listdir(path)
@@ -35,17 +32,44 @@ for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
         tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+        #print "tmp_list:", tmp_list
         sampFiles[year+lep] = []
+
         for fn in tmp_list:
             isSig = False
-            for sig in sigpoints:
-                if fn.startswith('VBS_SSWW_' + sig):
-                    isSig = True
-                    sampFiles[year+lep].append(fn)
+            isLS = False
+            print "\nfn:", fn
+            if fn.startswith('VBS_SSWW_'):
+                for sig in sigpoints:
+                    if fn.startswith('VBS_SSWW_' + sig + "_" + year):
+                        isSig = True
+                        sampFiles[year+lep].append([fn, fn])
 
-            if isSig:
-                continue
-                    
+                    if opt.ls:
+                        if not (sig.startswith('c') or sig.startswith('F')):
+                            continue
+
+                        sig_splitted = sig.split("_")
+                        sig_op = sig_splitted[0]
+
+                        if len(sig_splitted) > 1:
+                            sig_op += "_" + sig_splitted[1]
+                        
+                        ls_dict = lssamples_1D[sig_op]
+
+                        for nout, nin in ls_dict.items():
+                            if fn.startswith(nin):
+                                print "sampFile:", fn, nout
+                                sampFiles[year+lep].append([fn, nout])
+                                isLS = True
+                                break
+
+                    if isSig or isLS:
+                        break
+            
+                if (isSig or isLS) and not (fn.startswith("VBS_SSWW_SM_" + year)):
+                    continue
+
             for p in procs:
                 if not fn.startswith(p):
                     continue
@@ -69,10 +93,13 @@ for year in years:
                 if isSM:
                     continue
         
-                sampFiles[year+lep].append(fn)
+                sampFiles[year+lep].append([fn, fn])
                 break
-                            
-print 'sampFiles:', sampFiles
+
+print 'sampFiles:'
+for k, v in sampFiles.items():
+    for el in v:
+        print el
 
 #*******************************************************#
 #                                                       #
@@ -83,8 +110,10 @@ print 'sampFiles:', sampFiles
 for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
+        print "path:", path_
         histos_data = []
-        for f in sampFiles[year+lep]: 
+        for flist in sampFiles[year+lep]: 
+            f = flist[0]
             try:
                 ifile = ROOT.TFile.Open(path_ + f)
             except IOError:
@@ -93,13 +122,19 @@ for year in years:
                 print "Opening file ",  f
             ifile.cd()
 
-            samp = f.replace(".root", "").replace(lep, "").replace("_" + year + "_", "")         
+            samp = ""
+            if flist[0] == flist[1]:
+                samp = f.replace(".root", "").replace(lep, "").replace("_" + year + "_", "")
+            else:
+                samp = flist[1]
             #print samp
             print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
             for k_, h_ in histos.iteritems():
                 print "We are looking for object ", h_
+
                 h = ifile.Get(h_)
+                print ifile.Get(h_)
                 if not os.path.isdir(k_+ "_" + year):
                     newsubdir = ofile.mkdir(k_ + "_" + lep + "_" + year)
                 ofile.cd(k_ + "_" + lep + "_" + year)
@@ -209,4 +244,5 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         ofile.Write()
     ofile.Close()
+
 

@@ -337,7 +337,11 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 #*******************************************************#
 def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
-       lssamp = [lss for lss in lssamples_1D if (lss=="sm" or ("_"+coeff) in lss)]
+       lssamp = []
+       for name, coll in lssamples_1D.items():
+              if name == coeff:
+                     for nout, nin in coll.items():
+                            lssamp.append([k, v])# lss for lss in lssamples_1D if (lss=="sm" or ("_"+coeff) in lss)]
 
        processes = []
        for p in bkg:
@@ -362,7 +366,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        WORKDIR = "/".join(workdir_) + "/"
        carddir = outdir+  "/"  + coeff + "/"
 
-       sig = lssamp[0]
+       sig = lssamp[0][0]
        hist_filename = os.getcwd()+"/"+ifilename
        hist = getHist(ch, sig, ifile)
 
