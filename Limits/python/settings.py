@@ -6,23 +6,24 @@ import collections
 #                                *
 #*********************************
 sr_var = 'BDT_output_SM'
-cr_var = 'BDT_output_SM' # 'countings' # 
+cr_var = 'countings'
+hist_pre = "h_htau_"
 ### List of histos to include in the root files
-histos = { "SR":"h_htau_" + sr_var + "_SR",
+histos = { "SR":hist_pre + sr_var + "_SR",
            #"PR":"h_htau_m_jj_selection_upto_bveto_lepBDTcut",
-           "CRWJ":"h_htau_" + cr_var + "_wjets_CR",
-           "CRTT":"h_htau_" + cr_var + "_ttbar_CR",
-           "CRQCD":"h_htau_" + cr_var + "_QCD_CR",
+           "CRWJ":hist_pre + cr_var + "_wjets_CR",
+           "CRTT":hist_pre + cr_var + "_ttbar_CR",
+           #"CRQCD":hist_pre + cr_var + "_QCD_CR",
 }
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
             "CRWJ_muon",
             "CRTT_muon",
-            "CRQCD_muon",
+            #"CRQCD_muon",
             "SR_electron",
             "CRWJ_electron",
             "CRTT_electron",
-            "CRQCD_electron",
+            #"CRQCD_electron",
 ]
 
 leptons = ['muon',
@@ -32,7 +33,7 @@ leptons = ['muon',
 channels_labels = {"SR":"Pre-signal region", 
                    "CRWJ":"Fake Leptons Control region",
                    "CRTT":"ttbar Control region",
-                   "CRQCD":"QCD Control region",
+                   #"CRQCD":"QCD Control region",
 }
 
 #*********************************
@@ -69,93 +70,93 @@ lssamples_1D = {
     },
     'FS0_25':{    
         'sm': "VBS_SSWW_FS0_0",
-        'sm_lin_quad_FS0_25': "VBS_SSWW_FS0_25_SM",
-        'quad_FS0_25': "VBS_SSWW_FS0_25_BSM",
+        'sm_lin_quad_FS0': "VBS_SSWW_FS0_25_SM",
+        'quad_FS0': "VBS_SSWW_FS0_25_BSM",
     },
     'FS0_5':{    
         'sm': "VBS_SSWW_FS0_0",
-        'sm_lin_quad_FS0_5': "VBS_SSWW_FS0_5_SM",
-        'quad_FS0_5': "VBS_SSWW_FS0_5_BSM",
+        'sm_lin_quad_FS0': "VBS_SSWW_FS0_5_SM",
+        'quad_FS0': "VBS_SSWW_FS0_5_BSM",
     },
     'FS1_50':{    
         'sm': "VBS_SSWW_FS1_0",
-        'sm_lin_quad_FS1_50': "VBS_SSWW_FS1_50_SM",
-        'quad_FS1_50': "VBS_SSWW_FS1_50_BSM",
+        'sm_lin_quad_FS1': "VBS_SSWW_FS1_50_SM",
+        'quad_FS1': "VBS_SSWW_FS1_50_BSM",
     },
     'FS1_10':{    
         'sm': "VBS_SSWW_FS1_0",
-        'sm_lin_quad_FS1_10': "VBS_SSWW_FS1_10_SM",
-        'quad_FS1_10': "VBS_SSWW_FS1_10_BSM",
+        'sm_lin_quad_FS1': "VBS_SSWW_FS1_10_SM",
+        'quad_FS1': "VBS_SSWW_FS1_10_BSM",
     },
     'FM0_25':{    
         'sm': "VBS_SSWW_FM0_0",
-        'sm_lin_quad_FM0_25': "VBS_SSWW_FM0_25_SM",
-        'quad_FM0_25': "VBS_SSWW_FM0_25_BSM",
+        'sm_lin_quad_FM0': "VBS_SSWW_FM0_25_SM",
+        'quad_FM0': "VBS_SSWW_FM0_25_BSM",
     },
     'FM0_5':{    
         'sm': "VBS_SSWW_FM0_0",
-        'sm_lin_quad_FM0_5': "VBS_SSWW_FM0_5_SM",
-        'quad_FM0_5': "VBS_SSWW_FM0_5_BSM",
+        'sm_lin_quad_FM0': "VBS_SSWW_FM0_5_SM",
+        'quad_FM0': "VBS_SSWW_FM0_5_BSM",
     },
     'FM1_25':{    
         'sm': "VBS_SSWW_FM1_0",
-        'sm_lin_quad_FM1_25': "VBS_SSWW_FM1_25_SM",
-        'quad_FM1_25': "VBS_SSWW_FM1_25_BSM",
+        'sm_lin_quad_FM1': "VBS_SSWW_FM1_25_SM",
+        'quad_FM1': "VBS_SSWW_FM1_25_BSM",
     },
     'FM1_5':{    
         'sm': "VBS_SSWW_FM1_0",
-        'sm_lin_quad_FM1_5': "VBS_SSWW_FM1_5_SM",
-        'quad_FM1_5': "VBS_SSWW_FM1_5_BSM",
+        'sm_lin_quad_FM1': "VBS_SSWW_FM1_5_SM",
+        'quad_FM1': "VBS_SSWW_FM1_5_BSM",
     },
     'FM6_25':{    
         'sm': "VBS_SSWW_FM6_0",
-        'sm_lin_quad_FM6_25': "VBS_SSWW_FM6_25_SM",
-        'quad_FM6_25': "VBS_SSWW_FM6_25_BSM",
+        'sm_lin_quad_FM6': "VBS_SSWW_FM6_25_SM",
+        'quad_FM6': "VBS_SSWW_FM6_25_BSM",
     },
     'FM6_5':{    
         'sm': "VBS_SSWW_FM6_0",
-        'sm_lin_quad_FM6_5': "VBS_SSWW_FM6_5_SM",
-        'quad_FM6_5': "VBS_SSWW_FM6_5_BSM",
+        'sm_lin_quad_FM6': "VBS_SSWW_FM6_5_SM",
+        'quad_FM6': "VBS_SSWW_FM6_5_BSM",
     },
     'FM7_50':{    
         'sm': "VBS_SSWW_FM7_0",
-        'sm_lin_quad_FM7_50': "VBS_SSWW_FM7_50_SM",
-        'quad_FM7_50': "VBS_SSWW_FM7_50_BSM",
+        'sm_lin_quad_FM7': "VBS_SSWW_FM7_50_SM",
+        'quad_FM7': "VBS_SSWW_FM7_50_BSM",
     },
     'FM7_10':{    
         'sm': "VBS_SSWW_FM7_0",
-        'sm_lin_quad_FM7_10': "VBS_SSWW_FM7_10_SM",
-        'quad_FM7_10': "VBS_SSWW_FM7_10_BSM",
+        'sm_lin_quad_FM7': "VBS_SSWW_FM7_10_SM",
+        'quad_FM7': "VBS_SSWW_FM7_10_BSM",
     },
     'FT0_2p5':{    
         'sm': "VBS_SSWW_FT0_0",
-        'sm_lin_quad_FT0_2p5': "VBS_SSWW_FT0_2p5_SM",
-        'quad_FT0_2p5': "VBS_SSWW_FT0_2p5_BSM",
+        'sm_lin_quad_FT0': "VBS_SSWW_FT0_2p5_SM",
+        'quad_FT0': "VBS_SSWW_FT0_2p5_BSM",
     },
     'FT0_0p5':{    
         'sm': "VBS_SSWW_FT0_0",
-        'sm_lin_quad_FT0_0p5': "VBS_SSWW_FT0_0p5_SM",
-        'quad_FT0_0p5': "VBS_SSWW_FT0_0p5_BSM",
+        'sm_lin_quad_FT0': "VBS_SSWW_FT0_0p5_SM",
+        'quad_FT0': "VBS_SSWW_FT0_0p5_BSM",
     },
     'FT1_1':{    
         'sm': "VBS_SSWW_FT1_0",
-        'sm_lin_quad_FT1_1': "VBS_SSWW_FT1_1_SM",
-        'quad_FT1_1': "VBS_SSWW_FT1_1_BSM",
+        'sm_lin_quad_FT1': "VBS_SSWW_FT1_1_SM",
+        'quad_FT1': "VBS_SSWW_FT1_1_BSM",
     },
     'FT1_0p2':{    
         'sm': "VBS_SSWW_FT1_0",
-        'sm_lin_quad_FT1_0p2': "VBS_SSWW_FT1_0p2_SM",
-        'quad_FT1_0p2': "VBS_SSWW_FT1_0p2_BSM",
+        'sm_lin_quad_FT1': "VBS_SSWW_FT1_0p2_SM",
+        'quad_FT1': "VBS_SSWW_FT1_0p2_BSM",
     },
     'FT2_2p5':{    
         'sm': "VBS_SSWW_FT2_0",
-        'sm_lin_quad_FT2_2p5': "VBS_SSWW_FT2_2p5_SM",
-        'quad_FT2_2p5': "VBS_SSWW_FT2_2p5_BSM",
+        'sm_lin_quad_FT2': "VBS_SSWW_FT2_2p5_SM",
+        'quad_FT2': "VBS_SSWW_FT2_2p5_BSM",
     },
     'FT2_0p5':{    
         'sm': "VBS_SSWW_FT2_0",
-        'sm_lin_quad_FT2_0p5': "VBS_SSWW_FT2_0p5_SM",
-        'quad_FT2_0p5': "VBS_SSWW_FT2_0p5_BSM",
+        'sm_lin_quad_FT2': "VBS_SSWW_FT2_0p5_SM",
+        'quad_FT2': "VBS_SSWW_FT2_0p5_BSM",
     },
 
 }
@@ -333,7 +334,7 @@ VBS_SSWW_FT2_0p5 = ("FT2_0p5")
 
 
 sigpoints = [
-    #VBS_SSWW_SM,
+    VBS_SSWW_SM,
     #VBS_SSWW_aQGC,
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
@@ -342,8 +343,8 @@ sigpoints = [
     ##VBS_SSWW_BSM,
     ##VBS_SSWW_cHW_SM,
     ##VBS_SSWW_cW_SM,
-    VBS_SSWW_cHW,
-    VBS_SSWW_cW,
+    #VBS_SSWW_cHW,
+    #VBS_SSWW_cW,
     ##VBS_SSWW_FS0_25_SM,                                                                                                   
     ##VBS_SSWW_FS0_5_SM,                                                                                                    
     #VBS_SSWW_FS0_25,                                                                                                       

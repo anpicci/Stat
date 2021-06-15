@@ -291,7 +291,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           card += line
                                           card += "\n"        
               if('autoMCstat' in sysName):
-                     card += "%-20s%-20s%-20d\n " % (ch, "autoMCStats", 0)
+                     card += "%-20s%-20s%-20d%-20d\n " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
        for k, v in rateParams.items():
@@ -337,11 +337,17 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 #*******************************************************#
 def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
-       lssamp = []
+       nop = coeff.split("_")[0]
+       lssamp = ["", "", ""]
        for name, coll in lssamples_1D.items():
               if name == coeff:
                      for nout, nin in coll.items():
-                            lssamp.append([k, v])# lss for lss in lssamples_1D if (lss=="sm" or ("_"+coeff) in lss)]
+                            if nout == "sm":
+                                   lssamp[0] = nout# lss for lss in lssamples_1D if (lss=="sm" or ("_"+coeff) in lss)]
+                            elif nout.startswith("sm_lin_"):
+                                   lssamp[1] = nout#.replace("_F", "_c")
+                            elif nout.startswith("quad_"):
+                                   lssamp[2] = nout#.replace("_F", "_c")
 
        processes = []
        for p in bkg:
@@ -366,7 +372,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        WORKDIR = "/".join(workdir_) + "/"
        carddir = outdir+  "/"  + coeff + "/"
 
-       sig = lssamp[0][0]
+       sig = lssamp[0]
        hist_filename = os.getcwd()+"/"+ifilename
        hist = getHist(ch, sig, ifile)
 
@@ -513,7 +519,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        rateString = "rate                                    "
        
        for sidx, sgs in enumerate(lssamp):
-              procnameString += "%-43s" % (sgs)
+              procnameString += "%-43s" % (sgs.replace("_F", "_c"))
               procidxString += "%-43s" % (sidx)
               rateString += "%-43.6f" % (rates[sgs])
               #card += "%-43s" % (sgs)
@@ -631,7 +637,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           card += line
                                           card += "\n"        
               if('autoMCstat' in sysName):
-                     card += "%-20s%-20s%-20d\n " % (ch, "autoMCStats", 0)
+                     card += "%-20s%-20s%-20d%-20d\n " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
        for k, v in rateParams.items():

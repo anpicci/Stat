@@ -10,7 +10,7 @@ parser.add_option('-i', '--input', dest='path', type='string', default= "./histo
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
-parser.add_option("--ls",dest="ls",action='store_true', default=False)
+parser.add_option("--ls",dest="ls",type="string", default="")
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
@@ -45,8 +45,8 @@ for year in years:
                         isSig = True
                         sampFiles[year+lep].append([fn, fn])
 
-                    if opt.ls:
-                        if not (sig.startswith('c') or sig.startswith('F')):
+                    if opt.ls != "":
+                        if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
                             continue
 
                         sig_splitted = sig.split("_")
