@@ -1,0 +1,19 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTT_m_taulep_BDTcut.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTT_m_taulep_BDTcut.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               CRTT_muon_2017
+observation       9167
+-----------------------------------------------------------------------------------
+bin                                     CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             CRTT_muon_2017                             
+process                                 VBS_SSWW_BSM_INT                           Fake                                       ZZtoLep                                    OtherWS                                    WZ                                         TTTo2L2Nu                                  TVX                                        WpWpJJ_QCD                                 VBS_SSWW_SM                                
+process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          
+rate                                    0.032008                                   1270.22                                    12.57                                      1966.04                                    0.51                                       5864.45                                    54.11                                      0.00                                       0.01                                       
+-----------------------------------------------------------------------------------
+lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               
+FR_sys_muon         lnN                 -                   1.15                -                   -                   -                   -                   -                   -                   -                   -                   
+FRest_muon_2017     rateParam           CRTT_muon_2017      Fake                1                   
+

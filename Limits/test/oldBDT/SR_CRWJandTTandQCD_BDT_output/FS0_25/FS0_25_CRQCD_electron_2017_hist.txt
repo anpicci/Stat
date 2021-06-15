@@ -1,0 +1,21 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTTandQCD_BDT_output.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017_SR_CRWJandTTandQCD_BDT_output.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               CRQCD_electron_2017
+observation       473
+-----------------------------------------------------------------------------------
+bin                                     CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        CRQCD_electron_2017                        
+process                                 sm                                         sm_lin_quad_cS0                            quad_cS0                                   Fake                                       ZZtoLep                                    OtherWS                                    WZ                                         TTTo2L2Nu                                  TVX                                        WpWpJJ_QCD                                 VG                                         
+process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          9                                          10                                         
+rate                                    0.321784                                   0.322188                                   0.000570                                   379.16                                     71.50                                      15.24                                      0.34                                       6.24                                       0.61                                       0.06                                       0.03                                       
+-----------------------------------------------------------------------------------
+lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               
+FR_sys_electron     lnN                 -                   -                   -                   1.22                -                   -                   -                   -                   -                   -                   -                   
+CRQCD_electron_2017 autoMCStats         0                   
+ 
+FRest_electron_2017 rateParam           CRQCD_electron_2017 Fake                1                   
+
