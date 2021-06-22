@@ -6,14 +6,14 @@ import collections
 #                                *
 #*********************************
 sr_var = 'BDT_output_SM'
-cr_var = 'countings'
-hist_pre = "h_htau_"
+cr_var = sr_var#'countings'
+hist_pre = "h_ltau_"
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
-           #"PR":"h_htau_m_jj_selection_upto_bveto_lepBDTcut",
+           #"PR":"h_ltau_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":hist_pre + cr_var + "_wjets_CR",
            "CRTT":hist_pre + cr_var + "_ttbar_CR",
-           #"CRQCD":hist_pre + cr_var + "_QCD_CR",
+           "CRQCD":hist_pre + cr_var + "_QCD_CR",
 }
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
@@ -33,7 +33,7 @@ leptons = ['muon',
 channels_labels = {"SR":"Pre-signal region", 
                    "CRWJ":"Fake Leptons Control region",
                    "CRTT":"ttbar Control region",
-                   #"CRQCD":"QCD Control region",
+                   "CRQCD":"QCD Control region",
 }
 
 #*********************************
@@ -70,93 +70,93 @@ lssamples_1D = {
     },
     'FS0_25':{    
         'sm': "VBS_SSWW_FS0_0",
-        'sm_lin_quad_FS0': "VBS_SSWW_FS0_25_SM",
-        'quad_FS0': "VBS_SSWW_FS0_25_BSM",
+        'sm_lin_quad_cS0': "VBS_SSWW_FS0_25_SM",
+        'quad_cS0': "VBS_SSWW_FS0_25_BSM",
     },
     'FS0_5':{    
         'sm': "VBS_SSWW_FS0_0",
-        'sm_lin_quad_FS0': "VBS_SSWW_FS0_5_SM",
-        'quad_FS0': "VBS_SSWW_FS0_5_BSM",
+        'sm_lin_quad_cS0': "VBS_SSWW_FS0_5_SM",
+        'quad_cS0': "VBS_SSWW_FS0_5_BSM",
     },
     'FS1_50':{    
         'sm': "VBS_SSWW_FS1_0",
-        'sm_lin_quad_FS1': "VBS_SSWW_FS1_50_SM",
-        'quad_FS1': "VBS_SSWW_FS1_50_BSM",
+        'sm_lin_quad_cS1': "VBS_SSWW_FS1_50_SM",
+        'quad_cS1': "VBS_SSWW_FS1_50_BSM",
     },
     'FS1_10':{    
         'sm': "VBS_SSWW_FS1_0",
-        'sm_lin_quad_FS1': "VBS_SSWW_FS1_10_SM",
-        'quad_FS1': "VBS_SSWW_FS1_10_BSM",
+        'sm_lin_quad_cS1': "VBS_SSWW_FS1_10_SM",
+        'quad_cS1': "VBS_SSWW_FS1_10_BSM",
     },
     'FM0_25':{    
         'sm': "VBS_SSWW_FM0_0",
-        'sm_lin_quad_FM0': "VBS_SSWW_FM0_25_SM",
-        'quad_FM0': "VBS_SSWW_FM0_25_BSM",
+        'sm_lin_quad_cM0': "VBS_SSWW_FM0_25_SM",
+        'quad_cM0': "VBS_SSWW_FM0_25_BSM",
     },
     'FM0_5':{    
         'sm': "VBS_SSWW_FM0_0",
-        'sm_lin_quad_FM0': "VBS_SSWW_FM0_5_SM",
-        'quad_FM0': "VBS_SSWW_FM0_5_BSM",
+        'sm_lin_quad_cM0': "VBS_SSWW_FM0_5_SM",
+        'quad_cM0': "VBS_SSWW_FM0_5_BSM",
     },
     'FM1_25':{    
         'sm': "VBS_SSWW_FM1_0",
-        'sm_lin_quad_FM1': "VBS_SSWW_FM1_25_SM",
-        'quad_FM1': "VBS_SSWW_FM1_25_BSM",
+        'sm_lin_quad_cM1': "VBS_SSWW_FM1_25_SM",
+        'quad_cM1': "VBS_SSWW_FM1_25_BSM",
     },
     'FM1_5':{    
         'sm': "VBS_SSWW_FM1_0",
-        'sm_lin_quad_FM1': "VBS_SSWW_FM1_5_SM",
-        'quad_FM1': "VBS_SSWW_FM1_5_BSM",
+        'sm_lin_quad_cM1': "VBS_SSWW_FM1_5_SM",
+        'quad_cM1': "VBS_SSWW_FM1_5_BSM",
     },
     'FM6_25':{    
         'sm': "VBS_SSWW_FM6_0",
-        'sm_lin_quad_FM6': "VBS_SSWW_FM6_25_SM",
-        'quad_FM6': "VBS_SSWW_FM6_25_BSM",
+        'sm_lin_quad_cM6': "VBS_SSWW_FM6_25_SM",
+        'quad_cM6': "VBS_SSWW_FM6_25_BSM",
     },
     'FM6_5':{    
         'sm': "VBS_SSWW_FM6_0",
-        'sm_lin_quad_FM6': "VBS_SSWW_FM6_5_SM",
-        'quad_FM6': "VBS_SSWW_FM6_5_BSM",
+        'sm_lin_quad_cM6': "VBS_SSWW_FM6_5_SM",
+        'quad_cM6': "VBS_SSWW_FM6_5_BSM",
     },
     'FM7_50':{    
         'sm': "VBS_SSWW_FM7_0",
-        'sm_lin_quad_FM7': "VBS_SSWW_FM7_50_SM",
-        'quad_FM7': "VBS_SSWW_FM7_50_BSM",
+        'sm_lin_quad_cM7': "VBS_SSWW_FM7_50_SM",
+        'quad_cM7': "VBS_SSWW_FM7_50_BSM",
     },
     'FM7_10':{    
         'sm': "VBS_SSWW_FM7_0",
-        'sm_lin_quad_FM7': "VBS_SSWW_FM7_10_SM",
-        'quad_FM7': "VBS_SSWW_FM7_10_BSM",
+        'sm_lin_quad_cM7': "VBS_SSWW_FM7_10_SM",
+        'quad_cM7': "VBS_SSWW_FM7_10_BSM",
     },
     'FT0_2p5':{    
         'sm': "VBS_SSWW_FT0_0",
-        'sm_lin_quad_FT0': "VBS_SSWW_FT0_2p5_SM",
-        'quad_FT0': "VBS_SSWW_FT0_2p5_BSM",
+        'sm_lin_quad_cT0': "VBS_SSWW_FT0_2p5_SM",
+        'quad_cT0': "VBS_SSWW_FT0_2p5_BSM",
     },
     'FT0_0p5':{    
         'sm': "VBS_SSWW_FT0_0",
-        'sm_lin_quad_FT0': "VBS_SSWW_FT0_0p5_SM",
-        'quad_FT0': "VBS_SSWW_FT0_0p5_BSM",
+        'sm_lin_quad_cT0': "VBS_SSWW_FT0_0p5_SM",
+        'quad_cT0': "VBS_SSWW_FT0_0p5_BSM",
     },
     'FT1_1':{    
         'sm': "VBS_SSWW_FT1_0",
-        'sm_lin_quad_FT1': "VBS_SSWW_FT1_1_SM",
-        'quad_FT1': "VBS_SSWW_FT1_1_BSM",
+        'sm_lin_quad_cT1': "VBS_SSWW_FT1_1_SM",
+        'quad_cT1': "VBS_SSWW_FT1_1_BSM",
     },
     'FT1_0p2':{    
         'sm': "VBS_SSWW_FT1_0",
-        'sm_lin_quad_FT1': "VBS_SSWW_FT1_0p2_SM",
-        'quad_FT1': "VBS_SSWW_FT1_0p2_BSM",
+        'sm_lin_quad_cT1': "VBS_SSWW_FT1_0p2_SM",
+        'quad_cT1': "VBS_SSWW_FT1_0p2_BSM",
     },
     'FT2_2p5':{    
         'sm': "VBS_SSWW_FT2_0",
-        'sm_lin_quad_FT2': "VBS_SSWW_FT2_2p5_SM",
-        'quad_FT2': "VBS_SSWW_FT2_2p5_BSM",
+        'sm_lin_quad_cT2': "VBS_SSWW_FT2_2p5_SM",
+        'quad_cT2': "VBS_SSWW_FT2_2p5_BSM",
     },
     'FT2_0p5':{    
         'sm': "VBS_SSWW_FT2_0",
-        'sm_lin_quad_FT2': "VBS_SSWW_FT2_0p5_SM",
-        'quad_FT2': "VBS_SSWW_FT2_0p5_BSM",
+        'sm_lin_quad_cT2': "VBS_SSWW_FT2_0p5_SM",
+        'quad_cT2': "VBS_SSWW_FT2_0p5_BSM",
     },
 
 }
@@ -292,13 +292,17 @@ VBS_SSWW_BSM_SM = ("BSM_SM")
 VBS_SSWW_BSM = ("BSM_INT")
 VBS_SSWW_cW_SM = ("cW_SM")
 VBS_SSWW_cHW_SM = ("cHW_SM")
+VBS_SSWW_cW_BSM = ("cW_BSM")
+VBS_SSWW_cHW_BSM = ("cHW_BSM")
 VBS_SSWW_cW = ("cW")
 VBS_SSWW_cHW = ("cHW")
 VBS_SSWW_aQGC = ("aQGC")
 #VBS_SSWW_FS0_25_SM = ("FS0_25_SM")
-#VBS_SSWW_FS0_5_SM = ("FS0_5_SM")                                                                                    
+VBS_SSWW_FS0_5_SM = ("FS0_5_SM")                                                                                    
+VBS_SSWW_FS0_5_BSM = ("FS0_5_BSM")                                            
 VBS_SSWW_FS0_25 = ("FS0_25")
 VBS_SSWW_FS0_5 = ("FS0_5")
+VBS_SSWW_FS0_0 = ("FS0_0")
 #VBS_SSWW_FS1_50_SM = ("FS1_50_SM")
 #VBS_SSWW_FS1_10_SM = ("FS1_10_SM")
 VBS_SSWW_FS1_50 = ("FS1_50")
@@ -308,9 +312,11 @@ VBS_SSWW_FS1_10 = ("FS1_10")
 VBS_SSWW_FM0_25 = ("FM0_25")
 VBS_SSWW_FM0_5 = ("FM0_5")
 #VBS_SSWW_FM1_25_SM = ("FM1_25_SM")
-#VBS_SSWW_FM1_5_SM = ("FM1_5_SM")
+VBS_SSWW_FM1_5_SM = ("FM1_5_SM")
+VBS_SSWW_FM1_5_BSM = ("FM1_5_BSM")
 VBS_SSWW_FM1_25 = ("FM1_25")
 VBS_SSWW_FM1_5 = ("FM1_5")
+VBS_SSWW_FM1_0 = ("FM1_0")
 #VBS_SSWW_FM6_25_SM = ("FM6_25_SM")
 #VBS_SSWW_FM6_5_SM = ("FM6_5_SM")                                                                                    
 VBS_SSWW_FM6_25 = ("FM6_25")                                                                                          
@@ -328,9 +334,11 @@ VBS_SSWW_FT0_0p5 = ("FT0_0p5")
 VBS_SSWW_FT1_1 = ("FT1_1")
 VBS_SSWW_FT1_0p2  = ("FT1_0p2")
 #VBS_SSWW_FT2_2p5_SM = ("FT2_2p5_SM")
-#VBS_SSWW_FT2_0p5_SM = ("FT2_0p5_SM")
+VBS_SSWW_FT2_0p5_SM = ("FT2_0p5_SM")
+VBS_SSWW_FT2_0p5_BSM = ("FT2_0p5_BSM")
 VBS_SSWW_FT2_2p5 = ("FT2_2p5")                                                                                     
 VBS_SSWW_FT2_0p5 = ("FT2_0p5")
+VBS_SSWW_FT2_0 = ("FT2_0")
 
 
 sigpoints = [
@@ -341,45 +349,53 @@ sigpoints = [
     #VBS_SSWW_SM_TT,
     ##VBS_SSWW_BSM_SM,
     ##VBS_SSWW_BSM,
-    ##VBS_SSWW_cHW_SM,
-    ##VBS_SSWW_cW_SM,
-    #VBS_SSWW_cHW,
-    #VBS_SSWW_cW,
-    ##VBS_SSWW_FS0_25_SM,                                                                                                   
-    ##VBS_SSWW_FS0_5_SM,                                                                                                    
-    #VBS_SSWW_FS0_25,                                                                                                       
-    #VBS_SSWW_FS0_5,
-    ##VBS_SSWW_FS1_50_SM,                                                                                                   
+    VBS_SSWW_cHW_SM,#ls
+    VBS_SSWW_cW_SM,#ls
+    VBS_SSWW_cHW_BSM,#ls
+    VBS_SSWW_cW_BSM,#ls
+    VBS_SSWW_cHW,
+    VBS_SSWW_cW,
+    ##VBS_SSWW_FS0_25_SM,
+    VBS_SSWW_FS0_5_SM,#ls
+    VBS_SSWW_FS0_5_BSM,#ls 
+    ##VBS_SSWW_FS0_25,    
+    VBS_SSWW_FS0_5,
+    VBS_SSWW_FS0_0,#ls
+    ##VBS_SSWW_FS1_50_SM,       
     ##VBS_SSWW_FS1_10_SM,
-    #VBS_SSWW_FS1_50,
-    #VBS_SSWW_FS1_10,                                                                                                        
-    ##VBS_SSWW_FM0_25_SM,                                                                                                    
+    ##VBS_SSWW_FS1_50,
+    ##VBS_SSWW_FS1_10,           
+    ##VBS_SSWW_FM0_25_SM,       
     ##VBS_SSWW_FM0_5_SM,  
-    #VBS_SSWW_FM0_25,
-    #VBS_SSWW_FM0_5, 
-    ##VBS_SSWW_FM1_25_SM,                                                                                                  
-    ##VBS_SSWW_FM1_5_SM,
-    #VBS_SSWW_FM1_25,
-    #VBS_SSWW_FM1_5,
-    ##VBS_SSWW_FM6_25_SM,                                                                                                   
-    ##VBS_SSWW_FM6_5_SM,                                                                                                    
-    #VBS_SSWW_FM6_25,                                                                                                     
-    #VBS_SSWW_FM6_5,                                                                                           
+    ##VBS_SSWW_FM0_25,
+    ##VBS_SSWW_FM0_5, 
+    ##VBS_SSWW_FM1_25_SM,       
+    VBS_SSWW_FM1_5_SM,#ls
+    VBS_SSWW_FM1_5_BSM,#ls
+    ##VBS_SSWW_FM1_25,
+    VBS_SSWW_FM1_5,#ls
+    VBS_SSWW_FM1_0,
+    ##VBS_SSWW_FM6_25_SM,       
+    ##VBS_SSWW_FM6_5_SM,        
+    ##VBS_SSWW_FM6_25,           
+    ##VBS_SSWW_FM6_5,                                                                                           
     ##VBS_SSWW_FM7_50_SM,                                                                                       
     ##VBS_SSWW_FM7_10_SM,
-    #VBS_SSWW_FM7_50,
-    #VBS_SSWW_FM7_10,
+    ##VBS_SSWW_FM7_50,
+    ##VBS_SSWW_FM7_10,
     ##VBS_SSWW_FT0_2p5_SM,
     ##VBS_SSWW_FT0_0p5_SM,
-    #VBS_SSWW_FT0_2p5,                                                                                                     
-    #VBS_SSWW_FT0_0p5,                                                                                    
+    ##VBS_SSWW_FT0_2p5,          
+    ##VBS_SSWW_FT0_0p5,                                                                                    
     ##VBS_SSWW_FT1_1_SM,                                                                                  
     ##VBS_SSWW_FT1_0p2_SM,                                                                                
-    #VBS_SSWW_FT1_1,
-    #VBS_SSWW_FT1_0p2,
+    ##VBS_SSWW_FT1_1,
+    ##VBS_SSWW_FT1_0p2,
     ##VBS_SSWW_FT2_2p5_SM,
-    ##VBS_SSWW_FT2_0p5_SM,
-    #VBS_SSWW_FT2_2p5,                                                                                                  
-    #VBS_SSWW_FT2_0p5,
+    VBS_SSWW_FT2_0p5_SM,#ls
+    VBS_SSWW_FT2_0p5_BSM,#ls
+    ##VBS_SSWW_FT2_2p5,          
+    VBS_SSWW_FT2_0p5,
+    VBS_SSWW_FT2_0,#ls
 ]
 

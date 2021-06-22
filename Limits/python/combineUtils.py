@@ -111,15 +111,21 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat):
 
 def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
     print "performing LikelihoodScan for operator ", model
-    path = ("%s/%s" % (path_, model) )
+    path = ("%s/%s" % (path_, model) ) 
     print "==>path: ", path
     print os.path.exists(path)
     maindir = os.getcwd() + "/"
     if(os.path.exists(path)):
+        modComb = model.split("_")[0].replace("F", "c")
         print "ok i'm in the directory"
         os.chdir(path)
         print "We are in the right folder ",  len(categories)
         extraoption=""
+        if model.startswith("FS") or model.startswith("FM"):
+            interval = "-100,100"
+        else:
+            interval = "-10,10"
+
         if len(categories)>=1:
             if len(years)>1:
                 cmd = "combineCards.py "
@@ -133,12 +139,13 @@ def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
                 cmd = "text2workspace.py "
                 cmd += global_dc + " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative -o "
                 rootdc = model + "_" + method+ ".root"
-                cmd += rootdc +" --X-allow-no-signal --PO eftOperators=" + model
+                cmd += rootdc +" --X-allow-no-signal --PO eftOperators=" + modComb
                 print(cmd)
                 os.system(cmd)
-                cmd = "combine -M MultiDimFit " + rootdc + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + model + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + model + "=-10,10    --verbose -1"
+
+                cmd = "combine -M MultiDimFit " + rootdc + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + modComb + "=" + interval + "     --verbose -1"
                 runCombine(cmd, "ls_k_" + model + "_" + method + ".log")
-                cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + model + " "
+                cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + modComb + " "
                 for year in years:
                     cmd += year
                     if year != years[-1]:
@@ -162,16 +169,16 @@ def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
                 cmd = "text2workspace.py "
                 cmd += global_dc + " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative -o "
                 rootdc = model + "_" + method + ".root"
-                cmd += rootdc +" --X-allow-no-signal --PO eftOperators=" + model
+                cmd += rootdc +" --X-allow-no-signal --PO eftOperators=" + modComb
                 print cmd
 
                 os.system(cmd)
 
 
                 #launching Combine
-                cmd = "combine -M MultiDimFit " + rootdc + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + model + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + model + "=-10,10    --verbose -1"
+                cmd = "combine -M MultiDimFit " + rootdc + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + modComb + "=" + interval + "  --verbose -1"
                 runCombine(cmd, "ls_k_" + model + "_" + method + ".log")
-                cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + model + " "
+                cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + modComb + " "
                 for year in years:
                     cmd += year
                     if year != years[-1]:
@@ -184,10 +191,10 @@ def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
                         cat = cat+"_"+year+"_"+method
                         datacat = model + "_" + cat +".txt"
                         print datacat
-                        cmd = "combine -M MultiDimFit " + datacat + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + model + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + model + "=-10,10    --verbose -1"
+                        cmd = "combine -M MultiDimFit " + datacat + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + modComb + "=" + interval + "  --verbose -1"
                         print cmd
                         runCombine(cmd, "ls_k_" + model + "_" + cat + ".log")  
-                        cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + model + " "
+                        cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + modComb + " "
                         for year in years:
                             cmd += year
                             if year != years[-1]:
@@ -201,10 +208,10 @@ def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
                     datacat = model + "_" + cat +".txt"
                     if(runSingleCat): 
                         print datacat
-                        cmd = "combine -M MultiDimFit " + datacat + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + model + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + model + "=-10,10    --verbose -1"
+                        cmd = "combine -M MultiDimFit " + datacat + " --algo=grid --points 2000  -m 125   -t -1 --redefineSignalPOIs k_" + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges k_" + modComb + "=" + interval + "  --verbose -1"
                         print cmd
                         runCombine(cmd, "ls_k_" + model + "_" + cat + ".log")  
-                        cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + model +" "
+                        cmd = "python " + maindir + "drawLS.py higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.MultiDimFit.mH125.root k_" + modComb +" "
                         for year in years:
                             cmd += year
                             if year != years[-1]:

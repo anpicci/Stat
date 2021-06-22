@@ -38,7 +38,7 @@ for year in years:
         for fn in tmp_list:
             isSig = False
             isLS = False
-            print "\nfn:", fn
+            #print "\nfn:", fn
             if fn.startswith('VBS_SSWW_'):
                 for sig in sigpoints:
                     if fn.startswith('VBS_SSWW_' + sig + "_" + year):
@@ -49,7 +49,7 @@ for year in years:
                         if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
                             continue
 
-                        sig_splitted = sig.split("_")
+                        sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
                         sig_op = sig_splitted[0]
 
                         if len(sig_splitted) > 1:
@@ -58,8 +58,8 @@ for year in years:
                         ls_dict = lssamples_1D[sig_op]
 
                         for nout, nin in ls_dict.items():
-                            if fn.startswith(nin):
-                                print "sampFile:", fn, nout
+                            if fn.startswith(nin+"_"):
+                                #print "sampFile:", fn, nout
                                 sampFiles[year+lep].append([fn, nout])
                                 isLS = True
                                 break
@@ -100,6 +100,7 @@ print 'sampFiles:'
 for k, v in sampFiles.items():
     for el in v:
         print el
+
 
 #*******************************************************#
 #                                                       #
@@ -210,10 +211,13 @@ for lep in leptons:
                 print "Cannot open " + p + "_" + year + "_" + lep + ".root"
             else:
                 print "Opening file " +  p + "_" + year + "_" + lep + ".root"
+            print "bkg:", p
+
             ifile.cd()
             for k_, h_ in histos.iteritems():
                 print k_, h_
                 tmphist = ifile.Get( h_)
+                print tmphist.Integral()
                 if histData[k_] is None: 
                     histData[k_] = copy.deepcopy(tmphist)
                 else: histData[k_].Add(tmphist)
@@ -244,5 +248,3 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         ofile.Write()
     ofile.Close()
-
-
