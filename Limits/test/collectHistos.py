@@ -18,7 +18,7 @@ path =  opt.path
 ofilename = opt.output
 mcstat = opt.mcstat
 unblind = opt.unblind
-print("ATENTION UNBLIND OPTION IS " + str(unblind))
+print("ATTENTION UNBLIND OPTION IS " + str(unblind))
 # Creating output file
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
@@ -27,18 +27,18 @@ sampFiles = {}
 procs = bkg
 
 # Getting list of files in histos
-print os.listdir(path)
+
 for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
         tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
-        #print "tmp_list:", tmp_list
+
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
             isSig = False
             isLS = False
-            #print "\nfn:", fn
+
             if fn.startswith('VBS_SSWW_'):
                 for sig in sigpoints:
                     if fn.startswith('VBS_SSWW_' + sig + "_" + year):
@@ -59,7 +59,6 @@ for year in years:
 
                         for nout, nin in ls_dict.items():
                             if fn.startswith(nin+"_"):
-                                #print "sampFile:", fn, nout
                                 sampFiles[year+lep].append([fn, nout])
                                 isLS = True
                                 break
@@ -71,7 +70,7 @@ for year in years:
                     continue
 
             for p in procs:
-                if not fn.startswith(p):
+                if not fn.startswith(p + "_"):
                     continue
 
                 isSM = False
@@ -96,11 +95,12 @@ for year in years:
                 sampFiles[year+lep].append([fn, fn])
                 break
 
+'''
 print 'sampFiles:'
 for k, v in sampFiles.items():
     for el in v:
         print el
-
+'''
 
 #*******************************************************#
 #                                                       #
@@ -132,10 +132,13 @@ for year in years:
             print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
             for k_, h_ in histos.iteritems():
+                if lep=='emu' and not k_.startswith("CRTT"):
+                    continue
+
                 print "We are looking for object ", h_
 
                 h = ifile.Get(h_)
-                print ifile.Get(h_)
+
                 if not os.path.isdir(k_+ "_" + year):
                     newsubdir = ofile.mkdir(k_ + "_" + lep + "_" + year)
                 ofile.cd(k_ + "_" + lep + "_" + year)
@@ -215,6 +218,8 @@ for lep in leptons:
 
             ifile.cd()
             for k_, h_ in histos.iteritems():
+                if lep=='emu' and not k_.startswith('CRTT'):
+                    continue
                 print k_, h_
                 tmphist = ifile.Get( h_)
                 print tmphist.Integral()

@@ -7,7 +7,7 @@ import collections
 #*********************************
 sr_var = 'BDT_output_SM'
 cr_var = sr_var#'countings'
-hist_pre = "h_ltau_"
+hist_pre = "h_"
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
            #"PR":"h_ltau_m_jj_selection_upto_bveto_lepBDTcut",
@@ -23,11 +23,13 @@ channels = ["SR_muon",
             "SR_electron",
             "CRWJ_electron",
             "CRTT_electron",
+            #"CRTT_emu",
             #"CRQCD_electron",
 ]
 
 leptons = ['muon',
            'electron',
+           #'emu'
 ]
 
 channels_labels = {"SR":"Pre-signal region", 
@@ -343,59 +345,59 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 sigpoints = [
     VBS_SSWW_SM,
-    #VBS_SSWW_aQGC,
-    #VBS_SSWW_SM_LL,
-    #VBS_SSWW_SM_TL,
-    #VBS_SSWW_SM_TT,
-    ##VBS_SSWW_BSM_SM,
-    ##VBS_SSWW_BSM,
-    VBS_SSWW_cHW_SM,#ls
-    VBS_SSWW_cW_SM,#ls
-    VBS_SSWW_cHW_BSM,#ls
-    VBS_SSWW_cW_BSM,#ls
-    VBS_SSWW_cHW,
-    VBS_SSWW_cW,
-    ##VBS_SSWW_FS0_25_SM,
-    VBS_SSWW_FS0_5_SM,#ls
-    VBS_SSWW_FS0_5_BSM,#ls 
-    ##VBS_SSWW_FS0_25,    
-    VBS_SSWW_FS0_5,
-    VBS_SSWW_FS0_0,#ls
-    ##VBS_SSWW_FS1_50_SM,       
-    ##VBS_SSWW_FS1_10_SM,
-    ##VBS_SSWW_FS1_50,
-    ##VBS_SSWW_FS1_10,           
-    ##VBS_SSWW_FM0_25_SM,       
-    ##VBS_SSWW_FM0_5_SM,  
-    ##VBS_SSWW_FM0_25,
-    ##VBS_SSWW_FM0_5, 
-    ##VBS_SSWW_FM1_25_SM,       
-    VBS_SSWW_FM1_5_SM,#ls
-    VBS_SSWW_FM1_5_BSM,#ls
-    ##VBS_SSWW_FM1_25,
-    VBS_SSWW_FM1_5,#ls
-    VBS_SSWW_FM1_0,
-    ##VBS_SSWW_FM6_25_SM,       
-    ##VBS_SSWW_FM6_5_SM,        
-    ##VBS_SSWW_FM6_25,           
-    ##VBS_SSWW_FM6_5,                                                                                           
-    ##VBS_SSWW_FM7_50_SM,                                                                                       
-    ##VBS_SSWW_FM7_10_SM,
-    ##VBS_SSWW_FM7_50,
-    ##VBS_SSWW_FM7_10,
-    ##VBS_SSWW_FT0_2p5_SM,
-    ##VBS_SSWW_FT0_0p5_SM,
-    ##VBS_SSWW_FT0_2p5,          
-    ##VBS_SSWW_FT0_0p5,                                                                                    
-    ##VBS_SSWW_FT1_1_SM,                                                                                  
-    ##VBS_SSWW_FT1_0p2_SM,                                                                                
-    ##VBS_SSWW_FT1_1,
-    ##VBS_SSWW_FT1_0p2,
-    ##VBS_SSWW_FT2_2p5_SM,
-    VBS_SSWW_FT2_0p5_SM,#ls
-    VBS_SSWW_FT2_0p5_BSM,#ls
-    ##VBS_SSWW_FT2_2p5,          
-    VBS_SSWW_FT2_0p5,
-    VBS_SSWW_FT2_0,#ls
+    ##VBS_SSWW_aQGC,
+    ##VBS_SSWW_SM_LL,
+    ##VBS_SSWW_SM_TL,
+    ##VBS_SSWW_SM_TT,
+    ###VBS_SSWW_BSM_SM,
+    ###VBS_SSWW_BSM,
+    #VBS_SSWW_cHW_SM,#ls
+    #VBS_SSWW_cW_SM,#ls
+    #VBS_SSWW_cHW_BSM,#ls
+    #VBS_SSWW_cW_BSM,#ls
+    #VBS_SSWW_cHW,
+    #VBS_SSWW_cW,
+    ###VBS_SSWW_FS0_25_SM,
+    #VBS_SSWW_FS0_5_SM,#ls
+    #VBS_SSWW_FS0_5_BSM,#ls 
+    ###VBS_SSWW_FS0_25,    
+    #VBS_SSWW_FS0_5,
+    #VBS_SSWW_FS0_0,#ls
+    ###VBS_SSWW_FS1_50_SM,       
+    ###VBS_SSWW_FS1_10_SM,
+    ###VBS_SSWW_FS1_50,
+    ###VBS_SSWW_FS1_10,           
+    ###VBS_SSWW_FM0_25_SM,       
+    ###VBS_SSWW_FM0_5_SM,  
+    ###VBS_SSWW_FM0_25,
+    ###VBS_SSWW_FM0_5, 
+    ###VBS_SSWW_FM1_25_SM,       
+    #VBS_SSWW_FM1_5_SM,#ls
+    #VBS_SSWW_FM1_5_BSM,#ls
+    ###VBS_SSWW_FM1_25,
+    #VBS_SSWW_FM1_5,#ls
+    #VBS_SSWW_FM1_0,
+    ###VBS_SSWW_FM6_25_SM,       
+    ###VBS_SSWW_FM6_5_SM,        
+    ###VBS_SSWW_FM6_25,           
+    ###VBS_SSWW_FM6_5,                                                                                           
+    ###VBS_SSWW_FM7_50_SM,                                                                                       
+    ###VBS_SSWW_FM7_10_SM,
+    ###VBS_SSWW_FM7_50,
+    ###VBS_SSWW_FM7_10,
+    ###VBS_SSWW_FT0_2p5_SM,
+    ###VBS_SSWW_FT0_0p5_SM,
+    ###VBS_SSWW_FT0_2p5,          
+    ###VBS_SSWW_FT0_0p5,                                                                                    
+    ###VBS_SSWW_FT1_1_SM,                                                                                  
+    ###VBS_SSWW_FT1_0p2_SM,                                                                                
+    ###VBS_SSWW_FT1_1,
+    ###VBS_SSWW_FT1_0p2,
+    ###VBS_SSWW_FT2_2p5_SM,
+    #VBS_SSWW_FT2_0p5_SM,#ls
+    #VBS_SSWW_FT2_0p5_BSM,#ls
+    ###VBS_SSWW_FT2_2p5,          
+    #VBS_SSWW_FT2_0p5,
+    #VBS_SSWW_FT2_0,#ls
 ]
 
