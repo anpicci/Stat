@@ -70,6 +70,7 @@ print "====> CHANNELS: ", ch_year
 for ch in ch_year:
     if wilson != "":
         getCardLS(wilson, ch, ifilename, outdir, mode, unblind)
+        break
     else:
         for s in signals:
             getCard(s, ch, ifilename, outdir, mode, unblind)

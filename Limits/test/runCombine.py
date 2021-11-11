@@ -27,6 +27,9 @@ if opt.years != "all":
     y_clean = opt.years.replace(" ", "")
     years = y_clean.split(",")
 
+print years
+
+
 #categories = [ "BDT1", "BDT2", "CRBDT1", "CRBDT2"]
 methods = ["hist", "template"]
 #if opt.ch != "all": 

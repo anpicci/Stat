@@ -31,7 +31,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                 for year in years:
                     for cat in categories:
                         cmd += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
-                cmd += "> WP_M%sW%s_%s_%s.txt" % (mass, width, chir, method)
+                cmd += "> VBS_SSWW_%s_%s.txt" % (model, method)
                 print cmd
                 os.system(cmd)
                 runCombine("combine -M Significance "+extraoption+ " VBS_SSWW_"+model + "_" + method + ".txt -t -1 --expectSignal=1", "significance_VBS_SSWW_" + model + "_" + method + ".log")

@@ -31,13 +31,17 @@ procs = bkg
 for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
-        tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
 
+        tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+        print tmp_list
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
             isSig = False
             isLS = False
+
+            if fn.startswith("Data"):
+                sampFiles[year+lep].append([fn, fn])
 
             if fn.startswith('VBS_SSWW_'):
                 for sig in sigpoints:
@@ -46,6 +50,7 @@ for year in years:
                         sampFiles[year+lep].append([fn, fn])
 
                     if opt.ls != "":
+                        print sig
                         if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
                             continue
 
@@ -95,12 +100,12 @@ for year in years:
                 sampFiles[year+lep].append([fn, fn])
                 break
 
-'''
+
 print 'sampFiles:'
 for k, v in sampFiles.items():
     for el in v:
         print el
-'''
+
 
 #*******************************************************#
 #                                                       #
@@ -128,7 +133,7 @@ for year in years:
                 samp = f.replace(".root", "").replace(lep, "").replace("_" + year + "_", "")
             else:
                 samp = flist[1]
-            #print samp
+            print samp
             print "\nWe are looking into file: ", f
             ofile = ROOT.TFile(ofilename,"UPDATE")
             for k_, h_ in histos.iteritems():
@@ -144,17 +149,25 @@ for year in years:
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
                 h.SetName(samp)
-                h.Write(samp, ROOT.TObject.kWriteDelete)
                 if(samp.startswith("Data")):
-                    if unblind:
+                    print "\nis data!"
+                    print h
+                    if (k_.startswith("SR") and unblind) or k_.startswith("CR"):
+                        print("passed")
                         h.Write("data_obs", ROOT.TObject.kWriteDelete)
+                    else:
+                        continue
+                else:
+                    h.Write(samp, ROOT.TObject.kWriteDelete)
                 nBinsX = h.GetNbinsX()
                 #print "SAMP ",samp
                 if k_ in samp:
                     samp = samp.replace("_" + k_, "")         
-                elif "cat" in samp: samp = samp.replace("cat_", "")         
+                elif "cat" in samp:
+                    samp = samp.replace("cat_", "")         
                 #print "SAMP after channel removal ",samp
-                if(samp.startswith("data")): samp = "Data"
+                if(samp.startswith("data")):
+                    samp = "Data"
                 #        h_ = h_[:4]
                 if(samp.startswith("SVJ") and not (samp.endswith("Up") or samp.endswith("Down")) and mcstat == True ):
                     for n in xrange(nBinsX):
@@ -218,14 +231,15 @@ for lep in leptons:
 
             ifile.cd()
             for k_, h_ in histos.iteritems():
-                if lep=='emu' and not k_.startswith('CRTT'):
-                    continue
+                #if lep=='emu' and not k_.startswith('CRTT'):
+                    #continue
                 print k_, h_
                 tmphist = ifile.Get( h_)
                 print tmphist.Integral()
                 if histData[k_] is None: 
                     histData[k_] = copy.deepcopy(tmphist)
-                else: histData[k_].Add(tmphist)
+                else:
+                    histData[k_].Add(tmphist)
 
         for k_ in histos.keys():    
             print "Creating Bkg histogram "
@@ -243,7 +257,8 @@ for lep in leptons:
                     bkgpdf.SetBinContent(i, 1.E-3)
             bkgpdf.Scale(1./ bkgpdf.Integral())
             print "Bkg pdf ", bkgpdf.Integral()
-            if not unblind:
+            if not ((k_.startswith("SR") and unblind) or k_.startswith("CR")):
+                print "\nCreating data_obs blinded"
                 histdata = bkgpdf.Clone("data_obs")
                 histdata.Reset()
                 print "data pdf ", histdata.Integral()

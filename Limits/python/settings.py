@@ -5,29 +5,41 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-sr_var = 'BDT_output_SM'
-cr_var = sr_var#'countings'
+#sr_var = 'm_jj'#'BDT_output_SM'#'taggerScore'# 'm_1T' # 
+sr_var = 'BDT_output_SM'#'taggerScore'# 'm_1T' # 
+#cr_var = 'm_jj'#'BDT_output_SM'#'taggerScore'# # sr_var #
+cr_var = 'BDT_output_SM'#'taggerScore'# # sr_var #
 hist_pre = "h_"
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
            #"PR":"h_ltau_m_jj_selection_upto_bveto_lepBDTcut",
            "CRWJ":hist_pre + cr_var + "_wjets_CR",
            "CRTT":hist_pre + cr_var + "_ttbar_CR",
+           "CRWS":hist_pre + cr_var + "_wrongsing_CR",
            "CRQCD":hist_pre + cr_var + "_QCD_CR",
 }
+
+cuttag = "_AND_taggerScore_G_0p1"
+
+if cuttag != "":
+    for k, v in histos.items():
+        histos[k] = v + cuttag
+
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
             "CRWJ_muon",
             "CRTT_muon",
-            #"CRQCD_muon",
+            "CRWS_muon",
+            "CRQCD_muon",
             "SR_electron",
             "CRWJ_electron",
             "CRTT_electron",
-            #"CRTT_emu",
-            #"CRQCD_electron",
+            "CRWS_electron",
+            "CRQCD_electron",
 ]
 
-leptons = ['muon',
+leptons = [#'inclusive',
+           'muon',
            'electron',
            #'emu'
 ]
@@ -47,9 +59,10 @@ channels_labels = {"SR":"Pre-signal region",
 #processes = ["ST", "QCD", "DDWJetsTT_Mtt"]
 bkg = ["Fake",
        "ZZtoLep",
-       "OtherWS",
+       "WrongSign",
        "WZ",
        "TTTo2L2Nu",
+       "Other",
        "TVX",
        "WpWpJJ_QCD",
        "VG",
@@ -169,7 +182,7 @@ class rateParam(object):
 rateParams = {}
 
 FakeMu_rate_2017 = rateParam()
-FakeMu_rate_2017.chs = [#"SR_muon",
+FakeMu_rate_2017.chs = ["SR_muon",
                         "CRWJ_muon",
                         "CRTT_muon",
                         "CRQCD_muon",
@@ -179,7 +192,7 @@ rateParams["FRest_muon_2017"] = FakeMu_rate_2017
 
 
 FakeEle_rate_2017 = rateParam()
-FakeEle_rate_2017.chs = [#"SR_electron",
+FakeEle_rate_2017.chs = ["SR_electron",
                          "CRWJ_electron",
                          "CRTT_electron",
                          "CRQCD_electron",
@@ -187,23 +200,63 @@ FakeEle_rate_2017.chs = [#"SR_electron",
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
 
-'''
-TTDiLep_ele_2017 = rateParam()
-TTDiLep_ele_2017.chs = [#"SR_electron",
-                        #"CRWJ_electron",
-                         "CRTT_electron",
+WSele_rate_2017 = rateParam()
+WSele_rate_2017.chs = ["SR_electron",
+                    "CRWS_electron",
+                    #"SR_muon",
+                    #"CRWS_muon",
 ]
-TTDiLep_ele_2017.bkg = "TTTo2L2Nu"
-rateParams["TTDiLep_electron_2017"] = TTDiLep_ele_2017
+WSele_rate_2017.bkg = "WrongSign"
+rateParams["WSest_electron_2017"] = WSele_rate_2017
 
-TTDiLep_mu_2017 = rateParam()
-TTDiLep_mu_2017.chs = [#"SR_muon",
-                       #"CRWJ_muon",
-                       "CRTT_muon",
+WSmu_rate_2017 = rateParam()
+WSmu_rate_2017.chs = [#"SR_electron",
+                    #"CRWS_electron",
+                    "SR_muon",
+                    "CRWS_muon",
 ]
-TTDiLep_mu_2017.bkg = "TTTo2L2Nu"
-rateParams["TTDiLep_muon_2017"] = TTDiLep_mu_2017
-'''
+WSmu_rate_2017.bkg = "WrongSign"
+rateParams["WSest_muon_2017"] = WSmu_rate_2017
+
+
+
+FakeMu_rate_2018 = rateParam()
+FakeMu_rate_2018.chs = ["SR_muon",
+                        "CRWJ_muon",
+                        "CRTT_muon",
+                        "CRQCD_muon",
+]
+FakeMu_rate_2018.bkg = "Fake"
+rateParams["FRest_muon_2018"] = FakeMu_rate_2018
+
+
+FakeEle_rate_2018 = rateParam()
+FakeEle_rate_2018.chs = ["SR_electron",
+                         "CRWJ_electron",
+                         "CRTT_electron",
+                         "CRQCD_electron",
+]
+FakeEle_rate_2018.bkg = "Fake"
+rateParams["FRest_electron_2018"] = FakeEle_rate_2018
+
+
+WSele_rate_2018 = rateParam()
+WSele_rate_2018.chs = ["SR_electron",
+                    "CRWS_electron",
+                    #"SR_muon",
+                    #"CRWS_muon",
+]
+WSele_rate_2018.bkg = "WrongSign"
+rateParams["WSest_electron_2018"] = WSele_rate_2018
+
+WSmu_rate_2018 = rateParam()
+WSmu_rate_2018.chs = [#"SR_electron",
+                    #"CRWS_electron",
+                    "SR_muon",
+                    "CRWS_muon",
+]
+WSmu_rate_2018.bkg = "WrongSign"
+rateParams["WSest_muon_2018"] = WSmu_rate_2018
 
 #*********************************
 #                                *
@@ -211,11 +264,13 @@ rateParams["TTDiLep_muon_2017"] = TTDiLep_mu_2017
 #                                *
 #*********************************
 syst = collections.OrderedDict()
+
 syst["lumi_2016"] = ["lnN", "all", 1.025]
 syst["lumi_2017"] = ["lnN", "all", 1.023]
 syst["lumi_2018"] = ["lnN", "all", 1.025]
 syst["FR_sys_muon"] = ["lnN", "Fake", 1.15]
 syst["FR_sys_electron"] = ["lnN", "Fake", 1.22]
+
 #syst["lumi_2018"] = ["lnN", "all", 1.023]
 #syst["trigger"] = ["lnN", "all", 1.02]
 #syst["trigSF"] = ["shape", ["sig"]]
@@ -238,33 +293,10 @@ syst["jer"] = ["shape", ("QCD",  "sig")]
 syst["btag"] = ["shape", ("QCD",  "sig")]
 syst["mistag"] = ["shape", ("QCD",  "sig")]
 syst["pdf_total"] = ["shape", ("QCD",  "sig")]
-
-syst["TT_Mtt"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["WJets"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["ST"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["TF_mu_2016"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["DD_mu_2016"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["Alt_mu_2016"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["TF_mu_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["DD_mu_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["Alt_mu_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["TF_mu_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["DD_mu_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["Alt_mu_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
-
-syst["TF_ele_2016"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["DD_ele_2016"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["Alt_ele_2016"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["TF_ele_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["DD_ele_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["Alt_ele_2017"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["TF_ele_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["DD_ele_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
-syst["Alt_ele_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
 '''
-#syst["AltBis_2018"] = ["shape", ("DDFitWJetsTT_MttST")]
 
-years = ["2017"]
+#years = ["2017"]#, "2018"]
+years = ["2018"]
 #years = ["2016","2017","2018"]
 
 '''
@@ -345,12 +377,12 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 sigpoints = [
     VBS_SSWW_SM,
-    ##VBS_SSWW_aQGC,
-    ##VBS_SSWW_SM_LL,
-    ##VBS_SSWW_SM_TL,
-    ##VBS_SSWW_SM_TT,
-    ###VBS_SSWW_BSM_SM,
-    ###VBS_SSWW_BSM,
+    #VBS_SSWW_aQGC,
+    #VBS_SSWW_SM_LL,
+    #VBS_SSWW_SM_TL,
+    #VBS_SSWW_SM_TT,
+    ##VBS_SSWW_BSM_SM,
+    ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
     #VBS_SSWW_cW_SM,#ls
     #VBS_SSWW_cHW_BSM,#ls
@@ -375,25 +407,25 @@ sigpoints = [
     #VBS_SSWW_FM1_5_SM,#ls
     #VBS_SSWW_FM1_5_BSM,#ls
     ###VBS_SSWW_FM1_25,
-    #VBS_SSWW_FM1_5,#ls
-    #VBS_SSWW_FM1_0,
-    ###VBS_SSWW_FM6_25_SM,       
-    ###VBS_SSWW_FM6_5_SM,        
-    ###VBS_SSWW_FM6_25,           
-    ###VBS_SSWW_FM6_5,                                                                                           
-    ###VBS_SSWW_FM7_50_SM,                                                                                       
-    ###VBS_SSWW_FM7_10_SM,
-    ###VBS_SSWW_FM7_50,
-    ###VBS_SSWW_FM7_10,
-    ###VBS_SSWW_FT0_2p5_SM,
-    ###VBS_SSWW_FT0_0p5_SM,
-    ###VBS_SSWW_FT0_2p5,          
-    ###VBS_SSWW_FT0_0p5,                                                                                    
-    ###VBS_SSWW_FT1_1_SM,                                                                                  
-    ###VBS_SSWW_FT1_0p2_SM,                                                                                
-    ###VBS_SSWW_FT1_1,
-    ###VBS_SSWW_FT1_0p2,
-    ###VBS_SSWW_FT2_2p5_SM,
+    #VBS_SSWW_FM1_5,
+    #VBS_SSWW_FM1_0,#ls
+    ##VBS_SSWW_FM6_25_SM,       
+    ##VBS_SSWW_FM6_5_SM,        
+    ##VBS_SSWW_FM6_25,           
+    ##VBS_SSWW_FM6_5,                                                                                           
+    ##VBS_SSWW_FM7_50_SM,                                                                                       
+    ##VBS_SSWW_FM7_10_SM,
+    ##VBS_SSWW_FM7_50,
+    ##VBS_SSWW_FM7_10,
+    ##VBS_SSWW_FT0_2p5_SM,
+    ##VBS_SSWW_FT0_0p5_SM,
+    ##VBS_SSWW_FT0_2p5,          
+    ##VBS_SSWW_FT0_0p5,                                                                                    
+    ##VBS_SSWW_FT1_1_SM,                                                                                  
+    ##VBS_SSWW_FT1_0p2_SM,                                                                                
+    ##VBS_SSWW_FT1_1,
+    ##VBS_SSWW_FT1_0p2,
+    ##VBS_SSWW_FT2_2p5_SM,
     #VBS_SSWW_FT2_0p5_SM,#ls
     #VBS_SSWW_FT2_0p5_BSM,#ls
     ###VBS_SSWW_FT2_2p5,          
