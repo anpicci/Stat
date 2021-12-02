@@ -1,10 +1,11 @@
-set folder='fit_v100_tted'#fit_v90_BDT_output_dim8'#_BDTcut''LS_SR_CRWJTTQCD_m_o1'#
+set folder='fit_v100_mjj'#fit_v90_BDT_output_dim8'#_BDTcut''LS_SR_CRWJTTQCD_m_o1'#
 set oper="cW"#FS0_5" # FM1_5" #FT2_0p5" #  cHW" # 
-set inf='v100_tagger_DataSplit_MCnoSplit'
-set year = '2018'#'2017'#
-set year_ = '2018_'#'2017_'#
-#set EOSSPACE = /eos/home-a/apiccine
-set EOSSPACE = /eos/home-t/ttedesch
+#set inf='v100_tagger_DataSplit_MCnoSplit'
+set inf='v100'#_xg_sample_29_10_21_no14features_depth2_retrainedBDT'
+set year = '2017'#'2018'#
+set year_ = '2017_'#'2018_'#
+set EOSSPACE = /eos/home-a/apiccine
+#set EOSSPACE = /eos/home-t/ttedesch
 reset
 python PrepareEOSfolder.py $inf
 rm histo$year_$folder.root

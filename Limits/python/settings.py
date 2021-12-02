@@ -5,10 +5,10 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-#sr_var = 'm_jj'#'BDT_output_SM'#'taggerScore'# 'm_1T' # 
-sr_var = 'BDT_output_SM'#'taggerScore'# 'm_1T' # 
-#cr_var = 'm_jj'#'BDT_output_SM'#'taggerScore'# # sr_var #
-cr_var = 'BDT_output_SM'#'taggerScore'# # sr_var #
+sr_var = 'm_jj'#'BDT_output_SM'#'taggerScore'# 'm_1T' # 
+#sr_var = 'BDT_output_SM'#'taggerScore'# 'm_1T' # 
+cr_var = 'm_jj'#'BDT_output_SM'#'taggerScore'# # sr_var #
+#cr_var = 'BDT_output_SM'#'taggerScore'# # sr_var #
 hist_pre = "h_"
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
@@ -19,7 +19,7 @@ histos = { "SR":hist_pre + sr_var + "_SR",
            "CRQCD":hist_pre + cr_var + "_QCD_CR",
 }
 
-cuttag = "_AND_taggerScore_G_0p1"
+cuttag = ""#_AND_taggerScore_G_0p9"
 
 if cuttag != "":
     for k, v in histos.items():
@@ -219,7 +219,6 @@ WSmu_rate_2017.bkg = "WrongSign"
 rateParams["WSest_muon_2017"] = WSmu_rate_2017
 
 
-
 FakeMu_rate_2018 = rateParam()
 FakeMu_rate_2018.chs = ["SR_muon",
                         "CRWJ_muon",
@@ -277,7 +276,7 @@ syst["FR_sys_electron"] = ["lnN", "Fake", 1.22]
 #syst["trigSF"] = ["lnN", ["sig",sigTTW, sigZ, "QCD", "SingleTop"]]
 #syst["jes"] = ["shape", ("QCD", "TT_Mtt", "WJets", "sig")]
 
-syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", "TTTo2L2Nu", "WZ", "OtherWS", "ZZtoLep", "sig")]
+syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", "TTTo2L2Nu", "WZ", "Other", "WrongSign", "ZZtoLep", "sig")]
 #syst["PF"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["pu"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
 #syst["jes"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
@@ -295,8 +294,8 @@ syst["mistag"] = ["shape", ("QCD",  "sig")]
 syst["pdf_total"] = ["shape", ("QCD",  "sig")]
 '''
 
-#years = ["2017"]#, "2018"]
-years = ["2018"]
+years = ["2017"]#, "2018"]
+#years = ["2018"]
 #years = ["2016","2017","2018"]
 
 '''
