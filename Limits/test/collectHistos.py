@@ -27,13 +27,15 @@ sampFiles = {}
 procs = bkg
 
 # Getting list of files in histos
+print path
 
 for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
 
         tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
-        print tmp_list
+        #print tmp_list
+
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
@@ -50,7 +52,7 @@ for year in years:
                         sampFiles[year+lep].append([fn, fn])
 
                     if opt.ls != "":
-                        print sig
+                        #print sig
                         if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
                             continue
 
@@ -268,3 +270,4 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         ofile.Write()
     ofile.Close()
+

@@ -8,6 +8,7 @@ lumi = {
     '2016': 35.9,
     "2017": 41.53,
     "2018": 59.7,
+    "2017,2018": 101.23,
 }
 
 n = 0
@@ -17,6 +18,8 @@ _file0 = ROOT.TFile.Open(str(sys.argv[1]), "READ")
 _file1 = ROOT.TFile.Open(str(sys.argv[2]), "READ")
 variable = str(sys.argv[3])
 year = str(sys.argv[4])
+
+nvariable = variable.replace("cS", "fS").replace("cM", "fM").replace("cT", "fT")
 
 limit = _file0.Get("limit")
 
@@ -262,7 +265,14 @@ print " (observed) data at minimum:   ", data_min_x, "\n"
 #   print " significance MC   at 0:   ", sqrt(graphScan    .Eval(0)), "\n"
   
   
-cc.SaveAs("LS_" + str(variable) + ".png")
+cc.SaveAs("LS_" + str(nvariable) + ".png")
+
+outfile = ROOT.TFile.Open("LS_objects_"+nvariable+".root" ,"UPDATE")
+outfile.cd()
+line1.Write()
+line2.Write()
+graphScan.Write()
+outfile.Close()
 
 try:
     wait = input("Press Enter to continue.")

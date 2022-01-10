@@ -166,9 +166,11 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      rates[p] = getRate(ch, p, ifile)
                      bkgrate =  rates[p]
                      if (p =="QCD"): print "qcd: ", bkgrate
+
                      if(bkgrate==0):
                             nproc=nproc -1
                             continue
+
                      procNumbLine += ("%-43s") % (i)
                      procLine += ("%-43s") % (p)
                      rateLine += ("%-43.2f") % (bkgrate)
@@ -336,6 +338,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 #                                                       #
 #*******************************************************#
 def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
+       print "channel:", ch
+       print outdir
 
        nop = coeff.split("_")[0]
        lssamp = ["", "", ""]
@@ -370,7 +374,12 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
        workdir_ = ifilename.split("/")[:-1]
        WORKDIR = "/".join(workdir_) + "/"
-       carddir = outdir+  "/"  + coeff + "/"
+       dircoeff = ""
+       if coeff.startswith("F"):
+              dircoeff = coeff.split("_")[0].replace("F", "f")
+       else:
+              dircoeff = coeff
+       carddir = outdir+  "/"  + dircoeff + "/"
 
        sig = lssamp[0]
        hist_filename = os.getcwd()+"/"+ifilename
@@ -666,7 +675,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             card += "\n"
 
        if not os.path.isdir(outdir): os.system('mkdir ' +outdir)
-       if not os.path.isdir(outdir + "/" + coeff): os.system('mkdir ' +outdir + "/" + coeff)
+       if not os.path.isdir(outdir + "/" + dircoeff): os.system('mkdir ' +outdir + "/" + dircoeff)
 
 
        outname =  "%s%s_%s_%s.txt" % (carddir, coeff, ch, mode)
@@ -677,5 +686,4 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
        #print card
        return card
-
 

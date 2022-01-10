@@ -29,7 +29,6 @@ if opt.years != "all":
 
 print years
 
-
 #categories = [ "BDT1", "BDT2", "CRBDT1", "CRBDT2"]
 methods = ["hist", "template"]
 #if opt.ch != "all": 

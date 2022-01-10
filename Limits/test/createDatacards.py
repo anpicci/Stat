@@ -16,11 +16,19 @@ parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson c
 sys.argv.append('-b')
 
 ifilename = opt.ifile
-outdir = opt.outdir
+outdir = ""
+if opt.outdir.startswith("F"):
+    outdir = opt.outdir.split("_")[0].replace("F", "f")
+else:
+    outdir = opt.outdir
+
 mode = opt.mode
 unblind = opt.unblind
 
 wilson = opt.ls
+
+print outdir
+
 
 if opt.ch != "all": 
     ch_clean = opt.ch.replace(" ", "")
@@ -70,7 +78,8 @@ print "====> CHANNELS: ", ch_year
 for ch in ch_year:
     if wilson != "":
         getCardLS(wilson, ch, ifilename, outdir, mode, unblind)
-        break
     else:
         for s in signals:
             getCard(s, ch, ifilename, outdir, mode, unblind)
+
+
