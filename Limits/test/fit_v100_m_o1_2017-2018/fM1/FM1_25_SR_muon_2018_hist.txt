@@ -1,0 +1,23 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017-2018_fit_v100_m_o1_2017-2018.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017-2018_fit_v100_m_o1_2017-2018.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               SR_muon_2018
+observation       123
+-----------------------------------------------------------------------------------
+bin                                     SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               SR_muon_2018                               
+process                                 sm                                         sm_lin_quad_cM1                            quad_cM1                                   Fake                                       ZZtoLep                                    WrongSign                                  WZ                                         Other                                      TVX                                        DYJetsToLL                                 WpWpJJ_QCD                                 VG                                         
+process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          9                                          10                                         11                                         
+rate                                    4.761621                                   4.761894                                   0.012585                                   92.05                                      15.70                                      11.11                                      1.43                                       0.22                                       0.58                                       2.47                                       0.29                                       0.00                                       
+-----------------------------------------------------------------------------------
+lumi_2018           lnN                 1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               
+FR_sys_muon         lnN                 -                   -                   -                   1.15                -                   -                   -                   -                   -                   -                   -                   -                   -                   
+SR_muon_2018        autoMCStats         10                  0                   
+ 
+FRest_muon_2018     rateParam           SR_muon_2018        Fake                1                   
+
+WSest_muon_2018     rateParam           SR_muon_2018        WrongSign           1                   
+

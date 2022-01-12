@@ -1,0 +1,19 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017-2018_fit_v100_m_o1_2017-2018.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017-2018_fit_v100_m_o1_2017-2018.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               CRDY_electron_2018
+observation       1607
+-----------------------------------------------------------------------------------
+bin                                     CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         CRDY_electron_2018                         
+process                                 sm                                         sm_lin_quad_cT1                            quad_cT1                                   Fake                                       ZZtoLep                                    WrongSign                                  WZ                                         TTTo2L2Nu                                  Other                                      TVX                                        DYJetsToLL                                 VG                                         
+process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          9                                          10                                         11                                         
+rate                                    0.017259                                   0.018801                                   0.002573                                   367.72                                     98.84                                      402.20                                     7.91                                       106.98                                     0.40                                       1.47                                       158.02                                     0.66                                       
+-----------------------------------------------------------------------------------
+lumi_2018           lnN                 1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               1.025               
+FR_sys_electron     lnN                 -                   -                   -                   1.22                -                   -                   -                   -                   -                   -                   -                   -                   -                   
+CRDY_electron_2018  autoMCStats         10                  0                   
+ 
