@@ -5,10 +5,10 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-#sr_var = 'm_jj'
-sr_var = 'BDT_output_SM'
-#cr_var = 'm_jj'
-cr_var = 'BDT_output_SM'
+sr_var = 'm_jj'
+#sr_var = 'BDT_output_SM'
+cr_var = 'm_jj'
+#cr_var = 'BDT_output_SM'
 hist_pre = "h_"
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
@@ -194,8 +194,8 @@ FakeMu_rate_2017.chs = ["SR_muon",
                         #"CRQCD_muon",
                         #"CRWJ_muon",
                         "CRF_muon",
-                        "CRDY_muon",
-                        "CRWS_muon",
+                        #"CRDY_muon",
+                        #"CRWS_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["FRest_muon_2017"] = FakeMu_rate_2017
@@ -207,11 +207,12 @@ FakeEle_rate_2017.chs = ["SR_electron",
                          #"CRQCD_electron",
                          #"CRWJ_electron",
                          "CRF_electron",
-                         "CRDY_electron",
-                         "CRWS_electron",
+                         #"CRDY_electron",
+                         #"CRWS_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
+
 
 WSele_rate_2017 = rateParam()
 WSele_rate_2017.chs = ["SR_electron",
@@ -229,7 +230,7 @@ WSmu_rate_2017.chs = [
     "CRTT_muon",
     "CRDY_muon",
 ]
-WSmu_rate_2017.bkg = "TTTo2L2Nu"
+WSmu_rate_2017.bkg = "WrongSign"
 rateParams["WSest_muon_2017"] = WSmu_rate_2017
 
 '''
@@ -273,8 +274,8 @@ FakeMu_rate_2018.chs = ["SR_muon",
                         #"CRQCD_muon",
                         #"CRWJ_muon",
                         "CRF_muon",
-                        "CRDY_muon",
-                        "CRWS_muon",
+                        #"CRDY_muon",
+                        #"CRWS_muon",
 ]
 FakeMu_rate_2018.bkg = "Fake"
 rateParams["FRest_muon_2018"] = FakeMu_rate_2018
@@ -286,8 +287,8 @@ FakeEle_rate_2018.chs = ["SR_electron",
                          #"CRQCD_electron",
                          #"CRWJ_electron",
                          "CRF_electron",
-                         "CRDY_electron",
-                         "CRWS_electron",
+                         #"CRDY_electron",
+                         #"CRWS_electron",
 ]
 FakeEle_rate_2018.bkg = "Fake"
 rateParams["FRest_electron_2018"] = FakeEle_rate_2018
@@ -385,8 +386,8 @@ syst["mistag"] = ["shape", ("QCD",  "sig")]
 syst["pdf_total"] = ["shape", ("QCD",  "sig")]
 '''
 
-years = ["2017"]
-#years = ["2018"]
+#years = ["2017"]
+years = ["2018"]
 #years = ["2017", "2018"]
 #years = ["2016","2017","2018"]
 
