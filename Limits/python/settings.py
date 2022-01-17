@@ -31,18 +31,18 @@ if cuttag != "":
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
             "CRTT_muon",
-            #"CRWS_muon",
-            ##"CRQCD_muon",
-            ##"CRWJ_muon",
-            #"CRF_muon",
-            #"CRDY_muon",
-            #"SR_electron",
-            #"CRTT_electron",
-            #"CRWS_electron",
-            ##"CRQCD_electron",
-            ##"CRWJ_electron",
-            #"CRF_electron",
-            #"CRDY_electron",
+            "CRWS_muon",
+            #"CRQCD_muon",
+            #"CRWJ_muon",
+            "CRF_muon",
+            "CRDY_muon",
+            "SR_electron",
+            "CRTT_electron",
+            "CRWS_electron",
+            #"CRQCD_electron",
+            #"CRWJ_electron",
+            "CRF_electron",
+            "CRDY_electron",
 ]
 
 leptons = [#'inclusive',
@@ -489,8 +489,7 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 sigpoints = [
     [VBS_SSWW_SM,
- ]
-     #VBS_SSWW_aQGC],
+    #VBS_SSWW_aQGC],
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
     #VBS_SSWW_SM_TT,
@@ -498,7 +497,7 @@ sigpoints = [
     ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
     #VBS_SSWW_cW_SM,#ls
-    #VBS_SSWW_cHW_BSM],#ls
+    VBS_SSWW_cHW_BSM],#ls
     #VBS_SSWW_cW_BSM,#ls
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
