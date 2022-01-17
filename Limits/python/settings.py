@@ -5,10 +5,10 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-sr_var = 'm_jj'
-#sr_var = 'BDT_output_SM'
-cr_var = 'm_jj'
-#cr_var = 'BDT_output_SM'
+#sr_var = 'm_jj'
+sr_var = 'BDT_output_SM'
+#cr_var = 'm_jj'
+cr_var = 'BDT_output_SM'
 hist_pre = "h_"
 
 ### List of histos to include in the root files
@@ -31,18 +31,18 @@ if cuttag != "":
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
             "CRTT_muon",
-            "CRWS_muon",
-            #"CRQCD_muon",
-            #"CRWJ_muon",
-            "CRF_muon",
-            "CRDY_muon",
-            "SR_electron",
-            "CRTT_electron",
-            "CRWS_electron",
-            #"CRQCD_electron",
-            #"CRWJ_electron",
-            "CRF_electron",
-            "CRDY_electron",
+            #"CRWS_muon",
+            ##"CRQCD_muon",
+            ##"CRWJ_muon",
+            #"CRF_muon",
+            #"CRDY_muon",
+            #"SR_electron",
+            #"CRTT_electron",
+            #"CRWS_electron",
+            ##"CRQCD_electron",
+            ##"CRWJ_electron",
+            #"CRF_electron",
+            #"CRDY_electron",
 ]
 
 leptons = [#'inclusive',
@@ -238,6 +238,8 @@ rateParams["WSest_muon_2017"] = WSmu_rate_2017
 TTbarele_rate_2017 = rateParam()
 TTbarele_rate_2017.chs = ["SR_electron",
                           "CRTT_electron",
+                          "CRWS_electron",
+                          "CRDY_electron",
                    ]
 TTbarele_rate_2017.bkg = "TTTo2L2Nu"
 rateParams["TTbarest_electron_2017"] = TTbarele_rate_2017
@@ -246,6 +248,8 @@ TTbarmu_rate_2017 = rateParam()
 TTbarmu_rate_2017.chs = [
     "SR_muon",
     "CRTT_muon",
+    "CRWS_muon",
+    "CRDY_muon",
 ]
 TTbarmu_rate_2017.bkg = "TTTo2L2Nu"
 rateParams["TTbarest_muon_2017"] = TTbarmu_rate_2017
@@ -321,6 +325,8 @@ rateParams["WSest_muon_2018"] = WSmu_rate_2018
 TTbarele_rate_2018 = rateParam()
 TTbarele_rate_2018.chs = ["SR_electron",
                           "CRTT_electron",
+                          "CRWS_electron",
+                          "CRDY_electron",
                    ]
 TTbarele_rate_2018.bkg = "TTTo2L2Nu"
 rateParams["TTbarest_electron_2018"] = TTbarele_rate_2018
@@ -329,6 +335,8 @@ TTbarmu_rate_2018 = rateParam()
 TTbarmu_rate_2018.chs = [
     "SR_muon",
     "CRTT_muon",
+    "CRWS_muon",
+    "CRDY_muon",
 ]
 TTbarmu_rate_2018.bkg = "TTTo2L2Nu"
 rateParams["TTbarest_muon_2018"] = TTbarmu_rate_2018
@@ -481,6 +489,7 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 sigpoints = [
     [VBS_SSWW_SM,
+ ]
      #VBS_SSWW_aQGC],
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
@@ -489,7 +498,7 @@ sigpoints = [
     ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
     #VBS_SSWW_cW_SM,#ls
-    VBS_SSWW_cHW_BSM],#ls
+    #VBS_SSWW_cHW_BSM],#ls
     #VBS_SSWW_cW_BSM,#ls
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,

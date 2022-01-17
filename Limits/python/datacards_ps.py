@@ -200,17 +200,20 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      bkgrate = rates[p]
                      if (p =="QCD"): print "qcd: ", bkgrate
 
-                     if(bkgrate<=0.):
-                            nproc = nproc - 1
-                            continue
+                     #if(bkgrate<=0.):
+                            #nproc = nproc - 1
+                            #continue
 
                      procNumbLine += ("%-43s") % (i)
                      procLine += ("%-43s") % (p)
-                     rateLine += ("%-43.5f") % (bkgrate)
+                     rateLine += ("%-43f") % (bkgrate)
                      i+=1
                      
               binString += (("%-43s") % (ch) ) * (nproc + len(sig))
-       print "binstring:", binString
+
+       print 'rates:'
+       for k, v in rates.items():
+              print k + ":", v
 
        if ((not unblind) and (mode == "template")): 
               print "N.B: We are in blind mode. Using MC bkg data for data_obs"
@@ -248,7 +251,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        sigLine3 = ""
        for idxp, sigp in enumerate(sig):
               sigLine1 += "%-43s" % (sigp)
-              sigLine2 += "%-43s" % (str(-2+idxp+1))
+              sigLine2 += "%-43s" % (str(-len(sig)+idxp+1))
               sigLine3 += "%-43.6f" % (rates[sigp])
 
        card += "process                                 %-43s%-43s\n" % (sigLine1, procLine) #"roomultipdf"
@@ -564,7 +567,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             continue
                      procNumbLine += ("%-43s") % (i + len(lssamp))
                      procLine += ("%-43s") % (p)
-                     rateLine += ("%-43.5f") % (bkgrate)
+                     rateLine += ("%-43f") % (bkgrate)
                      i+=1
               binString += (("%-43s") % (ch) ) * (nproc + len(lssamp))
               print 'rates:'
