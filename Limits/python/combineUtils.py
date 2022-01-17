@@ -15,47 +15,58 @@ def runCombine(cmdStr, logFile):
     return
 
 def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
+    modelname = ""
+    for ids, sigp in enumerate(model):
+        modelname += "VBS_SSWW_" + sigp
+        if ids < len(model) - 1:
+            modelname += "_"
 
     print "evaluate limit for model ", model
-    path = ("%s/VBS_SSWW_%s" % (path_, model) )
+    path = "" + path_ + "/" + modelname
+    #for ids, sigp in enumerate(model):
+        #path += "VBS_SSWW_" + sigp
+        #if ids < len(model) - 1:
+            #path += "_"
+    #path = ("%s/VBS_SSWW_%s" % (path_, model) )
     print "==>path: ", path
     print os.path.exists(path)
     if(os.path.exists(path)):
         print "ok i'm in the directory"
         os.chdir(path)
         print "We are in the right folder ",  len(categories)
+        
         extraoption=""
         if len(categories)>=1:
             if len(years)>1:
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
-                        cmd += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
-                cmd += "> VBS_SSWW_%s_%s.txt" % (model, method)
+                        cmd += cat+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
+                cmd += "> %s_%s.txt" % (modelname, method)
                 print cmd
                 os.system(cmd)
-                runCombine("combine -M Significance "+extraoption+ " VBS_SSWW_"+model + "_" + method + ".txt -t -1 --expectSignal=1", "significance_VBS_SSWW_" + model + "_" + method + ".log")
+                runCombine("combine -M Significance "+extraoption+ " "+modelname + "_" + method + ".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M FitDiagnostics VBS_SSWW_"+model + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + "_" + method + ".log")
 
             else:
                 for year in years:
                     cmd = "combineCards.py "
                     for cat in categories:
-                        cmd += cat+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
-                    cmd += "> VBS_SSWW_%s_%s.txt" % (model, method)
+                        cmd += cat+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
+                    cmd += "> %s_%s.txt" % (modelname, method)
                     print cmd
                     os.system(cmd)
-                    runCombine("combine -M Significance "+extraoption+ " VBS_SSWW_"+ model + "_" + method + ".txt -t -1 --expectSignal=1", "significance_VBS_SSWW_" + model + "_" + method + ".log")
+                    runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M FitDiagnostics VBS_SSWW_"+ model + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + ".log")  
 
                     if(runSingleCat): 
                         for cat in categories:
                             print "category: " + (cat)
                             cat = cat+"_"+year+"_"+method
-                            print "VBS_SSWW_"+ model + "_" + cat +".txt"
-                            print "combine -M Significance "+extraoption + " VBS_SSWW_"+model + "_" + cat +".txt", "significance_VBS_SSWW_" + model + "_" + cat + ".log"
+                            print ""+ modelname + "_" + cat +".txt"
+                            print "combine -M Significance "+extraoption + " "+modelname + "_" + cat +".txt", "significance_" + modelname + "_" + cat + ".log"
                             #print "combine -M FitDiagnostics VBS_SSWW_"+model + "_" + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties"
-                            runCombine("combine -M Significance "+extraoption+" VBS_SSWW_"+model + "_"  + cat +".txt -t -1 --expectSignal=1", "significance_VBS_SSWW_" + model + "_" + cat + ".log")  
+                            runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + cat + ".log")  
                             #runCombine("combine -M FitDiagnostics VBS_SSWW_"+model + "_"  + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + "_" + cat + ".log")  
 
         else:
@@ -64,7 +75,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                     print "category: " + (cat)
                     cat = cat+"_"+year+"_"+method
                     if(runSingleCat):
-                        runCombine("combine -M Significance "+extraoption+ " VBS_SSWW_"+model + cat +".txt -t -1 --expectSignal=1", "significance_VBS_SSWW_" + model + "_" + cat + ".log")  
+                        runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + cat + ".log")  
                         #runCombine("combine -M FitDiagnostics VBS_SSWW_"+model + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + "_" + cat + ".log")  
         os.chdir("..")
 

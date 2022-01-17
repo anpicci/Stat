@@ -46,32 +46,33 @@ for year in years:
                 sampFiles[year+lep].append([fn, fn])
 
             if fn.startswith('VBS_SSWW_'):
-                for sig in sigpoints:
-                    if fn.startswith('VBS_SSWW_' + sig + "_" + year):
-                        isSig = True
-                        sampFiles[year+lep].append([fn, fn])
+                for sigp in sigpoints:
+                    for sig in sigp:
+                        if fn.startswith('VBS_SSWW_' + sig + "_" + year):
+                            isSig = True
+                            sampFiles[year+lep].append([fn, fn])
 
-                    if opt.ls != "":
-                        #print sig
-                        if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
-                            continue
+                        if opt.ls != "":
+                            #print sig
+                            if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
+                                continue
 
-                        sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
-                        sig_op = sig_splitted[0]
-
-                        if len(sig_splitted) > 1:
-                            sig_op += "_" + sig_splitted[1]
+                            sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
+                            sig_op = sig_splitted[0]
+                            
+                            if len(sig_splitted) > 1:
+                                sig_op += "_" + sig_splitted[1]
                         
-                        ls_dict = lssamples_1D[sig_op]
+                            ls_dict = lssamples_1D[sig_op]
 
-                        for nout, nin in ls_dict.items():
-                            if fn.startswith(nin+"_"):
-                                sampFiles[year+lep].append([fn, nout])
-                                isLS = True
-                                break
+                            for nout, nin in ls_dict.items():
+                                if fn.startswith(nin+"_"):
+                                    sampFiles[year+lep].append([fn, nout])
+                                    isLS = True
+                                    break
 
-                    if isSig or isLS:
-                        break
+                        if isSig or isLS:
+                            break
             
                 if (isSig or isLS) and not (fn.startswith("VBS_SSWW_SM_" + year)):
                     continue
@@ -82,19 +83,20 @@ for year in years:
 
                 isSM = False
 
-                for sig in sigpoints:
-                    if '_SM' in sig or sig == 'SM':
-                        if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                            if sig in p or 'SSWW_SM' in p:
+                for sigp in sigpoints:
+                    for sig in sigp:
+                        if '_SM' in sig or sig == 'SM':
+                            if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                                if sig in p or 'SSWW_SM' in p:
+                                    isSM = True
+                                    break
+                            elif '_SM' in p:
                                 isSM = True
                                 break
-                        elif '_SM' in p:
-                            isSM = True
-                            break
-                    else:
-                        if 'TT_' in p or 'TL_' in p or 'LL_' in p:
-                            isSM = True
-                            break
+                        else:
+                            if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                                isSM = True
+                                break
                 
                 if isSM:
                     continue
@@ -206,19 +208,20 @@ for lep in leptons:
             print p
             isSM = False
 
-            for sig in sigpoints:
-                if '_SM' in sig or sig == 'SM':
-                    if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                        if sig in p or 'SSWW_SM' in p:
+            for sigp in sigpoints:
+                for sig in sigp:
+                    if '_SM' in sig or sig == 'SM':
+                        if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                            if sig in p or 'SSWW_SM' in p:
+                                isSM = True
+                                break
+                        elif '_SM' in p:
                             isSM = True
                             break
-                    elif '_SM' in p:
-                        isSM = True
-                        break
-                else:
-                    if 'TT_' in p or 'TL_' in p or 'LL_' in p:
-                        isSM = True
-                        break
+                    else:
+                        if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                            isSM = True
+                            break
 
             if isSM:
                 continue

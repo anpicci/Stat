@@ -10,6 +10,7 @@ sr_var = 'm_jj'
 cr_var = 'm_jj'
 #cr_var = 'BDT_output_SM'
 hist_pre = "h_"
+
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
            #"PR":"h_ltau_m_jj_selection_upto_bveto_lepBDTcut",
@@ -479,8 +480,8 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 
 sigpoints = [
-    VBS_SSWW_SM,
-    #VBS_SSWW_aQGC,
+    [VBS_SSWW_SM,
+     #VBS_SSWW_aQGC],
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
     #VBS_SSWW_SM_TT,
@@ -488,7 +489,7 @@ sigpoints = [
     ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
     #VBS_SSWW_cW_SM,#ls
-    #VBS_SSWW_cHW_BSM,#ls
+    VBS_SSWW_cHW_BSM],#ls
     #VBS_SSWW_cW_BSM,#ls
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,

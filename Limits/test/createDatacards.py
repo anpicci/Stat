@@ -2,7 +2,7 @@ import ROOT
 import os, sys
 import optparse
 from Stat.Limits.settings import *
-from Stat.Limits.datacards import *
+from Stat.Limits.datacards_ps import *
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
@@ -39,17 +39,18 @@ signals = []
 print "Signal points: ", sigpoints
 
 if wilson == "":
-    for p in sigpoints:
-        model = p
-        
-        print model
+    model = ""
+    for sigp in sigpoints:
+        for idp, p in enumerate(sigp):
+            model += p
+            if idp < len(sigp) - 1:
+                model += "_"
+            signal  = "VBS_SSWW_" + p #, width, chir)         
+            signals.append(signal)
+
         #width = p[1]
         #chir = p[2]
         print "Creating datacards for VBS_" + model#, width, chir)
-        signal  = "VBS_SSWW_" + model #, width, chir) 
-        print "Signal: ", signal
-        signals.append(signal)
-        
         print "Signals: ", signals
 
 
@@ -79,7 +80,8 @@ for ch in ch_year:
     if wilson != "":
         getCardLS(wilson, ch, ifilename, outdir, mode, unblind)
     else:
-        for s in signals:
-            getCard(s, ch, ifilename, outdir, mode, unblind)
+        getCard(signals, ch, ifilename, outdir, mode, unblind)
+        #for s in signals:
+            #getCard(s, ch, ifilename, outdir, mode, unblind)
 
 
