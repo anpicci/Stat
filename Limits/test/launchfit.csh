@@ -23,6 +23,6 @@ rm histo$year_$folder.root
 python collectHistos.py -i $EOSSPACE/VBS/nosynch/$inf/plot/ -o histo$year_$folder.root #--ls $oper
 python createDatacards.py -i histo$year_$folder.root -d $folder #--ls $oper
 ##python runCombine.py -c SR_$year -y $year -d $folder --runSingleCat -m hist
-python runCombine.py -y $year -d $folder -m hist #--ls $oper #--runSingleCat -m hist
+#python runCombine.py -y $year -d $folder -m hist #--ls $oper #--runSingleCat -m hist
 ##python getLimitData.py -y 2016 -d $folder/
 ##python brazilPlot.py -y 2016 -l $folder

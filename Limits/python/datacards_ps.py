@@ -246,7 +246,16 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        print "===> Observed data: ", rates["data_obs"]
        card += "observation       %0.d\n" % (rates["data_obs"])
        card += "-----------------------------------------------------------------------------------\n"
-       card += "bin                                     %-25s\n" % (binString)
+       card += "%-50s%-25s\n" % ("bin", binString)
+       #card += "process                                 "
+       #procnameString = "%-25s%-25s" % ("process", "")
+       #procnameString = "process                                 "
+       #procidxString = "%-25s%-25s" % ("process", "")
+       #procidxString = "process                                 "
+       #rateString = "%-25s%-25s" % ("rate", "")
+       #rateString = "rate                                    "
+
+       #card += "bin                                     %-25s\n" % (binString)
        sigLine1 = ""
        sigLine2 = ""
        sigLine3 = ""
@@ -255,9 +264,12 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               sigLine2 += "%-25s" % (str(-len(sig)+idxp+1))
               sigLine3 += "%-25.6f" % (rates[sigp])
 
-       card += "process                                 %-25s%-25s\n" % (sigLine1, procLine) #"roomultipdf"
-       card += "process                                 %-25s%-25s\n" % (sigLine2, procNumbLine)
-       card += "rate                                    %-25s%-25s\n" % (sigLine3, rateLine) #signalYield[m].getVal(), nevents
+       #card += "process                                 %-25s%-25s\n" % (sigLine1, procLine) #"roomultipdf"
+       card += "%-50s%-25s%-25s\n" % ("process", sigLine1, procLine) #"roomultipdf"
+       #card += "process                                 %-25s%-25s\n" % (sigLine2, procNumbLine)
+       card += "%-50s%-25s%-25s\n" % ("process", sigLine2, procNumbLine)
+       #card += "rate                                    %-25s%-25s\n" % (sigLine3, rateLine) #signalYield[m].getVal(), nevents
+       card += "%-50s%-25s%-25s\n" % ("rate", sigLine3, rateLine) #signalYield[m].getVal(), nevents
        card += "-----------------------------------------------------------------------------------\n"
 
        for sysName, sysValue in syst.iteritems():
@@ -274,20 +286,20 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      continue
 
               if(sysValue[0]=="lnN"): 
-                     card += "%-30s%-30s" % (sysName, sysValue[0])
+                     card += "%-25s%-25s" % (sysName, sysValue[0])
                      if(sysValue[1]=="all" and len(sysValue)>2):
                             if(mode == "template"):
-                                   card += "%-30s" % (sysValue[2]) * (2)
+                                   card += "%-25s" % (sysValue[2]) * (2)
                             else:  
-                                   card += "%-30s" % (sysValue[2]) * (len(processes) + len(sig))
+                                   card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
                      elif(sysValue[1]=="QCD" and len(sysValue)>2):
                             if(mode == "template"):
-                                   card += "%-30s" % (sysValue[2]) * (2)
+                                   card += "%-25s" % (sysValue[2]) * (2)
                             else: 
-                                   card += "%-30s" % (sysValue[2]) * (len(processes) + len(sig))
+                                   card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
                      elif(sysValue[1]=="Fake"):
                             if not mode == "template":
-                                   card += "%-30s" % ("-") * (len(sig)) + "%-30s" % (sysValue[2]) + "%-30s" % ("-") * (len(processes) - 1) 
+                                   card += "%-25s" % ("-") * (len(sig)) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - 1) 
                      else:
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
@@ -305,22 +317,22 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                                  sigSys = 1
                                           if(sigSys<1.and sigSys >0.):
                                                  sigSys = sigSys + 1
-                                          card += "%-30s" % (sigSys)
+                                          card += "%-25s" % (sigSys)
                             else: 
-                                   card += "%-30s" % ("-")
+                                   card += "%-25s" % ("-")
 
                             for p in processes:
                                    if (p in sysValue[1]):
                                           if (getRate(ch, p, ifile) != 0.): bkgSys = abs((getRate(ch, p+hsysNameUp, ifile) - getRate(ch, p+hsysNameDown, ifile))/ (2* getRate(ch, p, ifile)) )
                                           else: bkgSys = 1
                                           if(bkgSys<1.and bkgSys >0.): bkgSys = bkgSys + 1
-                                          card += "%-30s" % (bkgSys)
-                                   else:  card += "%-30s" % ("-")
+                                          card += "%-25s" % (bkgSys)
+                                   else:  card += "%-25s" % ("-")
               elif(sysValue[0]=="shape"):
                      print "sys shape named ", sysName
                      if("mcstat" not in sysName and 'autoMCstat' not in sysName):
-                            card += "%-30s%-30s" % (sysName, sysValue[0])
-                            #card += "%-30s     shape     " % (sysName)
+                            card += "%-25s%-25s" % (sysName, sysValue[0])
+                            #card += "%-25s     shape     " % (sysName)
                             isbogussys = False 
                             if(getRate(ch, sigp+"_"+sysName+"Up", ifile)==0 or getRate(ch, sigp+"_"+sysName+"Down", ifile)==0):
                                    isbogussys = True
@@ -330,14 +342,14 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           #print " signal ",sig," channel, ",ch, " file ",ifile, " rate ",(getRate(ch, sig, ifile))
                                           #print " signal ",sig," channel, ",ch, " file ",ifile, " rate up ",(getRate(ch, sig+"_"+sysName+"Up", ifile))
                                           #print " signal ",sig," channel, ",ch, " file ",ifile, " rate down",(getRate(ch, sig+"_"+sysName+"Down", ifile))
-                                                 card += "%-30s" % ( "1") 
+                                                 card += "%-25s" % ( "1") 
                                           else:
-                                                 card += "%-30s" % ( "-") 
+                                                 card += "%-25s" % ( "-") 
                             for p in processes:
                                    if (p in sysValue[1]): 
-                                          card += "%-30s" % ( "1") 
+                                          card += "%-25s" % ( "1") 
                                    else: 
-                                          card += "%-30s" % ( "-") 
+                                          card += "%-25s" % ( "-") 
                      elif("mcstat" in sysName):
                             # CAMBIARE NOME DELLA SYST                     #here
                             for samp in sysValue[1]:
@@ -346,14 +358,14 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                    line = ""
                                    if (samp == "sig" or samp == "Sig"): 
                                           for sigp in sig:
-                                                 line = "%-30s" % ( "1") 
+                                                 line = "%-25s" % ( "1") 
                                                  sampName.append(sigp)
                                           
-                                          line += "%-30s" % ("-") * (len(processes)) 
+                                          line += "%-25s" % ("-") * (len(processes)) 
                                                  
                                    elif(mode != "template"):
-                                          line = "%-30s" % ( "-") 
-                                          lineProc = ["%-30s" % ( "-") for x in xrange (len(processes))]
+                                          line = "%-25s" % ( "-") 
+                                          lineProc = ["%-25s" % ( "-") for x in xrange (len(processes))]
                                           if samp in processes: 
                                                  index = processes.index(samp)  
                                                  lineProc[index] = "1"
@@ -371,11 +383,11 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                                  sampNameLine += "_"
                                    for i in xrange(hist.GetNbinsX()):
                                           sysName = "mcstat_%s_%s_bin%d      "  % (ch, sampNameLine, i+1)
-                                          card += "%-30s   shape   " % (sysName)
+                                          card += "%-25s   shape   " % (sysName)
                                           card += line
                                           card += "\n"        
               if('autoMCstat' in sysName):
-                     card += "%-30s%-30s%-30d%-30d " % (ch, "autoMCStats", 10, 0)
+                     card += "%-25s%-25s%-25d%-25d " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
        card += "\n"
@@ -394,14 +406,14 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      if (ch_==("_").join(ch.split("_")[:-1])): 
                             if(("2016" in k) or ("2017" in k) or ("2018" in k)):
                                    if ('mu' in k and 'mu' in ch):
-                                          card += "%-30s%-30s%-30s%-30s%-30d" % (k, "rateParam", ch, v.bkg, 1)
+                                          card += "%-25s%-25s%-25s%-25s%-25d" % (k, "rateParam", ch, v.bkg, 1)
                                    elif ('ele' in k and 'ele' in ch):
-                                          card += "%-30s%-30s%-30s%-30s%-30d" % (k, "rateParam", ch, v.bkg, 1)
+                                          card += "%-25s%-25s%-25s%-25s%-25d" % (k, "rateParam", ch, v.bkg, 1)
                                    else:
                                           sameyear= ( ("2016" in k and "2016" in ch) or ("2017" in k and "2017" in ch) or ("2018" in k and "2018" in ch))
-                                          if(sameyear): card += "%-30s%-30s%-30s%-30s%-30d" % (k, "rateParam", ch, v.bkg, 1)                                   
+                                          if(sameyear): card += "%-25s%-25s%-25s%-25s%-25d" % (k, "rateParam", ch, v.bkg, 1)                                   
                             else:
-                                   card += "%-30s%-30s%-30s%-30s%-30d" % (k, "rateParam", ch, v.bkg, 1)
+                                   card += "%-25s%-25s%-25s%-25s%-25d" % (k, "rateParam", ch, v.bkg, 1)
                             card += "\n"
 
        #if not os.path.isdir(outdir):
@@ -613,11 +625,14 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        print "===> Observed data: ", rates["data_obs"]
        card += "observation       %0.d\n" % (rates["data_obs"])
        card += "-----------------------------------------------------------------------------------\n"
-       card += "bin                                     %-25s\n" % (binString)
+       card += "%-25s%-25s%-25s\n" % ("bin", "", binString)
        #card += "process                                 "
-       procnameString = "process                                 "
-       procidxString = "process                                 "
-       rateString = "rate                                    "
+       procnameString = "%-25s%-25s" % ("process", "")
+       #procnameString = "process                                 "
+       procidxString = "%-25s%-25s" % ("process", "")
+       #procidxString = "process                                 "
+       rateString = "%-25s%-25s" % ("rate", "")
+       #rateString = "rate                                    "
        
        for sidx, sgs in enumerate(lssamp):
               procnameString += "%-25s" % (sgs.replace("_F", "_c"))
@@ -657,22 +672,22 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      continue
 
               if(sysValue[0]=="lnN"): 
-                     card += "%-30s%-30s" % (sysName, sysValue[0])
+                     card += "%-25s%-25s" % (sysName, sysValue[0])
                      if len(sysValue)>2:
                             if(sysValue[1]=="all"):
                                    if(mode == "template"):
-                                          card += "%-30s" % (sysValue[2]) * (2)
-                                   else:  card += "%-30s" % (sysValue[2]) * (len(lssamp) + len(processes))# + 1)
+                                          card += "%-25s" % (sysValue[2]) * (2)
+                                   else:  card += "%-25s" % (sysValue[2]) * (len(lssamp) + len(processes))# + 1)
                             elif(sysValue[1]=="QCD" and len(sysValue)>2):
                                    if(mode == "template"):
-                                          card += "%-30s" % (sysValue[2]) * (2)
+                                          card += "%-25s" % (sysValue[2]) * (2)
                                    else: 
-                                          card += "%-30s" % (sysValue[2]) * (len(lssamp) + len(processes))#+ 1)
+                                          card += "%-25s" % (sysValue[2]) * (len(lssamp) + len(processes))#+ 1)
                             else:#(sysValue[1]=="Fake"):
                                    idx_p = processes.index(sysValue[1])
                                    idx_p_tot = idx_p + len(lssamp)
                                    if not mode == "template":
-                                          card += "%-30s" % ("-") * (idx_p_tot) + "%-30s" % (sysValue[2]) + "%-30s" % ("-") * (len(processes) - (idx_p + 1)) 
+                                          card += "%-25s" % ("-") * (idx_p_tot) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - (idx_p + 1)) 
                      else:
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
@@ -685,45 +700,45 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                    if(getRate(ch, sig, ifile) != 0.): sigSys = abs((getRate(ch, sig+hsysNameUp, ifile) - getRate(ch, sig+hsysNameDown, ifile))/ (2* getRate(ch, sig, ifile)))
                                    else: sigSys = 1  
                                    if(sigSys<1.and sigSys >0.): sigSys = sigSys + 1
-                                   card += "%-30s" % (sigSys)
-                            else:  card += "%-30s" % ("-")
+                                   card += "%-25s" % (sigSys)
+                            else:  card += "%-25s" % ("-")
                             for p in processes:
                                    if (p in sysValue[1]):
                                           if (getRate(ch, p, ifile) != 0.): bkgSys = abs((getRate(ch, p+hsysNameUp, ifile) - getRate(ch, p+hsysNameDown, ifile))/ (2* getRate(ch, p, ifile)) )
                                           else: bkgSys = 1
                                           if(bkgSys<1.and bkgSys >0.): bkgSys = bkgSys + 1
-                                          card += "%-30s" % (bkgSys)
-                                   else:  card += "%-30s" % ("-")
+                                          card += "%-25s" % (bkgSys)
+                                   else:  card += "%-25s" % ("-")
               elif(sysValue[0]=="shape"):
                      print "sys shape named ", sysName
                      if("mcstat" not in sysName and 'autoMCstat' not in sysName):
-                            card += "%-30s     shape     " % (sysName)
+                            card += "%-25s     shape     " % (sysName)
                             isbogussys=False 
                             #if(getRate(ch, sig+"_"+sysName+"Up", ifile)==0 or getRate(ch, sig+"_"+sysName+"Down", ifile)==0):isbogussys=True
                             if ("sig" in sysValue[1]) and ((getRate(ch, sig, ifile) != 0.) and not isbogussys): 
                                    #print " signal ",sig," channel, ",ch, " file ",ifile, " rate ",(getRate(ch, sig, ifile))
                                    #print " signal ",sig," channel, ",ch, " file ",ifile, " rate up ",(getRate(ch, sig+"_"+sysName+"Up", ifile))
                                    #print " signal ",sig," channel, ",ch, " file ",ifile, " rate down",(getRate(ch, sig+"_"+sysName+"Down", ifile))
-                                   card += "%-30s" % ( "1") 
-                            else: card += "%-30s" % ( "-") 
+                                   card += "%-25s" % ( "1") 
+                            else: card += "%-25s" % ( "-") 
                             for p in processes:
                                    if (p in sysValue[1]): 
-                                          if "q2SingleTop" in sysName: card += "%-30s" % ( "1") 
-                                          else: card += "%-30s" % ( "1") 
+                                          if "q2SingleTop" in sysName: card += "%-25s" % ( "1") 
+                                          else: card += "%-25s" % ( "1") 
                                           #print "adding to channel ", p
-                                   else: card += "%-30s" % ( "-") 
+                                   else: card += "%-25s" % ( "-") 
                      elif("mcstat" in sysName):
                             # CAMBIARE NOME DELLA SYST                     
                             for samp in sysValue[1]:
                                    sampName = ""
                                    line = ""
                                    if (samp == "sig" or samp == "Sig"): 
-                                          line = "%-30s" % ( "1") 
-                                          line += "%-30s" % ("-") * (len(processes)) 
+                                          line = "%-25s" % ( "1") 
+                                          line += "%-25s" % ("-") * (len(processes)) 
                                           sampName = sig
                                    elif(mode != "template"):
-                                          line = "%-30s" % ( "-") 
-                                          lineProc = ["%-30s" % ( "-") for x in xrange (len(processes))]
+                                          line = "%-25s" % ( "-") 
+                                          lineProc = ["%-25s" % ( "-") for x in xrange (len(processes))]
                                           if samp in processes: 
                                                  index = processes.index(samp)  
                                                  lineProc[index] = "1"
@@ -734,11 +749,11 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                    else: continue
                                    for i in xrange(hist.GetNbinsX()):
                                           sysName = "mcstat_%s_%s_bin%d      "  % (ch, sampName, i+1)
-                                          card += "%-30s   shape   " % (sysName)
+                                          card += "%-25s   shape   " % (sysName)
                                           card += line
                                           card += "\n"        
               if('autoMCstat' in sysName):
-                     card += "%-30s%-30s%-30d%-30d\n " % (ch, "autoMCStats", 10, 0)
+                     card += "%-25s%-25s%-25d%-25d\n " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
        for k, v in rateParams.items():
@@ -756,14 +771,14 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      if (ch_==("_").join(ch.split("_")[:-1])): 
                             if(("2016" in k) or ("2017" in k) or ("2018" in k)):
                                    if ('mu' in k and 'mu' in ch):
-                                          card += "%-30s%-30s%-30s%-30s%-30d\n" % (k, "rateParam", ch, v.bkg, 1)
+                                          card += "%-25s%-25s%-25s%-25s%-25d\n" % (k, "rateParam", ch, v.bkg, 1)
                                    elif ('ele' in k and 'ele' in ch):
-                                          card += "%-30s%-30s%-30s%-30s%-30d\n" % (k, "rateParam", ch, v.bkg, 1)
+                                          card += "%-25s%-25s%-25s%-25s%-25d\n" % (k, "rateParam", ch, v.bkg, 1)
                                    else:
                                           sameyear= ( ("2016" in k and "2016" in ch) or ("2017" in k and "2017" in ch) or ("2018" in k and "2018" in ch))
-                                          if(sameyear): card += "%-30s%-30s%-30s%-30s%-30d\n" % (k, "rateParam", ch, v.bkg, 1)                                   
+                                          if(sameyear): card += "%-25s%-25s%-25s%-25s%-25d\n" % (k, "rateParam", ch, v.bkg, 1)                                   
                             else:
-                                   card += "%-30s%-30s%-30s%-30s%-30d\n" % (k, "rateParam", ch, v.bkg, 1)
+                                   card += "%-25s%-25s%-25s%-25s%-25d\n" % (k, "rateParam", ch, v.bkg, 1)
                             card += "\n"
 
        if not os.path.isdir(outdir): os.system('mkdir ' +outdir)
