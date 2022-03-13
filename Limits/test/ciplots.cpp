@@ -1,4 +1,3 @@
-//#include "TDRStyle.h "
 #include <TROOT.h>
 #include <TStyle.h>
 #include <TAxis.h>
@@ -145,8 +144,9 @@ int main(int argc, char*argv[]){
  
   //const int NBINS=37;
   const int NBINS=11;
+  //const int NBINS=13;
   //double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8,5.2,5.8,6.2,6.8,7.2,7.8,8.2,8.8,9.2,9.8,10.2,10.8,11.2,11.8,12.2,12.8,13.2,13.8,14.2,14.8,15.2,15.8,16.2,16.8,17.2,17.8,18.2,19};
-  double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8,5.2,5.8};
+  double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8,5.2,5.8};//,6.2,6.8};
   TH1F *Yup=new TH1F("yellow_up","",NBINS,edges);
   TH1F *Gup=new TH1F("green_up","",NBINS,edges);
   TH1F *Ydown=new TH1F("yellow_down","",NBINS,edges);
@@ -172,31 +172,60 @@ Gdown->SetFillColor(kGreen);
             
 double y1=3.84, y2=1.0;                
                    
-//-----BDT_dim6-----                   
+//-----BDT_output_dim8-----                   
+
+char path0[100];                    // location of combine output 
+//sprintf(path1,"likelihoodScan/%s/mjj/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path0,"./fit_v100_BDT_output_dim8_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path0,"./fit_v100_BDT_output_dim8_opt_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path0,"./fit_v100_BDT_output_dim8_opt_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+sprintf(path0,"./fit_v100_BDT_output_dim8_opt_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+                       
+TFile *f_BDT_output_dim8 = TFile::Open(path0);
+gr= (TGraph*) f_BDT_output_dim8->Get("Graph;1");
+TF1 *f0 = new TF1("f0",myfunc,-1000,1000,0);
+
+double s1down_BDT_output_dim8=f0->GetX(y2,-1000,0);
+double s1up_BDT_output_dim8=f0->GetX(y2,0,1000);
+double s2down_BDT_output_dim8=f0->GetX(y1,-1000,0);
+double s2up_BDT_output_dim8=f0->GetX(y1,0,1000);
+
+double min_BDT_output_dim8=f0->GetMinimumX(-10,10);
+
+f_BDT_output_dim8->Close();                 
+gr->Clear();
+               
+
+//-----BDT_output_dim8-----                   
 
 char path1[100];                    // location of combine output 
 //sprintf(path1,"likelihoodScan/%s/mjj/LS_objects_k_%s.root",argv[1],argv[1]);
-sprintf(path1,"./fit_v100_BDT_dim6_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path1,"./fit_v100_DNN_output_dim8_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path1,"./fit_v100_DNN_output_dim8_opt_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path1,"./fit_v100_DNN_output_dim8_opt_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+sprintf(path1,"./fit_v100_DNN_output_dim8_opt_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
                        
-TFile *f_BDT_dim6 = TFile::Open(path1);
-gr= (TGraph*) f_BDT_dim6->Get("Graph;1");
+TFile *f_DNN_output_dim8 = TFile::Open(path1);
+gr= (TGraph*) f_DNN_output_dim8->Get("Graph;1");
 TF1 *f1 = new TF1("f1",myfunc,-1000,1000,0);
 
-double s1down_BDT_dim6=f1->GetX(y2,-1000,0);
-double s1up_BDT_dim6=f1->GetX(y2,0,1000);
-double s2down_BDT_dim6=f1->GetX(y1,-1000,0);
-double s2up_BDT_dim6=f1->GetX(y1,0,1000);
+double s1down_DNN_output_dim8=f1->GetX(y2,-1000,0);
+double s1up_DNN_output_dim8=f1->GetX(y2,0,1000);
+double s2down_DNN_output_dim8=f1->GetX(y1,-1000,0);
+double s2up_DNN_output_dim8=f1->GetX(y1,0,1000);
 
-double min_BDT_dim6=f1->GetMinimumX(-10,10);
+double min_DNN_output_dim8=f1->GetMinimumX(-10,10);
 
-f_BDT_dim6->Close();                 
+f_DNN_output_dim8->Close();                 
 gr->Clear();
-               
+
 
 //-----m_jj-----                   
                        
 char path2[100];
+//sprintf(path2,"./fit_v100_m_jj_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
 sprintf(path2,"./fit_v100_m_jj_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path2,"./fit_v100_m_jj_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
                        
 TFile *f_m_jj = TFile::Open(path2);
 gr= (TGraph*) f_m_jj->Get("Graph;1");
@@ -212,11 +241,13 @@ double min_m_jj=f2->GetMinimumX(-10,10);
 f_m_jj->Close();
 gr->Clear();          
 
-
+/*
 //-----m_jjtaulep-----    
 
 char path3[100];
-sprintf(path3,"./fit_v100_m_jjtaulep_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);               
+//sprintf(path3,"./fit_v100_m_jjtaulep_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);               
+sprintf(path3,"./fit_v100_mjjtaulep_dim8_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);               
+//sprintf(path3,"./fit_v100_mjjtaulep_dim8_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);               
                        
 TFile *f_m_jjtaulep = TFile::Open(path3);
 gr= (TGraph*) f_m_jjtaulep->Get("Graph;1");
@@ -231,11 +262,13 @@ double min_m_jjtaulep=f3->GetMinimumX(-10,10);
 
 f_m_jjtaulep->Close();
 gr->Clear();   
-
+*/
 //-----m_o1-----         
 
 char path4[100];
+//sprintf(path4,"./fit_v100_m_o1_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);          
 sprintf(path4,"./fit_v100_m_o1_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);          
+//sprintf(path4,"./fit_v100_m_o1_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);          
                        
 TFile *f_m_o1 = TFile::Open(path4);
 gr= (TGraph*) f_m_o1->Get("Graph;1");
@@ -254,7 +287,9 @@ gr->Clear();
 //-----m_1T-----                   
                        
 char path5[100];
+//sprintf(path5,"./fit_v100_m_1T_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);                       
 sprintf(path5,"./fit_v100_m_1T_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);                       
+//sprintf(path5,"./fit_v100_m_1T_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);                       
                        
 TFile *f_m_1T = TFile::Open(path5);
 gr= (TGraph*) f_m_1T->Get("Graph;1");
@@ -426,24 +461,24 @@ double min_M1T=f13->GetMinimumX(-10,10);
 f_M1T->Close();
 gr->Clear();
 
-//-----Mo1-----                   
+//-----M_O1-----                   
                        
 char path14[100];
-sprintf(path14,"./fit_v100_Mo1_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);                       
+sprintf(path14,"./fit_v100_M_O1_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);                       
                        
-TFile *f_Mo1 = TFile::Open(path14);
-gr= (TGraph*) f_Mo1->Get("Graph;1");
+TFile *f_M_O1 = TFile::Open(path14);
+gr= (TGraph*) f_M_O1->Get("Graph;1");
 TF1 *f14 = new TF1("f14",myfunc,-1000,1000,0);
 
-double s1down_Mo1=f14->GetX(y2,-1000,0);
-double s1up_Mo1=f14->GetX(y2,0,1000);
-double s2down_Mo1=f14->GetX(y1,-1000,0);
-double s2up_Mo1=f14->GetX(y1,0,1000);
+double s1down_M_O1=f14->GetX(y2,-1000,0);
+double s1up_M_O1=f14->GetX(y2,0,1000);
+double s2down_M_O1=f14->GetX(y1,-1000,0);
+double s2up_M_O1=f14->GetX(y1,0,1000);
 
 
-double min_Mo1=f14->GetMinimumX(-10,10);
+double min_M_O1=f14->GetMinimumX(-10,10);
 
-f_Mo1->Close();
+f_M_O1->Close();
 gr->Clear();
 
 //-----Zeppenfeld_12-----                   
@@ -530,32 +565,40 @@ gr->Clear();
 //----------------- 	FILLING HISTOGRAMS    --------------------
 
 //----------------------------------------                       
-//------------Bin2 = BDT_dim6------------------
+//------------Bin2 = BDT_output_dim8------------------
 
-  Gdown->SetBinContent(2,s1down_BDT_dim6); 
-  Gup->SetBinContent(2,s1up_BDT_dim6);
-  Ydown->SetBinContent(2,s2down_BDT_dim6);
-  Yup->SetBinContent(2,s2up_BDT_dim6);
-  Yup->GetXaxis()->SetBinLabel(2, "BDT dim-6");
+  Gdown->SetBinContent(2,s1down_BDT_output_dim8); 
+  Gup->SetBinContent(2,s1up_BDT_output_dim8);
+  Ydown->SetBinContent(2,s2down_BDT_output_dim8);
+  Yup->SetBinContent(2,s2up_BDT_output_dim8);
+  Yup->GetXaxis()->SetBinLabel(2, "BDT dim-8");
+
+//------------Bin2 = DNN_output_dim8------------------
+
+  Gdown->SetBinContent(4,s1down_DNN_output_dim8); 
+  Gup->SetBinContent(4,s1up_DNN_output_dim8);
+  Ydown->SetBinContent(4,s2down_DNN_output_dim8);
+  Yup->SetBinContent(4,s2up_DNN_output_dim8);
+  Yup->GetXaxis()->SetBinLabel(4, "DNN dim-8");
 
 //------------Bin4 = m_jj------------------
 
-  Gdown->SetBinContent(4,s1down_m_jj); 
-  Gup->SetBinContent(4,s1up_m_jj);
-  Ydown->SetBinContent(4,s2down_m_jj);
-  Yup->SetBinContent(4,s2up_m_jj);
-  Yup->GetXaxis()->SetBinLabel(4, "m_{jj}");
+  Gdown->SetBinContent(6,s1down_m_jj); 
+  Gup->SetBinContent(6,s1up_m_jj);
+  Ydown->SetBinContent(6,s2down_m_jj);
+  Yup->SetBinContent(6,s2up_m_jj);
+  Yup->GetXaxis()->SetBinLabel(6, "m_{jj}");
  
-
+/*
 //------------Bin6 = m_jjtaulep------------------
 
-  Gdown->SetBinContent(6,s1down_m_jjtaulep); 
-  Gup->SetBinContent(6,s1up_m_jjtaulep);
-  Ydown->SetBinContent(6,s2down_m_jjtaulep);
-  Yup->SetBinContent(6,s2up_m_jjtaulep);
-  Yup->GetXaxis()->SetBinLabel(6, "m_{jj#taul}");
-
-//------------Bin8 = m_o1------------------
+  Gdown->SetBinContent(8,s1down_m_jjtaulep); 
+  Gup->SetBinContent(8,s1up_m_jjtaulep);
+  Ydown->SetBinContent(8,s2down_m_jjtaulep);
+  Yup->SetBinContent(8,s2up_m_jjtaulep);
+  Yup->GetXaxis()->SetBinLabel(8, "m_{jj#taul}");
+  */
+//------------Bin6 = m_o1------------------
 
   Gdown->SetBinContent(8,s1down_m_o1); 
   Gup->SetBinContent(8,s1up_m_o1);
@@ -563,7 +606,7 @@ gr->Clear();
   Yup->SetBinContent(8,s2up_m_o1);
   Yup->GetXaxis()->SetBinLabel(8, "M_{o1}");
 
-//------------Bin10 = m_1T------------------
+//------------Bin8 = m_1T------------------
 
   Gdown->SetBinContent(10,s1down_m_1T); 
   Gup->SetBinContent(10,s1up_m_1T);
@@ -628,12 +671,12 @@ gr->Clear();
   Ydown->SetBinContent(26,s2down_M1T);
   Yup->SetBinContent(26,s2up_M1T);  
   
-//------------Bin28 = mo1------------------
+//------------Bin28 = m_o1------------------
 
-  Gdown->SetBinContent(28,s1down_Mo1); 
-  Gup->SetBinContent(28,s1up_Mo1);
-  Ydown->SetBinContent(28,s2down_Mo1);
-  Yup->SetBinContent(28,s2up_Mo1); 
+  Gdown->SetBinContent(28,s1down_M_O1); 
+  Gup->SetBinContent(28,s1up_M_O1);
+  Ydown->SetBinContent(28,s2down_M_O1);
+  Yup->SetBinContent(28,s2up_M_O1); 
   
 //------------Bin30 = Zeppenfeld_12------------------
 
@@ -666,11 +709,12 @@ gr->Clear();
 //----------------- Red points = likelihood minima ---------------------
 
 //Int_t n = 18;
-Int_t n = 5;
+Int_t n = 6;
 //Double_t x[18] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
- Double_t x[5] = {1,2,3,4,5};
-//Double_t y[18]={min_mjj,min_mll,min_m_jjtaulep,min_m_o1,min_PT_j1,min_PT_j2,min_Eta_l1,min_Eta_l2,min_Eta_j1,min_Eta_j2,min_m_1T,min_deltaPhijj,min_M1T,min_Mo1,min_Zeppenfeld_12,min_Zeppenfeld_1,min_Zeppenfeld_2,min_deltaEtajj};
- Double_t y[5]={min_BDT_dim6,min_m_jj,min_m_jjtaulep,min_m_o1,min_m_1T};
+ Double_t x[6] = {1,2,3,4,5, 6};
+//Double_t y[18]={min_mjj,min_mll,min_m_jjtaulep,min_m_o1,min_PT_j1,min_PT_j2,min_Eta_l1,min_Eta_l2,min_Eta_j1,min_Eta_j2,min_m_1T,min_deltaPhijj,min_M1T,min_M_O1,min_Zeppenfeld_12,min_Zeppenfeld_1,min_Zeppenfeld_2,min_deltaEtajj};
+// Double_t y[6]={min_BDT_output_dim8, min_DNN_output_dim8,min_m_jj,min_m_jjtaulep,min_m_o1,min_m_1T};
+Double_t y[6]={min_BDT_output_dim8, min_DNN_output_dim8,min_m_jj,min_m_o1,min_m_1T};
 
 auto g  = new TGraph(n,x,y);
 g->SetMarkerColor(kRed);
@@ -702,8 +746,10 @@ double b;
 //---------- all final states --------------
 
 if(strcmp(argv[1],"cW")==0){
-                           a=-1.5;
-                           b=1.5;
+                           //a=-1.5;
+                           //b=1.5;
+                           a=-2.;
+                           b=2.;
                            }
 else if(strcmp(argv[1],"cHW")==0){
                            a=-15.;
@@ -740,8 +786,8 @@ else if(strcmp(argv[1],"fT0")==0)
     }
 else if(strcmp(argv[1],"fT1")==0)
     { 
-    a=-1.3;
-    b=1.3;
+    a=-1.8;
+    b=1.8;
     }
 else if(strcmp(argv[1],"fT2")==0)
     { 
@@ -805,6 +851,8 @@ TLatex latexLabel;
 latexLabel.SetTextSize(0.04);
 latexLabel.SetNDC();
 latexLabel.DrawLatex(0.16, 0.93, "CMS   L = 101.23 fb^{-1}");
+//latexLabel.DrawLatex(0.16, 0.93, "CMS   L = 41.53 fb^{-1}");
+//latexLabel.DrawLatex(0.16, 0.93, "CMS   L = 59.83 fb^{-1}");
 
 TLatex latexLabel2;
 latexLabel2.SetNDC();
@@ -906,7 +954,7 @@ TLatex latexLabelXIV;
 latexLabelXIV.SetNDC(); 
 latexLabelXIV.SetTextSize(0.03);
 latexLabelXIV.SetTextAngle(45);
-latexLabelXIV.DrawLatex(0.735, 0.09, "mo1");
+latexLabelXIV.DrawLatex(0.735, 0.09, "m_o1");
 
 TLatex latexLabelXV;  
 latexLabelXV.SetNDC(); 
@@ -969,7 +1017,7 @@ cifile.open(tablename, fstream::out);
   	
   cifile<<"  Obs.&$1\\sigma CL$&$2\\sigma CL$\\\\"<<endl;
   cifile<<"  \\hline"<<endl;
-  cifile<<"  BDT dim-8&"<<"$["<<s1down_BDT_dim6<<","<<s1up_BDT_dim6<<"]$"<<"&"<<"$["<<s2down_BDT_dim6<<","<<s2up_BDT_dim6<<"]$"<<"\\\\"<<endl;
+  cifile<<"  BDT dim-8&"<<"$["<<s1down_BDT_output_dim8<<","<<s1up_BDT_output_dim8<<"]$"<<"&"<<"$["<<s2down_BDT_output_dim8<<","<<s2up_BDT_output_dim8<<"]$"<<"\\\\"<<endl;
   cifile<<"  $m_{jj}$&"<<"$["<<s1down_m_jj<<","<<s1up_m_jj<<"]$"<<"&"<<"$["<<s2down_m_jj<<","<<s2up_m_jj<<"]$"<<"\\\\"<<endl;
   cifile<<"  $m_{o1}$&"<<"$["<<s1down_m_o1<<","<<s1up_m_o1<<"]$"<<"&"<<"$["<<s2down_m_o1<<","<<s2up_m_o1<<"]$"<<"\\\\"<<endl;
   cifile<<"  $m_{1T}$&"<<"$["<<s1down_m_1T<<","<<s1up_m_1T<<"]$"<<"&"<<"$["<<s2down_m_1T<<","<<s2up_m_1T<<"]$"<<"\\\\"<<endl;

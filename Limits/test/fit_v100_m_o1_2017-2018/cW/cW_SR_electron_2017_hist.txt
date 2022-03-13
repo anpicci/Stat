@@ -6,18 +6,20 @@ shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/t
 shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017-2018_fit_v100_m_o1_2017-2018.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               SR_electron_2017
-observation       33
+observation       86
 -----------------------------------------------------------------------------------
 bin                                     SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           SR_electron_2017                           
 process                                 sm                                         sm_lin_quad_cW                             quad_cW                                    Fake                                       ZZtoLep                                    WrongSign                                  WZ                                         Other                                      TVX                                        DYJetsToLL                                 WpWpJJ_QCD                                 VG                                         
 process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          9                                          10                                         11                                         
-rate                                    1.866283                                   5.211100                                   3.182581                                   19.36                                      4.33                                       6.42                                       0.65                                       0.15                                       0.26                                       1.68                                       0.13                                       0.07                                       
+rate                                    2.950706                                   7.809399                                   4.619760                                   58.068971                                  14.630632                                  9.288962                                   1.210492                                   0.228788                                   0.413476                                   2.445008                                   0.159657                                   0.071527                                   
 -----------------------------------------------------------------------------------
 lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               
 FR_sys_electron     lnN                 -                   -                   -                   1.22                -                   -                   -                   -                   -                   -                   -                   -                   -                   
 SR_electron_2017    autoMCStats         10                  0                   
  
 WSest_electron_2017 rateParam           SR_electron_2017    WrongSign           1                   
+
+DYest_electron_2017 rateParam           SR_electron_2017    DYJetsToLL          1                   
 
 FRest_electron_2017 rateParam           SR_electron_2017    Fake                1                   
 

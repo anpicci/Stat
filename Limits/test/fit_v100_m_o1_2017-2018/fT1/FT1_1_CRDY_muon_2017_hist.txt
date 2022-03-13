@@ -6,14 +6,20 @@ shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/t
 shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo2017-2018_fit_v100_m_o1_2017-2018.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               CRDY_muon_2017
-observation       774
+observation       1393
 -----------------------------------------------------------------------------------
 bin                                     CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             CRDY_muon_2017                             
 process                                 sm                                         sm_lin_quad_cT1                            quad_cT1                                   Fake                                       ZZtoLep                                    WrongSign                                  WZ                                         TTTo2L2Nu                                  Other                                      TVX                                        DYJetsToLL                                 VG                                         
 process                                 0                                          1                                          2                                          3                                          4                                          5                                          6                                          7                                          8                                          9                                          10                                         11                                         
-rate                                    0.011203                                   0.018108                                   0.008346                                   271.12                                     33.91                                      352.35                                     2.15                                       133.94                                     0.29                                       1.14                                       202.64                                     0.59                                       
+rate                                    0.011281                                   0.018778                                   0.008986                                   503.655221                                 54.920295                                  593.220903                                 2.644756                                   210.043003                                 0.467522                                   2.061207                                   290.413697                                 0.962268                                   
 -----------------------------------------------------------------------------------
 lumi_2017           lnN                 1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               1.023               
 FR_sys_muon         lnN                 -                   -                   -                   1.15                -                   -                   -                   -                   -                   -                   -                   -                   -                   
 CRDY_muon_2017      autoMCStats         10                  0                   
  
+FRest_muon_2017     rateParam           CRDY_muon_2017      Fake                1                   
+
+DYest_muon_2017     rateParam           CRDY_muon_2017      DYJetsToLL          1                   
+
+WSest_muon_2017     rateParam           CRDY_muon_2017      WrongSign           1                   
+

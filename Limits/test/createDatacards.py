@@ -3,6 +3,7 @@ import os, sys
 import optparse
 from Stat.Limits.settings import *
 from Stat.Limits.datacards_ps import *
+#from Stat.Limits.datacards import *
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
@@ -68,13 +69,13 @@ else:
 
 ch_year = []
 
+print channels
+
 for y in years:
     channels_years = [ch + '_' + y for ch in channels ]
-    ch_year= ch_year + channels_years
+    ch_year = ch_year + channels_years
     
-
 print "====> CHANNELS: ", ch_year
-
 
 for ch in ch_year:
     if wilson != "":
@@ -83,5 +84,4 @@ for ch in ch_year:
         getCard(signals, ch, ifilename, outdir, mode, unblind)
         #for s in signals:
             #getCard(s, ch, ifilename, outdir, mode, unblind)
-
 

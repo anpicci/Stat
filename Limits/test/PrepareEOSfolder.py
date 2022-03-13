@@ -25,7 +25,6 @@ for i, odir in enumerate(new_sf):#subfolders):#
                 new_dest = new_dest + of.replace("Mu", "").replace("Ele", "")
             else:
                 new_dest = new_dest + of
-
             if str(folder + odir + "/" + of) != str(new_dest):
                 os.system("cp " + folder + odir + "/" + of + " " + new_dest)
                 print "cp " + folder + odir + "/" + of + " " + new_dest
