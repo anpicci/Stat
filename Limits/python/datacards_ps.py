@@ -247,15 +247,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        card += "observation       %0.d\n" % (rates["data_obs"])
        card += "-----------------------------------------------------------------------------------\n"
        card += "%-50s%-25s\n" % ("bin", binString)
-       #card += "process                                 "
-       #procnameString = "%-25s%-25s" % ("process", "")
-       #procnameString = "process                                 "
-       #procidxString = "%-25s%-25s" % ("process", "")
-       #procidxString = "process                                 "
-       #rateString = "%-25s%-25s" % ("rate", "")
-       #rateString = "rate                                    "
 
-       #card += "bin                                     %-25s\n" % (binString)
        sigLine1 = ""
        sigLine2 = ""
        sigLine3 = ""
@@ -264,11 +256,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               sigLine2 += "%-25s" % (str(-len(sig)+idxp+1))
               sigLine3 += "%-25.6f" % (rates[sigp])
 
-       #card += "process                                 %-25s%-25s\n" % (sigLine1, procLine) #"roomultipdf"
        card += "%-50s%-25s%-25s\n" % ("process", sigLine1, procLine) #"roomultipdf"
-       #card += "process                                 %-25s%-25s\n" % (sigLine2, procNumbLine)
        card += "%-50s%-25s%-25s\n" % ("process", sigLine2, procNumbLine)
-       #card += "rate                                    %-25s%-25s\n" % (sigLine3, rateLine) #signalYield[m].getVal(), nevents
        card += "%-50s%-25s%-25s\n" % ("rate", sigLine3, rateLine) #signalYield[m].getVal(), nevents
        card += "-----------------------------------------------------------------------------------\n"
 
