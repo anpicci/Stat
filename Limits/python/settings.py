@@ -5,16 +5,21 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-sr_var = 'm_jj'
+#sr_var = 'm_jj'
 #sr_var = 'm_o1'
 #sr_var = 'm_1T'
 #sr_var = 'BDT_output_SM_opt'
 #sr_var = 'DNN_output_SM_opt'
-cr_var = 'm_jj'
+sr_var = 'BDT_SM_xgb_UL008_no'
+#sr_var = 'BDT_dim6_xgb_UL008_no'
+#cr_var = 'm_jj'
 #cr_var = 'm_o1'
 #cr_var = 'm_1T'
 #cr_var = 'BDT_output_SM_opt'
 #cr_var = 'DNN_output_SM_opt'
+#cr_var = 'BDT_SM_xgb_UL008_no'
+#cr_var = 'BDT_dim6_xgb_UL008_no'
+cr_var = 'countings'
 hist_pre = "h_"
 
 ### List of histos to include in the root files
@@ -202,13 +207,202 @@ class rateParam(object):
 
 rateParams = {}
 
-FakeMu_rate_2017 = rateParam()
-FakeMu_rate_2017.chs = [
+FakeMu_rate_2016APV = rateParam()
+FakeMu_rate_2016APV.chs = [
     "SR_muon",
     "CRTT_muon",                                                    
     "CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
+]
+FakeMu_rate_2016APV.bkg = "Fake"
+rateParams["FRest_muon_2016APV"] = FakeMu_rate_2016APV
+
+
+FakeEle_rate_2016APV = rateParam()
+FakeEle_rate_2016APV.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+FakeEle_rate_2016APV.bkg = "Fake"
+rateParams["FRest_electron_2016APV"] = FakeEle_rate_2016APV
+
+'''
+WSele_rate_2016APV = rateParam()
+WSele_rate_2016APV.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+WSele_rate_2016APV.bkg = "WrongSign"
+rateParams["WSest_electron_2016APV"] = WSele_rate_2016APV
+
+WSmu_rate_2016APV = rateParam()
+WSmu_rate_2016APV.chs = [
+    "SR_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+WSmu_rate_2016APV.bkg = "WrongSign"
+rateParams["WSest_muon_2016APV"] = WSmu_rate_2016APV
+'''
+
+TTbarele_rate_2016APV = rateParam()
+TTbarele_rate_2016APV.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+TTbarele_rate_2016APV.bkg = "TTTo2L2Nu"
+rateParams["TTest_electron_2016APV"] = TTbarele_rate_2016APV
+
+TTbarmu_rate_2016APV = rateParam()
+TTbarmu_rate_2016APV.chs = [
+    "SR_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+TTbarmu_rate_2016APV.bkg = "TTTo2L2Nu"
+rateParams["TTest_muon_2016APV"] = TTbarmu_rate_2016APV
+
+
+DYele_rate_2016APV = rateParam()
+DYele_rate_2016APV.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+DYele_rate_2016APV.bkg = "DYJetsToLL_FxFx"
+#DYele_rate_2016APV.bkg = "DYJetsToLL"
+rateParams["DYest_electron_2016APV"] = DYele_rate_2016APV
+
+DYmu_rate_2016APV = rateParam()
+DYmu_rate_2016APV.chs = [
+    "SR_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+DYmu_rate_2016APV.bkg = "DYJetsToLL_FxFx"
+#DYmu_rate_2016APV.bkg = "DYJetsToLL"
+rateParams["DYest_muon_2016APV"] = DYmu_rate_2016APV
+
+
+FakeMu_rate_2016 = rateParam()
+FakeMu_rate_2016.chs = [
+    "SR_muon",
+    "CRTT_muon",                                                    
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+FakeMu_rate_2016.bkg = "Fake"
+rateParams["FRest_muon_2016"] = FakeMu_rate_2016
+
+
+FakeEle_rate_2016 = rateParam()
+FakeEle_rate_2016.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+FakeEle_rate_2016.bkg = "Fake"
+rateParams["FRest_electron_2016"] = FakeEle_rate_2016
+
+'''
+WSele_rate_2016 = rateParam()
+WSele_rate_2016.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+WSele_rate_2016.bkg = "WrongSign"
+rateParams["WSest_electron_2016"] = WSele_rate_2016
+
+WSmu_rate_2016 = rateParam()
+WSmu_rate_2016.chs = [
+    "SR_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+WSmu_rate_2016.bkg = "WrongSign"
+rateParams["WSest_muon_2016"] = WSmu_rate_2016
+'''
+
+TTbarele_rate_2016 = rateParam()
+TTbarele_rate_2016.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+TTbarele_rate_2016.bkg = "TTTo2L2Nu"
+rateParams["TTest_electron_2016"] = TTbarele_rate_2016
+
+TTbarmu_rate_2016 = rateParam()
+TTbarmu_rate_2016.chs = [
+    "SR_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+TTbarmu_rate_2016.bkg = "TTTo2L2Nu"
+rateParams["TTest_muon_2016"] = TTbarmu_rate_2016
+
+
+DYele_rate_2016 = rateParam()
+DYele_rate_2016.chs = [
+    "SR_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    #"CRDY_electron",
+    "CRWS_electron",
+]
+DYele_rate_2016.bkg = "DYJetsToLL_FxFx"
+#DYele_rate_2016.bkg = "DYJetsToLL"
+rateParams["DYest_electron_2016"] = DYele_rate_2016
+
+DYmu_rate_2016 = rateParam()
+DYmu_rate_2016.chs = [
+    "SR_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    #"CRDY_muon",
+    "CRWS_muon",
+]
+DYmu_rate_2016.bkg = "DYJetsToLL_FxFx"
+#DYmu_rate_2016.bkg = "DYJetsToLL"
+rateParams["DYest_muon_2016"] = DYmu_rate_2016
+
+FakeMu_rate_2017 = rateParam()
+FakeMu_rate_2017.chs = [
+    "SR_muon",
+    #"CRTT_muon",                                                    
+    "CRF_muon",
+    #"CRDY_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["FRest_muon_2017"] = FakeMu_rate_2017
@@ -217,20 +411,20 @@ rateParams["FRest_muon_2017"] = FakeMu_rate_2017
 FakeEle_rate_2017 = rateParam()
 FakeEle_rate_2017.chs = [
     "SR_electron",
-    "CRTT_electron",
+    #"CRTT_electron",
     "CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
 
-
+'''
 WSele_rate_2017 = rateParam()
 WSele_rate_2017.chs = [
     "SR_electron",
-    "CRTT_electron",
-    "CRF_electron",
+    #"CRTT_electron",
+    #"CRF_electron",
     #"CRDY_electron",
     "CRWS_electron",
 ]
@@ -240,22 +434,22 @@ rateParams["WSest_electron_2017"] = WSele_rate_2017
 WSmu_rate_2017 = rateParam()
 WSmu_rate_2017.chs = [
     "SR_muon",
-    "CRTT_muon",
-    "CRF_muon",
+    #"CRTT_muon",
+    #"CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
 ]
 WSmu_rate_2017.bkg = "WrongSign"
 rateParams["WSest_muon_2017"] = WSmu_rate_2017
-
+'''
 
 TTbarele_rate_2017 = rateParam()
 TTbarele_rate_2017.chs = [
     "SR_electron",
     "CRTT_electron",
-    "CRF_electron",
+    #"CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 TTbarele_rate_2017.bkg = "TTTo2L2Nu"
 rateParams["TTest_electron_2017"] = TTbarele_rate_2017
@@ -264,19 +458,18 @@ TTbarmu_rate_2017 = rateParam()
 TTbarmu_rate_2017.chs = [
     "SR_muon",
     "CRTT_muon",
-    "CRF_muon",
+    #"CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 TTbarmu_rate_2017.bkg = "TTTo2L2Nu"
 rateParams["TTest_muon_2017"] = TTbarmu_rate_2017
 
-
 DYele_rate_2017 = rateParam()
 DYele_rate_2017.chs = [
     "SR_electron",
-    "CRTT_electron",
-    "CRF_electron",
+    #"CRTT_electron",
+    #"CRF_electron",
     #"CRDY_electron",
     "CRWS_electron",
 ]
@@ -287,8 +480,8 @@ rateParams["DYest_electron_2017"] = DYele_rate_2017
 DYmu_rate_2017 = rateParam()
 DYmu_rate_2017.chs = [
     "SR_muon",
-    "CRTT_muon",
-    "CRF_muon",
+    #"CRTT_muon",
+    #"CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
 ]
@@ -320,7 +513,7 @@ FakeEle_rate_2018.chs = [
 FakeEle_rate_2018.bkg = "Fake"
 rateParams["FRest_electron_2018"] = FakeEle_rate_2018
 
-
+'''
 WSele_rate_2018 = rateParam()
 WSele_rate_2018.chs = [
     "SR_electron",
@@ -342,7 +535,7 @@ WSmu_rate_2018.chs = [
 ]
 WSmu_rate_2018.bkg = "WrongSign"
 rateParams["WSest_muon_2018"] = WSmu_rate_2018
-
+'''
 
 TTbarele_rate_2018 = rateParam()
 TTbarele_rate_2018.chs = [
@@ -398,11 +591,12 @@ rateParams["DYest_muon_2018"] = DYmu_rate_2018
 #*********************************
 syst = collections.OrderedDict()
 
+syst["lumi_2016APV"] = ["lnN", "all", 1.025]
 syst["lumi_2016"] = ["lnN", "all", 1.025]
 syst["lumi_2017"] = ["lnN", "all", 1.023]
 syst["lumi_2018"] = ["lnN", "all", 1.025]
-syst["FR_sys_muon"] = ["lnN", "Fake", 1.15]
-syst["FR_sys_electron"] = ["lnN", "Fake", 1.22]
+syst["FR_sys_muon_2017"] = ["lnN", "Fake", 1.3]
+syst["FR_sys_electron_2017"] = ["lnN", "Fake", 1.3]
 
 #syst["trigger"] = ["lnN", "all", 1.02]
 #syst["trigSF"] = ["shape", ["sig"]]
@@ -421,25 +615,26 @@ syst["btag"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Tr
 syst["tau_vsjet_"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
 syst["tau_vsele_"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
 syst["tau_vsmu_"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-#syst["jes"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
-#syst["jer"] = ["shape", ("QCD", "ST", "TT_Mtt", "WJets", "sig")]
+syst["pdf_total"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["QCDScale"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["ISR"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["FSR"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["jes"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["jer"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["TES"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["FES"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+
 
 '''
-syst["PF"] = ["shape", ("QCD",  "sig")]
-syst["pu"] = ["shape", ("QCD",  "sig")]
-syst["lep"] = ["shape", ("QCD",  "sig")]
 syst["trig"] = ["shape", ("QCD",  "sig")]
-syst["jes"] = ["shape", ("QCD",  "sig")]
-syst["jer"] = ["shape", ("QCD",  "sig")]
 syst["btag"] = ["shape", ("QCD",  "sig")]
 syst["mistag"] = ["shape", ("QCD",  "sig")]
-syst["pdf_total"] = ["shape", ("QCD",  "sig")]
 '''
 
 years = ["2017"]
 #years = ["2018"]
 #years = ["2017", "2018"]
-#years = ["2016","2017","2018"]
+#years = ["2016APV","2016","2017","2018"]
 
 '''
 splityearjes=False

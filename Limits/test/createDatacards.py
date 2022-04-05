@@ -61,11 +61,7 @@ try:
 except IOError:
     print "Cannot open ", ifilename
 else:
-    print "Opening file ",  ifilename
-    ifile.cd()
-    r = ROOT.gDirectory.GetListOfKeys()[0]
-    r_years = [r.ReadObj().GetName()[-4:] for r in ROOT.gDirectory.GetListOfKeys() ]
-    years =  list(set(r_years))
+    pass
 
 ch_year = []
 
@@ -75,7 +71,7 @@ for y in years:
     channels_years = [ch + '_' + y for ch in channels ]
     ch_year = ch_year + channels_years
     
-print "====> CHANNELS: ", ch_year
+#print "====> CHANNELS: ", ch_year
 
 for ch in ch_year:
     if wilson != "":
@@ -84,4 +80,3 @@ for ch in ch_year:
         getCard(signals, ch, ifilename, outdir, mode, unblind)
         #for s in signals:
             #getCard(s, ch, ifilename, outdir, mode, unblind)
-
