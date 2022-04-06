@@ -45,6 +45,8 @@ for year in years:
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
+            print fn
+
             isSig = False
             isLS = False
 
@@ -346,3 +348,4 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()
     ofile.Close()
+

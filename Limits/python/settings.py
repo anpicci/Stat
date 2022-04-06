@@ -10,8 +10,8 @@ import collections
 #sr_var = 'm_1T'
 #sr_var = 'BDT_output_SM_opt'
 #sr_var = 'DNN_output_SM_opt'
-sr_var = 'BDT_SM_xgb_UL008_no'
-#sr_var = 'BDT_dim6_xgb_UL008_no'
+#sr_var = 'BDT_SM_xgb_UL008_no'
+sr_var = 'BDT_cW_xgb_UL008_no'
 #cr_var = 'm_jj'
 #cr_var = 'm_o1'
 #cr_var = 'm_1T'
@@ -608,6 +608,7 @@ syst["FR_sys_electron_2017"] = ["lnN", "Fake", 1.3]
 
 ### UltraLegacy
 syst["autoMCstat"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+'''
 syst["PF"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
 syst["pu"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
 syst["lep"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
@@ -623,7 +624,7 @@ syst["jes"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Tri
 syst["jer"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
 syst["TES"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
 syst["FES"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-
+'''
 
 '''
 syst["trig"] = ["shape", ("QCD",  "sig")]
@@ -631,9 +632,9 @@ syst["btag"] = ["shape", ("QCD",  "sig")]
 syst["mistag"] = ["shape", ("QCD",  "sig")]
 '''
 
-years = ["2017"]
+#years = ["2017"]
 #years = ["2018"]
-#years = ["2017", "2018"]
+years = ["2017", "2018"]
 #years = ["2016APV","2016","2017","2018"]
 
 '''
@@ -723,7 +724,7 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 
 sigpoints = [
-    [VBS_SSWW_SM,
+    [VBS_SSWW_SM,#ls+BDTSM
     #VBS_SSWW_aQGC],
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
@@ -731,11 +732,11 @@ sigpoints = [
     ##VBS_SSWW_BSM_SM,
     ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
-    #VBS_SSWW_cW_SM,#ls
-     ]
+    #VBS_SSWW_cW,
+    VBS_SSWW_cW_SM,#ls
     #VBS_SSWW_cHW_BSM],#ls
-    #VBS_SSWW_cW_BSM,#ls
-     #]
+    VBS_SSWW_cW_BSM,#ls
+     ]
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
     #VBS_SSWW_FS0_25_SM,#ls

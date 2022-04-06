@@ -54,7 +54,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                             elif '_SM' in p:
                                    isSM = True
                      else:
-                            if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                            if '_TT_' in p or '_TL_' in p or '_LL_' in p:
                                    isSM = True
 
               if isSM:
@@ -568,9 +568,9 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      rates[p] = getRate(ch, p, ifile)
                      bkgrate =  rates[p]
                      if (p =="QCD"): print "qcd: ", bkgrate
-                     if(bkgrate==0):
-                            nproc = nproc -1
-                            continue
+                     #if(bkgrate==0):
+                            #nproc = nproc -1
+                            #continue
                      procNumbLine += ("%-25s") % (i + len(lssamp))
                      procLine += ("%-25s") % (p)
                      rateLine += ("%-25f") % (bkgrate)
