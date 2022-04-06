@@ -5,13 +5,13 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-#sr_var = 'm_jj'
+sr_var = 'm_jj'
 #sr_var = 'm_o1'
 #sr_var = 'm_1T'
 #sr_var = 'BDT_output_SM_opt'
 #sr_var = 'DNN_output_SM_opt'
 #sr_var = 'BDT_SM_xgb_UL008_no'
-sr_var = 'BDT_cW_xgb_UL008_no'
+#sr_var = 'BDT_cW_xgb_UL008_no'
 #cr_var = 'm_jj'
 #cr_var = 'm_o1'
 #cr_var = 'm_1T'
@@ -21,6 +21,11 @@ sr_var = 'BDT_cW_xgb_UL008_no'
 #cr_var = 'BDT_dim6_xgb_UL008_no'
 cr_var = 'countings'
 hist_pre = "h_"
+
+#dyjets_sample = "DYJetsToLL"
+dyjets_sample = "DYJetsToLL_FxFx"
+#triboson_sample = "Other"
+triboson_sample = "Triboson"
 
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
@@ -85,11 +90,9 @@ bkg = [
     "WrongSign",
     "WZ",
     "TTTo2L2Nu",
-    #"Other",
-    "Triboson",
+    triboson_sample,
     "TVX",
-    #"DYJetsToLL",
-    "DYJetsToLL_FxFx",
+    dyjets_sample,
     #"WpWpJJ_QCD",
     "VG",
     "VBS_SSWW_SM",
@@ -285,8 +288,7 @@ DYele_rate_2016APV.chs = [
     #"CRDY_electron",
     "CRWS_electron",
 ]
-DYele_rate_2016APV.bkg = "DYJetsToLL_FxFx"
-#DYele_rate_2016APV.bkg = "DYJetsToLL"
+DYele_rate_2016APV.bkg = dyjets_sample
 rateParams["DYest_electron_2016APV"] = DYele_rate_2016APV
 
 DYmu_rate_2016APV = rateParam()
@@ -297,8 +299,7 @@ DYmu_rate_2016APV.chs = [
     #"CRDY_muon",
     "CRWS_muon",
 ]
-DYmu_rate_2016APV.bkg = "DYJetsToLL_FxFx"
-#DYmu_rate_2016APV.bkg = "DYJetsToLL"
+DYmu_rate_2016APV.bkg = dyjets_sample
 rateParams["DYest_muon_2016APV"] = DYmu_rate_2016APV
 
 
@@ -380,8 +381,7 @@ DYele_rate_2016.chs = [
     #"CRDY_electron",
     "CRWS_electron",
 ]
-DYele_rate_2016.bkg = "DYJetsToLL_FxFx"
-#DYele_rate_2016.bkg = "DYJetsToLL"
+DYele_rate_2016.bkg = dyjets_sample
 rateParams["DYest_electron_2016"] = DYele_rate_2016
 
 DYmu_rate_2016 = rateParam()
@@ -392,8 +392,7 @@ DYmu_rate_2016.chs = [
     #"CRDY_muon",
     "CRWS_muon",
 ]
-DYmu_rate_2016.bkg = "DYJetsToLL_FxFx"
-#DYmu_rate_2016.bkg = "DYJetsToLL"
+DYmu_rate_2016.bkg = dyjets_sample
 rateParams["DYest_muon_2016"] = DYmu_rate_2016
 
 FakeMu_rate_2017 = rateParam()
@@ -473,8 +472,8 @@ DYele_rate_2017.chs = [
     #"CRDY_electron",
     "CRWS_electron",
 ]
-DYele_rate_2017.bkg = "DYJetsToLL_FxFx"
-#DYele_rate_2017.bkg = "DYJetsToLL"
+
+DYele_rate_2017.bkg = dyjets_sample
 rateParams["DYest_electron_2017"] = DYele_rate_2017
 
 DYmu_rate_2017 = rateParam()
@@ -485,8 +484,8 @@ DYmu_rate_2017.chs = [
     #"CRDY_muon",
     "CRWS_muon",
 ]
-DYmu_rate_2017.bkg = "DYJetsToLL_FxFx"
-#DYmu_rate_2017.bkg = "DYJetsToLL"
+
+DYmu_rate_2017.bkg = dyjets_sample
 rateParams["DYest_muon_2017"] = DYmu_rate_2017
 
 
@@ -568,8 +567,8 @@ DYele_rate_2018.chs = [
     #"CRDY_electron",
     "CRWS_electron",
 ]
-DYele_rate_2018.bkg = "DYJetsToLL_FxFx"
-#DYele_rate_2018.bkg = "DYJetsToLL"
+
+DYele_rate_2018.bkg = dyjets_sample
 rateParams["DYest_electron_2018"] = DYele_rate_2018
 
 DYmu_rate_2018 = rateParam()
@@ -580,8 +579,8 @@ DYmu_rate_2018.chs = [
     #"CRDY_muon",
     "CRWS_muon",
 ]
-DYmu_rate_2018.bkg = "DYJetsToLL_FxFx"
-#DYmu_rate_2018.bkg = "DYJetsToLL"
+
+DYmu_rate_2018.bkg = dyjets_sample
 rateParams["DYest_muon_2018"] = DYmu_rate_2018
 
 #*********************************
@@ -604,26 +603,26 @@ syst["FR_sys_electron_2017"] = ["lnN", "Fake", 1.3]
 #syst["jes"] = ["shape", ("QCD", "TT_Mtt", "WJets", "sig")]
 
 ### ReReco
-#syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", "DYJetsToLL", "TTTo2L2Nu", "WZ", "Other", "WrongSign", "ZZtoLep", "sig")]
+syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 
 ### UltraLegacy
-syst["autoMCstat"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+#syst["autoMCstat"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 '''
-syst["PF"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["pu"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["lep"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["btag"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["tau_vsjet_"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["tau_vsele_"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["tau_vsmu_"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["pdf_total"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["QCDScale"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["ISR"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["FSR"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["jes"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["jer"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["TES"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
-syst["FES"] = ["shape", ("VG", "TVX", "DYJetsToLL_FxFx", "TTTo2L2Nu", "WZ", "Triboson", "WrongSign", "ZZtoLep", "sig")]
+syst["PF"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["pu"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["lep"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["btag"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["tau_vsjet_"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["tau_vsele_"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["tau_vsmu_"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["pdf_total"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["QCDScale"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["ISR"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["FSR"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["jes"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["jer"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["TES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+syst["FES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 '''
 
 '''
@@ -724,7 +723,8 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 
 sigpoints = [
-    [VBS_SSWW_SM,#ls+BDTSM
+    [
+    VBS_SSWW_SM,#ls+BDTSM
     #VBS_SSWW_aQGC],
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
@@ -736,7 +736,7 @@ sigpoints = [
     VBS_SSWW_cW_SM,#ls
     #VBS_SSWW_cHW_BSM],#ls
     VBS_SSWW_cW_BSM,#ls
-     ]
+    ]
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
     #VBS_SSWW_FS0_25_SM,#ls

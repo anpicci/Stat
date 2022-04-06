@@ -45,7 +45,6 @@ for year in years:
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
-            print fn
 
             isSig = False
             isLS = False
@@ -56,20 +55,19 @@ for year in years:
             if fn.startswith('VBS_SSWW_'):
                 for sigp in sigpoints:
                     for sig in sigp:
-                        print sig
 
                         if fn.startswith('VBS_SSWW_' + sig + "_" + yearstring):
                             isSig = True
                             sampFiles[year+lep].append([fn, fn])
-
+                        else:
+                            continue
+                            
                         if opt.ls != "":
-                            #print sig
-                            if not (sig.startswith(opt.ls)):# or sig.startswith('F')):
+                            if not (sig.startswith(opt.ls) or sig == "SM"):# or sig.startswith('F')):
                                 continue
 
                             sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
-                            sig_op = sig_splitted[0]
-                            
+                            sig_op = sig_splitted[0].replace("SM",opt.ls)
                             if len(sig_splitted) > 1:
                                 sig_op += "_" + sig_splitted[1]
                         
