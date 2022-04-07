@@ -179,7 +179,7 @@ char path0[100];                    // location of combine output
 //sprintf(path0,"./fit_v100_BDT_output_dim8_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
 //sprintf(path0,"./fit_v100_BDT_output_dim8_opt_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
 //sprintf(path0,"./fit_v100_BDT_output_dim8_opt_cutPolLLBDT_output_2017/%s/LS_objects_k_%s.root",argv[1],argv[1]);
-sprintf(path0,"./fit_v100_BDT_output_dim8_opt_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
+//sprintf(path0,"./fit_v100_BDT_output_dim8_opt_2017-2018/%s/LS_objects_k_%s.root",argv[1],argv[1]);
                        
 TFile *f_BDT_output_dim8 = TFile::Open(path0);
 gr= (TGraph*) f_BDT_output_dim8->Get("Graph;1");
