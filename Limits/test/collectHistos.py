@@ -114,12 +114,12 @@ for year in years:
                 sampFiles[year+lep].append([fn, fn])
                 break
 
-
+'''
 print 'sampFiles:'
 for k, v in sampFiles.items():
     for el in v:
         print el
-
+'''
 #*******************************************************#
 #                                                       #
 #     FILLING IN THE INPUT ROOT FILE FOR COMBINE        #
@@ -128,7 +128,7 @@ for k, v in sampFiles.items():
 
 ofile = ROOT.TFile(ofilename,"RECREATE")
 for year in years:
-    print year
+    #print year
     yeartag = ""
     if "vUL" in path:
         yeartag = "UL" + year
@@ -151,7 +151,7 @@ for year in years:
         histos_data = []
         for flist in sampFiles[year+lep]: 
             f = flist[0]
-            #print f
+            #print "filelist:", f, flist[1]
             try:
                 ifile = ROOT.TFile.Open(path_ + f)
             except IOError:
@@ -165,10 +165,8 @@ for year in years:
                 samp = f.replace(".root", "").replace(lep, "").replace("_" + yeartag + "_", "")
             else:
                 samp = flist[1]
-            print samp
-
             print "\nWe are looking into file: ", f
-   
+            #print "samp", samp
             for k_, h_ in histos.iteritems():
                 if lep=='emu' and not k_.startswith("CRTT"):
                     continue
@@ -180,23 +178,24 @@ for year in years:
                 for sysname, systype in syst.items():
                     if not systype[0] == "shape" or sysname == "autoMCstat":
                         continue
-                    if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and samp.startswith("VBS_")):
+                    if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and flist[0].startswith("VBS_")):
                         hup_ = h_ + "_" + sysname + "Up"
                         hdown_ = h_ + "_" + sysname + "Down"
-                        #print hup_, hdown_
+                        #print "up and down", hup_, hdown_
                         #print ifile.Get(hup_).GetName()
                         #print ifile.Get(hdown_).GetName()
                         hsyst[sysname] = [ifile.Get(hup_), ifile.Get(hdown_)]
 
+        #print "end\n\n\n"
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
                 h.SetName(samp)
 
                 if(samp.startswith("Data")):
                     print "\nis data!"
-                    print h
+                    #print h
                     if (k_.startswith("SR") and unblind) or k_.startswith("CR"):
-                        print("passed", h.Integral())
+                        #print "passed", h.Integral()
                         h.Write("data_obs", ROOT.TObject.kWriteDelete)
                     else:
                         continue
@@ -205,8 +204,7 @@ for year in years:
                     h.Write(samp, ROOT.TObject.kWriteDelete)
 
                     for sname, shists in hsyst.items():
-                        print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
-
+                        #print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
                         for i, var in enumerate(shists):
                             sampsyst = samp + "_"  + sname
                             if i == 0:
@@ -230,7 +228,7 @@ for year in years:
                     for n in xrange(nBinsX):
                         hNameUp = "%s_mcstat_%s_bin%d_Up" % ( h_, samp, n+1)
                         hNameDown = "%s_mcstat_%s_bin%d_Down" % ( h_, samp, n+1)
-                        print "Histogram: ", hNameUp              
+                        #print "Histogram: ", hNameUp              
                         h_mcStatUp = ifile.Get(hNameUp)
                         h_mcStatDown = ifile.Get(hNameDown)
                         h_mcStatUp.SetName("%s_mcstat_%s_%s_%s_bin%dUp" % (samp, k_, year, samp, n+1))
@@ -346,4 +344,3 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()
     ofile.Close()
-

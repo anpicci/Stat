@@ -5,13 +5,14 @@ import collections
 #       List of channels         *
 #                                *
 #*********************************
-sr_var = 'm_jj'
+#sr_var = 'm_jj'
 #sr_var = 'm_o1'
-#sr_var = 'm_1T'
+sr_var = 'm_1T'
 #sr_var = 'BDT_output_SM_opt'
 #sr_var = 'DNN_output_SM_opt'
 #sr_var = 'BDT_SM_xgb_UL008_no'
 #sr_var = 'BDT_cW_xgb_UL008_no'
+#sr_var = 'BDT_cHW_xgb_UL008_no'
 #cr_var = 'm_jj'
 #cr_var = 'm_o1'
 #cr_var = 'm_1T'
@@ -84,6 +85,7 @@ channels_labels = {"SR":"Pre-signal region",
 #*********************************
 #processes = ["ST", "QCD", "TT_Mtt", "WJets"]
 #processes = ["ST", "QCD", "DDWJetsTT_Mtt"]
+
 bkg = [
     "Fake",
     "ZZtoLep",
@@ -213,10 +215,10 @@ rateParams = {}
 FakeMu_rate_2016APV = rateParam()
 FakeMu_rate_2016APV.chs = [
     "SR_muon",
-    "CRTT_muon",                                                    
+    #"CRTT_muon",                                                    
     "CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2016APV.bkg = "Fake"
 rateParams["FRest_muon_2016APV"] = FakeMu_rate_2016APV
@@ -225,10 +227,10 @@ rateParams["FRest_muon_2016APV"] = FakeMu_rate_2016APV
 FakeEle_rate_2016APV = rateParam()
 FakeEle_rate_2016APV.chs = [
     "SR_electron",
-    "CRTT_electron",
+    #"CRTT_electron",
     "CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2016APV.bkg = "Fake"
 rateParams["FRest_electron_2016APV"] = FakeEle_rate_2016APV
@@ -261,9 +263,9 @@ TTbarele_rate_2016APV = rateParam()
 TTbarele_rate_2016APV.chs = [
     "SR_electron",
     "CRTT_electron",
-    "CRF_electron",
+    #"CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 TTbarele_rate_2016APV.bkg = "TTTo2L2Nu"
 rateParams["TTest_electron_2016APV"] = TTbarele_rate_2016APV
@@ -272,9 +274,9 @@ TTbarmu_rate_2016APV = rateParam()
 TTbarmu_rate_2016APV.chs = [
     "SR_muon",
     "CRTT_muon",
-    "CRF_muon",
+    #"CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 TTbarmu_rate_2016APV.bkg = "TTTo2L2Nu"
 rateParams["TTest_muon_2016APV"] = TTbarmu_rate_2016APV
@@ -283,8 +285,8 @@ rateParams["TTest_muon_2016APV"] = TTbarmu_rate_2016APV
 DYele_rate_2016APV = rateParam()
 DYele_rate_2016APV.chs = [
     "SR_electron",
-    "CRTT_electron",
-    "CRF_electron",
+    #"CRTT_electron",
+    #"CRF_electron",
     #"CRDY_electron",
     "CRWS_electron",
 ]
@@ -294,8 +296,8 @@ rateParams["DYest_electron_2016APV"] = DYele_rate_2016APV
 DYmu_rate_2016APV = rateParam()
 DYmu_rate_2016APV.chs = [
     "SR_muon",
-    "CRTT_muon",
-    "CRF_muon",
+    #"CRTT_muon",
+    #"CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
 ]
@@ -306,10 +308,10 @@ rateParams["DYest_muon_2016APV"] = DYmu_rate_2016APV
 FakeMu_rate_2016 = rateParam()
 FakeMu_rate_2016.chs = [
     "SR_muon",
-    "CRTT_muon",                                                    
+    #"CRTT_muon",                                                    
     "CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2016.bkg = "Fake"
 rateParams["FRest_muon_2016"] = FakeMu_rate_2016
@@ -318,10 +320,10 @@ rateParams["FRest_muon_2016"] = FakeMu_rate_2016
 FakeEle_rate_2016 = rateParam()
 FakeEle_rate_2016.chs = [
     "SR_electron",
-    "CRTT_electron",
+    #"CRTT_electron",
     "CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2016.bkg = "Fake"
 rateParams["FRest_electron_2016"] = FakeEle_rate_2016
@@ -354,9 +356,9 @@ TTbarele_rate_2016 = rateParam()
 TTbarele_rate_2016.chs = [
     "SR_electron",
     "CRTT_electron",
-    "CRF_electron",
+    #"CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 TTbarele_rate_2016.bkg = "TTTo2L2Nu"
 rateParams["TTest_electron_2016"] = TTbarele_rate_2016
@@ -365,9 +367,9 @@ TTbarmu_rate_2016 = rateParam()
 TTbarmu_rate_2016.chs = [
     "SR_muon",
     "CRTT_muon",
-    "CRF_muon",
+    #"CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 TTbarmu_rate_2016.bkg = "TTTo2L2Nu"
 rateParams["TTest_muon_2016"] = TTbarmu_rate_2016
@@ -376,8 +378,8 @@ rateParams["TTest_muon_2016"] = TTbarmu_rate_2016
 DYele_rate_2016 = rateParam()
 DYele_rate_2016.chs = [
     "SR_electron",
-    "CRTT_electron",
-    "CRF_electron",
+    #"CRTT_electron",
+    #"CRF_electron",
     #"CRDY_electron",
     "CRWS_electron",
 ]
@@ -387,8 +389,8 @@ rateParams["DYest_electron_2016"] = DYele_rate_2016
 DYmu_rate_2016 = rateParam()
 DYmu_rate_2016.chs = [
     "SR_muon",
-    "CRTT_muon",
-    "CRF_muon",
+    #"CRTT_muon",
+    #"CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
 ]
@@ -472,7 +474,6 @@ DYele_rate_2017.chs = [
     #"CRDY_electron",
     "CRWS_electron",
 ]
-
 DYele_rate_2017.bkg = dyjets_sample
 rateParams["DYest_electron_2017"] = DYele_rate_2017
 
@@ -484,7 +485,6 @@ DYmu_rate_2017.chs = [
     #"CRDY_muon",
     "CRWS_muon",
 ]
-
 DYmu_rate_2017.bkg = dyjets_sample
 rateParams["DYest_muon_2017"] = DYmu_rate_2017
 
@@ -492,10 +492,10 @@ rateParams["DYest_muon_2017"] = DYmu_rate_2017
 FakeMu_rate_2018 = rateParam()
 FakeMu_rate_2018.chs = [
     "SR_muon",
-    "CRTT_muon",
+    #"CRTT_muon",
     "CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2018.bkg = "Fake"
 rateParams["FRest_muon_2018"] = FakeMu_rate_2018
@@ -504,10 +504,10 @@ rateParams["FRest_muon_2018"] = FakeMu_rate_2018
 FakeEle_rate_2018 = rateParam()
 FakeEle_rate_2018.chs = [
     "SR_electron",
-    "CRTT_electron",
+    #"CRTT_electron",
     "CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2018.bkg = "Fake"
 rateParams["FRest_electron_2018"] = FakeEle_rate_2018
@@ -540,9 +540,9 @@ TTbarele_rate_2018 = rateParam()
 TTbarele_rate_2018.chs = [
     "SR_electron",
     "CRTT_electron",
-    "CRF_electron",
+    #"CRF_electron",
     #"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 TTbarele_rate_2018.bkg = "TTTo2L2Nu"
 rateParams["TTest_electron_2018"] = TTbarele_rate_2018
@@ -551,9 +551,9 @@ TTbarmu_rate_2018 = rateParam()
 TTbarmu_rate_2018.chs = [
     "SR_muon",
     "CRTT_muon",
-    "CRF_muon",
+    #"CRF_muon",
     #"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 TTbarmu_rate_2018.bkg = "TTTo2L2Nu"
 rateParams["TTest_muon_2018"] = TTbarmu_rate_2018
@@ -562,24 +562,22 @@ rateParams["TTest_muon_2018"] = TTbarmu_rate_2018
 DYele_rate_2018 = rateParam()
 DYele_rate_2018.chs = [
     "SR_electron",
-    "CRTT_electron",
-    "CRF_electron",
+    #"CRTT_electron",
+    #"CRF_electron",
     #"CRDY_electron",
     "CRWS_electron",
 ]
-
 DYele_rate_2018.bkg = dyjets_sample
 rateParams["DYest_electron_2018"] = DYele_rate_2018
 
 DYmu_rate_2018 = rateParam()
 DYmu_rate_2018.chs = [
     "SR_muon",
-    "CRTT_muon",
-    "CRF_muon",
+    #"CRTT_muon",
+    #"CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
 ]
-
 DYmu_rate_2018.bkg = dyjets_sample
 rateParams["DYest_muon_2018"] = DYmu_rate_2018
 
@@ -603,11 +601,10 @@ syst["FR_sys_electron_2017"] = ["lnN", "Fake", 1.3]
 #syst["jes"] = ["shape", ("QCD", "TT_Mtt", "WJets", "sig")]
 
 ### ReReco
-syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+#syst["autoMCstat"] = ["shape", ("VG", "WpWpJJ_QCD", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 
 ### UltraLegacy
-#syst["autoMCstat"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
-'''
+syst["autoMCstat"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["PF"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["pu"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["lep"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
@@ -623,7 +620,6 @@ syst["jes"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson
 syst["jer"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["TES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["FES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
-'''
 
 '''
 syst["trig"] = ["shape", ("QCD",  "sig")]
@@ -733,9 +729,9 @@ sigpoints = [
     ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
     #VBS_SSWW_cW,
-    VBS_SSWW_cW_SM,#ls
-    #VBS_SSWW_cHW_BSM],#ls
-    VBS_SSWW_cW_BSM,#ls
+    #VBS_SSWW_cW_SM,#ls
+    #VBS_SSWW_cHW_BSM,#ls
+    #VBS_SSWW_cW_BSM,#ls
     ]
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
