@@ -1,0 +1,31 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histoRunII_fit_vUL010_BDT_cW_xgb_UL008_no_countings_RunII_.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histoRunII_fit_vUL010_BDT_cW_xgb_UL008_no_countings_RunII_.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               SR_electron_2016
+observation       39
+-----------------------------------------------------------------------------------
+bin                                               SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         SR_electron_2016         
+process                                           sm                       sm_lin_quad_cW           quad_cW                  Fake                     ZZtoLep                  WrongSign                WZ                       TTTo2L2Nu                Triboson                 TVX                      DYJetsToLL_FxFx          VG                       
+process                                           0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        10                       11                       
+rate                                              1.237958                 3.184260                 1.942850                 35.834866                0.020582                 0.226796                 0.345219                 0.932405                 0.067667                 0.058742                 1.593660                 0.179613                 
+-----------------------------------------------------------------------------------
+lumi_2016APV             lnN                      1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    
+lumi_2016                lnN                      1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    
+SR_electron_2016         autoMCStats              10                       0                        
+ 
+DYest_electron_2016APV   rateParam                SR_electron_2016         DYJetsToLL_FxFx          1                        
+
+FRest_electron_2016APV   rateParam                SR_electron_2016         Fake                     1                        
+
+FRest_electron_2016      rateParam                SR_electron_2016         Fake                     1                        
+
+TTest_electron_2016APV   rateParam                SR_electron_2016         TTTo2L2Nu                1                        
+
+TTest_electron_2016      rateParam                SR_electron_2016         TTTo2L2Nu                1                        
+
+DYest_electron_2016      rateParam                SR_electron_2016         DYJetsToLL_FxFx          1                        
+

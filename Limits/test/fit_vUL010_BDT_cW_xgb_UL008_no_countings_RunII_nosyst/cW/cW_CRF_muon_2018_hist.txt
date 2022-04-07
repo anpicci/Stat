@@ -1,0 +1,20 @@
+imax 1 number of channels 
+jmax * number of backgrounds 
+kmax * number of nuisance parameters
+-----------------------------------------------------------------------------------
+shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histoRunII_fit_vUL010_BDT_cW_xgb_UL008_no_countings_RunII_nosyst.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histoRunII_fit_vUL010_BDT_cW_xgb_UL008_no_countings_RunII_nosyst.root    $CHANNEL/$PROCESS
+-----------------------------------------------------------------------------------
+bin               CRF_muon_2018
+observation       713
+-----------------------------------------------------------------------------------
+bin                                               CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            CRF_muon_2018            
+process                                           sm                       sm_lin_quad_cW           quad_cW                  Fake                     ZZtoLep                  WrongSign                WZ                       TTTo2L2Nu                Triboson                 TVX                      DYJetsToLL_FxFx          VG                       
+process                                           0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        10                       11                       
+rate                                              2.931204                 3.456907                 0.520452                 551.754089               1.302475                 2.746616                 2.045450                 14.529384                0.351322                 1.559260                 16.427113                0.181838                 
+-----------------------------------------------------------------------------------
+lumi_2018                lnN                      1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    1.025                    
+CRF_muon_2018            autoMCStats              10                       0                        
+ 
+FRest_muon_2018          rateParam                CRF_muon_2018            Fake                     1                        
+

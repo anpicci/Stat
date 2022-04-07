@@ -335,7 +335,14 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           else:
                                                  card += "%-25s" % ( "-") 
                             for p in processes:
-                                   if (p in sysValue[1]): 
+                                   if p not in sysValue[1]:
+                                          card += "%-25s" % ( "-") 
+                                          continue
+                                   isbogussys = False 
+                                   if(getRate(ch, p+"_"+sysName+"Up", ifile)==0 or getRate(ch, p+"_"+sysName+"Down", ifile)==0):
+                                          isbogussys = True
+
+                                   if ((getRate(ch, sigp, ifile) != 0.) and not isbogussys): 
                                           card += "%-25s" % ( "1") 
                                    else: 
                                           card += "%-25s" % ( "-") 
@@ -738,14 +745,20 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                                  card += "%-25s" % ( "1") 
                                           else: 
                                                  card += "%-25s" % ( "-") 
+
                             for p in processes:
-                                   if (p in sysValue[1]): 
-                                          #if "q2SingleTop" in sysName: card += "%-25s" % ( "1") 
-                                          #else:
+                                   if p not in sysValue[1]:
+                                          card += "%-25s" % ( "-") 
+                                          continue
+                                   isbogussys = False 
+                                   if(getRate(ch, p+"_"+sysName+"Up", ifile)==0 or getRate(ch, p+"_"+sysName+"Down", ifile)==0):
+                                          isbogussys = True
+
+                                   if ((getRate(ch, sigp, ifile) != 0.) and not isbogussys): 
                                           card += "%-25s" % ( "1") 
-                                          #print "adding to channel ", p
                                    else: 
                                           card += "%-25s" % ( "-") 
+
                      elif("mcstat" in sysName):
                             # CAMBIARE NOME DELLA SYST                     
                             for samp in sysValue[1]:
