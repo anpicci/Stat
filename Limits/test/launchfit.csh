@@ -1,5 +1,5 @@
 #set folder='fit_v100_m_1T'
-set oper="FS0_1"#cW"#FM1_5" #FT2_0p5" #  cHW" # 
+set oper="FS0_25"#cW"#FM1_5" #FT2_0p5" #  cHW" # 
 #set srvar="m_jj"
 #set srvar="m_o1"
 #set srvar="m_1T"
