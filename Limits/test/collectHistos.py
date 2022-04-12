@@ -46,6 +46,7 @@ for year in years:
 
         for fn in tmp_list:
 
+
             isSig = False
             isLS = False
 
@@ -55,7 +56,6 @@ for year in years:
             if fn.startswith('VBS_SSWW_'):
                 for sigp in sigpoints:
                     for sig in sigp:
-
                         if fn.startswith('VBS_SSWW_' + sig + "_" + yearstring):
                             isSig = True
                             sampFiles[year+lep].append([fn, fn])
@@ -63,7 +63,7 @@ for year in years:
                             continue
                             
                         if opt.ls != "":
-                            if not (sig.startswith(opt.ls.split("_")[0]) or sig == "SM"):# or sig.startswith('F')):
+                            if not (sig.startswith(opt.ls.split("_")[0]) or sig == "SM"):
                                 continue
 
                             sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
@@ -72,7 +72,6 @@ for year in years:
                                 sig_op += "_" + sig_splitted[1]
                         
                             ls_dict = lssamples_1D[opt.ls]#sig_op]
-
                             for nout, nin in ls_dict.items():
                                 if fn.startswith(nin+"_"):
                                     sampFiles[year+lep].append([fn, nout])
@@ -345,4 +344,3 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()
     ofile.Close()
-
