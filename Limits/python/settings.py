@@ -7,12 +7,16 @@ import collections
 #*********************************
 #sr_var = 'm_jj'
 #sr_var = 'm_o1'
-sr_var = 'm_1T'
+#sr_var = 'm_1T'
 #sr_var = 'BDT_output_SM_opt'
 #sr_var = 'DNN_output_SM_opt'
 #sr_var = 'BDT_SM_xgb_UL008_no'
 #sr_var = 'BDT_cW_xgb_UL008_no'
 #sr_var = 'BDT_cHW_xgb_UL008_no'
+#sr_var = 'BDT_fT1_xgb_RR_no'
+sr_var = 'BDT_aQGC_xgb_RR_no'
+#sr_var = 'BDT_fS0_25_xgb_RR_no'
+#sr_var = 'BDT_fS0_xgb_RR_no'
 #cr_var = 'm_jj'
 #cr_var = 'm_o1'
 #cr_var = 'm_1T'
@@ -23,23 +27,23 @@ sr_var = 'm_1T'
 cr_var = 'countings'
 hist_pre = "h_"
 
-#dyjets_sample = "DYJetsToLL"
-dyjets_sample = "DYJetsToLL_FxFx"
-#triboson_sample = "Other"
-triboson_sample = "Triboson"
+dyjets_sample = "DYJetsToLL"
+#dyjets_sample = "DYJetsToLL_FxFx"
+triboson_sample = "Other"
+#triboson_sample = "Triboson"
 
 ### List of histos to include in the root files
 histos = { "SR":hist_pre + sr_var + "_SR",
            #"PR":"h_ltau_m_jj_selection_upto_bveto_lepBDTcut",
            "CRTT":hist_pre + cr_var + "_ttbar_CR",
            ## ReReco ##
-           #"CRWS":hist_pre + cr_var + "_wrongsing_CR",
+           "CRWS":hist_pre + cr_var + "_wrongsing_CR",
            ## UltraLegacy ##
-           "CRWS":hist_pre + cr_var + "_OS_CR_bvetoL",
+           #"CRWS":hist_pre + cr_var + "_OS_CR_bvetoL",
            "CRF":hist_pre + cr_var + "_fakes_CR",
            #"CRQCD":hist_pre + cr_var + "_QCD_CR",
            #"CRWJ":hist_pre + cr_var + "_wjets_CR",
-           #"CRDY":hist_pre + cr_var + "_DY_CR",
+           "CRDY":hist_pre + cr_var + "_DY_CR",
 }
 
 cuttag = ""#_AND_taggerScore_G_0p9"
@@ -55,14 +59,14 @@ channels = ["SR_muon",
             #"CRQCD_muon",
             #"CRWJ_muon",
             "CRF_muon",
-            #"CRDY_muon",
+            "CRDY_muon",
             "SR_electron",
             "CRTT_electron",
             "CRWS_electron",
             #"CRQCD_electron",
             #"CRWJ_electron",
             "CRF_electron",
-            #"CRDY_electron",
+            "CRDY_electron",
 ]
 
 leptons = [
@@ -95,7 +99,7 @@ bkg = [
     triboson_sample,
     "TVX",
     dyjets_sample,
-    #"WpWpJJ_QCD",
+    "WpWpJJ_QCD",
     "VG",
     "VBS_SSWW_SM",
     "VBS_SSWW_LL_SM",
@@ -400,10 +404,10 @@ rateParams["DYest_muon_2016"] = DYmu_rate_2016
 FakeMu_rate_2017 = rateParam()
 FakeMu_rate_2017.chs = [
     "SR_muon",
-    #"CRTT_muon",                                                    
+    "CRTT_muon",                                                    
     "CRF_muon",
-    #"CRDY_muon",
-    #"CRWS_muon",
+    "CRDY_muon",
+    "CRWS_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["FRest_muon_2017"] = FakeMu_rate_2017
@@ -412,10 +416,10 @@ rateParams["FRest_muon_2017"] = FakeMu_rate_2017
 FakeEle_rate_2017 = rateParam()
 FakeEle_rate_2017.chs = [
     "SR_electron",
-    #"CRTT_electron",
+    "CRTT_electron",
     "CRF_electron",
-    #"CRDY_electron",
-    #"CRWS_electron",
+    "CRDY_electron",
+    "CRWS_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
@@ -448,9 +452,9 @@ TTbarele_rate_2017 = rateParam()
 TTbarele_rate_2017.chs = [
     "SR_electron",
     "CRTT_electron",
-    #"CRF_electron",
-    #"CRDY_electron",
-    #"CRWS_electron",
+    "CRF_electron",
+    "CRDY_electron",
+    "CRWS_electron",
 ]
 TTbarele_rate_2017.bkg = "TTTo2L2Nu"
 rateParams["TTest_electron_2017"] = TTbarele_rate_2017
@@ -459,9 +463,9 @@ TTbarmu_rate_2017 = rateParam()
 TTbarmu_rate_2017.chs = [
     "SR_muon",
     "CRTT_muon",
-    #"CRF_muon",
-    #"CRDY_muon",
-    #"CRWS_muon",
+    "CRF_muon",
+    "CRDY_muon",
+    "CRWS_muon",
 ]
 TTbarmu_rate_2017.bkg = "TTTo2L2Nu"
 rateParams["TTest_muon_2017"] = TTbarmu_rate_2017
@@ -469,9 +473,9 @@ rateParams["TTest_muon_2017"] = TTbarmu_rate_2017
 DYele_rate_2017 = rateParam()
 DYele_rate_2017.chs = [
     "SR_electron",
-    #"CRTT_electron",
-    #"CRF_electron",
-    #"CRDY_electron",
+    "CRTT_electron",
+    "CRF_electron",
+    "CRDY_electron",
     "CRWS_electron",
 ]
 DYele_rate_2017.bkg = dyjets_sample
@@ -480,9 +484,9 @@ rateParams["DYest_electron_2017"] = DYele_rate_2017
 DYmu_rate_2017 = rateParam()
 DYmu_rate_2017.chs = [
     "SR_muon",
-    #"CRTT_muon",
-    #"CRF_muon",
-    #"CRDY_muon",
+    "CRTT_muon",
+    "CRF_muon",
+    "CRDY_muon",
     "CRWS_muon",
 ]
 DYmu_rate_2017.bkg = dyjets_sample
@@ -605,6 +609,7 @@ syst["FR_sys_electron_2017"] = ["lnN", "Fake", 1.3]
 
 ### UltraLegacy
 syst["autoMCstat"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
+'''
 syst["PF"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["pu"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["lep"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
@@ -620,17 +625,17 @@ syst["jes"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson
 syst["jer"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["TES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
 syst["FES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig")]
-
+'''
 '''
 syst["trig"] = ["shape", ("QCD",  "sig")]
 syst["btag"] = ["shape", ("QCD",  "sig")]
 syst["mistag"] = ["shape", ("QCD",  "sig")]
 '''
 
-#years = ["2017"]
+years = ["2017"]
 #years = ["2018"]
 #years = ["2017", "2018"]
-years = ["2016APV","2016","2017","2018"]
+#years = ["2016APV","2016","2017","2018"]
 
 '''
 splityearjes=False
@@ -719,8 +724,8 @@ VBS_SSWW_FT2_0 = ("FT2_0")
 
 
 sigpoints = [
-    [
-    VBS_SSWW_SM,#ls+BDTSM
+    #[
+    #VBS_SSWW_SM,#ls+BDTSM
     #VBS_SSWW_aQGC],
     #VBS_SSWW_SM_LL,
     #VBS_SSWW_SM_TL,
@@ -732,15 +737,17 @@ sigpoints = [
     #VBS_SSWW_cW_SM,#ls
     #VBS_SSWW_cHW_BSM,#ls
     #VBS_SSWW_cW_BSM,#ls
-    ]
+    #]
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
     #VBS_SSWW_FS0_25_SM,#ls
-    ##VBS_SSWW_FS0_5_SM,
-    ##VBS_SSWW_FS0_5_BSM, 
+    [
+        VBS_SSWW_FS0_5_SM,
+        VBS_SSWW_FS0_5_BSM, 
     #VBS_SSWW_FS0_25_BSM,#ls
     #VBS_SSWW_FS0_5,
-    #VBS_SSWW_FS0_0,#ls
+        VBS_SSWW_FS0_0,#ls
+    ]
     ##VBS_SSWW_FS1_50_SM,
     #VBS_SSWW_FS1_10_SM,#ls
     ##VBS_SSWW_FS1_50,
@@ -775,12 +782,13 @@ sigpoints = [
     ##VBS_SSWW_FT0_2p5,          
     ##VBS_SSWW_FT0_0p5,                                                                                    
     #VBS_SSWW_FT0_0,#ls
-    #[VBS_SSWW_FT1_1_SM,#ls
+    #[
+    #VBS_SSWW_FT1_1_SM,#ls
     #VBS_SSWW_FT1_1_BSM,#ls
     ##VBS_SSWW_FT1_0p2_SM,                                                                                
     ##VBS_SSWW_FT1_1,
     #VBS_SSWW_FT1_0,#ls
-     #]
+    #]
     ##VBS_SSWW_FT1_0p2,
     #VBS_SSWW_FT2_2p5_SM,#ls
     #VBS_SSWW_FT2_2p5_BSM,#ls

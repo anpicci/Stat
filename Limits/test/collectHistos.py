@@ -63,7 +63,7 @@ for year in years:
                             continue
                             
                         if opt.ls != "":
-                            if not (sig.startswith(opt.ls) or sig == "SM"):# or sig.startswith('F')):
+                            if not (sig.startswith(opt.ls.split("_")[0]) or sig == "SM"):# or sig.startswith('F')):
                                 continue
 
                             sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
@@ -71,7 +71,7 @@ for year in years:
                             if len(sig_splitted) > 1:
                                 sig_op += "_" + sig_splitted[1]
                         
-                            ls_dict = lssamples_1D[sig_op]
+                            ls_dict = lssamples_1D[opt.ls]#sig_op]
 
                             for nout, nin in ls_dict.items():
                                 if fn.startswith(nin+"_"):
@@ -120,6 +120,7 @@ for k, v in sampFiles.items():
     for el in v:
         print el
 '''
+
 #*******************************************************#
 #                                                       #
 #     FILLING IN THE INPUT ROOT FILE FOR COMBINE        #
@@ -344,3 +345,4 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()
     ofile.Close()
+
