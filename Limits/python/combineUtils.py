@@ -147,11 +147,12 @@ def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
         extraoption=""
         if model.startswith("FS") or model.startswith("FM"):
             interval = "-80,80"
-        if model.startswith("cHW"):
+        elif model.startswith("cHW"):
             interval = "-20,20"
         else:
             interval = "-5,5"
 
+        print "model is", model, "interval is", interval
         if len(categories)>=1:
             if len(years)>1:
                 cmd = "combineCards.py "
