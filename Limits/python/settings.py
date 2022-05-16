@@ -9,8 +9,8 @@ import collections
 #sr_var = 'm_o1'
 #sr_var = 'm_1T'
 #sr_var = 'BDT_output_SM_opt'
-sr_var = 'DNN_SM_UL010_allBKG'
-#sr_var = 'DNN_cHW_UL010_allBKG'
+#sr_var = 'DNN_SM_UL010_allBKG'
+sr_var = 'DNN_cHW_UL010_allBKG'
 #sr_var = 'BDT_SM_xgb_UL010_allBKG_v2'
 #sr_var = 'BDT_cW_xgb_UL010_allBKG_v2'
 #sr_var = 'BDT_fT1_xgb_RR_no'
@@ -24,7 +24,8 @@ sr_var = 'DNN_SM_UL010_allBKG'
 #cr_var = 'BDT_SM_xgb_UL008_no'
 #cr_var = 'BDT_dim6_xgb_UL008_no'
 #cr_var = 'countings'
-cr_var = 'DNN_SM_UL010_allBKG'
+#cr_var = 'DNN_SM_UL010_allBKG'
+cr_var = 'DNN_cHW_UL010_allBKG'
 hist_pre = "h_"
 
 #dyjets_sample = "DYJetsToLL"
@@ -843,9 +844,9 @@ sigpoints = [
     ##VBS_SSWW_BSM,
     #VBS_SSWW_cHW_SM,#ls
     #VBS_SSWW_cW,
-    #VBS_SSWW_cW_SM,#ls
+    VBS_SSWW_cW_SM,#ls
     #VBS_SSWW_cHW_BSM,#ls
-    #VBS_SSWW_cW_BSM,#ls
+    VBS_SSWW_cW_BSM,#ls
     ]
     #VBS_SSWW_cHW,
     #VBS_SSWW_cW,
