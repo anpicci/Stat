@@ -40,13 +40,11 @@ for year in years:
     for lep in leptons:
         path_ = path + lep + '/'
 
-        tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and year in f)]
+        tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and str(year+"_") in f)]
 
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
-
-
             isSig = False
             isLS = False
 
@@ -179,12 +177,19 @@ for year in years:
                     if not systype[0] == "shape" or sysname == "autoMCstat":
                         continue
                     if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and flist[0].startswith("VBS_")):
-                        hup_ = h_ + "_" + sysname + "Up"
-                        hdown_ = h_ + "_" + sysname + "Down"
+                        hup_ = h_ + "_" + sysname# + "Up"
+                        hdown_ = h_ + "_" + sysname# + "Down"
+                        hup_ += "Up"
+                        hdown_ += "Down"
+                        sysName = sysname
+                        if systype[0] == "shape":
+                            if systype[2] == "uncorr":
+                                sysName += "_" + year
+
                         #print "up and down", hup_, hdown_
                         #print ifile.Get(hup_).GetName()
                         #print ifile.Get(hdown_).GetName()
-                        hsyst[sysname] = [ifile.Get(hup_), ifile.Get(hdown_)]
+                        hsyst[sysName] = [ifile.Get(hup_), ifile.Get(hdown_)]
 
         #print "end\n\n\n"
                 ofile.cd(k_ + "_" + lep + "_" + year)
@@ -194,8 +199,8 @@ for year in years:
                 if(samp.startswith("Data")):
                     print "\nis data!"
                     #print h
-                    if (k_.startswith("SR") and unblind) or k_.startswith("CR"):
-                        #print "passed", h.Integral()
+                    if True:#(k_.startswith("SR") and unblind) or k_.startswith("CR"):
+                        print "PASSED", h.Integral()
                         h.Write("data_obs", ROOT.TObject.kWriteDelete)
                     else:
                         continue
@@ -211,6 +216,7 @@ for year in years:
                                 sampsyst += "Up"
                             elif i == 1:
                                 sampsyst += "Down"
+                            #print("sampsyst:", sampsyst)
                             shists[i].Write(sampsyst, ROOT.TObject.kWriteDelete) 
 
                 print h.GetName()
@@ -332,7 +338,7 @@ for lep in leptons:
             #bkgpdf.Scale(1./ bkgpdf.Integral())
             bkgpdf.Scale(bkgscale)
             print "Bkg pdf ", bkgpdf.Integral()
-            if not (k_.startswith("CR")) and not unblind:# or k_.startswith("CR"):
+            if False:#not (k_.startswith("CR")) and not unblind:# or k_.startswith("CR"):
                 print "\nCreating data_obs blinded"
                 histdata = bkgpdf.Clone("data_obs")
                 histdata.Reset()

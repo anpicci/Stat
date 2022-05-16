@@ -46,6 +46,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                 print cmd
                 os.system(cmd)
                 runCombine("combine -M Significance "+extraoption+ " "+modelname + "_" + method + ".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + method + ".log")
+                #runCombine("combine -M Significance "+extraoption+ " "+modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M FitDiagnostics VBS_SSWW_"+model + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + "_" + method + ".log")
 
             else:
@@ -57,6 +58,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                     print cmd
                     os.system(cmd)
                     runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + method + ".log")
+                    #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M FitDiagnostics VBS_SSWW_"+ model + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + ".log")  
 
                     if(runSingleCat): 
@@ -67,6 +69,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                             print "combine -M Significance "+extraoption + " "+modelname + "_" + cat +".txt", "significance_" + modelname + "_" + cat + ".log"
                             #print "combine -M FitDiagnostics VBS_SSWW_"+model + "_" + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties"
                             runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + cat + ".log")  
+                            #runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
                             #runCombine("combine -M FitDiagnostics VBS_SSWW_"+model + "_"  + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + "_" + cat + ".log")  
 
         else:
@@ -76,6 +79,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                     cat = cat+"_"+year+"_"+method
                     if(runSingleCat):
                         runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1 --expectSignal=1", "significance_" + modelname + "_" + cat + ".log")  
+                        #runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
                         #runCombine("combine -M FitDiagnostics VBS_SSWW_"+model + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + model + "_" + cat + ".log")  
         os.chdir("..")
 
@@ -148,9 +152,9 @@ def runSinglePointVBS_LS(path_, model, categories, method, runSingleCat):
         if model.startswith("FS") or model.startswith("FM"):
             interval = "-80,80"
         elif model.startswith("cHW"):
-            interval = "-20,20"
+            interval = "-10,10"
         else:
-            interval = "-5,5"
+            interval = "-1,1"
 
         print "model is", model, "interval is", interval
         if len(categories)>=1:

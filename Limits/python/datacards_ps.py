@@ -42,6 +42,7 @@ def getHist(ch, process, ifile):
 #                                                       #
 #*******************************************************#
 def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
+       year = ch.split("_")[-1]
        print "sig:", sig
        processes = []
        for p in bkg:
@@ -261,7 +262,18 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        card += "%-50s%-25s%-25s\n" % ("rate", sigLine3, rateLine) #signalYield[m].getVal(), nevents
        card += "-----------------------------------------------------------------------------------\n"
 
-       for sysName, sysValue in syst.iteritems():
+       for sysname, sysValue in syst.iteritems():
+              sysName = ""
+              #### insert year in sysName if sys in uncorr, o
+              if sysValue[0] == "shape":
+                     #print syst[sysname]
+                     if sysValue[2] == "uncorr":
+                            sysName = sysname + "_" + str(year)
+                     else:
+                            sysName = sysname
+              else:
+                     sysName = sysname
+
               print "Systematic Uncertainty: ", sysName
               if("2016" in sysName and "2016" not in ch): 
                      continue
@@ -275,6 +287,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      continue
 
               if(sysValue[0]=="lnN"): 
+                     if "lumi" in sysName and "1718_" in sysName:
+                            sysName = sysName.replace("APV", "").replace("_2016", "").replace("_2017", "").replace("_2018", "")
                      card += "%-25s%-25s" % (sysName, sysValue[0])
                      if(sysValue[1]=="all" and len(sysValue)>2):
                             if(mode == "template"):
@@ -294,9 +308,13 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                    sysValue[1] = copy.deepcopy(processes)
                                    for sigp in sig:
                                           sysValue[1].append(sigp)
-                            hsysName =  "_" + sysName  
-                            hsysNameUp = "_" + sysName + "Up"  
-                            hsysNameDown = "_" + sysName + "Down" 
+                            hsysName =  "_" + sysname  
+                            hsysNameUp = "_" + sysname + "Up"  
+                            hsysNameDown = "_" + sysname + "Down" 
+                            #hsysName =  "_" + sysName  
+                            #hsysNameUp = "_" + sysName + "Up"  
+                            #hsysNameDown = "_" + sysName + "Down" 
+                            print hsysName, hsysNameUp, hsysNameDown
                             #print "Applying syst on ", sysValue[1]
                             if("sig" in sysValue[1]):
                                    for sigp in sig:
@@ -388,6 +406,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        # End for loop on syst unc.       
        card += "\n"
        for k, v in rateParams.items():
+              rpyear = k.split("_")[-1]
               for ch_ in v.chs:
                      if("2016" in k and "2016" not in ch):
                             continue
@@ -436,6 +455,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 #                                                       #
 #*******************************************************#
 def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
+       year = ch.split("_")[-1]
        print "channel:", ch
        print outdir
 
@@ -668,7 +688,19 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
        card += "-----------------------------------------------------------------------------------\n"
 
-       for sysName,sysValue  in syst.iteritems():
+       for sysname,sysValue  in syst.iteritems():
+
+              sysName = ""
+              #### insert year in sysName if sys in uncorr, o
+              if sysValue[0] == "shape":
+                     #print syst[sysname]
+                     if sysValue[2] == "uncorr":
+                            sysName = sysname + "_" + str(year)
+                     else:
+                            sysName = sysname
+              else:
+                     sysName = sysname
+
               print "Systematic Uncertainty: ", sysName
               if("2016" in sysName and "2016" not in ch):
                      continue
@@ -703,9 +735,12 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
                                    sysValue[1].append(sig)
-                            hsysName =  "_" + sysName  
-                            hsysNameUp = "_" + sysName + "Up"  
-                            hsysNameDown = "_" + sysName + "Down" 
+                            #hsysName =  "_" + sysName  
+                            #hsysNameUp = "_" + sysName + "Up"  
+                            #hsysNameDown = "_" + sysName + "Down" 
+                            hsysName =  "_" + sysname  
+                            hsysNameUp = "_" + sysname + "Up"  
+                            hsysNameDown = "_" + sysname + "Down" 
                             #print "Applying syst on ", sysValue[1]
                             if("sig" in sysValue[1]):
                                    for sigp in sig:
@@ -798,6 +833,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               card += "\n"
        # End for loop on syst unc.       
        for k, v in rateParams.items():
+              rpyear = k.split("_")[-1]
               for ch_ in v.chs:
                      if("2016" in k and "2016" not in ch):
                             continue
