@@ -742,9 +742,9 @@ syst["mistag"] = ["shape", ("QCD",  "sig")]
 #years = ["2016"]
 #years = ["2016M"]
 #years = ["2017"]
-years = ["2018"]
+#years = ["2018"]
 #years = ["2017", "2018"]
-#years = ["2016M", "2017", "2018"]
+years = ["2016M", "2017", "2018"]
 
 '''
 splityearjes=False
