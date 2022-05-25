@@ -1,13 +1,13 @@
 #set folder='fit_v100_m_1T'
-set oper="cW"#FS0_5"#FM1_5" #FT2_0p5" #  cHW" # 
+set oper="SM"#cW"#FS0_5"#FM1_5" #FT2_0p5" #  cHW" # 
 #set srvar="m_jj"
 #set srvar="m_o1"
 #set srvar="m_1T"
 #set srvar="BDT_SM_xgb_UL010_allBKG"
 #set srvar="BDT_cW_xgb_UL010_allBKG"
-#set srvar="DNN_SM_UL010_allBKG"
+set srvar="DNN_SM_UL010_allBKG"
 #set srvar="DNN_cW_UL010_allBKG"
-set srvar="DNN_cHW_UL010_allBKG"
+#set srvar="DNN_cHW_UL010_allBKG"
 #set srvar="BDT_cW_xgb_UL008_no"
 #set srvar="BDT_cHW_xgb_UL008_no"
 #set srvar = 'BDT_fT1_xgb_RR_no'
@@ -15,9 +15,9 @@ set srvar="DNN_cHW_UL010_allBKG"
 #set srvar = 'BDT_fS0_xgb_RR_no'#branch con BDT allenata su tutti i fS0
 #set srvar = 'BDT_fS0_25_xgb_RR_no'#branch con BDT allenata solo su fS0 = 25
 #set crvar="countings"
-#set crvar="m_o1"
-#set crvar="DNN_SM_UL010_allBKG"
-set crvar="DNN_cHW_UL010_allBKG"
+#set crvar="m_jj"
+set crvar="DNN_SM_UL010_allBKG"
+#set crvar="DNN_cHW_UL010_allBKG"
 #set inf='v100'#_tagger_DataSplit_MCnoSplit'
 set inf='vUL025'#_xg_sample_29_10_21_n1T4features_depth2_retrainedBDT'
 #set year = '2016M'
@@ -35,12 +35,12 @@ set EOSSPACE = /eos/home-a/apiccine
 #set EOSSPACE = /eos/home-t/ttedesch
 
 reset
-#python PrepareEOSfolder.py $inf
-#rm histo$year_$folder.root
-#python collectHistos.py -i $EOSSPACE/VBS/nosynch/$inf/plot/ -o histo$year_$folder.root --ls $oper
-python createDatacards.py -i histo$year_$folder.root -d $folder --ls $oper
-##python runCombine.py -c SR_$year -y $year -d $folder --runSingleCat -m hist
-#python runCombine.py -y $year -d $folder -m hist #--ls $oper #--runSingleCat -m hist
+python PrepareEOSfolder.py $inf
+rm histo$year_$folder.root
+python collectHistos.py -i $EOSSPACE/VBS/nosynch/$inf/plot/ -o histo$year_$folder.root #--ls $oper
+python createDatacards.py -i histo$year_$folder.root -d $folder #--ls $oper
+#python runCombine.py -c SR_$year -y $year -d $folder --runSingleCat -m hist
+python runCombine.py -y $year -d $folder -m hist #--ls $oper #--runSingleCat -m hist
 ##python getLimitData.py -y 2016 -d $folder/
 ##python brazilPlot.py -y 2016 -l $folder
 

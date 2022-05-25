@@ -28,16 +28,16 @@ double myfunc(Double_t *x, Double_t *) { return gr->Eval(x[0]);}
 int main(int argc, char*argv[]){
 
 
-///////////////// START CONFIG 
-  gROOT->Reset();
-  gStyle->SetCanvasColor(0);
-  gStyle->SetFrameBorderMode(0);
-  gStyle->SetOptStat(0);
-  gStyle->SetPalette(1,0);
-  gStyle->SetTitleX(0.5); //title X location 
-  gStyle->SetTitleY(0.96); //title Y location 
-  gStyle->SetPaintTextFormat(".2f");
-  TStyle *tdrStyle = new TStyle("tdrStyle","Style for P-TDR");
+ ///////////////// START CONFIG 
+ gROOT->Reset();
+ gStyle->SetCanvasColor(0);
+ gStyle->SetFrameBorderMode(0);
+ gStyle->SetOptStat(0);
+ gStyle->SetPalette(1,0);
+ gStyle->SetTitleX(0.5); //title X location 
+ gStyle->SetTitleY(0.96); //title Y location 
+ gStyle->SetPaintTextFormat(".2f");
+ TStyle *tdrStyle = new TStyle("tdrStyle","Style for P-TDR");
  tdrStyle->SetCanvasBorderMode(0);
  tdrStyle->SetCanvasColor(kWhite);
  tdrStyle->SetCanvasDefH(600); //Height of canvas
@@ -99,7 +99,7 @@ int main(int argc, char*argv[]){
  tdrStyle->SetStatFontSize(0.025); //Vertical Size
  tdrStyle->SetStatW(0.25); //Horizontal size 
  //tdrStyle->SetStatStyle(Style_t style = 1001)
-//Margins:
+ //Margins:
  tdrStyle->SetPadTopMargin(0.095);
  tdrStyle->SetPadBottomMargin(0.125);
  tdrStyle->SetPadLeftMargin(0.14);
@@ -140,15 +140,16 @@ int main(int argc, char*argv[]){
   tdrStyle->SetOptLogy(0);
   tdrStyle->SetOptLogz(0);
   tdrStyle->cd();
-///////////////// FINE CONFIG
+  ///////////////// FINE CONFIG
  
   //const int NBINS=37;
-  //const int NBINS=11;
-  const int NBINS=9;
+  const int NBINS=11;
+  //const int NBINS=9;
   //const int NBINS=13;
   //double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8,5.2,5.8,6.2,6.8,7.2,7.8,8.2,8.8,9.2,9.8,10.2,10.8,11.2,11.8,12.2,12.8,13.2,13.8,14.2,14.8,15.2,15.8,16.2,16.8,17.2,17.8,18.2,19};
   //double_t edges[NBINS + 1] = {0.0, 0.8, 1.2, 1.8, 2.2, 2.8, 3.2, 3.8, 4.2, 4.8, 5.2, 5.8, 6.2, 6.8};
-  double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8};
+  //double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8};
+  double_t edges[NBINS + 1] = {0.0,0.8,1.2,1.8,2.2,2.8,3.2,3.8,4.2,4.8,5.2,5.8};
   TH1F *Yup=new TH1F("yellow_up","",NBINS,edges);
   TH1F *Gup=new TH1F("green_up","",NBINS,edges);
   TH1F *Ydown=new TH1F("yellow_down","",NBINS,edges);
@@ -216,30 +217,8 @@ gr->Clear();
 
 //-----M_o1 + countings-----                   
 
-char path2[100];                    // location of combine output 
-//sprintf(path1,"likelihoodScan/%s/mjj/LS_objects_k_%s.root",argv[1],argv[1]);
- sprintf(path2,"./fit_v%s_m_o1_countings_RunII_/%s/LS_objects_k_%s.root",argv[2],argv[1],argv[1]);
-                       
-TFile *f_2 = TFile::Open(path2);
-gr= (TGraph*) f_2->Get("Graph;1");
-TF1 *f2 = new TF1("f2",myfunc,-1000,1000,0);
-
-double s1down_2=f2->GetX(y2,-1000,0);
-double s1up_2=f2->GetX(y2,0,1000);
-double s2down_2=f2->GetX(y1,-1000,0);
-double s2up_2=f2->GetX(y1,0,1000);
-
-double min_2=f2->GetMinimumX(-10,10);
-
-f_2->Close();                 
-gr->Clear();
-               
-
-//-----m_o1 + m_o1-----                   
-
 char path3[100];                    // location of combine output 
-//sprintf(path1,"likelihoodScan/%s/mjj/LS_objects_k_%s.root",argv[1],argv[1]);
- sprintf(path3,"./fit_v%s_m_o1_m_o1_RunII_/%s/LS_objects_k_%s.root",argv[2],argv[1],argv[1]);
+sprintf(path3,"./fit_v%s_m_o1_countings_RunII_/%s/LS_objects_k_%s.root",argv[2],argv[1],argv[1]);
                        
 TFile *f_3 = TFile::Open(path3);
 gr= (TGraph*) f_3->Get("Graph;1");
@@ -254,28 +233,47 @@ double min_3=f3->GetMinimumX(-10,10);
 
 f_3->Close();                 
 gr->Clear();
+               
 
-/*
-//-----m_o1-----         
+//-----m_o1 + m_o1-----                   
 
-char path4[100];
-//sprintf(path4,"./fit_v100_m_o1_RunII/%s/LS_objects_k_%s.root",argv[1],argv[1]);          
-sprintf(path4,"./fit_vUL010_m_o1_countings_RunII_/%s/LS_objects_k_%s.root",argv[1],argv[1]);          
+char path4[100];                    // location of combine output 
+sprintf(path4,"./fit_v%s_m_o1_m_o1_RunII_/%s/LS_objects_k_%s.root",argv[2],argv[1],argv[1]);
                        
-TFile *f_m_o1 = TFile::Open(path4);
-gr= (TGraph*) f_m_o1->Get("Graph;1");
-TF1 *f4 = new TF1("f4",myfunc,-1000,1000,0);
+TFile *f_4 = TFile::Open(path4);
+gr= (TGraph*) f_4->Get("Graph;1");
+TF1 *f4 = new TF1("f3",myfunc,-1000,1000,0);
 
-double s1down_m_o1=f4->GetX(y2,-1000,0);
-double s1up_m_o1=f4->GetX(y2,0,1000);
-double s2down_m_o1=f4->GetX(y1,-1000,0);
-double s2up_m_o1=f4->GetX(y1,0,1000);
+double s1down_4=f4->GetX(y2,-1000,0);
+double s1up_4=f4->GetX(y2,0,1000);
+double s2down_4=f4->GetX(y1,-1000,0);
+double s2up_4=f4->GetX(y1,0,1000);
 
-double min_m_o1=f4->GetMinimumX(-10,10);
+double min_4=f4->GetMinimumX(-10,10);
 
-f_m_o1->Close();
+f_4->Close();                 
 gr->Clear();
 
+
+//----DNN a incrocio-----         
+
+char path2[100];
+sprintf(path2,"./fit_v%s_DNN_cW_UL010_allBKG_DNN_cW_UL010_allBKG_RunII_/%s/LS_objects_k_%s.root",argv[2],argv[1],argv[1]);                       
+TFile *f_2 = TFile::Open(path2);
+gr= (TGraph*) f_2->Get("Graph;1");
+TF1 *f2 = new TF1("f2",myfunc,-1000,1000,0);
+
+double s1down_2=f2->GetX(y2,-1000,0);
+double s1up_2=f2->GetX(y2,0,1000);
+double s2down_2=f2->GetX(y1,-1000,0);
+double s2up_2=f2->GetX(y1,0,1000);
+
+double min_2=f2->GetMinimumX(-10,10);
+
+f_2->Close();
+gr->Clear();
+
+/*
 //-----m_1T-----                   
                        
 char path5[100];
@@ -578,31 +576,32 @@ gr->Clear();
 
 //------------Bin3 = M_o1 + countings ------------------
 
-  Gdown->SetBinContent(6,s1down_2); 
-  Gup->SetBinContent(6,s1up_2);
-  Ydown->SetBinContent(6,s2down_2);
-  Yup->SetBinContent(6,s2up_2);
-  char dnntag[30];
-  sprintf(dnntag, "M_{o1} + countings");
-  Yup->GetXaxis()->SetBinLabel(6, dnntag);
-
-//------------Bin4 = M_o1 + M_o1 ------------------
-
   Gdown->SetBinContent(8,s1down_3); 
   Gup->SetBinContent(8,s1up_3);
   Ydown->SetBinContent(8,s2down_3);
   Yup->SetBinContent(8,s2up_3);
-  Yup->GetXaxis()->SetBinLabel(8, "M_{o1} + M_{o1}");
+  char dnntag[30];
+  sprintf(dnntag, "M_{o1} + countings");
+  Yup->GetXaxis()->SetBinLabel(8, dnntag);
 
-  /*
+//------------Bin4 = M_o1 + M_o1 ------------------
+
+  Gdown->SetBinContent(10,s1down_4); 
+  Gup->SetBinContent(10,s1up_4);
+  Ydown->SetBinContent(10,s2down_4);
+  Yup->SetBinContent(10,s2up_4);
+  Yup->GetXaxis()->SetBinLabel(10, "M_{o1} + M_{o1}");
+
+
 //------------Bin5 = m_o1------------------
 
-  Gdown->SetBinContent(10,s1down_m_o1); 
-  Gup->SetBinContent(10,s1up_m_o1);
-  Ydown->SetBinContent(10,s2down_m_o1);
-  Yup->SetBinContent(10,s2up_m_o1);
-  Yup->GetXaxis()->SetBinLabel(10, "M_{o1}");
+  Gdown->SetBinContent(6,s1down_2); 
+  Gup->SetBinContent(6,s1up_2);
+  Ydown->SetBinContent(6,s2down_2);
+  Yup->SetBinContent(6,s2up_2);
+  Yup->GetXaxis()->SetBinLabel(6, "cW DNN + cW DNN");
 
+/*
 //------------Bin6 = m_1T------------------
 
   Gdown->SetBinContent(12,s1down_m_1T); 
@@ -706,14 +705,17 @@ gr->Clear();
 
 //Int_t n = 18;
 //Int_t n = 6;
-Int_t n = 4;
+//Int_t n = 4;
+Int_t n = 5;
 //Double_t x[18] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18};
 //Double_t x[6] = {1,2,3,4,5,6};
-Double_t x[4] = {1,2,3,4};
+//Double_t x[4] = {1,2,3,4};
+ Double_t x[5] = {1,2,3,4,5};
 //Double_t y[18]={min_mjj,min_mll,min_3taulep,min_m_o1,min_PT_j1,min_PT_j2,min_Eta_l1,min_Eta_l2,min_Eta_j1,min_Eta_j2,min_m_1T,min_deltaPhijj,min_M1T,min_M_O1,min_Zeppenfeld_12,min_Zeppenfeld_1,min_Zeppenfeld_2,min_deltaEtajj};
 // Double_t y[6]={min_0, min_3,min_3,min_3taulep,min_m_o1,min_m_1T};
 // Double_t y[6]={min_0, min_1, min_2, min_3, min_m_o1, min_m_1T};
-Double_t y[4]={min_0,min_1,min_2,min_3};
+// Double_t y[4]={min_0,min_1,min_2,min_3};
+Double_t y[5]={min_0,min_1,min_2,min_3,min_4};
 
 auto g  = new TGraph(n,x,y);
 g->SetMarkerColor(kRed);
@@ -731,12 +733,12 @@ sprintf(plotname,"CIplotsUL_RunII/CI_%s.png",argv[1]);        // name of .png fi
 //---------------------------------------------
 
 TCanvas* c1 = new TCanvas("c1","c1",0,0,800,650);
-TPad *c1_1 = new TPad("c1_1", "newpad",0.01,0.01,0.99,0.99);
+TPad *c1_1 = new TPad("c1_1", "newpad",0.01,0.01,0.9,0.99);
 c1_1->Draw();
 c1_1->cd();
 c1_1->SetTopMargin(0.1);
 c1_1->SetBottomMargin(0.15);
-c1_1->SetRightMargin(0.045);
+c1_1->SetRightMargin(0.00455);//0.0045
 c1_1->SetLeftMargin(0.15);
 
 double a; // extreme values of worst confidence interval (2sigma CL) -> to set the range of Y axis (from code "intervals.cpp")
