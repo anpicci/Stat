@@ -1,0 +1,757 @@
+from ROOT import *
+from collections import defaultdict, OrderedDict
+from array import array
+from tdrStyle import *
+import math
+import os
+import optparse
+from Stat.Limits.settings import *
+from samplesUL import *
+from CMS_lumi import CMS_lumi
+
+setTDRStyle()
+gROOT.SetBatch() # don't pop up canvases
+
+os.system("reset")
+
+usage = 'python3 PreFitPostFit_v2.py'
+parser = optparse.OptionParser(usage)
+
+parser.add_option('-y', '--era', dest='era', type=str, default = 'RunII', help='Please enter desired years')
+parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
+
+(opt, args) = parser.parse_args()
+
+blind = (not opt.unblind)
+
+new_dic = defaultdict(dict)
+years = opt.era.replace("RunII", "2016M,2017,2018")
+infile = "../histos/histo_"
+
+indir = "vUL025"
+eosspace = "/eos/home-a/apiccine/VBS/nosynch/"
+sfolder = eosspace + indir + "/stack/"
+prefolder = sfolder + "prefit"
+postfolder = sfolder + "postfit"
+if not os.path.exists(prefolder):
+    os.system("mkdir " + prefolder)
+if not os.path.exists(postfolder):
+    os.system("mkdir " + postfolder)
+
+
+histofolders = {}
+
+lumi = {'UL2016M': 36.3, 'UL2017': 41.48, 'UL2018':59.83, "ULRunII":137.13}
+
+processes = []
+sigs = []
+for sigp in sigpoints:
+    sigs = ["VBS_SSWW_" + sig for sig in sigp]
+    #for sig in sigs:
+        #processes.append(sig)
+
+for bk in bkg:
+    if bk in processes:
+        continue
+    if bk in sigs:
+        continue
+    if "VBS" in bk and ("_LL_" in bk or "_TT_" in bk or "_TL_" in bk):
+        continue
+    processes.append(bk)
+
+ychannels = {}
+
+for year in years:
+    ychannels[year] = []
+    for ch in channels:
+        key = ch + year
+        ychannels[year].append(key)
+
+def plotPreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL = True, LogX = False):
+    #print "region, channel, variable, outdir, years"
+    #print region, channel, variable, outdir, years
+
+    fitfile = infile + variable + "_" + region + ".root"
+    f_mlfit = TFile(fitfile, 'READ')
+    lyears = years.split(",")
+    eras = years.split(",")
+    if len(lyears) == 3:
+        lyears.append("RunII")
+
+    h_data = OrderedDict()
+    h_data["UL2016M"] = OrderedDict()
+    h_data["UL2017"] = OrderedDict()
+    h_data["UL2018"] = OrderedDict()
+    h_data["ULRunII"] = OrderedDict()
+
+    h_prefit = OrderedDict()
+    h_prefit["UL2016M"] = OrderedDict()
+    h_prefit["UL2017"] = OrderedDict()
+    h_prefit["UL2018"] = OrderedDict()
+    h_prefit["ULRunII"] = OrderedDict()
+
+    h_postfit = OrderedDict()
+    h_postfit["UL2016M"] = OrderedDict()
+    h_postfit["UL2017"] = OrderedDict()
+    h_postfit["UL2018"] = OrderedDict()
+    h_postfit["ULRunII"] = OrderedDict()
+
+    for y in lyears:
+        yul = "UL" + y
+        print "yearsul", yul
+        if not "RunII" in y:
+            h_data[yul]["Data"] = f_mlfit.Get(region + "_" + y + "_prefit/data_obs")
+        else:
+            h_data[yul]["Data"] = f_mlfit.Get("prefit/data_obs")
+
+        #gROOT.SetStyle('Plain')
+        #gStyle.SetPalette(1)
+        #gStyle.SetOptStat(0)
+        binLowE = []
+
+        if channel == 'ltau':
+            if "muon" in region:
+                lep_tag = "#mu+"
+            elif "electron" in region:
+                lep_tag = "e+"
+            cmsreg = channel.replace("ltau", "#tau_{h}")
+        else:
+            lep_tag = "e+#mu"
+            cmsreg = ""
+
+        cmsreg = lep_tag + cmsreg 
+        genreg = region.split("_")[0]
+        chlab = channels_labels[genreg]
+        cmsreg += "\n"+chlab
+
+        # Pre-Fit
+        h_prefit[yul] = OrderedDict()
+        if not "RunII" in y:
+            tothistname = region +"_" + y + "_prefit/TotalBkg"
+        else:
+            tothistname = "prefit/TotalBkg"
+        h_prefit[yul]['totalb'] = f_mlfit.Get(tothistname)
+        totnbins = h_prefit[yul]['totalb'].GetNbinsX()
+
+        for i in range(1,totnbins+2):
+            binLowE.append(h_prefit[yul]['totalb'].GetBinLowEdge(i))
+
+        h_all_prefit = TH1F("h_all_prefit", "h_all_prefit", totnbins, array('d',binLowE))
+        #h_other_prefit = TH1F("h_other_prefit","h_other_prefit", totnbins, array('d',binLowE))
+        h_stack_prefit = THStack("h_stack_prefit","h_stack_prefit")
+
+        for process in processes: 
+            histname = region + "_" + y + "_prefit/" + process
+            yproctag = process 
+            if yproctag.startswith("Fake"):
+                if "muon" in region:
+                    yproctag += "Mu"
+                elif "electron" in region:
+                    yproctag += "Ele"
+            yproctag += "_"
+            if isUL:
+                yproctag += "UL"
+            if not "RunII" in y:
+                yproctag += y
+            else:
+                yproctag += "2017"
+            color = merge_dict[yproctag].color
+
+            if not "RunII" in y:
+                try:
+                    f_mlfit.Get(histname).GetEntries()
+                except:
+                    h_prefit[yul][process] = TH1F(process, var + "_" + channel, totnbins, array('d',binLowE))
+                else:
+                    h_prefit[yul][process] = f_mlfit.Get(histname)
+
+                for i in range(1,totnbins+1):
+                    content = h_prefit[yul][process].GetBinContent(i)
+                    #width = h_prefit[yul][process].GetBinLowEdge(i+1)-h_prefit[yul][process].GetBinLowEdge(i)
+                    h_prefit[yul][process].SetBinContent(i,content)#*width)
+            else:
+                h_prefit[yul][process] = TH1F(process, var + "_" + channel, totnbins, array('d',binLowE))
+                for ide, era in enumerate(eras):
+                    h_prefit[yul][process].Add(h_prefit["UL"+era][process])
+
+            h_prefit[yul][process].SetName(process + "_" + region + "_" + y + "_prefit")
+            h_prefit[yul][process].SetLineColor(color)
+            h_prefit[yul][process].SetFillColor(color)
+            h_all_prefit.Add(h_prefit[yul][process])
+            #if (not process in mainbkgs[region]):
+                 #h_other_prefit.Add(h_prefit[yul][process])
+            h_stack_prefit.Add(h_prefit[yul][process])
+            #print "h_prefit", yul, process, ":", h_prefit[yul][process].Integral()
+        #print "h_stack_prefit", yul, ":", h_stack_prefit.GetStack().Last().Integral()
+
+        # Post-Fit
+        if not "RunII" in y:
+            tothistname = region +"_" + y + "_postfit/TotalBkg"
+            totsighistname = region +"_" + y + "_postfit/TotalSig"
+            totsbhistname = region +"_" + y + "_postfit/TotalProcs"
+        else:
+            tothistname = "postfit/TotalBkg"
+            totsighistname = "postfit/TotalSig"
+            totsbhistname = "postfit/TotalProcs"
+
+        h_postfit[yul]['totalsig'] = f_mlfit.Get(totsighistname)                     ####EDIT    total signal 
+        h_postfit[yul]['totalb'] = f_mlfit.Get(tothistname)                        ####EDIT    total bkgs 
+        h_postfit[yul]['totalsb'] = f_mlfit.Get(totsbhistname)               ####EDIT  total s+b
+        
+
+        h_all_postfit = TH1F("h_all_postfit","h_all_postfit",totnbins, array('d',binLowE))
+        #h_other_postfit = TH1F("h_other_postfit","h_other_postfit",len(binLowE)-1,array('d',binLowE))
+        #h_minor_postfit = TH1F("h_minor_postfit","h_minor_postfit",len(binLowE)-1,array('d',binLowE))'
+        h_stack_postfit = THStack("h_stack_postfit","h_stack_postfit")                    
+
+        #for i in range(1, h_postfit[yul]['totalsb'].GetNbinsX()+1):
+            #error = h_postfit[yul]['totalsb'].GetBinError(i)
+            #content = h_postfit[yul]['totalsb'].GetBinContent(i)
+
+        for process in processes:
+            histname = region + "_" + y + "_postfit/" + process
+            yproctag = process 
+            if yproctag.startswith("Fake"):
+                if "muon" in region:
+                    yproctag += "Mu"
+                elif "electron" in region:
+                    yproctag += "Ele"
+            yproctag += "_"
+            if isUL:
+                yproctag += "UL"
+            if not "RunII" in y:
+                yproctag += y
+            else:
+                yproctag += "2017"
+            color = merge_dict[yproctag].color
+
+            if not "RunII" in y:
+                try:
+                    f_mlfit.Get(histname).GetEntries()
+                except:
+                    h_postfit[yul][process] = TH1F(process, var + "_" + channel, totnbins, array('d',binLowE))
+                else:
+                    h_postfit[yul][process] = f_mlfit.Get(histname)
+
+                for i in range(1,totnbins+1):
+                    content = h_postfit[yul][process].GetBinContent(i)
+                    #width = h_postfit[yul][process].GetBinLowEdge(i+1)-h_postfit[yul][process].GetBinLowEdge(i)
+                    h_postfit[yul][process].SetBinContent(i,content)#*width)
+            else:
+                h_postfit[yul][process] = TH1F(process, var + "_" + channel, totnbins, array('d',binLowE))
+                for ide, era in enumerate(eras):
+                    h_postfit[yul][process].Add(h_postfit["UL"+era][process])
+
+            #if (not h_postfit[yul][process]):
+                #continue
+            #if (str(h_postfit[yul][process].Integral())=="nan"): 
+                #continue
+
+            #for i in range(1, totnbins+1):
+                #error = h_postfit[yul][process].GetBinError(i)
+                #content = h_postfit[yul][process].GetBinContent(i)
+                #width = h_postfit[yul][process].GetBinLowEdge(i+1)-h_postfit[yul][process].GetBinLowEdge(i)
+                #h_postfit[yul][process].SetBinContent(i,content)#*width)
+
+            h_postfit[yul][process].SetName(process + "_" + region + "_" + y + "_postfit")
+            h_postfit[yul][process].SetLineColor(color)
+            h_postfit[yul][process].SetFillColor(color)
+            
+            h_all_postfit.Add(h_postfit[yul][process])
+            #if (not process in mainbkgs[region]):
+                #h_other_postfit.Add(h_postfit[yul][process])
+            h_stack_postfit.Add(h_postfit[yul][process])
+           
+            #print "h_postfit", yul, process, ":", h_postfit[yul][process].Integral()
+        #print "h_stack_postfit", yul, ":", h_stack_postfit.GetStack().Last().Integral()
+
+        H=1000
+        W=900
+        L = 0.12*W
+        R = 0.08*W
+        c = TCanvas("c","c",50,50,W,H)
+        #c = TCanvas("c","c",600,800)
+        SetOwnership(c, False)
+        c.cd()
+        if LogX is True:
+            c.SetLogx()
+        c.SetLogy()
+
+        c.SetFillColor(0)
+        c.SetBorderMode(0)
+        c.SetFrameFillStyle(0)
+        c.SetFrameBorderMode(0)
+        c.SetLeftMargin(0.12 )
+        c.SetRightMargin(0.9)
+        c.SetTopMargin(1)
+        c.SetBottomMargin(-1)
+        c.SetTickx(1)
+        c.SetTicky(1)
+        c.cd()
+
+        pad1= ROOT.TPad("pad1", "pad1", 0, 0.39, 1, 1)
+        pad1.SetTopMargin(0.1)
+        pad1.SetBottomMargin(0.02)
+        pad1.SetLeftMargin(0.12)
+        pad1.SetRightMargin(0.05)
+        pad1.SetBorderMode(0)
+        pad1.SetTickx(1)
+        pad1.SetTicky(1)
+        pad1.Draw()
+        pad1.cd()
+
+        if not (blind and "SR" in region):
+            maximum = max(h_stack_postfit.GetMaximum(),h_data[yul]["Data"].GetMaximum())
+        else:
+            maximum = h_stack_postfit.GetMaximum()
+
+
+        h_stack_postfit.SetMinimum(0.01)
+        pad1.SetLogy()
+        h_stack_postfit.SetMaximum(maximum*10000)
+        
+        #h_other_prefit.SetLineColor(1)
+        #h_other_prefit.SetFillColor(33)
+        #h_other_prefit.Scale(1,"width")
+
+        h_all_prefit.SetLineColor(2)
+        h_all_prefit.SetLineWidth(2)
+
+        h_all_postfit.SetLineColor(kAzure-4)
+        h_all_postfit.SetLineWidth(2)
+
+        ytitle = "Events"
+        h_stack_postfit.Draw("hist")
+        h_stack_postfit.GetYaxis().SetTitle(ytitle)
+        h_stack_postfit.GetYaxis().SetTitleFont(42)
+        
+        h_stack_postfit.GetXaxis().SetLabelOffset(1.8)
+        h_stack_postfit.GetYaxis().SetTitleOffset(1)
+        h_stack_postfit.GetXaxis().SetLabelSize(0.15)
+        h_stack_postfit.GetYaxis().SetLabelSize(0.04)
+        h_stack_postfit.GetYaxis().SetTitleSize(0.045)
+        h_stack_postfit.SetTitle("")
+
+        ysigtag = sigs[0]
+        if ysigtag.startswith("Fake"):
+            if "muon" in region:
+                ysigtag += "Mu"
+            elif "electron" in region:
+                ysigtag += "Ele"
+        ysigtag += "_"
+        if isUL:
+            ysigtag += "UL"
+        if not "RunII" in y:
+            ysigtag += y
+        else:
+            ysigtag += "2017"
+        sigcolor = merge_dict[ysigtag].color
+        
+        #if sb is True:
+        h_postfit[yul]['totalsig'].SetLineColor(sigcolor)
+        #h_postfit[yul]['totalsig'].SetLineStyle(1)
+        h_postfit[yul]['totalsig'].SetLineWidth(2)
+        #h_postfit[yul]['totalsig'].Draw("hist same")
+
+        h_data[yul]["Data"].SetMarkerStyle(20)
+        #h_data[yul]["Data"].SetLineColor(1)
+        h_data[yul]["Data"].SetMarkerSize(0.9)
+        if not "SR" in region:
+            h_data[yul]["Data"].Draw("epsamex0")
+
+
+        legend = TLegend(0.43,0.58,0.93,0.87)
+        legend.SetNColumns(2)
+        legend.SetFillColor(0)
+        legend.SetFillStyle(0)
+        legend.SetTextFont(42)
+        legend.SetBorderSize(0)
+        legend.SetTextSize(0.035)
+        legend.AddEntry(h_data[yul]["Data"], "Data", "ep")
+
+        for process in processes:
+            yproctag = process 
+            if yproctag.startswith("Fake"):
+                if "muon" in region:
+                    yproctag += "Mu"
+                elif "electron" in region:
+                    yproctag += "Ele"
+            yproctag += "_"
+            if isUL:
+                yproctag += "UL"
+            if not "RunII" in y:
+                yproctag += y
+            else:
+                yproctag += "2017"
+            proclabel = merge_dict[yproctag].leglabel
+            legend.AddEntry(h_postfit[yul][process], proclabel, "f")
+
+
+        ysigtag = sigs[0] + "_"
+        if isUL:
+            ysigtag += "UL"
+        if not "RunII" in y:
+            ysigtag += y
+        else:
+            ysigtag += "2017"
+        siglabel = merge_dict[ysigtag].leglabel
+        legend.AddEntry(h_postfit[yul]['totalsig'], siglabel, "f")
+
+
+        h_err = h_stack_postfit.GetStack().Last().Clone("h_err")
+        h_err.SetLineWidth(100)
+        h_err.SetFillStyle(3154)
+        h_err.SetMarkerSize(0)
+        h_err.SetFillColor(ROOT.kGray+2)
+        #h_err.Draw("e2same0")
+        #legend.AddEntry(h_err, "Stat. + Syst. Unc.", "f")
+
+        #legend.SetShadowColor(0)
+        #legend.SetFillColor(0)
+        #legend.SetLineColor(0)
+        legend.Draw("same")
+
+        CMS_lumi.writeExtraText = 1
+        CMS_lumi.extraText = ""
+        
+        lumi_sqrtS = "%s fb^{-1}  (13 TeV)"%(lumi["UL"+y])
+    
+        iPeriod = 0
+        iPos = 11
+        CMS_lumi(pad1, lumi_sqrtS, iPos, str(cmsreg))
+
+        c.cd()
+
+        pad2= ROOT.TPad("pad2", "pad2", 0, 0.15 , 1, 0.4)
+        SetOwnership(pad2, False)
+        pad2.SetTopMargin(0.05)
+        pad2.SetBottomMargin(0.45)
+        pad2.SetLeftMargin(0.12)
+        pad2.SetRightMargin(0.05)
+        gStyle.SetHatchesSpacing(2)
+        gStyle.SetHatchesLineWidth(2)
+        c.cd()
+        pad2.Draw()
+        pad2.cd()
+
+        ########### Ratio plot ###############
+        met = []
+        dmet = []
+        ratio_pre = []
+        ratio_pre_hi = []
+        ratio_pre_lo = []
+        ratio_post = []
+        ratio_post_hi = []
+        ratio_post_lo = [];
+
+        for i in range(1,h_all_prefit.GetNbinsX()+1):
+            ndata = h_data[yul]["Data"].GetBinContent(i)
+            if (ndata > 0.0):
+                e_data_hi = h_data[yul]["Data"].GetBinError(i)/ndata
+                e_data_lo = h_data[yul]["Data"].GetBinError(i)/ndata
+            else:
+                e_data_hi = 0.0
+                e_data_lo = 0.0
+            n_all_pre = h_all_prefit.GetBinContent(i)
+            n_all_post = h_all_postfit.GetBinContent(i)
+
+            met.append(h_all_prefit.GetBinCenter(i))
+            dmet.append((h_all_prefit.GetBinLowEdge(i+1)-h_all_prefit.GetBinLowEdge(i))/2)
+            if (n_all_pre>0.0):
+                ratio_pre.append(ndata/n_all_pre)
+                ratio_pre_hi.append(ndata*e_data_hi/n_all_pre)
+                ratio_pre_lo.append(ndata*e_data_lo/n_all_pre)
+            else:
+                ratio_pre.append(0.0)
+                ratio_pre_hi.append(0.0)
+                ratio_pre_lo.append(0.0)
+
+            if (n_all_post>0.0):
+                ratio_post.append(ndata/n_all_post)
+                ratio_post_hi.append(ndata*e_data_hi/n_all_post)
+                ratio_post_lo.append(ndata*e_data_lo/n_all_post)
+            else:
+                ratio_post.append(0.0)
+                ratio_post_hi.append(0.0)
+                ratio_post_lo.append(0.0)
+
+        a_met = array("d", met)
+        v_met = TVectorD(len(a_met),a_met)
+        a_dmet = array("d", dmet)
+        v_dmet = TVectorD(len(a_dmet),a_dmet)
+        a_ratio_pre = array("d", ratio_pre)
+        a_ratio_pre_hi = array("d", ratio_pre_hi)
+        a_ratio_pre_lo = array("d", ratio_pre_lo)
+        v_ratio_pre = TVectorD(len(a_ratio_pre),a_ratio_pre)
+        v_ratio_pre_hi = TVectorD(len(a_ratio_pre_hi),a_ratio_pre_hi)
+        v_ratio_pre_lo = TVectorD(len(a_ratio_pre_lo),a_ratio_pre_lo)
+        a_ratio_post = array("d", ratio_post)
+        a_ratio_post_hi = array("d", ratio_post_hi)
+        a_ratio_post_lo = array("d", ratio_post_lo)
+        v_ratio_post = TVectorD(len(a_ratio_post),a_ratio_post)
+        v_ratio_post_hi = TVectorD(len(a_ratio_post_hi),a_ratio_post_hi)
+        v_ratio_post_lo = TVectorD(len(a_ratio_post_lo),a_ratio_post_lo)
+        g_ratio_pre = TGraphAsymmErrors(v_met,v_ratio_pre,v_dmet,v_dmet,v_ratio_pre_lo,v_ratio_pre_hi)
+        g_ratio_pre.SetMarkerStyle(25)
+        g_ratio_post = TGraphAsymmErrors(v_met,v_ratio_post,v_dmet,v_dmet,v_ratio_post_lo,v_ratio_post_hi)
+        g_ratio_post.SetMarkerStyle(20)
+
+        ratiosys_post = h_postfit[yul]['totalb'].Clone()
+        for hbin in range(0,ratiosys_post.GetNbinsX()+1):
+            ratiosys_post.SetBinContent(hbin+1,1.0)
+            if (h_postfit[yul]['totalb'].GetBinContent(hbin+1)>0):
+                ratiosys_post.SetBinError(hbin+1,h_postfit[yul]['totalb'].GetBinError(hbin+1)/h_postfit[yul]['totalb'].GetBinContent(hbin+1))
+            else:
+                ratiosys_post.SetBinError(hbin+1,0)
+
+        ratiosys_post.GetYaxis().SetRangeUser(0.4, 1.6)
+        ratiosys_post.GetYaxis().SetNdivisions(503)
+        ratiosys_post.GetXaxis().SetLabelFont(42)
+        ratiosys_post.GetYaxis().SetLabelFont(42)
+        ratiosys_post.GetXaxis().SetTitleFont(42)
+        ratiosys_post.GetYaxis().SetTitleFont(42)
+        ratiosys_post.GetXaxis().SetTitleOffset(1.1)
+        ratiosys_post.GetYaxis().SetTitleOffset(0.35)
+        ratiosys_post.GetXaxis().SetLabelSize(0.1)
+        ratiosys_post.GetYaxis().SetLabelSize(0.1)
+        ratiosys_post.GetXaxis().SetTitleSize(0.16)
+        ratiosys_post.GetYaxis().SetTitleSize(0.1)
+
+        g_ratio_post.SetLineColor(kGreen+2)
+        g_ratio_post.SetMarkerColor(kGreen+2)
+        ratiosys_post.SetFillColor(kGreen-8) #SetFillColor(ROOT.kYellow)
+        ratiosys_post.SetLineColor(kGreen-8) #SetLineColor(1)
+
+        ratiosys_post.SetLineWidth(1)
+        ratiosys_post.SetMarkerSize(0)
+        ratiosys_post.GetYaxis().SetTitle("Data / Pred.")
+
+
+        ratiosys_pre = h_prefit[yul]['totalb'].Clone()
+        for hbin in range(0,ratiosys_pre.GetNbinsX()+1):
+            ratiosys_pre.SetBinContent(hbin+1,1.0)
+            if (h_prefit[yul]['totalb'].GetBinContent(hbin+1)>0):
+                ratiosys_pre.SetBinError(hbin+1,h_prefit[yul]['totalb'].GetBinError(hbin+1)/h_prefit[yul]['totalb'].GetBinContent(hbin+1))
+            else:
+                ratiosys_pre.SetBinError(hbin+1,0)
+
+        ratiosys_pre.GetYaxis().SetRangeUser(0.4, 1.6)
+        ratiosys_pre.GetYaxis().SetNdivisions(503)
+        ratiosys_pre.GetXaxis().SetLabelFont(42)
+        ratiosys_pre.GetYaxis().SetLabelFont(42)
+        ratiosys_pre.GetXaxis().SetTitleFont(42)
+        ratiosys_pre.GetYaxis().SetTitleFont(42)
+        ratiosys_pre.GetXaxis().SetTitleOffset(1.1)
+        ratiosys_pre.GetYaxis().SetTitleOffset(0.35)
+        ratiosys_pre.GetXaxis().SetLabelSize(0.1)
+        ratiosys_pre.GetYaxis().SetLabelSize(0.1)
+        ratiosys_pre.GetXaxis().SetTitleSize(0.16)
+        ratiosys_pre.GetYaxis().SetTitleSize(0.1)
+
+        g_ratio_pre.SetLineColor(kOrange-3)
+        g_ratio_pre.SetMarkerColor(kOrange-3)
+        ratiosys_pre.SetFillColor(kOrange-9) #SetFillColor(ROOT.kYellow)
+        ratiosys_pre.SetLineColor(kOrange-9) #SetLineColor(1)
+
+        ratiosys_pre.SetLineWidth(1)
+        ratiosys_pre.SetMarkerSize(0)
+        ratiosys_pre.GetYaxis().SetTitle("Data / Pred.")
+
+        ratiosys_pre.Draw("e2same")
+        ratiosys_post.Draw("e2same")
+
+        ratio = h_data[yul]["Data"].Clone("ratio")
+        ratio.SetLineColor(ROOT.kBlack)
+        ratio.SetMaximum(10)
+        ratio.SetMinimum(0)
+        ratio.Sumw2()
+        ratio.SetStats(0)
+        
+        ratio.Divide(h_err)
+        ratio.SetMarkerStyle(20)
+        ratio.SetMarkerSize(0.9)
+        ratio.GetYaxis().SetRangeUser(0.4, 1.6)
+        ratio.GetYaxis().SetNdivisions(503)
+        ratio.GetXaxis().SetLabelFont(42)
+        ratio.GetYaxis().SetLabelFont(42)
+        ratio.GetXaxis().SetTitleFont(42)
+        ratio.GetYaxis().SetTitleFont(42)
+        ratio.GetXaxis().SetTitleOffset(1.1)
+        ratio.GetYaxis().SetTitleOffset(0.35)
+        ratio.GetXaxis().SetLabelSize(0.1)
+        ratio.GetYaxis().SetLabelSize(0.1)
+        ratio.GetXaxis().SetTitleSize(0.16)
+        ratio.GetYaxis().SetTitleSize(0.16)
+        if not "SR" in region:
+            #ratio.Draw("epx0e0 same")
+            ratio.SetTitle("")
+
+        f1 = TF1("f1","1",-5000,5000);
+        f1.SetLineColor(1);
+        f1.SetLineStyle(2);
+        f1.SetLineWidth(2);
+        #f1.Draw("same")
+        if not "SR" in region:
+            g_ratio_pre.Draw("epsame")
+            g_ratio_post.Draw("epsame")
+
+
+        legend2 = TLegend(0.75,0.99,0.95,0.955)#,"","brNDC");
+        legend2.SetNColumns(2)
+        legend2.SetShadowColor(0);
+        legend2.SetFillColor(0);
+        legend2.SetLineColor(0);
+        legend2.SetTextFont(42)
+        legend2.SetBorderSize(0)
+        legend2.SetTextSize(0.05)
+        legend2.AddEntry(ratiosys_pre, "Pre-fit Unc.", "f")#ple
+        legend2.AddEntry(ratiosys_post, "Post-fit Unc.", "f")#ple
+        legend2.Draw("same")
+
+        legend3 = TLegend(0.55,0.99,0.75,0.955)#,"","brNDC");
+        legend3.SetNColumns(2)
+        legend3.SetShadowColor(0);
+        legend3.SetFillColor(0);
+        legend3.SetLineColor(0);
+        legend3.SetTextFont(42)
+        legend3.SetBorderSize(0)
+        legend3.SetTextSize(0.05)
+        legend3.AddEntry(g_ratio_post, "Post-fit", "ple")
+        legend3.AddEntry(g_ratio_pre, "Pre-fit", "ple")#ple
+        legend3.Draw("same")
+
+        pad3= ROOT.TPad("pad3", "pad3", 0, 0 , 1, 0.26)
+        SetOwnership(pad3, False)
+        pad3.SetTopMargin(0.05)
+        pad3.SetBottomMargin(0.45)
+        pad3.SetLeftMargin(0.12)
+        pad3.SetRightMargin(0.05)
+        gStyle.SetHatchesSpacing(2)
+        gStyle.SetHatchesLineWidth(2)
+        c.cd()
+        pad3.Draw()
+        pad3.cd()
+
+        ##Compute the pulls
+        pull_count = TH1F("pull_count","pull",100,-5,5)
+        data_pull = h_data[yul]["Data"].Clone("pull")
+        data_pull.Add(h_postfit[yul]['totalb'], -1)
+        data_pull.Sumw2()
+        
+        addedsqrt = 0
+        mean = 0
+        sigma = 0
+        sigmaBILL = 0
+        chi2 = 0
+        TH1.StatOverflows(1)
+
+        #pull_count = TH1F("pull_count","pull",100,-5,5)
+
+        for hbin in range(0, data_pull.GetNbinsX()+1):
+            if (h_postfit[yul]['totalb'].GetBinContent(hbin)>0):
+                if (math.fabs(h_data[yul]["Data"].GetBinError(hbin)*h_data[yul]["Data"].GetBinError(hbin) - h_postfit[yul]['totalb'].GetBinError(hbin)* h_postfit[yul]['totalb'].GetBinError(hbin)) < 0.001) or (h_postfit[yul]['totalb'].GetBinError(hbin) > h_data[yul]["Data"].GetBinError(hbin) ) or "SR" in region:
+                    data_pull.SetBinContent(hbin,0)
+                else:
+                    sigmaBILL = math.sqrt(h_data[yul]["Data"].GetBinError(hbin)*h_data[yul]["Data"].GetBinError(hbin) - h_postfit[yul]['totalb'].GetBinError(hbin)*h_postfit[yul]['totalb'].GetBinError(hbin))
+                    #sigmaBILL = math.sqrt(h_data[yul]["Data"].GetBinError(hbin)*h_data[yul]["Data"].GetBinError(hbin) + h_postfit[yul]['totalb'].GetBinError(hbin)*h_postfit[yul]['totalb'].GetBinError(hbin))
+                    data_pull.SetBinContent(hbin,(h_data[yul]["Data"].GetBinContent(hbin) -  h_postfit[yul]['totalb'].GetBinContent(hbin))/sigmaBILL)
+                    #print ("data: ", h_data[yul]["Data"].GetBinContent(hbin)) 
+                    #print (" +-, ", h_data[yul]["Data"].GetBinError(hbin))
+                    #print ("MC: ", h_postfit[yul]['totalb'].GetBinContent(hbin))
+                    #print (" +-, ", h_postfit[yul]['totalb'].GetBinError(hbin))
+                data_pull.SetBinError(hbin,0)
+
+            if (hbin > 2):
+                pull_count.Fill(data_pull.GetBinContent(hbin))
+                print " pull: ", data_pull.GetBinContent(hbin)
+
+                if (abs(data_pull.GetBinContent(hbin)) >= 2):
+                    print " ATTENZIONE "
+                    print ">>>>>>>>>>>>>>"
+                    print " data yield : ", h_data[yul]["Data"].GetBinContent(hbin)  
+                    print " +- ", h_data[yul]["Data"].GetBinError(hbin)
+                    print " BKG error : ", h_postfit[yul]['totalb'].GetBinContent(hbin) 
+                    print " +- ", h_postfit[yul]['totalb'].GetBinError(hbin)
+                    print "<<<<<<<<<<<<<<"
+
+        #print "MEAN: ", mean
+        #print "CHI2: ", math.sqrt(chi2)/data_pull.GetNbinsX()
+        #print "Added", sqrt(addedsqrt), "divided: ", sqrt(addedsqrt)/data_pull.GetNbinsX()
+        #print "Added2", addedsqrt, "divided: ", addedsqrt/data_pull.GetNbinsX()
+        data_pull.SetLineColor(kAzure-4)
+        data_pull.SetFillColor(kAzure-4)
+        data_pull.SetMarkerColor(kAzure-4)
+        data_pull.GetYaxis().SetRangeUser(-2.5, 2.5)
+        data_pull.GetYaxis().SetNdivisions(503)
+        data_pull.GetXaxis().SetLabelFont(42)
+        data_pull.GetYaxis().SetLabelFont(42)
+        data_pull.GetXaxis().SetTitleFont(42)
+        data_pull.GetYaxis().SetTitleFont(42)
+        data_pull.GetXaxis().SetTitleOffset(1.1)
+        data_pull.GetYaxis().SetTitleOffset(0.35)
+        data_pull.GetXaxis().SetLabelSize(0.1)
+        data_pull.GetYaxis().SetLabelSize(0.1)
+        data_pull.GetXaxis().SetTitleSize(0.16)
+        data_pull.GetYaxis().SetTitleSize(0.1)
+        data_pull.GetYaxis().CenterTitle(1)
+        data_pull.GetYaxis().SetTitle("#frac{(Data-Pred.)}{#sigma}")
+
+        pull_count.SaveAs(postfolder + "/pull_"+region+"_"+variable+".root")
+        data_pull.SaveAs(postfolder + "/test_"+region+"_"+variable+".root")
+        
+        data_pull_sig = h_data[yul]["Data"].Clone("pull_sig")
+        data_pull_sig.Sumw2()
+
+        for hbin in range(0,data_pull_sig.GetNbinsX()+1):
+            if (h_postfit[yul]['totalb'].GetBinContent(hbin)>0):
+                #print "bin",hbin,"data pull diff", data_pull_sig.GetBinContent(hbin), "sys", h_postfit[yul]['totalb'].GetBinError(hbin)
+                data_pull_sig.SetBinContent(hbin, data_pull_sig.GetBinContent(hbin)/h_postfit[yul]['totalb'].GetBinError(hbin))
+                data_pull_sig.SetBinError(hbin, 0)
+
+        data_pull_sig.SetLineColor(2)
+        data_pull_sig.SetFillColor(2)
+        data_pull_sig.SetFillStyle(3004)
+        data_pull_sig.SetMarkerColor(2)
+        legend4 = TLegend(0.20,0.21,0.60,0.23,"","brNDC")
+        legend4.AddEntry(data_pull    , "Background only", "f")
+        legend4.SetNColumns(2)
+        legend4.SetShadowColor(0)
+        legend4.SetFillColor(0)
+        legend4.SetLineColor(0)
+
+        data_pull.Draw("hist same")
+        '''
+        latex_chi = TLatex()
+        latex_chi.SetNDC()
+        latex_chi.SetTextSize(0.025)
+        #latex_chi.DrawLatex(0.16,0.20,"#Chi^{2} = "+str(round(addedsqrt/data_pull.GetNbinsX(),2)) + "      Mean = "+ str(round(mean,2)))
+        #latex_chi.DrawLatex(0.16,0.20,"#Chi^{2} = "+str(round(addedsqrt/data_pull.GetNbinsX(),2)) )
+        #latex_chi.DrawLatex(0.16,0.19,"Mean = "+str(round(mean,2)))
+        #latex_chi.Draw("same")
+        pad2.RedrawAxis("G sameaxis")
+        gPad.RedrawAxis()
+        '''
+
+        ### save plots and close
+        #c.SaveAs(postfolder+"/"+region+"_"+variable+".pdf")
+        c.SaveAs(postfolder+"/"+region+"_" + yul +"_" + variable + ".png")
+
+        #### memory management
+        #del pull_count
+        del h_all_prefit
+        del h_all_postfit
+        c.Close()
+        
+    f_mlfit.Close()
+    
+
+variables = ["m_jj"]
+
+for var in variables:
+    print "\n\nProcessing postfit for " + var + "..."
+    for ch in channels:
+        print "\nProcessing postfit for " + ch + "..."
+        plotPreFitPostFit_v2(ch, "ltau", var, indir, years)
+        #break
+    #break
+

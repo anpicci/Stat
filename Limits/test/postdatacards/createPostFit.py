@@ -105,3 +105,4 @@ if not os.path.exists("histos"):
     os.system("mkdir histos")
 os.system("mv histo_*root histos")
 
+os.system("mv higgsCombine* fitDiagnosticsCombined")
