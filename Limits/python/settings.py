@@ -410,7 +410,7 @@ FakeMu_rate_2016M.chs = [
     #"CRTT_muon",                                                    
     "CRF_muon",
     ##"CRDY_muon",
-    #"CRWS_muon",
+    "CRWS_muon",
 ]
 FakeMu_rate_2016M.bkg = "Fake"
 rateParams["FRest_muon_2016M"] = FakeMu_rate_2016M
@@ -422,7 +422,7 @@ FakeEle_rate_2016M.chs = [
     #"CRTT_electron",
     "CRF_electron",
     ##"CRDY_electron",
-    #"CRWS_electron",
+    "CRWS_electron",
 ]
 FakeEle_rate_2016M.bkg = "Fake"
 rateParams["FRest_electron_2016M"] = FakeEle_rate_2016M
@@ -431,8 +431,8 @@ rateParams["FRest_electron_2016M"] = FakeEle_rate_2016M
 WSele_rate_2016M = rateParam()
 WSele_rate_2016M.chs = [
     "SR_electron",
-    "CRTT_electron",
-    "CRF_electron",
+    #"CRTT_electron",
+    #"CRF_electron",
     #"CRDY_electron",
     "CRWS_electron",
 ]
@@ -442,8 +442,8 @@ rateParams["WSest_electron_2016M"] = WSele_rate_2016M
 WSmu_rate_2016M = rateParam()
 WSmu_rate_2016M.chs = [
     "SR_muon",
-    "CRTT_muon",
-    "CRF_muon",
+    #"CRTT_muon",
+    #"CRF_muon",
     #"CRDY_muon",
     "CRWS_muon",
 ]
@@ -496,18 +496,16 @@ DYmu_rate_2016M.chs = [
 DYmu_rate_2016M.bkg = dyjets_sample
 rateParams["DYest_muon_2016M"] = DYmu_rate_2016M
 
-
 FakeMu_rate_2017 = rateParam()
 FakeMu_rate_2017.chs = [
     "SR_muon",
     #"CRTT_muon",                                                    
     "CRF_muon",
     ##"CRDY_muon",
-    #"CRWS_muon",
+    "CRWS_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["FRest_muon_2017"] = FakeMu_rate_2017
-
 
 FakeEle_rate_2017 = rateParam()
 FakeEle_rate_2017.chs = [
@@ -515,7 +513,7 @@ FakeEle_rate_2017.chs = [
     #"CRTT_electron",
     "CRF_electron",
     ##"CRDY_electron",
-    #"CRWS_electron",
+    "CRWS_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
@@ -569,10 +567,10 @@ rateParams["TTest_muon_2017"] = TTbarmu_rate_2017
 DYele_rate_2017 = rateParam()
 DYele_rate_2017.chs = [
     "SR_electron",
-    "CRTT_electron",
+    #"CRTT_electron",
     #"CRF_electron",
     #"CRDY_electron",
-    #"CRWS_electron",
+    "CRWS_electron",
 ]
 DYele_rate_2017.bkg = dyjets_sample
 rateParams["DYest_electron_2017"] = DYele_rate_2017
@@ -580,14 +578,13 @@ rateParams["DYest_electron_2017"] = DYele_rate_2017
 DYmu_rate_2017 = rateParam()
 DYmu_rate_2017.chs = [
     "SR_muon",
-    "CRTT_muon",
+    #"CRTT_muon",
     #"CRF_muon",
     #"CRDY_muon",
-    #"CRWS_muon",
+    "CRWS_muon",
 ]
 DYmu_rate_2017.bkg = dyjets_sample
 rateParams["DYest_muon_2017"] = DYmu_rate_2017
-
 
 FakeMu_rate_2018 = rateParam()
 FakeMu_rate_2018.chs = [
@@ -595,7 +592,7 @@ FakeMu_rate_2018.chs = [
     #"CRTT_muon",
     "CRF_muon",
     ##"CRDY_muon",
-    #"CRWS_muon",
+    "CRWS_muon",
 ]
 FakeMu_rate_2018.bkg = "Fake"
 rateParams["FRest_muon_2018"] = FakeMu_rate_2018
@@ -607,7 +604,7 @@ FakeEle_rate_2018.chs = [
     #"CRTT_electron",
     "CRF_electron",
     ##"CRDY_electron",
-    #"CRWS_electron",
+    "CRWS_electron",
 ]
 FakeEle_rate_2018.bkg = "Fake"
 rateParams["FRest_electron_2018"] = FakeEle_rate_2018

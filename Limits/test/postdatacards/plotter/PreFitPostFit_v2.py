@@ -696,8 +696,8 @@ def plotPreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, is
         data_pull.GetYaxis().CenterTitle(1)
         data_pull.GetYaxis().SetTitle("#frac{(Data-Pred.)}{#sigma}")
 
-        pull_count.SaveAs(postfolder + "/pull_"+region+"_"+variable+".root")
-        data_pull.SaveAs(postfolder + "/test_"+region+"_"+variable+".root")
+        pull_count.SaveAs(postfolder + "/pull_"+region+"_"+yul+"_"+variable+".root")
+        data_pull.SaveAs(postfolder + "/test_"+region+"_"+yul+"_"+variable+".root")
         
         data_pull_sig = h_data[yul]["Data"].Clone("pull_sig")
         data_pull_sig.Sumw2()
@@ -734,10 +734,10 @@ def plotPreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, is
 
         ### save plots and close
         #c.SaveAs(postfolder+"/"+region+"_"+variable+".pdf")
-        c.SaveAs(postfolder+"/"+region+"_" + yul +"_" + variable + ".png")
+        c.SaveAs(postfolder+"/"+variable+"_"+region+"_" + yul + ".png")
 
         #### memory management
-        #del pull_count
+        del pull_count
         del h_all_prefit
         del h_all_postfit
         c.Close()
@@ -745,7 +745,12 @@ def plotPreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, is
     f_mlfit.Close()
     
 
-variables = ["m_jj"]
+variables = [
+    "m_o1",
+    "m_1T",
+    "m_jj",
+    "DNN_SM_UL010_allBKG",
+]
 
 for var in variables:
     print "\n\nProcessing postfit for " + var + "..."

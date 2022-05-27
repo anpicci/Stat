@@ -6,9 +6,10 @@ os.system("reset")
 alphabet = list(string.ascii_uppercase)
 
 srvars = [
-    #"m_o1",
+    "m_o1",
+    "m_1T",
     "m_jj",
-    #"DNN_SM_UL010_allBKG",
+    "DNN_SM_UL010_allBKG",
 ]
 inf = 'vUL025'
 
@@ -41,14 +42,16 @@ string = "combineCards.py"
 fitcard = "fit_" + yeardir + ".txt"
 fitroot = fitcard.replace("txt", "root")
 oldfitcard = yeardir + "_" + sr_var + "_" + cr_var + ".txt"
-os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + oldfitcard)
+os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)#oldfitcard)
 #print("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + yeardir + "_" + sr_var + "_" + cr_var + ".txt") 
 
+'''
 fstring = "combineCards.py "
 fstring += "bin1=" + oldfitcard
 fstring += " > " + fitcard
 print("Creating card for " + yeardir + " fit plots...")
 os.system(fstring)
+'''
 
 ftstring = "text2workspace.py " + fitcard + " -o " + fitroot
 print("Creating workspace for " + yeardir + " fit plots...")
@@ -60,8 +63,7 @@ if not os.path.exists(fitdiagdir):
 else:
     os.system("rm " + fitdiagdir + "/*")
 
-os.system("combine -M FitDiagnostics -t -1 " + fitroot + " --out " + fitdiagdir + " --rMin -10 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 --robustFit=1 --expectSignal=1")
-
+os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin -10 --saveNormalizations --saveWithUncertainties ")#--cminDefaultMinimizerStrategy 0 --robustFit=1 ")
 
 for idv, srvar in enumerate(srvars):
     ofold = "../" + folders[idv] + "/VBS_SSWW_SM/"

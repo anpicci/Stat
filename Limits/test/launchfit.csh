@@ -45,49 +45,49 @@ python runCombine.py -y $year -d $folder -m hist #--ls $oper #--runSingleCat -m 
 ##python brazilPlot.py -y 2016 -l $folder
 
 ############ impacts ############
-##reset
-#set DATACARD_FOLDER = $folder/VBS_SSWW_SM
-#set DATACARD_NAME = VBS_SSWW_SM_hist
-##set DATACARD_FOLDER = $folder/$oper
-##set DATACARD_NAME = $oper\_hist
+#reset
+set DATACARD_FOLDER = $folder/VBS_SSWW_SM
+set DATACARD_NAME = VBS_SSWW_SM_hist
+#set DATACARD_FOLDER = $folder/$oper
+#set DATACARD_NAME = $oper\_hist
 
-#set DATACARD_PATH = ${DATACARD_FOLDER}/${DATACARD_NAME}
+set DATACARD_PATH = ${DATACARD_FOLDER}/${DATACARD_NAME}
 
-##echo 'DATACARD_FOLDER' $DATACARD_FOLDER
-##echo 'DATACARD_NAME' $DATACARD_NAME
-##echo 'DATACARD_PATH' $DATACARD_PATH
-#rm higgsCombine_*
-#rm -rf $folder/Checks_$oper/ #${DATACARD_NAME}
-#mkdir $folder/Checks_$oper/ #${DATACARD_NAME}
+#echo 'DATACARD_FOLDER' $DATACARD_FOLDER
+#echo 'DATACARD_NAME' $DATACARD_NAME
+#echo 'DATACARD_PATH' $DATACARD_PATH
+rm higgsCombine_*
+rm -rf $folder/Checks_$oper/ #${DATACARD_NAME}
+mkdir $folder/Checks_$oper/ #${DATACARD_NAME}
 
-#set cardName = ${DATACARD_PATH}
-#set cardNameWorkspace = $folder/Checks_$oper/${DATACARD_NAME}
-#set outputFolder = $folder/Checks_$oper/
+set cardName = ${DATACARD_PATH}
+set cardNameWorkspace = $folder/Checks_$oper/${DATACARD_NAME}
+set outputFolder = $folder/Checks_$oper/
 
-##echo 'cardName' $cardName
-##echo 'cardNameWorkspace' $cardNameWorkspace
-##echo 'outputFolder' $outputFolder
-#text2workspace.py ${cardName}.txt -o ${cardNameWorkspace}.root
+#echo 'cardName' $cardName
+#echo 'cardNameWorkspace' $cardNameWorkspace
+#echo 'outputFolder' $outputFolder
+text2workspace.py ${cardName}.txt -o ${cardNameWorkspace}.root
 
-##cd $outputFolder
+#cd $outputFolder
 
-#combine -M FitDiagnostics -d ${cardNameWorkspace}.root -t -1 --expectSignal 0 --rMin -10 --forceRecreateNLL -n _t0
-#python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py  -a fitDiagnostics_t0.root -g plots_t0.root >> ${outputFolder}/fitResults_t0.log
+combine -M FitDiagnostics -d ${cardNameWorkspace}.root -t -1 --toysFreq --expectSignal 0 --rMin -10 --forceRecreateNLL -n _t0 
+python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py  -a fitDiagnostics_t0.root -g plots_t0.root >> ${outputFolder}/fitResults_t0.log
 
-#combine -M FitDiagnostics -d ${cardNameWorkspace}.root -t -1 --expectSignal 1  --forceRecreateNLL -n _t1
-#python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py  -a fitDiagnostics_t1.root -g plots_t1.root >> ${outputFolder}/fitResults_t1.log
+combine -M FitDiagnostics -d ${cardNameWorkspace}.root -t -1 --toysFreq --expectSignal 1  --forceRecreateNLL -n _t1 
+python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py  -a fitDiagnostics_t1.root -g plots_t1.root >> ${outputFolder}/fitResults_t1.log
 
-#combineTool.py -M Impacts -d ${cardNameWorkspace}.root -t -1 --expectSignal 0 --rMin -10 --doInitialFit --allPars -m 1 -n t0 --parallel 10
-#combineTool.py -M Impacts -d ${cardNameWorkspace}.root -t -1 --expectSignal 1 --rMin -10 --doInitialFit --allPars -m 1 -n t1 --parallel 10
+combineTool.py -M Impacts -d ${cardNameWorkspace}.root -t -1 --toysFreq --expectSignal 0 --rMin -10 --doInitialFit --allPars -m 1 -n t0 --parallel 10 
+combineTool.py -M Impacts -d ${cardNameWorkspace}.root -t -1 --toysFreq --expectSignal 1 --rMin -10 --doInitialFit --allPars -m 1 -n t1 --parallel 10 
 
-#combineTool.py -M Impacts -d ${cardNameWorkspace}.root -o ${outputFolder}/impacts_t0.json -t -1 --expectSignal 0 --rMin -10 --doFits -m 1 -n t0 --parallel 10
-#combineTool.py -M Impacts -d ${cardNameWorkspace}.root -o ${outputFolder}/impacts_t1.json -t -1 --expectSignal 1 --rMin -10 --doFits -m 1 -n t1 --parallel 10
+combineTool.py -M Impacts -d ${cardNameWorkspace}.root -o ${outputFolder}/impacts_t0.json -t -1 --toysFreq --expectSignal 0 --rMin -10 --doFits -m 1 -n t0 --parallel 10 
+combineTool.py -M Impacts -d ${cardNameWorkspace}.root -o ${outputFolder}/impacts_t1.json -t -1 --toysFreq --expectSignal 1 --rMin -10 --doFits -m 1 -n t1 --parallel 10  
 
-#combineTool.py -M Impacts -d ${cardNameWorkspace}.root -m 1 -n t0 -o ${outputFolder}/impacts_t0.json --parallel 10
-#combineTool.py -M Impacts -d ${cardNameWorkspace}.root -m 1 -n t1 -o ${outputFolder}/impacts_t1.json --parallel 10
+combineTool.py -M Impacts -d ${cardNameWorkspace}.root -m 1 -n t0 -o ${outputFolder}/impacts_t0.json --parallel 10
+combineTool.py -M Impacts -d ${cardNameWorkspace}.root -m 1 -n t1 -o ${outputFolder}/impacts_t1.json --parallel 10
 
-#plotImpacts.py -i  ${outputFolder}/impacts_t0.json -o  ${outputFolder}/impacts_t0
-#plotImpacts.py -i  ${outputFolder}/impacts_t1.json -o  ${outputFolder}/impacts_t1
+plotImpacts.py -i  ${outputFolder}/impacts_t0.json -o  ${outputFolder}/impacts_t0
+plotImpacts.py -i  ${outputFolder}/impacts_t1.json -o  ${outputFolder}/impacts_t1
 
-#mv higgsCombine_* $outputFolder
-#mv fitDiagnostics_t* plots_t* combine_logger.out $outputFolder
+mv higgsCombine_* $outputFolder
+mv fitDiagnostics_t* plots_t* combine_logger.out $outputFolder
