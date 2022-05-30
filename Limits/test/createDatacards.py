@@ -23,6 +23,8 @@ if opt.outdir.startswith("F"):
 else:
     outdir = opt.outdir
 
+os.system("rm " + outdir + "/*")
+
 mode = opt.mode
 unblind = opt.unblind
 

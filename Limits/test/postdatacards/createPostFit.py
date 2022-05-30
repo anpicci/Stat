@@ -1,35 +1,32 @@
 import os
 import string
 from Stat.Limits.settings import *
+import optparse
 
-os.system("reset")
+#os.system("reset")
 alphabet = list(string.ascii_uppercase)
 
-srvars = [
-    "m_o1",
-    "m_1T",
-    "m_jj",
-    "DNN_SM_UL010_allBKG",
-]
-inf = 'vUL025'
+usage = "python3 FitAndPlot.py"
+parser = optparse.OptionParser(usage)
 
-#year = '2016M'
-#year = '2017'
-#year = '2018' 
-lyear = '2016M,2017,2018'
+parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', help = 'Variables to postfit')
+parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', help = 'Variables to postfit')
+parser.add_option('--year', dest='year', type='string', default = '2016M,2017,2018', help = 'Variables to postfit')
+(opt, args) = parser.parse_args()
+
+srvars = opt.postvars.split(",")
+
+inf = opt.folder
+
+lyear = opt.year
 years = lyear.split(",")
-yeardir = "RunII"
-#yeardir = "2018"
+yeardir = opt.year.replace("2016M,2017,2018", "RunII")
+
 folders = [inf + '_' + yeardir + '_' + srvar for srvar in srvars]
 eosspace = "/eos/home-a/apiccine"
-#outdir = "postdatacards"
+
 fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir + "_"
-#if not os.path.exists(outdir):
-    #os.system("mkdir " + outdir)
 
-os.system("reset")
-
-#cards = ["../" + folder + "/VBS_SSWW_SM/" for folder in folders]
 cards = {}
 for idv, srvar in enumerate(srvars):
     cards[srvar] = {}
@@ -42,16 +39,13 @@ string = "combineCards.py"
 fitcard = "fit_" + yeardir + ".txt"
 fitroot = fitcard.replace("txt", "root")
 oldfitcard = yeardir + "_" + sr_var + "_" + cr_var + ".txt"
-os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)#oldfitcard)
-#print("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + yeardir + "_" + sr_var + "_" + cr_var + ".txt") 
+os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)
 
-'''
-fstring = "combineCards.py "
-fstring += "bin1=" + oldfitcard
-fstring += " > " + fitcard
-print("Creating card for " + yeardir + " fit plots...")
-os.system(fstring)
-'''
+#fstring = "combineCards.py "
+#fstring += "bin1=" + oldfitcard
+#fstring += " > " + fitcard
+#print("Creating card for " + yeardir + " fit plots...")
+#os.system(fstring)
 
 ftstring = "text2workspace.py " + fitcard + " -o " + fitroot
 print("Creating workspace for " + yeardir + " fit plots...")

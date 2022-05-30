@@ -111,12 +111,11 @@ for year in years:
                 sampFiles[year+lep].append([fn, fn])
                 break
 
-'''
-print 'sampFiles:'
-for k, v in sampFiles.items():
-    for el in v:
-        print el
-'''
+
+#print 'sampFiles:'
+#for k, v in sampFiles.items():
+    #for el in v:
+        #print el
 
 #*******************************************************#
 #                                                       #

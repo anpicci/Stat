@@ -12,15 +12,23 @@ from CMS_lumi import CMS_lumi
 setTDRStyle()
 gROOT.SetBatch() # don't pop up canvases
 
-os.system("reset")
+#os.system("reset")
 
 usage = 'python3 PreFitPostFit_v2.py'
 parser = optparse.OptionParser(usage)
 
 parser.add_option('-y', '--era', dest='era', type=str, default = 'RunII', help='Please enter desired years')
+parser.add_option('--folder', dest='folder', type=str, default = 'vUL025', help='Please enter desired folder')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
+parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', help = 'Variables to postfit')
+parser.add_option('--fitted', dest='fittedvars', type='string', default = 'm_o1,m_o1', help = 'Variables fitted in SR and CRs')
 
 (opt, args) = parser.parse_args()
+
+if len(opt.fittedvars.split(",")) != 2:
+    raise RuntimeError("--fitted must be of the type \"[srvar],[[crvar]\"!")
+
+srvar, crvar = opt.fittedvars.split(",")
 
 blind = (not opt.unblind)
 
@@ -28,11 +36,11 @@ new_dic = defaultdict(dict)
 years = opt.era.replace("RunII", "2016M,2017,2018")
 infile = "../histos/histo_"
 
-indir = "vUL025"
+indir = opt.folder
 eosspace = "/eos/home-a/apiccine/VBS/nosynch/"
 sfolder = eosspace + indir + "/stack/"
-prefolder = sfolder + "prefit"
-postfolder = sfolder + "postfit"
+prefolder = sfolder + "prefit_" + srvar + "_" + crvar
+postfolder = sfolder + "postfit_" + srvar + "_" + crvar
 if not os.path.exists(prefolder):
     os.system("mkdir " + prefolder)
 if not os.path.exists(postfolder):
@@ -67,7 +75,7 @@ for year in years:
         key = ch + year
         ychannels[year].append(key)
 
-def plotPreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL = True, LogX = False):
+def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL = True, LogX = False):
     #print "region, channel, variable, outdir, years"
     #print region, channel, variable, outdir, years
 
@@ -745,18 +753,11 @@ def plotPreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, is
     f_mlfit.Close()
     
 
-variables = [
-    "m_o1",
-    "m_1T",
-    "m_jj",
-    "DNN_SM_UL010_allBKG",
-]
+variables = opt.postvars.split(",")
 
 for var in variables:
     print "\n\nProcessing postfit for " + var + "..."
     for ch in channels:
         print "\nProcessing postfit for " + ch + "..."
-        plotPreFitPostFit_v2(ch, "ltau", var, indir, years)
-        #break
-    #break
+        PreFitPostFit_v2(ch, "ltau", var, indir, years)
 

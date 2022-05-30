@@ -2,6 +2,8 @@ import ROOT
 import sys
 import copy
 
+ROOT.gROOT.SetBatch()
+
 cc = ROOT.TCanvas("cc","", 800, 600);
 
 lumi = {

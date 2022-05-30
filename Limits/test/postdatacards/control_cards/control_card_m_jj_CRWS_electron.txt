@@ -46,9 +46,12 @@ tau_vsele_2018          shape            -                    -                 
 tau_vsjet_2016M         shape            1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  -                    1.0                  -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                  
 tau_vsjet_2017          shape            -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  -                    1.0                  -                    -                    -                    -                    -                    -                    -                    -                    -                    -                  
 tau_vsjet_2018          shape            -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    -                    1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  1.0                  -                    1.0                
+FRest_electron_2016M  rateParam CRWS_electron_2016M Fake 1  
+DYest_electron_2018  rateParam CRWS_electron_2018 DYJetsToLL_FxFx 1  
+FRest_electron_2018  rateParam CRWS_electron_2018 Fake 1  
 DYest_electron_2016M  rateParam CRWS_electron_2016M DYJetsToLL_FxFx 1  
 DYest_electron_2017  rateParam CRWS_electron_2017 DYJetsToLL_FxFx 1  
-DYest_electron_2018  rateParam CRWS_electron_2018 DYJetsToLL_FxFx 1  
+FRest_electron_2017  rateParam CRWS_electron_2017 Fake 1  
 CRWS_electron_2016M autoMCStats 10 0 1
 CRWS_electron_2017 autoMCStats 10 0 1
 CRWS_electron_2018 autoMCStats 10 0 1
