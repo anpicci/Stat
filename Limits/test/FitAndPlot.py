@@ -55,7 +55,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         ### Run EFT Likelihood Scan for EFT models
         else:
             RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)
-        
+
         ### Run Impacts, if desired
         if opt.impacts:
             DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user)
@@ -71,3 +71,4 @@ if not os.path.exists(bigdir):
 os.system("mv fit_" + folder + "_* " + bigdir)
 os.system("mv " + folder + "_* " + bigdir)
 os.system("mv histo*root " + bigdir)
+

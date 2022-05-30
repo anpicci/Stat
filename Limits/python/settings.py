@@ -292,7 +292,7 @@ FakeMu_rate_2016M.chs = [
     #"CRTT_muon",                                                    
     "CRF_muon",
     ##"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2016M.bkg = "Fake"
 rateParams["FRest_muon_2016M"] = FakeMu_rate_2016M
@@ -304,7 +304,7 @@ FakeEle_rate_2016M.chs = [
     #"CRTT_electron",
     "CRF_electron",
     ##"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2016M.bkg = "Fake"
 rateParams["FRest_electron_2016M"] = FakeEle_rate_2016M
@@ -384,7 +384,7 @@ FakeMu_rate_2017.chs = [
     #"CRTT_muon",                                                    
     "CRF_muon",
     ##"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
 rateParams["FRest_muon_2017"] = FakeMu_rate_2017
@@ -395,7 +395,7 @@ FakeEle_rate_2017.chs = [
     #"CRTT_electron",
     "CRF_electron",
     ##"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
 rateParams["FRest_electron_2017"] = FakeEle_rate_2017
@@ -474,7 +474,7 @@ FakeMu_rate_2018.chs = [
     #"CRTT_muon",
     "CRF_muon",
     ##"CRDY_muon",
-    "CRWS_muon",
+    #"CRWS_muon",
 ]
 FakeMu_rate_2018.bkg = "Fake"
 rateParams["FRest_muon_2018"] = FakeMu_rate_2018
@@ -486,7 +486,7 @@ FakeEle_rate_2018.chs = [
     #"CRTT_electron",
     "CRF_electron",
     ##"CRDY_electron",
-    "CRWS_electron",
+    #"CRWS_electron",
 ]
 FakeEle_rate_2018.bkg = "Fake"
 rateParams["FRest_electron_2018"] = FakeEle_rate_2018

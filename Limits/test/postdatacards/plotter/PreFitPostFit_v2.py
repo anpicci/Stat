@@ -6,6 +6,7 @@ import math
 import os
 import optparse
 from Stat.Limits.settings import *
+from Stat.Limits.variables import *
 from samplesUL import *
 from CMS_lumi import CMS_lumi
 
@@ -75,10 +76,18 @@ for year in years:
         key = ch + year
         ychannels[year].append(key)
 
+for varr in variables:
+    print varr.title
+
 def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL = True, LogX = False):
     #print "region, channel, variable, outdir, years"
     #print region, channel, variable, outdir, years
 
+    vartitle = ""
+    for possvar in variables:
+        if variable == possvar.name:
+            vartitle = possvar.title
+    
     fitfile = infile + variable + "_" + region + ".root"
     f_mlfit = TFile(fitfile, 'READ')
     lyears = years.split(",")
@@ -699,10 +708,11 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         data_pull.GetYaxis().SetTitleOffset(0.35)
         data_pull.GetXaxis().SetLabelSize(0.1)
         data_pull.GetYaxis().SetLabelSize(0.1)
-        data_pull.GetXaxis().SetTitleSize(0.16)
+        data_pull.GetXaxis().SetTitleSize(0.11)
         data_pull.GetYaxis().SetTitleSize(0.1)
         data_pull.GetYaxis().CenterTitle(1)
         data_pull.GetYaxis().SetTitle("#frac{(Data-Pred.)}{#sigma}")
+        data_pull.GetXaxis().SetTitle(vartitle)
 
         pull_count.SaveAs(postfolder + "/pull_"+region+"_"+yul+"_"+variable+".root")
         data_pull.SaveAs(postfolder + "/test_"+region+"_"+yul+"_"+variable+".root")
@@ -728,17 +738,17 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         legend4.SetLineColor(0)
 
         data_pull.Draw("hist same")
-        '''
-        latex_chi = TLatex()
-        latex_chi.SetNDC()
-        latex_chi.SetTextSize(0.025)
-        #latex_chi.DrawLatex(0.16,0.20,"#Chi^{2} = "+str(round(addedsqrt/data_pull.GetNbinsX(),2)) + "      Mean = "+ str(round(mean,2)))
-        #latex_chi.DrawLatex(0.16,0.20,"#Chi^{2} = "+str(round(addedsqrt/data_pull.GetNbinsX(),2)) )
-        #latex_chi.DrawLatex(0.16,0.19,"Mean = "+str(round(mean,2)))
-        #latex_chi.Draw("same")
-        pad2.RedrawAxis("G sameaxis")
-        gPad.RedrawAxis()
-        '''
+        
+        #latex_chi = TLatex()
+        #latex_chi.SetNDC()
+        #latex_chi.SetTextSize(0.025)
+        ##latex_chi.DrawLatex(0.16,0.20,"#Chi^{2} = "+str(round(addedsqrt/data_pull.GetNbinsX(),2)) + "      Mean = "+ str(round(mean,2)))
+        ##latex_chi.DrawLatex(0.16,0.20,"#Chi^{2} = "+str(round(addedsqrt/data_pull.GetNbinsX(),2)) )
+        ##latex_chi.DrawLatex(0.16,0.19,"Mean = "+str(round(mean,2)))
+        ##latex_chi.Draw("same")
+        #pad2.RedrawAxis("G sameaxis")
+        #gPad.RedrawAxis()
+        
 
         ### save plots and close
         #c.SaveAs(postfolder+"/"+region+"_"+variable+".pdf")
@@ -753,9 +763,9 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
     f_mlfit.Close()
     
 
-variables = opt.postvars.split(",")
+plotvars = opt.postvars.split(",")
 
-for var in variables:
+for var in plotvars:
     print "\n\nProcessing postfit for " + var + "..."
     for ch in channels:
         print "\nProcessing postfit for " + ch + "..."

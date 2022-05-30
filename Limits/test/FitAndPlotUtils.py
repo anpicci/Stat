@@ -92,10 +92,12 @@ def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "a
         dcpath = folder + "/" + model + "/" + dcname + ".txt"
 
     impactfolder = folder + "/Checks_" + model + "/"
+    if not os.path.exists(impactfolder):
+        os.system("mkdir " + impactfolder)
     wscard = impactfolder + dcname + ".root"
 
-    os.system("text2workspace.py " + dcpath + " -o wscard")
-    
+    os.system("text2workspace.py " + dcpath + " -o " + wscard)
+
     os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --toysFreq --expectSignal 0 --rMin -10 --forceRecreateNLL -n _t0")
     os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics_t0.root -g plots_t0.root >> " + impactfolder + "fitResults_t0.log")
 
@@ -104,19 +106,19 @@ def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "a
 
     os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --toysFreq --expectSignal 0 --rMin -10 --doInitialFit --allPars -m 1 -n t0 --parallel 10")
     os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --toysFreq --expectSignal 1 --rMin -10 --doInitialFit --allPars -m 1 -n t1 --parallel 10")
-
+    
     os.system("combineTool.py -M Impacts -d " + wscard + " -o " + impactfolder + "impacts_t0.json -t -1 --expectSignal 0 --rMin -10 --doFits -m 1 -n t0 --parallel 10")
     os.system("combineTool.py -M Impacts -d " + wscard + " -o " + impactfolder + "impacts_t1.json -t -1 --expectSignal 1 --rMin -10 --doFits -m 1 -n t1 --parallel 10")
-
+    
     os.system("combineTool.py -M Impacts -d " + wscard + " -m 1 -n t0 -o " + impactfolder + "impacts_t0.json --parallel 10")
     os.system("combineTool.py -M Impacts -d " + wscard + " -m 1 -n t1 -o " + impactfolder + "impacts_t1.json --parallel 10")
 
     os.system("plotImpacts.py -i " + impactfolder + "impacts_t0.json -o " + impactfolder + "impacts_t0")
-    os.system("plotImpacts.py -i " + impactfolder + "impacts_t1.json -o " + impactfodler + "impacts_t1")
-
+    os.system("plotImpacts.py -i " + impactfolder + "impacts_t1.json -o " + impactfolder + "impacts_t1")
+   
     os.system("mv higgsCombine_* " + impactfolder)
     os.system("mv fitDiagnostics_t* plots_t* combine_logger.out " + impactfolder)
-
+    
 def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,2018", username = "apiccine", unblind = False):
     pwd = os.getcwd()
     vartopost = []
