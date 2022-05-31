@@ -27,12 +27,14 @@ eosspace = "/eos/home-a/apiccine"
 
 fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir + "_"
 
+print "\nfolders:", folders 
 cards = {}
 for idv, srvar in enumerate(srvars):
     cards[srvar] = {}
     for c in channels:
-        cards[srvar][c] = [card for card in os.listdir("../" + folders[idv] + "/VBS_SSWW_SM/") if c in card]
+        cards[srvar][c] = [card for card in os.listdir("../" + folders[idv] + "/VBS_SSWW_SM/") if c in card and not "RunII" in card]
 
+print cards
 
 string = "combineCards.py"
 
@@ -57,7 +59,7 @@ if not os.path.exists(fitdiagdir):
 else:
     os.system("rm " + fitdiagdir + "/*")
 
-os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin -10 --saveNormalizations --saveWithUncertainties ")#--cminDefaultMinimizerStrategy 0 --robustFit=1 ")
+os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin -10 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0")# --robustFit=1 ")
 
 for idv, srvar in enumerate(srvars):
     ofold = "../" + folders[idv] + "/VBS_SSWW_SM/"

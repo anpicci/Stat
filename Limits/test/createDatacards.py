@@ -23,7 +23,9 @@ if opt.outdir.startswith("F"):
 else:
     outdir = opt.outdir
 
-os.system("rm " + outdir + "/*")
+print outdir
+
+os.system("rm " + outdir + "/*/*")
 
 mode = opt.mode
 unblind = opt.unblind
@@ -82,3 +84,4 @@ for ch in ch_year:
         getCard(signals, ch, ifilename, outdir, mode, unblind)
         #for s in signals:
             #getCard(s, ch, ifilename, outdir, mode, unblind)
+

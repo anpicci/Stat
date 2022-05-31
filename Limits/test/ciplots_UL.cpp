@@ -21,7 +21,10 @@
 //----- function built on graphic of likelihood scan from combine ----- 
  
 TGraph *gr;
-double myfunc(Double_t *x, Double_t *) { return gr->Eval(x[0]);}
+double myfunc(Double_t *x, Double_t *) { 
+  //cout << *x << endl;
+  return gr->Eval(x[0]);
+}
 
 //-----
  
@@ -236,7 +239,7 @@ gr->Clear();
                
 
 //-----m_o1 + m_o1-----                   
-
+cout << "ciaoooo" << endl;
 char path4[100];                    // location of combine output 
 sprintf(path4,"./fit_v%s_m_o1_m_o1_RunII_/%s/LS_objects_k_%s.root",argv[2],argv[1],argv[1]);
                        
@@ -248,12 +251,15 @@ double s1down_4=f4->GetX(y2,-1000,0);
 double s1up_4=f4->GetX(y2,0,1000);
 double s2down_4=f4->GetX(y1,-1000,0);
 double s2up_4=f4->GetX(y1,0,1000);
-
+ cout << s1down_4 << endl;
+ cout << s1up_4 << endl;
+ cout << s2down_4 << endl;
+ cout << s2up_4 << endl;
 double min_4=f4->GetMinimumX(-10,10);
-
+ cout << min_4 << endl;
 f_4->Close();                 
 gr->Clear();
-
+cout << "ciaoooo" << endl;
 
 //----DNN a incrocio-----         
 

@@ -40,8 +40,10 @@ infile = "../histos/histo_"
 indir = opt.folder
 eosspace = "/eos/home-a/apiccine/VBS/nosynch/"
 sfolder = eosspace + indir + "/stack/"
-prefolder = sfolder + "prefit_" + srvar + "_" + crvar
-postfolder = sfolder + "postfit_" + srvar + "_" + crvar
+#prefolder = sfolder + "prefit_" + srvar + "_" + crvar
+prefolder = "./prefit_" + srvar + "_" + crvar
+#postfolder = sfolder + "postfit_" + srvar + "_" + crvar
+postfolder = "./postfit_" + srvar + "_" + crvar
 if not os.path.exists(prefolder):
     os.system("mkdir " + prefolder)
 if not os.path.exists(postfolder):

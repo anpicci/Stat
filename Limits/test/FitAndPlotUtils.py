@@ -23,6 +23,7 @@ def RecursiveImport(module):
     globals()[module] = importlib.import_module(module)
     
 def AreVarsIncluded(varlist):
+    varexcluded = ""
     for potvar in varlist:
         IsIncluded = False
         for variable in variables:
@@ -31,15 +32,16 @@ def AreVarsIncluded(varlist):
                 print potvar, "is acceptable as variable to fit!"
                 break
         if not IsIncluded:
-            return False
+            varexcluded = potvar
+            return False, varexcluded
         else:
-            return True
+            return True, varexcluded
 
 def IterateVars(srvarlist, crvarlist):
     print srvarlist, crvarlist
     fitvars = srvarlist.split(",")
-    if not AreVarsIncluded(fitvars):
-        raise RuntimeError(fitvars + " are not included in the variables! Please either insert it among the variables, or change it!")
+    if not AreVarsIncluded(fitvars)[0]:
+        raise RuntimeError(AreVarsIncluded(fitvars)[1] + " are not included in the variables! Please either insert it among the variables, or change it!")
 
     crvars = []
     if crvarlist == "same":
@@ -50,8 +52,8 @@ def IterateVars(srvarlist, crvarlist):
         if len(fitvars)!=len(crvars):
             raise RuntimeError("Number of variables for CRs (" + len(crvars) + ") must be equal to the number of variables for SR (" + len(fitvars) + ")!")
 
-    if not AreVarsIncluded(crvars):
-        raise RuntimeError(crvars + " is not included in the variables! Please either insert it among the variables, or change it!")
+    if not AreVarsIncluded(crvars)[0]:
+        raise RuntimeError(AreVarsIncluded(crvars)[1] + " is not included in the variables! Please either insert it among the variables, or change it!")
 
     return zip(fitvars, crvars)
 
@@ -98,14 +100,14 @@ def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "a
 
     os.system("text2workspace.py " + dcpath + " -o " + wscard)
 
-    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --toysFreq --expectSignal 0 --rMin -10 --forceRecreateNLL -n _t0")
+    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --expectSignal 0 --rMin -10 --forceRecreateNLL --cminDefaultMinimizerStrategy 0 -n _t0")
     os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics_t0.root -g plots_t0.root >> " + impactfolder + "fitResults_t0.log")
 
-    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --toysFreq --expectSignal 1 --rMin -10 --forceRecreateNLL -n _t1")
+    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --expectSignal 1 --rMin -10 --forceRecreateNLL --cminDefaultMinimizerStrategy 0 -n _t1")
     os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py  -a fitDiagnostics_t1.root -g plots_t1.root >> "+ impactfolder + "fitResults_t1.log")
 
-    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --toysFreq --expectSignal 0 --rMin -10 --doInitialFit --allPars -m 1 -n t0 --parallel 10")
-    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --toysFreq --expectSignal 1 --rMin -10 --doInitialFit --allPars -m 1 -n t1 --parallel 10")
+    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --expectSignal 0 --rMin -10 --doInitialFit --allPars -m 1 -n t0 --parallel 10")
+    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --expectSignal 1 --rMin -10 --doInitialFit --allPars -m 1 -n t1 --parallel 10")
     
     os.system("combineTool.py -M Impacts -d " + wscard + " -o " + impactfolder + "impacts_t0.json -t -1 --expectSignal 0 --rMin -10 --doFits -m 1 -n t0 --parallel 10")
     os.system("combineTool.py -M Impacts -d " + wscard + " -o " + impactfolder + "impacts_t1.json -t -1 --expectSignal 1 --rMin -10 --doFits -m 1 -n t1 --parallel 10")
@@ -132,15 +134,18 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,
         for var in variables:
             if var.name in plotvars.split(","):
                 vartopost.append(var)
-
+    
     for var in vartopost:
         varname = var.name
         folder = fold + '_' + yeartag + varname
-        
+        print varname, folder
+      
         WriteMeta(varname, varname, folder, model, year)
         RecursiveImport('Stat.Limits.settings')
-        os.system("python PrepareEOSfolder.py " + fold)
+        
+        #os.system("python PrepareEOSfolder.py " + fold)
         os.system("rm " + yeartag + varname + ".root")
+        
         os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + ".root")
         os.system("python createDatacards.py -i " + yeartag + varname + ".root -d " + folder)
         
@@ -148,11 +153,14 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,
         RecursiveImport('Stat.Limits.settings')
         os.chdir("postdatacards")
         os.system("python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year)
-
+        
         os.chdir("plotter")
         poststring = "python PreFitPostFit_v2.py --era " + yeartag[:-1] + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar
         if unblind:
             poststring += " -u"
         os.system(poststring)
         os.chdir(pwd)
-            
+
+def ProduceCLPlots(srvars, crvars, folder, eftop, era):
+    command = "python ciplots.py --sr " + srvars + " --cr " + crvars + " --folder " + folder + " --op " + eftop + " --era " + era
+    os.system(command)

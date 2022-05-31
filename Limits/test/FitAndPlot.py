@@ -41,7 +41,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
     for model in models:
         print "Fitting for model", model
-
+        
         ### Write the file with metasettings for settings.py, and load the latter recursively
         WriteMeta(fitvar, crvar, folder, model, yeartag)
         RecursiveImport('Stat.Limits.settings')
@@ -62,13 +62,17 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 
         ### Run PostFit plots, if desiderd
         if opt.postfit:
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, yeartag, opt.user, opt.unblind)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, yeartag, opt.user, opt.unblind
+
+if opt.eft != "none":
+    for model in models:
+        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
 
 ### ordering outputs
-bigdir = folder + "_fitmaterial"
+
+bigdir = folder + "fitmaterial"
 if not os.path.exists(bigdir):
     os.system("mkdir " + bigdir)
-os.system("mv fit_" + folder + "_* " + bigdir)
-os.system("mv " + folder + "_* " + bigdir)
-os.system("mv histo*root " + bigdir)
-
+os.system("mv -f fit_" + folder + "_* " + bigdir)
+os.system("mv -f " + folder + "_* " + bigdir)
+os.system("mv -f histo*"+ folder + "*root " + bigdir)
