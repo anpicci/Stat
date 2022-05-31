@@ -64,7 +64,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         if opt.postfit:
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, yeartag, opt.user, opt.unblind)
                                 
-if opt.eft != "non":
+if opt.eft != "none":
     for model in models:
         ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
 
