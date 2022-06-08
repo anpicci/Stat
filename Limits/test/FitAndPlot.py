@@ -21,7 +21,9 @@ parser.add_option('--eft', dest='eft', type='string', default = 'none', help = '
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
+parser.add_option('--noFit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
+parser.add_option('--noCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 (opt, args) = parser.parse_args()
 
@@ -40,21 +42,22 @@ yeartag = opt.year.replace("RunII", "2016M,2017,2018")
 for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
     for model in models:
-        print "Fitting for model", model
+        if opt.dofit:
+            print "Fitting for model", model
         
-        ### Write the file with metasettings for settings.py, and load the latter recursively
-        WriteMeta(fitvar, crvar, folder, model, yeartag)
-        RecursiveImport('Stat.Limits.settings')
+            ### Write the file with metasettings for settings.py, and load the latter recursively
+            WriteMeta(fitvar, crvar, folder, model, yeartag)
+            RecursiveImport('Stat.Limits.settings')
 
-        ### Prepare plots for the run and clean remnants from previous fits
-        PrepareToRun(fitvar, crvar, folder, yeartag)
+            ### Prepare plots for the run and clean remnants from previous fits
+            PrepareToRun(fitvar, crvar, folder, yeartag)
 
-        ### Run Significance for only-SM models
-        if opt.sm:
-            RunSMSignificance(fitvar, crvar, folder, yeartag, opt.user)
-        ### Run EFT Likelihood Scan for EFT models
-        else:
-            RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)
+            ### Run Significance for only-SM models
+            if opt.sm:
+                RunSMSignificance(fitvar, crvar, folder, yeartag, opt.user)
+                ### Run EFT Likelihood Scan for EFT models
+            else:
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)
 
         ### Run Impacts, if desired
         if opt.impacts:
@@ -63,16 +66,17 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, yeartag, opt.user, opt.unblind)
-                                
-if opt.eft != "none":
+
+if opt.eft != "none" and opt.doCI:
     for model in models:
         ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
 
 ### ordering outputs
-
+'''
 bigdir = folder + "fitmaterial"
 if not os.path.exists(bigdir):
     os.system("mkdir " + bigdir)
 os.system("mv -f fit_" + folder + "_* " + bigdir)
 os.system("mv -f " + folder + "_* " + bigdir)
 os.system("mv -f histo*"+ folder + "*root " + bigdir)
+'''

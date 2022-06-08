@@ -4,7 +4,7 @@ import ROOT
 import optparse
 from array import array
 from FitAndPlotUtils import *
-os.system("reset")
+#os.system("reset")
 from Stat.Limits.variables import *
 
 def EvalGraph(x, graph):

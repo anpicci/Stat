@@ -12,6 +12,7 @@ parser = optparse.OptionParser(usage)
 parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', help = 'Variables to postfit')
 parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', help = 'Variables to postfit')
 parser.add_option('--year', dest='year', type='string', default = '2016M,2017,2018', help = 'Variables to postfit')
+parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables to postfit')
 (opt, args) = parser.parse_args()
 
 srvars = opt.postvars.split(",")
@@ -23,6 +24,8 @@ years = lyear.split(",")
 yeardir = opt.year.replace("2016M,2017,2018", "RunII")
 
 folders = [inf + '_' + yeardir + '_' + srvar for srvar in srvars]
+
+
 eosspace = "/eos/home-a/apiccine"
 
 fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir + "_"
@@ -32,21 +35,26 @@ cards = {}
 for idv, srvar in enumerate(srvars):
     cards[srvar] = {}
     for c in channels:
-        cards[srvar][c] = [card for card in os.listdir("../" + folders[idv] + "/VBS_SSWW_SM/") if c in card and not "RunII" in card]
-
-print cards
-
+        if opt.model == "sm":
+            cards[srvar][c] = [card for card in os.listdir("../" + folders[idv] + "/VBS_SSWW_SM/") if c in card and not "RunII" in card]
+        else:
+            cards[srvar][c] = [card for card in os.listdir("../" + folders[idv] + "/" + opt.model + "/") if c in card and not "RunII" in card]
 string = "combineCards.py"
+print cards
 
 fitcard = "fit_" + yeardir + ".txt"
 fitroot = fitcard.replace("txt", "root")
 oldfitcard = yeardir + "_" + sr_var + "_" + cr_var + ".txt"
-os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)
+
+if opt.model == "sm":
+    os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)
+else:
+    os.system("cp "+ fitfolder + "/" + opt.model + "/" + opt.model +"_hist.txt " + fitcard)
 
 #fstring = "combineCards.py "
 #fstring += "bin1=" + oldfitcard
 #fstring += " > " + fitcard
-#print("Creating card for " + yeardir + " fit plots...")
+#print("Creating card for " + yeardir + " fit plots...", fstring)
 #os.system(fstring)
 
 ftstring = "text2workspace.py " + fitcard + " -o " + fitroot
@@ -62,7 +70,10 @@ else:
 os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin -10 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0")# --robustFit=1 ")
 
 for idv, srvar in enumerate(srvars):
-    ofold = "../" + folders[idv] + "/VBS_SSWW_SM/"
+    if opt.model == "sm":
+        ofold = "../" + folders[idv] + "/VBS_SSWW_SM/"
+    else:
+        ofold = "../" + folders[idv] + "/" + opt.model + "/"
     for c in channels:
         tmpcards = []
         cstring = string
@@ -84,7 +95,8 @@ for idv, srvar in enumerate(srvars):
         ctstring = "text2workspace.py " + controlcard + " -o " + controlroot
         print("Creating workspace for " + yeardir + " " + srvar + " " + c + " control plots...")
         os.system(ctstring)
-        
+        #print(ctstring)
+
         for tmpcard in tmpcards:
             os.system("rm " + tmpcard)
 

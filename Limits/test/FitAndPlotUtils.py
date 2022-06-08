@@ -146,16 +146,22 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,
         #os.system("python PrepareEOSfolder.py " + fold)
         os.system("rm " + yeartag + varname + ".root")
         
-        os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + ".root")
-        os.system("python createDatacards.py -i " + yeartag + varname + ".root -d " + folder)
+        appendix = ""
+        if model != "sm":
+            appendix = " --ls " + model
+
+        os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + ".root" + appendix)
+        os.system("python createDatacards.py -i " + yeartag + varname + ".root -d " + folder + appendix)
         
         WriteMeta(srvar, crvar, folder, model, yeartag[:-1])
         RecursiveImport('Stat.Limits.settings')
         os.chdir("postdatacards")
-        os.system("python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year)
+        
+        os.system("python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model)
         
         os.chdir("plotter")
-        poststring = "python PreFitPostFit_v2.py --era " + yeartag[:-1] + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar
+        
+        poststring = "python PreFitPostFit_v2.py --era " + yeartag[:-1] + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model
         if unblind:
             poststring += " -u"
         os.system(poststring)
