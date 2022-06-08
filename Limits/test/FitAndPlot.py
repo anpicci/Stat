@@ -20,6 +20,7 @@ parser.add_option('--notImpacts', dest='impacts', default = True, action='store_
 parser.add_option('--eft', dest='eft', type='string', default = 'none', help = 'EFT operators to do LS')
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
+parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
 parser.add_option('--noFit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
@@ -31,7 +32,12 @@ folder = opt.folder
 
 models = []
 if opt.sm:
-    models.append("SM")
+    modtag = "SM"
+    if opt.pol != "":
+        if not (opt.pol == "TT" or opt.pol == "TL" or opt.pol == "LL"):
+            raise ValueError("Polarized can be only TT, TL or LL!")
+        modtag += "_" + opt.pol
+    models.append(modtag)
 elif opt.eft != "none":
     models = opt.eft.split(",")
 else:
