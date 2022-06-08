@@ -64,7 +64,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
                 ### Run EFT Likelihood Scan for EFT models
             else:
                 RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)
-'''
+
         ### Run Impacts, if desired
         if opt.impacts:
             DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user)
@@ -76,7 +76,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 if opt.eft != "none" and opt.doCI:
     for model in models:
         ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
-'''
+
 ### ordering outputs
 '''
 bigdir = folder + "fitmaterial"

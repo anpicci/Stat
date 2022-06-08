@@ -69,9 +69,12 @@ def RunSMSignificance(srvar, crvar, fold, year = "2016M,2017,2018", username = "
     plotrepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/plot/'
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
 
-    os.system("python collectHistos.py -i " + plotrepo + " -o histo" + yeartag + folder + ".root")
-    #os.system("python createDatacards.py -i histo" + yeartag + folder + ".root -d " + folder)
-    #os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist")
+    try:
+        os.system("python collectHistos.py -i " + plotrepo + " -o histo" + yeartag + folder + ".root")
+    except:
+        raise RuntimeError("Problems when collecting histos for the fit")
+    os.system("python createDatacards.py -i histo" + yeartag + folder + ".root -d " + folder)
+    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist")
 
 def RunEFTFit(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     yeartag = year.replace("2016M,2017,2018", "RunII") + "_"
