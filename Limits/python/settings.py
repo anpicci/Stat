@@ -645,7 +645,7 @@ if(not splityearjes):
 #                                *
 #*********************************
 
-if setlist[2] == "SM":
+if setlist[2].startswith("SM"):
     sigs = [setlist[2]]
     lssamples_1D = {
         setlist[2]:{    
