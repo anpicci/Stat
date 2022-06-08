@@ -70,8 +70,8 @@ def RunSMSignificance(srvar, crvar, fold, year = "2016M,2017,2018", username = "
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
 
     os.system("python collectHistos.py -i " + plotrepo + " -o histo" + yeartag + folder + ".root")
-    os.system("python createDatacards.py -i histo" + yeartag + folder + ".root -d " + folder)
-    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist")
+    #os.system("python createDatacards.py -i histo" + yeartag + folder + ".root -d " + folder)
+    #os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist")
 
 def RunEFTFit(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     yeartag = year.replace("2016M,2017,2018", "RunII") + "_"

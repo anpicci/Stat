@@ -30,6 +30,7 @@ procs = bkg
 # Getting list of files in histos
 print path
 
+
 for year in years:
     yearstring = ""
     if "UL" in path:
@@ -44,6 +45,19 @@ for year in years:
 
         sampFiles[year+lep] = []
 
+        for sigp in sigpoints:
+            for sig in sigp:
+                isThere = False
+                #print 'VBS_SSWW_' + sig + "_" + yearstring
+                for fn in tmp_list:
+                    if fn.startswith('VBS_SSWW_' + sig + "_" + yearstring):
+                        isThere = True
+                        break
+                
+                if not isThere:
+                    raise RuntimeError("Signal plots are not available for " + sig + "!")
+
+
         for fn in tmp_list:
             isSig = False
             isLS = False
@@ -54,6 +68,7 @@ for year in years:
             if fn.startswith('VBS_SSWW_'):
                 for sigp in sigpoints:
                     for sig in sigp:
+                        #print 'VBS_SSWW_' + sig + "_" + yearstring
                         if fn.startswith('VBS_SSWW_' + sig + "_" + yearstring):
                             isSig = True
                             sampFiles[year+lep].append([fn, fn])
@@ -349,3 +364,4 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()
     ofile.Close()
+'''
