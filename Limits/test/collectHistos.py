@@ -28,9 +28,8 @@ sampFiles = {}
 procs = bkg
 
 # Getting list of files in histos
-print path
 
-
+print("\n\n\ninside collecthistos")
 for year in years:
     yearstring = ""
     if "UL" in path:
@@ -47,10 +46,16 @@ for year in years:
 
         for sigp in sigpoints:
             for sig in sigp:
+                sigstr = ""
+                if sig.startswith("WpWp"):
+                    sigstr = sig
+                else:
+                    sigstr = "VBS_SSWW_" + sig
+
                 isThere = False
                 #print 'VBS_SSWW_' + sig + "_" + yearstring
                 for fn in tmp_list:
-                    if fn.startswith('VBS_SSWW_' + sig + "_" + yearstring):
+                    if fn.startswith(sigstr + "_" + yearstring):
                         isThere = True
                         break
                 
@@ -65,11 +70,17 @@ for year in years:
             if fn.startswith("Data"):
                 sampFiles[year+lep].append([fn, fn])
 
-            if fn.startswith('VBS_SSWW_'):
+            if fn.startswith('VBS_SSWW_') or fn.startswith("WpWpJJ_EWK"):
                 for sigp in sigpoints:
                     for sig in sigp:
                         #print 'VBS_SSWW_' + sig + "_" + yearstring
-                        if fn.startswith('VBS_SSWW_' + sig + "_" + yearstring):
+                        sigstr = ""
+                        if sig.startswith("WpWp"):
+                            sigstr = sig
+                        else:
+                            sigstr = "VBS_SSWW_" + sig
+
+                        if fn.startswith(sigstr + "_" + yearstring):
                             isSig = True
                             sampFiles[year+lep].append([fn, fn])
                         else:
@@ -94,8 +105,9 @@ for year in years:
                         if isSig or isLS:
                             break
             
-                if (isSig or isLS) and not (fn.startswith("VBS_SSWW_SM_" + year)):
+                if (isSig or isLS) and not (fn.startswith("VBS_SSWW_SM_" + year) or fn.startswith("WpWpJJ_EWK_" + year)):
                     continue
+
 
             for p in procs:
                 if not fn.startswith(p + "_"):
@@ -107,12 +119,16 @@ for year in years:
                     if p.startswith("DYJets"):
                         break
                     for sig in sigp:
-                        if '_SM' in sig or sig == 'SM':
+                        if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
                             if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
                                 if sig in p or 'SSWW_SM' in p:
                                     isSM = True
                                     break
                             elif '_SM' in p:
+                                isSM = True
+                                break
+                        elif sig == "WpWpJJ":
+                            if p == "WpWpJJ_QCD":
                                 isSM = True
                                 break
                         else:
@@ -186,11 +202,12 @@ for year in years:
                 print "We are looking for object ", h_
                 h = ifile.Get(h_)
                 hsyst = collections.OrderedDict()
-
+                
                 for sysname, systype in syst.items():
                     if not systype[0] == "shape" or sysname == "autoMCstat":
                         continue
-                    if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and flist[0].startswith("VBS_")):
+
+                    if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and (flist[0].startswith("VBS_") or flist[0].startswith("WpWp"))):
                         hup_ = h_ + "_" + sysname# + "Up"
                         hdown_ = h_ + "_" + sysname# + "Down"
                         hup_ += "Up"
@@ -205,7 +222,7 @@ for year in years:
                         #print ifile.Get(hdown_).GetName()
                         hsyst[sysName] = [ifile.Get(hup_), ifile.Get(hdown_)]
 
-        #print "end\n\n\n"
+
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
                 h.SetName(samp)
@@ -364,4 +381,3 @@ for lep in leptons:
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()
     ofile.Close()
-'''

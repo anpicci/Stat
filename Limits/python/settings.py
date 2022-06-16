@@ -619,6 +619,7 @@ syst["mistag"] = ["shape", ("QCD",  "sig")]
 '''
 
 years = setlist[3].split(",")
+print("years:", years)
 '''
 = [
     "2016M", 
@@ -645,7 +646,7 @@ if(not splityearjes):
 #                                *
 #*********************************
 
-if setlist[2].startswith("SM"):
+if setlist[2].endswith("SM"):
     sigs = [setlist[2]]
     lssamples_1D = {
         setlist[2]:{    
@@ -682,8 +683,20 @@ elif setlist[2].startswith("F"):
             'quad_cW': "VBS_SSWW_" + sigs[2],#"VBS_SSWW_cW_BSM",
         },
     }
+
+elif setlist[2].startswith("WpWp"):
+    sigs = [setlist[2]]
+    lssamples_1D = {
+        setlist[2]:{    
+            'sm': sigs[0],
+            'sm_lin_quad_cW': sigs[0],
+            'quad_cW': sigs[0],
+        },
+    }
+
 else:
     raise RuntimeError("Warning! Please insert valid model!")
+
 
 
 sigpoints = [sigs]

@@ -50,7 +50,10 @@ if wilson == "":
             model += p
             if idp < len(sigp) - 1:
                 model += "_"
-            signal  = "VBS_SSWW_" + p #, width, chir)         
+            if not p.startswith("WpWp"):
+                signal  = "VBS_SSWW_" + p
+            else:
+                signal  = p
             signals.append(signal)
 
         #width = p[1]

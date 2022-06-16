@@ -1,5 +1,6 @@
 import os
 import sys
+from Stat.Limits.settings import *
 
 folder = '/eos/home-a/apiccine/VBS/nosynch/' + sys.argv[1] + "/plot/"
 #folder = '/eos/home-t/ttedesch/VBS/nosynch/' + sys.argv[1] + "/plot/"
@@ -8,6 +9,7 @@ subfolders = [dirr for dirr in os.listdir(folder) if not "_" in dirr]#"mu" in di
 
 new_sf = [odirr.split("_")[0] for odirr in subfolders]
 
+
 for i, odir in enumerate(new_sf):#subfolders):#
     '''
     if not os.path.exists(folder + new_sf[i]):
@@ -15,10 +17,15 @@ for i, odir in enumerate(new_sf):#subfolders):#
     else:
         os.system("rm -r " + folder + new_sf[i] + "/*") 
     '''
-    ofilelist = [f for f in os.listdir(folder + odir) if not 'countings' in f]
 
-    for of in ofilelist:
-        
+    ofilelist = []
+    for y in years:
+        ylist = [f for f in os.listdir(folder + odir) if not 'countings' in f and y in f]
+
+        for yfile in ylist:
+            ofilelist.append(yfile)
+
+    for of in ofilelist:        
         if not (of.startswith('FakeMuPromptTau') or of.startswith('FakeMuFakeTau') or of.startswith('PromptMuFakeTau') or of.startswith('FakeElePromptTau') or of.startswith('FakeEleFakeTau') or of.startswith('PromptEleFakeTau')):
             new_dest = folder + new_sf[i] + "/"
             if of.startswith("FakeMu_") or of.startswith("FakeEle_"):

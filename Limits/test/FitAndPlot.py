@@ -22,6 +22,9 @@ parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
+parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
+parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
+parser.add_option('--wpwpEW', dest='wpwpEW', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW')
 parser.add_option('--noFit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
 parser.add_option('--noCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
@@ -31,15 +34,25 @@ parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action =
 folder = opt.folder
 
 models = []
-if opt.sm:
-    modtag = "SM"
+if opt.sm and not (opt.vbs or opt.wpwp or opt.wpwpEW):
+    raise ValueError("With --sm you have to use at least one among --vbs and --wpwp")
+
+if opt.sm and opt.vbs:
+    modtag = ""
     if opt.pol != "":
         if not (opt.pol == "TT" or opt.pol == "TL" or opt.pol == "LL"):
             raise ValueError("Polarized can be only TT, TL or LL!")
-        modtag += "_" + opt.pol
+        modtag += opt.pol + "_"
+    modtag += "SM"
     models.append(modtag)
 elif opt.eft != "none":
     models = opt.eft.split(",")
+elif opt.sm:
+    if opt.wpwpEW:
+        modtag = "WpWpJJ_EWK"
+    elif opt.wpwp:
+        modtag = "WpWpJJ"
+    models.append(modtag)
 else:
     raise RuntimeError("Please specify a model, with either --sm or --eft [ops]!")
 
@@ -54,7 +67,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             ### Write the file with metasettings for settings.py, and load the latter recursively
             WriteMeta(fitvar, crvar, folder, model, yeartag)
             RecursiveImport('Stat.Limits.settings')
-
+        
             ### Prepare plots for the run and clean remnants from previous fits
             PrepareToRun(fitvar, crvar, folder, yeartag)
 

@@ -17,7 +17,10 @@ def runCombine(cmdStr, logFile):
 def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
     modelname = ""
     for ids, sigp in enumerate(model):
-        modelname += "VBS_SSWW_" + sigp
+        if not sigp.startswith("WpWp"):
+            modelname += "VBS_SSWW_" + sigp
+        else:
+            modelname += sigp
         if ids < len(model) - 1:
             modelname += "_"
 

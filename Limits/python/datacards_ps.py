@@ -48,12 +48,20 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        for p in bkg:
               isSM = False
               for sigp in sig:
-                     if '_SM' in sigp or sigp == 'SM':
-                            if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                                   if sig in p or 'SSWW_SM' in p:
+                     if p.startswith("DYJets"):
+                            break
+                     if '_SM' in sigp or sigp == 'SM' or sigp.startswith("WpWp"):
+                            if 'TT_' in sigp or 'TL_' in sigp or 'LL_' in sigp:
+                                   if sigp in p or 'SSWW_SM' in p:
                                           isSM = True
                             elif '_SM' in p:
                                    isSM = True
+
+                     elif sigp == "WpWpJJ":
+                            if p == "WpWpJJ_QCD":
+                                   isSM = True
+                                   break
+
                      else:
                             if '_TT_' in p or '_TL_' in p or '_LL_' in p:
                                    isSM = True
@@ -223,6 +231,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               print "Pseudo data rate: ", rates["data_obs"]
        else: 
               rates["data_obs"] = getRate(ch, "data_obs", ifile)
+       print("sig",sig)
        for sigp in sig:
               print "sigp: ", sigp
               rates[sigp] = getRate(ch, sigp, ifile)
