@@ -90,6 +90,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               carddir += sigp
               if ids < len(sig) - 1:
                      carddir += "_"
+
        carddir += "/"
   
        hist_filename = os.getcwd()+"/"+ifilename
@@ -446,6 +447,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        #if not os.path.isdir(outdir + "/" + sig): os.system('mkdir ' +outdir + "/" + sig)
        if not os.path.isdir(carddir):
               os.system('mkdir -p ' + carddir)
+       #else:
+              #os.system("rm " + carddir + "/*")
 
        outname = "" + carddir
        for sigp in sig:
@@ -871,7 +874,8 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               os.system('mkdir ' +outdir)
        if not os.path.isdir(outdir + "/" + dircoeff): 
               os.system('mkdir ' +outdir + "/" + dircoeff)
-
+       #else:
+              #os.system('rm ' +outdir + "/" + dircoeff + "/*")
 
        outname =  "%s%s_%s_%s.txt" % (carddir, coeff, ch, mode)
        print 'outname:', outname

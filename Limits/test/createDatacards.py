@@ -25,7 +25,7 @@ else:
 
 print outdir
 
-os.system("rm " + outdir + "/*/*")
+#os.system("rm " + outdir + "/*/*")
 
 mode = opt.mode
 unblind = opt.unblind
