@@ -1,5 +1,9 @@
 import collections
 
+def cutToTag(cut):
+    newstring = cut.replace("-", "neg").replace(">=","_GE_").replace(">","_G_").replace(" ","").replace("&&","_AND_").replace("||","_OR_").replace("<=","_LE_").replace("<","_L_").replace(".","p").replace("(","").replace(")","").replace("==","_EQ_").replace("!=","_NEQ_").replace("=","_EQ_").replace("*","_AND_").replace("+","_OR_")
+    return newstring
+
 #*********************************
 #                                *
 #       List of channels         *
@@ -11,6 +15,7 @@ setfile = open("/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/pytho
 setlist = [line.replace("\n", "") for line in setfile.readlines()]
 sr_var, cr_var = setlist[0].split(",")
 intfolder = setlist[1]
+cut = setlist[4]
 
 print sr_var, cr_var, intfolder
 
@@ -33,7 +38,10 @@ histos = { "SR":hist_pre + sr_var + "_SR",
            #"CRDY":hist_pre + cr_var + "_DY_CR",
 }
 
-cuttag = ""#_AND_taggerScore_G_0p9"
+if cut != "not":
+    cuttag = "_AND_" + cutToTag(cut)
+    for kh, vh in histos.items():
+        histos[kh] = vh + cuttag
 
 if cuttag != "":
     for k, v in histos.items():

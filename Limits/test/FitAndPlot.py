@@ -21,6 +21,7 @@ parser.add_option('--eft', dest='eft', type='string', default = 'none', help = '
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
+parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
@@ -65,7 +66,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             print "Fitting for model", model
         
             ### Write the file with metasettings for settings.py, and load the latter recursively
-            WriteMeta(fitvar, crvar, folder, model, yeartag)
+            WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
             RecursiveImport('Stat.Limits.settings')
         
             ### Prepare plots for the run and clean remnants from previous fits
@@ -84,7 +85,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 
         ### Run PostFit plots, if desiderd
         if opt.postfit:
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, yeartag, opt.user, opt.unblind)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind)
 
 if opt.eft != "none" and opt.doCI:
     for model in models:

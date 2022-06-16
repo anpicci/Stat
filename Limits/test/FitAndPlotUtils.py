@@ -9,12 +9,13 @@ os.system("reset")
 
 LineWrite = lambda fname, s : fname.write(s + "\n") 
 
-def WriteMeta(srvar, crvar, folder, model, year = "2016M,2017,2018"):
+def WriteMeta(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     metasett = open("../python/metasett.txt", "w")
     LineWrite(metasett, srvar + "," + crvar)
     LineWrite(metasett, folder)
     LineWrite(metasett, model)
     LineWrite(metasett, year)
+    LineWrite(metasett, cut)
     metasett.close()
 
 def RecursiveImport(module):
@@ -124,7 +125,7 @@ def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "a
     os.system("mv higgsCombine_* " + impactfolder)
     os.system("mv fitDiagnostics_t* plots_t* combine_logger.out " + impactfolder)
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,2018", username = "apiccine", unblind = False):
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year = "2016M,2017,2018", username = "apiccine", unblind = False):
     pwd = os.getcwd()
     vartopost = []
     yeartag = year.replace("2016M,2017,2018", "RunII") + "_"
@@ -143,7 +144,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,
         folder = fold + '_' + yeartag + varname
         print varname, folder
       
-        WriteMeta(varname, varname, folder, model, year)
+        WriteMeta(varname, varname, folder, model, cut, year)
         RecursiveImport('Stat.Limits.settings')
         
         #os.system("python PrepareEOSfolder.py " + fold)
@@ -156,7 +157,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, year = "2016M,2017,
         os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + ".root" + appendix)
         os.system("python createDatacards.py -i " + yeartag + varname + ".root -d " + folder + appendix)
         
-        WriteMeta(srvar, crvar, folder, model, yeartag[:-1])
+        WriteMeta(srvar, crvar, folder, model, cut, yeartag[:-1])
         RecursiveImport('Stat.Limits.settings')
         os.chdir("postdatacards")
         
