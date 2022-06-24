@@ -61,7 +61,6 @@ if wilson == "":
         print "Creating datacards for VBS_" + model#, width, chir)
         print "Signals: ", signals
 
-
 #print "Fit Params", fitParam
 try:
     ifile = ROOT.TFile.Open(ifilename)
@@ -87,4 +86,3 @@ for ch in ch_year:
         getCard(signals, ch, ifilename, outdir, mode, unblind)
         #for s in signals:
             #getCard(s, ch, ifilename, outdir, mode, unblind)
-

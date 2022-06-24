@@ -66,11 +66,12 @@ for year in years:
         for fn in tmp_list:
             isSig = False
             isLS = False
+            #print fn
 
             if fn.startswith("Data"):
                 sampFiles[year+lep].append([fn, fn])
 
-            if fn.startswith('VBS_SSWW_') or fn.startswith("WpWpJJ_EWK"):
+            if fn.startswith('VBS_SSWW_') or fn.startswith("WpWpJJ_"):
                 for sigp in sigpoints:
                     for sig in sigp:
                         #print 'VBS_SSWW_' + sig + "_" + yearstring
@@ -85,7 +86,7 @@ for year in years:
                             sampFiles[year+lep].append([fn, fn])
                         else:
                             continue
-                            
+
                         if opt.ls != "":
                             if not (sig.startswith(opt.ls.split("_")[0]) or sig == "SM"):
                                 continue
@@ -108,7 +109,6 @@ for year in years:
                 if (isSig or isLS) and not (fn.startswith("VBS_SSWW_SM_" + year) or fn.startswith("WpWpJJ_EWK_" + year)):
                     continue
 
-
             for p in procs:
                 if not fn.startswith(p + "_"):
                     continue
@@ -121,21 +121,21 @@ for year in years:
                     for sig in sigp:
                         if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
                             if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                                if sig in p or 'SSWW_SM' in p:
+                                if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
                                     isSM = True
                                     break
                             elif '_SM' in p:
                                 isSM = True
                                 break
-                        elif sig == "WpWpJJ":
-                            if p == "WpWpJJ_QCD":
-                                isSM = True
-                                break
+                            elif sig == "WpWpJJ":
+                                if p == "WpWpJJ_QCD":
+                                    isSM = True
+                                    break
                         else:
                             if 'TT_' in p or 'TL_' in p or 'LL_' in p:
                                 isSM = True
                                 break
-                
+
                 if isSM:
                     continue
 
@@ -222,11 +222,10 @@ for year in years:
                         #print ifile.Get(hdown_).GetName()
                         hsyst[sysName] = [ifile.Get(hup_), ifile.Get(hdown_)]
 
-
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
                 h.SetName(samp)
-
+                
                 if(samp.startswith("Data")):
                     print "\nis data!"
                     #print h
@@ -250,7 +249,6 @@ for year in years:
                             #print("sampsyst:", sampsyst)
                             shists[i].Write(sampsyst, ROOT.TObject.kWriteDelete) 
 
-                print h.GetName()
                 nBinsX = h.GetNbinsX()
 
                 if k_ in samp:
@@ -302,7 +300,7 @@ for lep in leptons:
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
         path_ = path + lep + '/'
         for p in bkg:
-            print p
+            #print p
             isSM = False
 
             for sigp in sigpoints:
@@ -338,16 +336,18 @@ for lep in leptons:
             for k_, h_ in histos.iteritems():
                 #if lep=='emu' and not k_.startswith('CRTT'):
                     #continue
-                print k_, h_
+                #print k_, h_
                 tmphist = ifile.Get( h_)
-                print tmphist.Integral()
+                #print tmphist.Integral()
                 if histData[k_] is None: 
                     histData[k_] = copy.deepcopy(tmphist)
                 else:
                     histData[k_].Add(tmphist)
 
+        '''
         for key, value in histData.items():
             print key, value
+        '''
 
         for k_ in histos.keys():    
             print "Creating Bkg histogram ", k_
@@ -356,7 +356,7 @@ for lep in leptons:
             ofile.cd(k_+ "_" + lep + "_" + year)
             histData[k_].SetName("Bkg")
             histData[k_].Write("Bkg", ROOT.TObject.kWriteDelete)
-            print "Bkg integral ", histData[k_].Integral()
+            #print "Bkg integral ", histData[k_].Integral()
             bkgpdf =  histData[k_].Clone("BkgPdf")
             bkgpdf.Write(str(bkgpdf.GetName()), ROOT.TObject.kWriteDelete)
             # check for negative bins in bkg pdf 
@@ -368,15 +368,15 @@ for lep in leptons:
             bkgscale = float(1./bkgint)
             #bkgpdf.Scale(1./ bkgpdf.Integral())
             bkgpdf.Scale(bkgscale)
-            print "Bkg pdf ", bkgpdf.Integral()
+            #print "Bkg pdf ", bkgpdf.Integral()
             if False:#not (k_.startswith("CR")) and not unblind:# or k_.startswith("CR"):
                 print "\nCreating data_obs blinded"
                 histdata = bkgpdf.Clone("data_obs")
                 histdata.Reset()
-                print "data pdf ", histdata.Integral()
+                #print "data pdf ", histdata.Integral()
                 histdata.FillRandom(bkgpdf, int(histData[k_].Integral()))
                 #histdata.Scale(bkgint)
-                print "data  ", histdata.Integral()
+                #print "data  ", histdata.Integral()
                 histData[k_].SetName("data_obs")
                 histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
         #ofile.Write()

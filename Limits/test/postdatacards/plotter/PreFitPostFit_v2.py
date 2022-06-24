@@ -41,10 +41,8 @@ infile = "../histos/histo_"
 indir = opt.folder
 eosspace = "/eos/home-a/apiccine/VBS/nosynch/"
 sfolder = eosspace + indir + "/stack/"
-prefolder = sfolder + "prefit_" + srvar + "_" + crvar
-#prefolder = "./" + opt.model + "_prefit_" + srvar + "_" + crvar
-postfolder = sfolder + "postfit_" + srvar + "_" + crvar
-#postfolder = "./" + opt.model + "_postfit_" + srvar + "_" + crvar
+prefolder = sfolder + "prefit_" + opt.model + "_" + srvar + "_" + crvar
+postfolder = sfolder + "postfit" + opt.model + "_" + srvar + "_" + crvar
 if not os.path.exists(prefolder):
     os.system("mkdir " + prefolder)
 if not os.path.exists(postfolder):
@@ -762,7 +760,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         del h_all_prefit
         del h_all_postfit
         c.Close()
-        
+        del c
     f_mlfit.Close()
     
 

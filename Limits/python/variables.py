@@ -25,7 +25,7 @@ class variabile(object):
         return self._ApplySyst
 
 variables = []
-'''
+
 variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5))#
         
 bin_bdtsm = array("d", [0., 0.1, 0.2, 0.4, 0.6, 0.8, 1.])
@@ -33,15 +33,17 @@ nbin_bdtsm = len(bin_bdtsm) - 1
 #variables.append(variabile('BDT_SM_xgb_UL010_allBKG_v2', 'XGBoost allbkg SM BDT output', True, 5, 0., 1.))
 #variables.append(variabile('BDT_cW_xgb_UL010_allBKG_v2', 'XGBoost allbkg c_{W} BDT output', True, 5, 0., 1.))
 #variables.append(variabile('BDT_cHW_xgb_UL010_allBKG', 'XGBoost allbkg c_{HW} BDT output', True, 5, 0., 1.))
-'''
+
 variables.append(variabile('DNN_SM_UL025_bal', 'Bal. SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
+variables.append(variabile('BDT_SM_xgb_UL025_bal_noopt', 'Bal. SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
+
 '''
 variables.append(variabile('DNN_cW_UL025_bal_v2', 'Bal. c_{W} DNN output', True, 5, 0., 1., smtitle = "c_{W} DNN"))
 variables.append(variabile('DNN_cHW_UL025_bal', 'Bal. c_{HW} DNN output', True, 5, 0., 1., smtitle = "c_{HW} DNN"))
 
 variables.append(variabile('DNN_pol_UL030', 'LL vs TX VBS DNN output', True, 5, 0., 1., smtitle = "pol DNN"))
 variables.append(variabile('BDT_pol_UL030', 'LL vs TX VBS BDT output', True, 5, 0., 1., smtitle = "pol BDT"))
-
+'''
 bin_m1 = array("d", [0., 50., 100., 150., 200., 300., 500.])
 nbin_m1 = len(bin_m1) - 1 
 variables.append(variabile('m_1T', 'M_{1T} [GeV]', True, nbin_m1, bin_m1))
@@ -50,16 +52,16 @@ variables.append(variabile('m_o1', 'M_{o1} [GeV]', True, nbin_m1, bin_m1))
 bin_mjj = array("d", [0., 300., 500., 700., 1000., 1500., 2000.])
 nbin_mjj = len(bin_mjj) - 1 
 variables.append(variabile('m_jj', 'invariant mass j_{1} j_{2} [GeV]', True, nbin_mjj, bin_mjj))
-'''
+
 
 ######### without systematics ###########
 
-variables.append(variabile('lepton_eta', 'lepton  #eta', False, 12, -3., 3.))
+variables.append(variabile('lepton_eta', 'lepton  #eta', True, 12, -3., 3.))
 #variables.append(variabile('lepton_phi', 'lepton  #phi', False, 14, -3.50, 3.50))
-'''
+
 bin_lepton_pt = array("d", [0., 30., 45., 60., 80., 100., 150, 250.])
 nbin_lepton_pt = len(bin_lepton_pt)-1
-variables.append(variabile('lepton_pt',  'lepton  p_{T} [GeV]', True, nbin_lepton_pt, bin_lepton_pt))
+variables.append(variabile('lepton_pt', 'lepton  p_{T} [GeV]', True, nbin_lepton_pt, bin_lepton_pt))
 
 #variables.append(variabile('lepton_pfRelIso04', 'lepton  pfRelIso04', False, 15, 0, 0.15))
 
@@ -189,4 +191,3 @@ variables.append(variabile('deltaEta_taulep', '#Delta #eta_{#tau l}', True,  nbi
 
 #variables.append(variabile('leadjet_DeepFlv_b', 'leading jet DeepFlavour b raw', False,  5, 0., 1.))
 #variables.append(variabile('subleadjet_DeepFlv_b', 'subleading jet DeepFlavour b raw', False, 5, 0., 1.))
-'''

@@ -44,6 +44,7 @@ def getHist(ch, process, ifile):
 def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        year = ch.split("_")[-1]
        print "sig:", sig
+
        processes = []
        for p in bkg:
               isSM = False
@@ -57,10 +58,10 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                             elif '_SM' in p:
                                    isSM = True
 
-                     elif sigp == "WpWpJJ":
-                            if p == "WpWpJJ_QCD":
-                                   isSM = True
-                                   break
+                            elif sigp == "WpWpJJ":
+                                   if p == "WpWpJJ_QCD":
+                                          isSM = True
+                                          break
 
                      else:
                             if '_TT_' in p or '_TL_' in p or '_LL_' in p:
@@ -80,8 +81,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        else:
               print "Opening file ",  ifilename
               ifile.cd()
-       print syst 
-
+       #print syst 
+       
        workdir_ = ifilename.split("/")[:-1]
        WORKDIR = "/".join(workdir_) + "/"
 
@@ -92,7 +93,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      carddir += "_"
 
        carddir += "/"
-  
+
        hist_filename = os.getcwd()+"/"+ifilename
        hist = []
        for sigp in sig:
@@ -460,6 +461,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        cardfile.close()
        #print card
        return card
+
 
 #*******************************************************#
 #                                                       #

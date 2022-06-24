@@ -12,11 +12,14 @@ os.system("reset")
 usage = "python3 FitAndPlot.py"
 parser = optparse.OptionParser(usage)
 
+cwd = os.getcwd()
+
 parser.add_option('--fit', dest='varfit', type='string', default = 'm_o1', help = 'Variables to fit in SR (and CR if for the latter is not specified)')
 parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', help = 'Analysis folder')
 parser.add_option('--user', dest='user', type='string', default = 'apiccine', help = 'Username')
 parser.add_option('--cr', dest='varcr', type='string', default = 'same', help = 'Variables to fit in CR (default is the same chosen for SR)')
 parser.add_option('--notImpacts', dest='impacts', default = True, action='store_false', help = 'Default does impacts')
+parser.add_option('--notUncBreak', dest='uncbreak', default = True, action='store_false', help = 'Default does unc. breaking')
 parser.add_option('--eft', dest='eft', type='string', default = 'none', help = 'EFT operators to do LS')
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
@@ -26,9 +29,9 @@ parser.add_option('--sm', dest='sm', default = False, action='store_true', help 
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
 parser.add_option('--wpwpEW', dest='wpwpEW', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW')
-parser.add_option('--noFit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
+parser.add_option('--notit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
-parser.add_option('--noCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
+parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 (opt, args) = parser.parse_args()
 
@@ -75,28 +78,40 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             ### Run Significance for only-SM models
             if opt.sm:
                 RunSMSignificance(fitvar, crvar, folder, yeartag, opt.user)
-                ### Run EFT Likelihood Scan for EFT models
+            
+            ### Run EFT Likelihood Scan for EFT models
             else:
                 RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)
 
+        ### Run uncertainties breaking, if desired
+        if opt.uncbreak:
+            os.system("reset")
+            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user)
+
         ### Run Impacts, if desired
         if opt.impacts:
+            os.system("reset")
             DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user)
 
         ### Run PostFit plots, if desiderd
         if opt.postfit:
+            os.system("reset")
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind)
+
 
 if opt.eft != "none" and opt.doCI:
     for model in models:
         ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
 
 ### ordering outputs
-'''
+os.system("cd " + cwd)
+
 bigdir = folder + "fitmaterial"
 if not os.path.exists(bigdir):
     os.system("mkdir " + bigdir)
-os.system("mv -f fit_" + folder + "_* " + bigdir)
-os.system("mv -f " + folder + "_* " + bigdir)
-os.system("mv -f histo*"+ folder + "*root " + bigdir)
-'''
+os.system("cp -rf fit_" + folder + "_* " + bigdir)
+os.system("rm -rf fit_" + folder + "_*")
+os.system("cp -rf " + folder + "_* " + bigdir)
+os.system("rm -rf " + folder + "_* ")
+os.system("cp -rf histo*"+ folder + "*root " + bigdir)
+os.system("rm -rf histo*"+ folder + "*root")

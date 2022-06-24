@@ -17,7 +17,7 @@ sr_var, cr_var = setlist[0].split(",")
 intfolder = setlist[1]
 cut = setlist[4]
 
-print sr_var, cr_var, intfolder
+print sr_var, cr_var, intfolder, cut
 
 #dyjets_sample = "DYJetsToLL"
 dyjets_sample = "DYJetsToLL_FxFx"
@@ -38,14 +38,16 @@ histos = { "SR":hist_pre + sr_var + "_SR",
            #"CRDY":hist_pre + cr_var + "_DY_CR",
 }
 
+
 if cut != "not":
     cuttag = "_AND_" + cutToTag(cut)
+    print cuttag
     for kh, vh in histos.items():
         histos[kh] = vh + cuttag
+else:
+    cuttag = ""
 
-if cuttag != "":
-    for k, v in histos.items():
-        histos[k] = v + cuttag
+print histos
 
 ### List of regions for which creating the datacards
 channels = ["SR_muon",
@@ -86,7 +88,7 @@ channels_labels = {"SR":"Signal Region",
 #processes = ["ST", "QCD", "DDWJetsTT_Mtt"]
 
 bkg = [
-    #"WpWpJJ_QCD",
+    "WpWpJJ_QCD",
     "VBS_SSWW_SM",
     "VBS_SSWW_LL_SM",
     "VBS_SSWW_TL_SM",
@@ -105,7 +107,7 @@ bkg = [
 class rateParam(object):
     pass
 
-rateParams = {}
+rateParams = collections.OrderedDict()
 
 '''
 FakeMu_rate_2016APV = rateParam()
@@ -303,8 +305,6 @@ FakeMu_rate_2016M.chs = [
     #"CRWS_muon",
 ]
 FakeMu_rate_2016M.bkg = "Fake"
-rateParams["FRest_muon_2016M"] = FakeMu_rate_2016M
-
 
 FakeEle_rate_2016M = rateParam()
 FakeEle_rate_2016M.chs = [
@@ -315,7 +315,6 @@ FakeEle_rate_2016M.chs = [
     #"CRWS_electron",
 ]
 FakeEle_rate_2016M.bkg = "Fake"
-rateParams["FRest_electron_2016M"] = FakeEle_rate_2016M
 
 '''
 WSele_rate_2016M = rateParam()
@@ -350,7 +349,6 @@ TTbarele_rate_2016M.chs = [
     #"CRWS_electron",
 ]
 TTbarele_rate_2016M.bkg = "TTTo2L2Nu"
-rateParams["TTest_electron_2016M"] = TTbarele_rate_2016M
 
 TTbarmu_rate_2016M = rateParam()
 TTbarmu_rate_2016M.chs = [
@@ -361,8 +359,6 @@ TTbarmu_rate_2016M.chs = [
     #"CRWS_muon",
 ]
 TTbarmu_rate_2016M.bkg = "TTTo2L2Nu"
-rateParams["TTest_muon_2016M"] = TTbarmu_rate_2016M
-
 
 DYele_rate_2016M = rateParam()
 DYele_rate_2016M.chs = [
@@ -373,7 +369,6 @@ DYele_rate_2016M.chs = [
     "CRWS_electron",
 ]
 DYele_rate_2016M.bkg = dyjets_sample
-rateParams["DYest_electron_2016M"] = DYele_rate_2016M
 
 DYmu_rate_2016M = rateParam()
 DYmu_rate_2016M.chs = [
@@ -384,7 +379,6 @@ DYmu_rate_2016M.chs = [
     "CRWS_muon",
 ]
 DYmu_rate_2016M.bkg = dyjets_sample
-rateParams["DYest_muon_2016M"] = DYmu_rate_2016M
 
 FakeMu_rate_2017 = rateParam()
 FakeMu_rate_2017.chs = [
@@ -395,7 +389,6 @@ FakeMu_rate_2017.chs = [
     #"CRWS_muon",
 ]
 FakeMu_rate_2017.bkg = "Fake"
-rateParams["FRest_muon_2017"] = FakeMu_rate_2017
 
 FakeEle_rate_2017 = rateParam()
 FakeEle_rate_2017.chs = [
@@ -406,7 +399,6 @@ FakeEle_rate_2017.chs = [
     #"CRWS_electron",
 ]
 FakeEle_rate_2017.bkg = "Fake"
-rateParams["FRest_electron_2017"] = FakeEle_rate_2017
 
 '''
 WSele_rate_2017 = rateParam()
@@ -441,7 +433,6 @@ TTbarele_rate_2017.chs = [
     #"CRWS_electron",
 ]
 TTbarele_rate_2017.bkg = "TTTo2L2Nu"
-rateParams["TTest_electron_2017"] = TTbarele_rate_2017
 
 TTbarmu_rate_2017 = rateParam()
 TTbarmu_rate_2017.chs = [
@@ -452,7 +443,6 @@ TTbarmu_rate_2017.chs = [
     #"CRWS_muon",
 ]
 TTbarmu_rate_2017.bkg = "TTTo2L2Nu"
-rateParams["TTest_muon_2017"] = TTbarmu_rate_2017
 
 DYele_rate_2017 = rateParam()
 DYele_rate_2017.chs = [
@@ -463,7 +453,6 @@ DYele_rate_2017.chs = [
     "CRWS_electron",
 ]
 DYele_rate_2017.bkg = dyjets_sample
-rateParams["DYest_electron_2017"] = DYele_rate_2017
 
 DYmu_rate_2017 = rateParam()
 DYmu_rate_2017.chs = [
@@ -474,7 +463,6 @@ DYmu_rate_2017.chs = [
     "CRWS_muon",
 ]
 DYmu_rate_2017.bkg = dyjets_sample
-rateParams["DYest_muon_2017"] = DYmu_rate_2017
 
 FakeMu_rate_2018 = rateParam()
 FakeMu_rate_2018.chs = [
@@ -485,8 +473,6 @@ FakeMu_rate_2018.chs = [
     #"CRWS_muon",
 ]
 FakeMu_rate_2018.bkg = "Fake"
-rateParams["FRest_muon_2018"] = FakeMu_rate_2018
-
 
 FakeEle_rate_2018 = rateParam()
 FakeEle_rate_2018.chs = [
@@ -497,7 +483,6 @@ FakeEle_rate_2018.chs = [
     #"CRWS_electron",
 ]
 FakeEle_rate_2018.bkg = "Fake"
-rateParams["FRest_electron_2018"] = FakeEle_rate_2018
 
 '''
 WSele_rate_2018 = rateParam()
@@ -532,7 +517,6 @@ TTbarele_rate_2018.chs = [
     #"CRWS_electron",
 ]
 TTbarele_rate_2018.bkg = "TTTo2L2Nu"
-rateParams["TTest_electron_2018"] = TTbarele_rate_2018
 
 TTbarmu_rate_2018 = rateParam()
 TTbarmu_rate_2018.chs = [
@@ -543,8 +527,6 @@ TTbarmu_rate_2018.chs = [
     #"CRWS_muon",
 ]
 TTbarmu_rate_2018.bkg = "TTTo2L2Nu"
-rateParams["TTest_muon_2018"] = TTbarmu_rate_2018
-
 
 DYele_rate_2018 = rateParam()
 DYele_rate_2018.chs = [
@@ -555,7 +537,6 @@ DYele_rate_2018.chs = [
     "CRWS_electron",
 ]
 DYele_rate_2018.bkg = dyjets_sample
-rateParams["DYest_electron_2018"] = DYele_rate_2018
 
 DYmu_rate_2018 = rateParam()
 DYmu_rate_2018.chs = [
@@ -566,8 +547,27 @@ DYmu_rate_2018.chs = [
     "CRWS_muon",
 ]
 DYmu_rate_2018.bkg = dyjets_sample
-rateParams["DYest_muon_2018"] = DYmu_rate_2018
 
+rateParams["FRest_muon_2016M"] = FakeMu_rate_2016M
+rateParams["FRest_electron_2016M"] = FakeEle_rate_2016M
+rateParams["FRest_muon_2017"] = FakeMu_rate_2017
+rateParams["FRest_electron_2017"] = FakeEle_rate_2017
+rateParams["FRest_muon_2018"] = FakeMu_rate_2018
+rateParams["FRest_electron_2018"] = FakeEle_rate_2018
+
+rateParams["TTest_electron_2016M"] = TTbarele_rate_2016M
+rateParams["TTest_muon_2016M"] = TTbarmu_rate_2016M
+rateParams["TTest_electron_2017"] = TTbarele_rate_2017
+rateParams["TTest_muon_2017"] = TTbarmu_rate_2017
+rateParams["TTest_electron_2018"] = TTbarele_rate_2018
+rateParams["TTest_muon_2018"] = TTbarmu_rate_2018
+
+rateParams["DYest_electron_2016M"] = DYele_rate_2016M
+rateParams["DYest_muon_2016M"] = DYmu_rate_2016M
+rateParams["DYest_electron_2017"] = DYele_rate_2017
+rateParams["DYest_muon_2017"] = DYmu_rate_2017
+rateParams["DYest_electron_2018"] = DYele_rate_2018
+rateParams["DYest_muon_2018"] = DYmu_rate_2018
 #*********************************
 #                                *
 #       List of systematics      *
@@ -620,6 +620,27 @@ syst["jer"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson
 syst["TES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["FES"] = ["shape", ("VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 
+systgroups = collections.OrderedDict()
+
+rpname = ""
+for idk, krp in enumerate(rateParams.keys()):
+    if idk%6 == 0:
+        rpname = ""
+        rpname = krp.split("_")[0].replace("est", "norm group")
+        systgroups[rpname] = [krp]
+    else:
+        systgroups[rpname].append(krp)
+
+systgroups["FRsys group"] = ["FR_sys_muon_2016M", "FR_sys_electron_2016M", "FR_sys_muon_2017", "FR_sys_electron_2017", "FR_sys_muon_2018", "FR_sys_electron_2018"]
+systgroups["theory group"] = ["ISR", "FSR", "QCDScale", "pdf_total"]
+systgroups["btag group"] = ["btag"]
+systgroups["Pileup group"] = ["pu"]
+systgroups["jet group"] = ["jes", "jer"]
+systgroups["PF group"] = ["PF"]
+systgroups["tau group"] = ["TES", "FES", "tau_vsjet", "tau_vsele", "tau_vsmu"]
+systgroups["lumi group"] = ["lumi_2016M", "lumi_2017", "lumi_2018"]
+systgroups["lepton group"] = ["lep", "PF"]
+
 '''
 syst["trig"] = ["shape", ("QCD",  "sig")]
 syst["btag"] = ["shape", ("QCD",  "sig")]
@@ -627,14 +648,8 @@ syst["mistag"] = ["shape", ("QCD",  "sig")]
 '''
 
 years = setlist[3].split(",")
-print("years:", years)
-'''
-= [
-    "2016M", 
-    "2017",
-    "2018",
-]
-'''
+#print "years:", years
+
 '''
 splityearjes=False
 #splityearjes=True
