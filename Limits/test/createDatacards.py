@@ -23,7 +23,7 @@ if opt.outdir.startswith("F"):
 else:
     outdir = opt.outdir
 
-print outdir
+#print outdir
 
 #os.system("rm " + outdir + "/*/*")
 
@@ -32,7 +32,7 @@ unblind = opt.unblind
 
 wilson = opt.ls
 
-print outdir
+#print outdir
 
 
 if opt.ch != "all": 
@@ -41,7 +41,7 @@ if opt.ch != "all":
 
 signals = []
 
-print "Signal points: ", sigpoints
+#print "Signal points: ", sigpoints
 
 if wilson == "":
     model = ""
@@ -58,8 +58,8 @@ if wilson == "":
 
         #width = p[1]
         #chir = p[2]
-        print "Creating datacards for VBS_" + model#, width, chir)
-        print "Signals: ", signals
+        #print "Creating datacards for VBS_" + model#, width, chir)
+        #print "Signals: ", signals
 
 #print "Fit Params", fitParam
 try:
@@ -71,7 +71,7 @@ else:
 
 ch_year = []
 
-print channels
+#print channels
 
 for y in years:
     channels_years = [ch + '_' + y for ch in channels ]

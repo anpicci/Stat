@@ -73,11 +73,11 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             RecursiveImport('Stat.Limits.settings')
         
             ### Prepare plots for the run and clean remnants from previous fits
-            PrepareToRun(fitvar, crvar, folder, yeartag)
+            PrepareToRun(model, fitvar, crvar, folder, yeartag)
 
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(fitvar, crvar, folder, yeartag, opt.user)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user)
             
             ### Run EFT Likelihood Scan for EFT models
             else:
@@ -85,17 +85,17 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
-            os.system("reset")
+            #os.system("reset")
             UncBreak(model, fitvar, crvar, folder, yeartag, opt.user)
 
         ### Run Impacts, if desired
         if opt.impacts:
-            os.system("reset")
+            #os.system("reset")
             DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user)
 
         ### Run PostFit plots, if desiderd
         if opt.postfit:
-            os.system("reset")
+            #os.system("reset")
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind)
 
 
@@ -105,7 +105,7 @@ if opt.eft != "none" and opt.doCI:
 
 ### ordering outputs
 os.system("cd " + cwd)
-
+'''
 bigdir = folder + "fitmaterial"
 if not os.path.exists(bigdir):
     os.system("mkdir " + bigdir)
@@ -115,3 +115,4 @@ os.system("cp -rf " + folder + "_* " + bigdir)
 os.system("rm -rf " + folder + "_* ")
 os.system("cp -rf histo*"+ folder + "*root " + bigdir)
 os.system("rm -rf histo*"+ folder + "*root")
+'''

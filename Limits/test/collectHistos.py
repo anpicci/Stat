@@ -29,7 +29,7 @@ procs = bkg
 
 # Getting list of files in histos
 
-print("\n\n\ninside collecthistos")
+#print("\n\n\ninside collecthistos")
 for year in years:
     yearstring = ""
     if "UL" in path:
@@ -44,109 +44,93 @@ for year in years:
 
         sampFiles[year+lep] = []
 
-        for sigp in sigpoints:
-            for sig in sigp:
-                sigstr = ""
-                if sig.startswith("WpWp"):
-                    sigstr = sig
-                else:
-                    sigstr = "VBS_SSWW_" + sig
-
-                isThere = False
-                #print 'VBS_SSWW_' + sig + "_" + yearstring
-                for fn in tmp_list:
-                    if fn.startswith(sigstr + "_" + yearstring):
-                        isThere = True
-                        break
-                
-                if not isThere:
-                    raise RuntimeError("Signal plots are not available for " + sig + "!")
-
-
         for fn in tmp_list:
-            isSig = False
-            isLS = False
-            #print fn
-
             if fn.startswith("Data"):
-                sampFiles[year+lep].append([fn, fn])
+                sampFiles[year+lep].append([[fn], "data_obs"])
+                break
 
-            if fn.startswith('VBS_SSWW_') or fn.startswith("WpWpJJ_"):
-                for sigp in sigpoints:
-                    for sig in sigp:
-                        #print 'VBS_SSWW_' + sig + "_" + yearstring
-                        sigstr = ""
-                        if sig.startswith("WpWp"):
-                            sigstr = sig
-                        else:
-                            sigstr = "VBS_SSWW_" + sig
+        if opt.ls == "":
+            for sigp in sigpoints:
+                for sig in sigp:
+                    sigstr = ""
+                    if sig.startswith("WpWp"):
+                        sigstr = sig
+                    else:
+                        sigstr = "VBS_SSWW_" + sig
 
+                    isThere = False
+                    #print 'VBS_SSWW_' + sig + "_" + yearstring
+                    for fn in tmp_list:
                         if fn.startswith(sigstr + "_" + yearstring):
-                            isSig = True
-                            sampFiles[year+lep].append([fn, fn])
-                        else:
-                            continue
-
-                        if opt.ls != "":
-                            if not (sig.startswith(opt.ls.split("_")[0]) or sig == "SM"):
-                                continue
-
-                            sig_splitted = sig.replace("_SM", "").replace("_BSM", "").split("_")
-                            sig_op = sig_splitted[0].replace("SM",opt.ls)
-                            if len(sig_splitted) > 1:
-                                sig_op += "_" + sig_splitted[1]
-                        
-                            ls_dict = lssamples_1D[opt.ls]#sig_op]
-                            for nout, nin in ls_dict.items():
-                                if fn.startswith(nin+"_"):
-                                    sampFiles[year+lep].append([fn, nout])
-                                    isLS = True
-                                    break
-
-                        if isSig or isLS:
+                            isThere = True
+                            sampFiles[year+lep].append([[fn], sigstr])
                             break
-            
-                if (isSig or isLS) and not (fn.startswith("VBS_SSWW_SM_" + year) or fn.startswith("WpWpJJ_EWK_" + year)):
-                    continue
+                
+                    if not isThere:
+                        raise RuntimeError("Signal plots are not available for " + sig + "!")
 
-            for p in procs:
+        else:
+            ops = opt.ls.split(":")
+            setpiecs = []
+            for op in ops:
+                if len(op.split("_")) > 1:
+                    setpiecs.append(("_")+op.split("_")[-1])
+            combo = copy.deepcopy(opt.ls)
+            for setpiec in setpiecs:
+                combo = combo.replace(setpiec, "")
+                    
+            ls_dict = lssamples_1D[combo]
+
+            for nout, nin in ls_dict.items():
+                ninlist = nin.split(",")
+                sampFiles[year+lep].append([[], nout])
+
+                for ninel in ninlist:
+                    for fn in tmp_list:
+
+                        if fn.startswith(ninel+"_"):
+                            sampFiles[year+lep][-1][0].append(fn)
+                            break
+
+        for p in procs:
+            isSM = False
+            for sigp in sigpoints:
+                if p.startswith("DYJets"):
+                    break
+                for sig in sigp:
+                    if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
+                        if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                            if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
+                                isSM = True
+                                break
+                        elif '_SM' in p:
+                            isSM = True
+                            break
+                        elif sig == "WpWpJJ":
+                            if p == "WpWpJJ_QCD":
+                                isSM = True
+                                break
+                    else:
+                        if 'TT_' in p or 'TL_' in p or 'LL_' in p:
+                            isSM = True
+                            break
+
+            if isSM:
+                continue
+
+            for fn in tmp_list:
                 if not fn.startswith(p + "_"):
                     continue
 
-                isSM = False
-
-                for sigp in sigpoints:
-                    if p.startswith("DYJets"):
-                        break
-                    for sig in sigp:
-                        if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
-                            if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                                if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
-                                    isSM = True
-                                    break
-                            elif '_SM' in p:
-                                isSM = True
-                                break
-                            elif sig == "WpWpJJ":
-                                if p == "WpWpJJ_QCD":
-                                    isSM = True
-                                    break
-                        else:
-                            if 'TT_' in p or 'TL_' in p or 'LL_' in p:
-                                isSM = True
-                                break
-
-                if isSM:
-                    continue
-
-                sampFiles[year+lep].append([fn, fn])
+                sampFiles[year+lep].append([[fn], p])
                 break
 
-
+        
 #print 'sampFiles:'
 #for k, v in sampFiles.items():
     #for el in v:
         #print el
+
 
 #*******************************************************#
 #                                                       #
@@ -164,220 +148,226 @@ for year in years:
         yeartag = year
     
     for lep in leptons:
+        #print "\n", lep
         for k_, h_ in histos.iteritems():
             rootdir = k_ + "_" + lep + "_" + year
             #print rootdir
             #if not os.path.isdir(k_+ "_" + year):
             #try:
             if not rootdir in ofile.GetListOfKeys():
-                print "creating", rootdir
+                #print "creating", rootdir
                 newsubdir = ofile.mkdir(rootdir)#k_ + "_" + lep + "_" + year)
                 #print newsubdir
 
         path_ = path + lep + '/'
         #print "path:", path_
         histos_data = []
-        for flist in sampFiles[year+lep]: 
-            f = flist[0]
-            #print "filelist:", f, flist[1]
-            try:
-                ifile = ROOT.TFile.Open(path_ + f)
-            except IOError:
-                print "\nCannot open ", f
-            else:
-                print "\nOpening file ",  f
-            ifile.cd()
-
-            samp = ""
-            if flist[0] == flist[1]:
-                samp = f.replace(".root", "").replace(lep, "").replace("_" + yeartag + "_", "")
-            else:
-                samp = flist[1]
-            print "\nWe are looking into file: ", f
-            #print "samp", samp
-            for k_, h_ in histos.iteritems():
-                if lep=='emu' and not k_.startswith("CRTT"):
-                    continue
-
-                print "We are looking for object ", h_
-                h = ifile.Get(h_)
-                hsyst = collections.OrderedDict()
-                
-                for sysname, systype in syst.items():
-                    if not systype[0] == "shape" or sysname == "autoMCstat":
-                        continue
-
-                    if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and (flist[0].startswith("VBS_") or flist[0].startswith("WpWp"))):
-                        hup_ = h_ + "_" + sysname# + "Up"
-                        hdown_ = h_ + "_" + sysname# + "Down"
-                        hup_ += "Up"
-                        hdown_ += "Down"
-                        sysName = sysname
-                        if systype[0] == "shape":
-                            if systype[2] == "uncorr":
-                                sysName += "_" + year
-
-                        #print "up and down", hup_, hdown_
-                        #print ifile.Get(hup_).GetName()
-                        #print ifile.Get(hdown_).GetName()
-                        hsyst[sysName] = [ifile.Get(hup_), ifile.Get(hdown_)]
-
-                ofile.cd(k_ + "_" + lep + "_" + year)
-                print "We are looking for histo %s for samp %s in %s" % (h_, samp, f)
-                h.SetName(samp)
-                
-                if(samp.startswith("Data")):
-                    print "\nis data!"
-                    #print h
-                    if True:#(k_.startswith("SR") and unblind) or k_.startswith("CR"):
-                        print "PASSED", h.Integral()
-                        h.Write("data_obs", ROOT.TObject.kWriteDelete)
-                    else:
-                        continue
-
-                else:
-                    h.Write(samp, ROOT.TObject.kWriteDelete)
-
-                    for sname, shists in hsyst.items():
-                        #print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
-                        for i, var in enumerate(shists):
-                            sampsyst = samp + "_"  + sname
-                            if i == 0:
-                                sampsyst += "Up"
-                            elif i == 1:
-                                sampsyst += "Down"
-                            #print("sampsyst:", sampsyst)
-                            shists[i].Write(sampsyst, ROOT.TObject.kWriteDelete) 
-
-                nBinsX = h.GetNbinsX()
-
-                if k_ in samp:
-                    samp = samp.replace("_" + k_, "")         
-                elif "cat" in samp:
-                    samp = samp.replace("cat_", "")         
-                #print "SAMP after channel removal ",samp
-                if(samp.startswith("data")):
-                    samp = "Data"
-                #        h_ = h_[:4]
-                if(samp.startswith("SVJ") and not (samp.endswith("Up") or samp.endswith("Down")) and mcstat == True ):
-                    for n in xrange(nBinsX):
-                        hNameUp = "%s_mcstat_%s_bin%d_Up" % ( h_, samp, n+1)
-                        hNameDown = "%s_mcstat_%s_bin%d_Down" % ( h_, samp, n+1)
-                        #print "Histogram: ", hNameUp              
-                        h_mcStatUp = ifile.Get(hNameUp)
-                        h_mcStatDown = ifile.Get(hNameDown)
-                        h_mcStatUp.SetName("%s_mcstat_%s_%s_%s_bin%dUp" % (samp, k_, year, samp, n+1))
-                        h_mcStatUp.Write("%s_mcstat_%s_%s_%s_bin%dUp" % (samp, k_, year, samp, n+1), ROOT.TObject.kWriteDelete)
-                        h_mcStatDown.SetName("%s_mcstat_%s_%s_%s_bin%dDown" % (samp, k_, year,  samp, n+1))
-                        h_mcStatDown.Write("%s_mcstat_%s_%s_%s_bin%dDown" % (samp, k_, year, samp, n+1), ROOT.TObject.kWriteDelete)
-                
-
-                #h.Delete()
-#ofile.Write()
-ofile.Close()
-
-#*******************************************************#
-#                                                       #
-#           CREATING TOTAL BACKGORUND HISTOS            #
-#                                                       #
-#*******************************************************#
-print '**********************************************************'
-print '**********************************************************'
-print '**********************************************************'
-print '**********************************************************'
-print '**********************************************************'
-print '**********************************************************'
-print histos.keys()
-for lep in leptons:
-    ofile = ROOT.TFile(ofilename,"UPDATE")    
-    for year in years:
-        yearstring = ""
-        if "vUL" in path:
-            yearstring = "UL" + year
-        else:
-            yearstring = year
+        fstoopen = []
 
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
-        path_ = path + lep + '/'
-        for p in bkg:
-            #print p
-            isSM = False
 
-            for sigp in sigpoints:
-                if p.startswith("DYJets"):
-                    break
-                for sig in sigp:
-                    if '_SM' in sig or sig == 'SM':
-                        if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                            if sig in p or 'SSWW_SM' in p:
-                                isSM = True
-                                break
-                        elif '_SM' in p:
-                            isSM = True
-                            break
-                    else:
-                        if 'TT_' in p or 'TL_' in p or 'LL_' in p:
-                            isSM = True
-                            break
-
-            if isSM:
+        for k_, h_ in histos.iteritems():
+            if lep=='emu' and not k_.startswith("CRTT"):
                 continue
 
+            for flist in sampFiles[year+lep]:
+                #print "\nflist", flist
+                h = None
 
-            try:
-                ifile = ROOT.TFile.Open(path_ + p + "_" + yearstring + "_" + lep + ".root")
-            except IOError:
-                print "Cannot open " + p + "_" + year + "_" + lep + ".root"
-            else:
-                print "Opening file " +  p + "_" + year + "_" + lep + ".root"
-            print "bkg:", p
+                hsyst = collections.OrderedDict()
+                for sysname, systype in syst.items():
+                    if not systype[0].startswith("shape") or sysname == "autoMCstat":
+                        continue
+                    syskey = copy.deepcopy(sysname)
+                    if systype[0].startswith("shape"):
+                        if systype[2] == "uncorr":
+                            syskey += "_" + year
 
-            ifile.cd()
-            for k_, h_ in histos.iteritems():
-                #if lep=='emu' and not k_.startswith('CRTT'):
-                    #continue
-                #print k_, h_
-                tmphist = ifile.Get( h_)
-                #print tmphist.Integral()
-                if histData[k_] is None: 
-                    histData[k_] = copy.deepcopy(tmphist)
+                    hsyst[syskey] = [None, None]
+                
+                samp = flist[1]
+                #print "\nsamp", samp, flist[0]
+                for f in flist[0]:
+                    try:
+                        ifile = ROOT.TFile.Open(path_ + f)
+                    except IOError:
+                        print "Cannot open ", f, + "\n"
+                    else:
+                        pass
+                        #print "Opening file ",  path_ + f
+                    ifile.cd()
+                
+                    #print "We are looking for object ", h_
+                    htemp = copy.deepcopy(ifile.Get(h_).Clone())
+                    sign = +1.
+                    if "VBS_SSWW_" in f and "_F" in f:
+                        if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                            sign = -1.
+                        elif samp.startswith("quad_"):
+                            sign = 0.
+                    
+                    if sign == 0:
+                        htemp.Reset("ICE")
+                    else:
+                        htemp.Scale(sign)
+                    
+                    #print "htemp", htemp
+                    if h is None:
+                        h = copy.deepcopy(htemp)
+                    else:
+                        h.Add(htemp, 1)
+
+                    #hsyst = collections.OrderedDict()
+            
+                    for sysname, systype in syst.items():
+                        if not systype[0].startswith("shape") or sysname == "autoMCstat":
+                            continue
+                        
+                        #print "systype[1]", systype[1]
+                        ifile.cd()
+                        
+                        #print "to syst?", (systype[1] == "all"), (samp in systype[1]), ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp")))
+                        if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp"))):
+                            hup_ = h_ + "_" + sysname
+                            hdown_ = h_ + "_" + sysname
+                            hup_ += "Up"
+                            hdown_ += "Down"
+                            sysName = sysname
+                            #print hup_, hdown_
+                            if systype[0].startswith("shape"):
+                                if systype[2] == "uncorr":
+                                    sysName += "_" + year
+
+                            huptemp = copy.deepcopy(ifile.Get(hup_).Clone())
+                            hdowntemp = copy.deepcopy(ifile.Get(hdown_).Clone())
+                            sign = +1.
+                            if "VBS_SSWW_" in f and "_F" in f:
+                                if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                                    sign = -1.
+                                elif samp.startswith("quad_"):
+                                    sign = 0.
+                            
+                            if sign == 0:
+                                huptemp.Reset("ICE")
+                                hdowntemp.Reset("ICE")
+                            else:
+                                huptemp.Scale(sign)
+                                hdowntemp.Scale(sign)
+                    
+                            if hsyst[sysName][0] is None:
+                                hsyst[sysName][0] = copy.deepcopy(huptemp)
+                            else:
+                                hsyst[sysName][0].Add(huptemp, 1)
+
+                            if hsyst[sysName][1] is None:
+                                hsyst[sysName][1] = copy.deepcopy(hdowntemp)
+                            else:
+                                hsyst[sysName][1].Add(hdowntemp, 1)
+                            
+                #if "_F" in samp and not "DY" in samp:
+                    #print "h", h, h.Integral()
+                    #for i in range(0, h.GetNbinsX()):
+                        #content = h.GetBinContent(i)
+                        #print("content bin #" + str(i+1) + ":\t" + str(content))
+                    #for khs, vhs in hsyst.items():
+                        #if not None in vhs:
+                            #print "h_", khs
+                            #print "vhs[0]", vhs[0], vhs[0].Integral()
+                            #for i in range(0, vhs[0].GetNbinsX()):
+                                #content = vhs[0].GetBinContent(i)
+                                #print("content bin #" + str(i+1) + ":\t" + str(content))
+                            #print "vhs[1]", vhs[1], vhs[1].Integral()
+                            #for i in range(0, vhs[1].GetNbinsX()):
+                                #content = vhs[1].GetBinContent(i)
+                                #print("content bin #" + str(i+1) + ":\t" + str(content))
+                            
+
+                ofile.cd(k_ + "_" + lep + "_" + year)
+                samplab = ""
+                if samp.startswith("quad_") or samp.startswith("sm_lin_"):
+                    samplab = samp.replace("_F", "_c")
                 else:
-                    histData[k_].Add(tmphist)
+                    samplab = samp
+                #print "h", h, h.Integral()
+                h.SetName(samplab)
+                h.Write(samplab, ROOT.TObject.kWriteDelete)
 
-        '''
-        for key, value in histData.items():
-            print key, value
-        '''
+                if samp in bkg:
+                    if histData[k_] is None: 
+                        histData[k_] = copy.deepcopy(h)
+                    else:
+                        histData[k_].Add(h)
 
-        for k_ in histos.keys():    
-            print "Creating Bkg histogram ", k_
-            #if not os.path.isdir( k_ + "_" + year):
-            #    newsubdir = ofile.mkdir(k_+"_" + year)
+                for sname, shists in hsyst.items():
+                    if None in shists:
+                        continue
+                    #print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
+                    for i, var in enumerate(shists):
+                        samplab = ""
+                        if samp.startswith("quad_") or samp.startswith("sm_lin_"):
+                            samplab = samp.replace("_F", "_c")
+                        else:
+                            samplab = samp
+
+                        sampsyst = samplab + "_"  + sname
+                        if i == 0:
+                            sampsyst += "Up"
+                        elif i == 1:
+                            sampsyst += "Down"
+                        
+            
+                        shists[i].Write(sampsyst, ROOT.TObject.kWriteDelete) 
+                        
+            
+                
+                #nBinsX = h.GetNbinsX()
+
+                #if k_ in samp:
+                    #samp = samp.replace("_" + k_, "")                     
+                #elif "cat" in samp:
+                    #samp = samp.replace("cat_", "")             
+                #print "SAMP after channel removal ",samp
+                #if(samp.startswith("data")):
+                    #samp = "Data"
+                    
+                #if(samp.startswith("SVJ") and not (samp.endswith("Up") or samp.endswith("Down")) and mcstat == True ):
+                    #for n in xrange(nBinsX):
+                        #hNameUp = "%s_mcstat_%s_bin%d_Up" % ( h_, samp, n+1)
+                        #hNameDown = "%s_mcstat_%s_bin%d_Down" % ( h_, samp, n+1)
+                        ##print "Histogram: ", hNameUp                  
+                        #h_mcStatUp = ifile.Get(hNameUp)
+                        #h_mcStatDown = ifile.Get(hNameDown)
+                        #h_mcStatUp.SetName("%s_mcstat_%s_%s_%s_bin%dUp" % (samp, k_, year, samp, n+1))
+                        #h_mcStatUp.Write("%s_mcstat_%s_%s_%s_bin%dUp" % (samp, k_, year, samp, n+1), ROOT.TObject.kWriteDelete)
+                        #h_mcStatDown.SetName("%s_mcstat_%s_%s_%s_bin%dDown" % (samp, k_, year,  samp, n+1))
+                        #h_mcStatDown.Write("%s_mcstat_%s_%s_%s_bin%dDown" % (samp, k_, year, samp, n+1), ROOT.TObject.kWriteDelete)
+                
+
+                del h, hsyst
+            
             ofile.cd(k_+ "_" + lep + "_" + year)
             histData[k_].SetName("Bkg")
             histData[k_].Write("Bkg", ROOT.TObject.kWriteDelete)
             #print "Bkg integral ", histData[k_].Integral()
             bkgpdf =  histData[k_].Clone("BkgPdf")
-            bkgpdf.Write(str(bkgpdf.GetName()), ROOT.TObject.kWriteDelete)
+            #print histData[k_].Integral()
+
             # check for negative bins in bkg pdf 
             for i in range(0, bkgpdf.GetNbinsX()+1):
                 content = bkgpdf.GetBinContent(i)
                 if(content<0.):
                     bkgpdf.SetBinContent(i, 1.E-3)
+            
             bkgint = float(bkgpdf.Integral())
             bkgscale = float(1./bkgint)
-            #bkgpdf.Scale(1./ bkgpdf.Integral())
             bkgpdf.Scale(bkgscale)
-            #print "Bkg pdf ", bkgpdf.Integral()
-            if False:#not (k_.startswith("CR")) and not unblind:# or k_.startswith("CR"):
-                print "\nCreating data_obs blinded"
-                histdata = bkgpdf.Clone("data_obs")
-                histdata.Reset()
-                #print "data pdf ", histdata.Integral()
-                histdata.FillRandom(bkgpdf, int(histData[k_].Integral()))
-                #histdata.Scale(bkgint)
-                #print "data  ", histdata.Integral()
-                histData[k_].SetName("data_obs")
-                histdata.Write("data_obs", ROOT.TObject.kWriteDelete)
-        #ofile.Write()
-    ofile.Close()
+            ##print "Bkg pdf ", bkgpdf.Integral()
+            bkgpdf.Write(str(bkgpdf.GetName()), ROOT.TObject.kWriteDelete)    
+            
+        #print "histData", histData
+        #for kd, vd in histData.items():
+            #print kd, vd.Integral()
+
+
+#ofile.Write()
+ofile.Close()

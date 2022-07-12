@@ -69,8 +69,7 @@ if not os.path.exists(fitdiagdir):
 else:
     os.system("rm " + fitdiagdir + "/*")
 
-os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin -10 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0")# --robustFit=1 ")
-
+os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin 0.1 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0")# --robustFit=1 ")
 
 for idv, srvar in enumerate(srvars):
     if opt.model == "SM":

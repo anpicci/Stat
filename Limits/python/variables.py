@@ -30,20 +30,18 @@ variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5))#
         
 bin_bdtsm = array("d", [0., 0.1, 0.2, 0.4, 0.6, 0.8, 1.])
 nbin_bdtsm = len(bin_bdtsm) - 1
-#variables.append(variabile('BDT_SM_xgb_UL010_allBKG_v2', 'XGBoost allbkg SM BDT output', True, 5, 0., 1.))
-#variables.append(variabile('BDT_cW_xgb_UL010_allBKG_v2', 'XGBoost allbkg c_{W} BDT output', True, 5, 0., 1.))
-#variables.append(variabile('BDT_cHW_xgb_UL010_allBKG', 'XGBoost allbkg c_{HW} BDT output', True, 5, 0., 1.))
+
+variables.append(variabile('BDT_SM_xgb_UL025_bal_noopt', 'Bal. SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
+variables.append(variabile('BDT_cW_xgb_UL025_bal_noopt', 'Bal. c_{W} BDT output', True, 5, 0., 1., smtitle = "c_{W} BDT"))
+variables.append(variabile('BDT_cHW_xgb_UL025_bal_noopt', 'Bal. c_{HW} BDT output', True, 5, 0., 1., smtitle = "c_{HW} BDT"))
 
 variables.append(variabile('DNN_SM_UL025_bal', 'Bal. SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
-variables.append(variabile('BDT_SM_xgb_UL025_bal_noopt', 'Bal. SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
-
-'''
 variables.append(variabile('DNN_cW_UL025_bal_v2', 'Bal. c_{W} DNN output', True, 5, 0., 1., smtitle = "c_{W} DNN"))
 variables.append(variabile('DNN_cHW_UL025_bal', 'Bal. c_{HW} DNN output', True, 5, 0., 1., smtitle = "c_{HW} DNN"))
 
-variables.append(variabile('DNN_pol_UL030', 'LL vs TX VBS DNN output', True, 5, 0., 1., smtitle = "pol DNN"))
-variables.append(variabile('BDT_pol_UL030', 'LL vs TX VBS BDT output', True, 5, 0., 1., smtitle = "pol BDT"))
-'''
+#variables.append(variabile('DNN_pol_UL030', 'LL vs TX VBS DNN output', True, 5, 0., 1., smtitle = "pol DNN"))
+#variables.append(variabile('BDT_pol_UL030', 'LL vs TX VBS BDT output', True, 5, 0., 1., smtitle = "pol BDT"))
+
 bin_m1 = array("d", [0., 50., 100., 150., 200., 300., 500.])
 nbin_m1 = len(bin_m1) - 1 
 variables.append(variabile('m_1T', 'M_{1T} [GeV]', True, nbin_m1, bin_m1))

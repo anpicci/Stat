@@ -56,9 +56,13 @@ lumi = {'UL2016M': 36.3, 'UL2017': 41.48, 'UL2018':59.83, "ULRunII":137.13}
 processes = []
 sigs = []
 for sigp in sigpoints:
-    sigs = ["VBS_SSWW_" + sig for sig in sigp]
-    #for sig in sigs:
-        #processes.append(sig)
+    for sig in sigp:
+        signn = sig
+        if not sig.startswith("WpWp"):
+            signn = "VBS_SSWW_" + signn
+
+        sigs.append(signn)
+    
 
 for bk in bkg:
     if bk in processes:

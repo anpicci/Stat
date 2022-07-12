@@ -402,13 +402,13 @@ Bin        Contents        Error           Notes
     TVX                  0.002551        0.004360                                      
       => Poisson not viable, prop_binSR_electron2017_bin0_TVX[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
-    TTTo2L2Nu            0.121322        0.055585                                      
-                         5.000000        2.236068        Unweighted events, alpha=0.024264
-      => Product of prop_binSR_electron2017_bin0_TTTo2L2Nu[5.00,0.01,41.33] and const [0.2000] to be poisson constrained
-  ----------------------------------------------------------
     Triboson             0.009499        0.002585                                      
                          13.000000       3.605551        Unweighted events, alpha=0.000731
       => Parameter prop_binSR_electron2017_bin0_Triboson[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ_QCD           0.012262        0.003313                                      
+                         14.000000       3.741657        Unweighted events, alpha=0.000876
+      => Parameter prop_binSR_electron2017_bin0_WpWpJJ_QCD[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
     ZZtoLep              0.024912        0.014095                                      
                          3.000000        1.732051        Unweighted events, alpha=0.008304
@@ -418,10 +418,6 @@ Bin        Contents        Error           Notes
                          63.000000       7.937254        Unweighted events, alpha=0.000266
       => Parameter prop_binSR_electron2017_bin0_VBS_SSWW_SM[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
-    WpWpJJ_QCD           0.012262        0.003313                                      
-                         14.000000       3.741657        Unweighted events, alpha=0.000876
-      => Parameter prop_binSR_electron2017_bin0_WpWpJJ_QCD[0.00,-7.00,7.00] to be gaussian constrained
-  ----------------------------------------------------------
     WrongSign            0.086208        0.048086                                      
                          3.000000        1.732051        Unweighted events, alpha=0.028736
       => Product of prop_binSR_electron2017_bin0_WrongSign[3.00,0.00,36.46] and const [0.3333] to be poisson constrained
@@ -429,6 +425,10 @@ Bin        Contents        Error           Notes
     Fake                 15.773159       4.731948                                      
                          11.000000       3.316625        Unweighted events, alpha=1.433924
       => Parameter prop_binSR_electron2017_bin0_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.121322        0.055585                                      
+                         5.000000        2.236068        Unweighted events, alpha=0.024264
+      => Product of prop_binSR_electron2017_bin0_TTTo2L2Nu[5.00,0.01,41.33] and const [0.2000] to be poisson constrained
   ----------------------------------------------------------
     WZ                   0.000000        0.000000                                      
       => Error is zero, ignore      
@@ -450,13 +450,13 @@ Bin        Contents        Error           Notes
                          8.000000        2.828427        Unweighted events, alpha=0.003281
       => Product of prop_binSR_electron2017_bin2_TVX[8.00,0.12,47.91] and const [0.1250] to be poisson constrained
   ----------------------------------------------------------
-    TTTo2L2Nu            0.163206        0.072247                                      
-                         5.000000        2.236068        Unweighted events, alpha=0.032641
-      => Product of prop_binSR_electron2017_bin2_TTTo2L2Nu[5.00,0.01,41.33] and const [0.2000] to be poisson constrained
-  ----------------------------------------------------------
     Triboson             0.021734        0.004066                                      
                          29.000000       5.385165        Unweighted events, alpha=0.000749
       => Parameter prop_binSR_electron2017_bin2_Triboson[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ_QCD           0.028954        0.005020                                      
+                         33.000000       5.744563        Unweighted events, alpha=0.000877
+      => Parameter prop_binSR_electron2017_bin2_WpWpJJ_QCD[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
     ZZtoLep              0.035235        0.018593                                      
                          4.000000        2.000000        Unweighted events, alpha=0.008809
@@ -466,10 +466,6 @@ Bin        Contents        Error           Notes
                          345.000000      18.574176       Unweighted events, alpha=0.000265
       => Parameter prop_binSR_electron2017_bin2_VBS_SSWW_SM[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
-    WpWpJJ_QCD           0.028954        0.005020                                      
-                         33.000000       5.744563        Unweighted events, alpha=0.000877
-      => Parameter prop_binSR_electron2017_bin2_WpWpJJ_QCD[0.00,-7.00,7.00] to be gaussian constrained
-  ----------------------------------------------------------
     WrongSign            0.405745        0.372241                                      
                          1.000000        1.000000        Unweighted events, alpha=0.405745
       => Product of prop_binSR_electron2017_bin2_WrongSign[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
@@ -477,6 +473,10 @@ Bin        Contents        Error           Notes
     Fake                 5.636880        1.691064                                      
                          11.000000       3.316625        Unweighted events, alpha=0.512444
       => Parameter prop_binSR_electron2017_bin2_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.163206        0.072247                                      
+                         5.000000        2.236068        Unweighted events, alpha=0.032641
+      => Product of prop_binSR_electron2017_bin2_TTTo2L2Nu[5.00,0.01,41.33] and const [0.2000] to be poisson constrained
   ----------------------------------------------------------
     WZ                   0.000000        0.000000                                      
       => Error is zero, ignore      
@@ -846,5 +846,5 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 
  -- Significance -- 
-Significance: 1.16336
+Significance: 1.16274
 Done in 0.02 min (cpu), 0.02 min (real)
