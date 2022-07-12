@@ -1,6 +1,6 @@
 import os
 import subprocess
-from Stat.Limits.settings_dev import *
+from Stat.Limits.settings import *
 
 optionals = " --algo=grid  --points 500000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan"
 
@@ -215,7 +215,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat):
                 runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
                 os.system("pwd")
                 
-                cmd = "python " + maindir + "drawLS_dev.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
+                cmd = "python " + maindir + "drawLS.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
                 if not ":" in models:
                     cmd += " --1D"
                 else:
@@ -252,7 +252,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat):
                 #launching Combine
                 cmd = "combine -M MultiDimFit " + rootdc + "  --algo=grid --points 2000  -m 125  --cminDefaultMinimizerStrategy 0  -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges " + intervalstr + optionals
                 runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
-                cmd = "python " + maindir + "drawLS_dev.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
+                cmd = "python " + maindir + "drawLS.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
                 if not ":" in models:
                     cmd += " --1D"
                 else:
@@ -275,7 +275,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat):
                         print cmd
                         runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")
                         
-                        cmd = "python " + maindir + "drawLS_dev.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
+                        cmd = "python " + maindir + "drawLS.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
                         if not ":" in models:
                             cmd += " --1D"
                         else:
@@ -299,7 +299,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat):
                         cmd = "combine -M MultiDimFit " + datacat + " --algo=grid --points 2000  -m 125  --cminDefaultMinimizerStrategy 0  -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges " + intervalstr + optionals
                         runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")  
     
-                        cmd = "python " + maindir + "drawLS_dev.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
+                        cmd = "python " + maindir + "drawLS.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
                         if not ":" in models:
                             cmd += " --1D"
                         else:

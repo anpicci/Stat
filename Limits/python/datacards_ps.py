@@ -1,7 +1,7 @@
 import ROOT
 from ROOT import RooRealVar, RooDataHist, RooArgList, RooGenericPdf, RooExtendPdf, RooWorkspace, RooFit
 import os, sys, copy
-from Stat.Limits.settings_dev import *
+from Stat.Limits.settings import *
 from collections import OrderedDict
 #from fits import *
 
