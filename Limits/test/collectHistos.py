@@ -20,12 +20,44 @@ ofilename = opt.output
 mcstat = opt.mcstat
 unblind = opt.unblind
 print("ATTENTION UNBLIND OPTION IS " + str(unblind))
-# Creating output file
+print "Creating output file", ofilename
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
 sampFiles = {}
 
 procs = bkg
+
+toremove = []
+for p in procs:
+    isSM = False
+    
+    if p.startswith("DYJets"):
+        continue
+    
+    for sigp in sigpoints:
+        for sig in sigp:
+            if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
+                if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:   
+                    if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
+                        isSM = True
+                        break
+                elif '_SM' in p:
+                    isSM = True
+
+                    break
+                elif sig == "WpWpJJ" or sig == "WpWpJJ_QCD":
+                    if p == "WpWpJJ_QCD":
+                        isSM = True
+                        break
+            else:
+                if 'TT_' in p or 'TL_' in p or 'LL_' in p or p=="VBS_SSWW_SM":
+                    isSM = True
+                    break
+    if isSM:
+        toremove.append(p)
+
+for tor in toremove:
+    procs.remove(tor)
 
 # Getting list of files in histos
 
@@ -93,45 +125,19 @@ for year in years:
                             break
 
         for p in procs:
-            isSM = False
-            for sigp in sigpoints:
-                if p.startswith("DYJets"):
-                    break
-                for sig in sigp:
-                    if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
-                        if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
-                            if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
-                                isSM = True
-                                break
-                        elif '_SM' in p:
-                            isSM = True
-                            break
-                        elif sig == "WpWpJJ":
-                            if p == "WpWpJJ_QCD":
-                                isSM = True
-                                break
-                    else:
-                        if 'TT_' in p or 'TL_' in p or 'LL_' in p:
-                            isSM = True
-                            break
-
-            if isSM:
-                continue
-
             for fn in tmp_list:
                 if not fn.startswith(p + "_"):
                     continue
 
                 sampFiles[year+lep].append([[fn], p])
                 break
-
-        
-#print 'sampFiles:'
-#for k, v in sampFiles.items():
-    #for el in v:
-        #print el
-
-
+            
+'''       
+print 'sampFiles:'
+for k, v in sampFiles.items():
+    for el in v:
+        print el
+'''
 #*******************************************************#
 #                                                       #
 #     FILLING IN THE INPUT ROOT FILE FOR COMBINE        #
@@ -233,6 +239,7 @@ for year in years:
                             hup_ += "Up"
                             hdown_ += "Down"
                             sysName = sysname
+                            #print ifile
                             #print hup_, hdown_
                             if systype[0].startswith("shape"):
                                 if systype[2] == "uncorr":

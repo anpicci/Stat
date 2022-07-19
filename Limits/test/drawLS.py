@@ -333,6 +333,8 @@ def draw2D():
         
     xName, yName = variables.replace("k_", "").split(":")
     xNameVar, yNameVar = opt.coeff.split(":")
+    xNameVar = xNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
+    yNameVar = yNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
 
     #variable = "k_" + str(opt.coeff)
     year = str(opt.year)

@@ -3,6 +3,41 @@ from ROOT import RooRealVar, RooDataHist, RooArgList, RooGenericPdf, RooExtendPd
 import os, sys, copy
 from Stat.Limits.settings import *
 from collections import OrderedDict
+
+processes = bkg
+
+toremove = []
+for p in processes:
+    isSM = False
+
+    if p.startswith("DYJets"):
+        continue
+
+    for sigp in sigpoints:
+        for sig in sigp:
+            if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
+                if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                    if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
+                        isSM = True
+                        break
+                elif '_SM' in p:
+                    isSM = True
+
+                    break
+                elif sig == "WpWpJJ" or sig == "WpWpJJ_QCD":
+                    if p == "WpWpJJ_QCD":
+                        isSM = True
+                        break
+            else:
+                if 'TT_' in p or 'TL_' in p or 'LL_' in p or p=="VBS_SSWW_SM":
+                    isSM = True
+                    break
+    if isSM:
+        toremove.append(p)
+
+for tor in toremove:
+    processes.remove(tor)
+
 #from fits import *
 
 #*******************************************************#
@@ -24,6 +59,7 @@ def getRate(ch, process, ifile):
        #print process
        #print "Getting histogram from ", ifile.GetName() 
        #print "Histogram name: ", hName
+       #print ifile.Get(hName)
        h = ifile.Get(hName)
        #print h.GetName()
        return h.Integral()
@@ -42,35 +78,9 @@ def getHist(ch, process, ifile):
 #                                                       #
 #*******************************************************#
 def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
+       
        year = ch.split("_")[-1]
        #print "sig:", sig
-
-       processes = []
-       for p in bkg:
-              isSM = False
-              for sigp in sig:
-                     if p.startswith("DYJets"):
-                            break
-                     if '_SM' in sigp or sigp == 'SM' or sigp.startswith("WpWp"):
-                            if 'TT_' in sigp or 'TL_' in sigp or 'LL_' in sigp:
-                                   if sigp in p or 'SSWW_SM' in p:
-                                          isSM = True
-                            elif '_SM' in p:
-                                   isSM = True
-
-                            elif sigp == "WpWpJJ":
-                                   if p == "WpWpJJ_QCD":
-                                          isSM = True
-                                          break
-
-                     else:
-                            if '_TT_' in p or '_TL_' in p or '_LL_' in p:
-                                   isSM = True
-
-              if isSM:
-                     continue
-
-              processes.append(p)
 
        #print "processes:", processes
 
@@ -79,7 +89,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        except IOError:
               print "Cannot open ", ifilename
        else:
-              #print "Opening file ",  ifilename
+              print "Opening file ",  ifilename
               ifile.cd()
        #print syst 
        
@@ -204,6 +214,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               bkgrate = 0
               #print "===> Backgrounds:  ", processes
               nproc=(len(processes))
+              
               for p in processes:
                      #print "======================= p for rate", p, " syst, ", syst
                      #print "ch is ", ch, " process is ", p, " ifile is ", ifile.GetName()
@@ -220,7 +231,6 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      procLine += ("%-25s") % (p)
                      rateLine += ("%-25f") % (bkgrate)
                      i+=1
-                     
               binString += (("%-25s") % (ch) ) * (nproc + len(sig))
 
        #print 'rates:'
@@ -236,6 +246,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        #print("sig",sig)
        for sigp in sig:
               #print "sigp: ", sigp
+              #print ch, sigp, ifile
               rates[sigp] = getRate(ch, sigp, ifile)
        card  = "imax 1 number of channels \n"
        card += "jmax * number of backgrounds \n"
@@ -492,15 +503,6 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
        #print lssamp
 
-       processes = []
-
-       for p in bkg:
-              isSM = False
-              if '_SM' in p:
-                     continue
-
-              processes.append(p)
-
        #print "processes:", processes
 
        try:
@@ -622,7 +624,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               binString += (("%-25s") % (ch) ) * (2)
               procNumbLine = 1 
        else:
-              i = 0
+              #i = 0
+              i = 1
               bkgrate = 0
               #print "===> Backgrounds:  ", processes
               nproc=(len(processes))
@@ -636,7 +639,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             #nproc = nproc -1
                             #continue
                      
-                     procNumbLine += ("%-25s") % (i + len(lssamp))
+                     #procNumbLine += ("%-25s") % (i + len(lssamp))
+                     procNumbLine += ("%-25s") % (i)
                      procLine += ("%-25s") % (p)
                      rateLine += ("%-25f") % (bkgrate)
                      i+=1
@@ -698,7 +702,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        
        for sidx, sgs in enumerate(lssamp):
               procnameString += "%-25s" % (sgs.replace("_F", "_c"))
-              procidxString += "%-25s" % (sidx)
+              #procidxString += "%-25s" % (sidx)
+              procidxString += "%-25s" % (str(-len(lssamp)+sidx+1))
               rateString += "%-25.6f" % (rates[sgs])
               #card += "%-25s" % (sgs)
 

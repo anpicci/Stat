@@ -27,7 +27,7 @@ folders = [inf + '_' + yeardir + '_' + srvar for srvar in srvars]
 
 eosspace = "/eos/home-a/apiccine"
 
-fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir + "_"
+fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir
 
 print "\nfolders:", folders 
 cards = {}
@@ -103,7 +103,8 @@ for idv, srvar in enumerate(srvars):
         for tmpcard in tmpcards:
             os.system("rm " + tmpcard)
 
-        os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + ".root --postfit --sampling -f fitDiagnosticsCombined/fitDiagnosticsTest.root:fit_s --total-shapes")
+        #os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + ".root --postfit --sampling -f fitDiagnosticsCombined/fitDiagnosticsTest.root:fit_s --total-shapes")
+        os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + ".root --postfit -f fitDiagnosticsCombined/fitDiagnosticsTest.root:fit_s --total-shapes")
 
 if not os.path.exists("control_cards"):
     os.system("mkdir control_cards")

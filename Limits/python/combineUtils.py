@@ -4,6 +4,8 @@ from Stat.Limits.settings import *
 
 optionals = " --algo=grid  --points 500000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan"
 
+optionalsSM = " --algo=grid  --points 500000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND " #--fastScan"
+
 def runCombine(cmdStr, logFile):
     "run combine for a specific case"
 
@@ -88,9 +90,76 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
                         #runCombine("combine -M FitDiagnostics " + modelname + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + cat + ".log")  
         os.chdir("..")
 
+def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat):
+    maindir = os.getcwd() + "/"
+    modelname = ""
+    print "model", model
+    for ids, sigp in enumerate(model):
+        if not sigp.startswith("WpWp"):
+            modelname += "VBS_SSWW_" + sigp
+        else:
+            modelname += sigp.replace(":", "_")
+        if ids < len(model) - 1:
+            modelname += "_"
+
+    #print "evaluate limit for model ", model
+    path = "" + path_ + "/" + modelname
+    vbsmodels = model[0].split(":")
+    
+    if(os.path.exists(path)):
+        print "ok i'm in the directory"
+        os.chdir(path)
+        #print "We are in the right folder ",  len(categories)
+        extraoption=""
+        
+        if len(categories)>=1:
+            print "hello!"
+            if len(years)>1:
+                cmd = "combineCards.py "
+                for year in years:
+                    for cat in categories:
+                        cmd += cat+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
+                cmd += "> %s_%s.txt" % (modelname, method)
+                #print cmd    
+                os.system(cmd)
+
+                global_dc = modelname + "_" + str(method) + ".txt" 
+                rootdc = modelname + "_" + method+ ".root"
+    
+                cmd = "text2workspace.py "
+                cmd += "-P HiggsAnalysis.CombinedLimit.PhysicsModel:multiSignalModel "
+                modComb = ""
+                intervalstr = ""
+                valuestr = ""
+                for idvm, vbsmodel in enumerate(vbsmodels):
+                    cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-100.0,100.0]' " 
+                    if idvm > 0:
+                        modComb += ","
+                        intervalstr += ":"
+                        valuestr += ","
+                    modComb += "k_" + vbsmodel.split("_")[-1]
+                    intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-100.0,100.0" 
+                    valuestr += "k_" + vbsmodel.split("_")[-1] + "=1" 
+                cmd += global_dc + " -o " + rootdc 
+                print cmd
+                os.system(cmd)
+            
+                #cmd = "combine -M MultiDimFit " + rootdc + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameters " + valuestr + " --setParameterRanges "+ intervalstr + " " + optionalsSM # + " --freezeParameters r --setParameters r=1"
+                cmd = "combine -M MultiDimFit " + rootdc + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr + " " + optionalsSM # + " --freezeParameters r --setParameters r=1"
+                print cmd
+                runCombine(cmd, "ls_k_" + model[0] + "_" + method + ".log")
+                
+                cmd = "python " + maindir + "drawLS.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff EWK:QCD " 
+                cmd += " --2D"
+                cmd += " --year " 
+                for year in years:
+                    cmd += year
+                    if year != years[-1]:
+                        cmd += "," 
+                print cmd
+                os.system(cmd)                
 
 def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat):
-
     print "evaluate limit for VBS_SSWW_" + model
     path = ("%s/VBS_SSWW_%s" % (path_, model) )
     #print "==>path: ", path

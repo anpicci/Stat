@@ -29,6 +29,7 @@ parser.add_option('--sm', dest='sm', default = False, action='store_true', help 
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
 parser.add_option('--wpwpEW', dest='wpwpEW', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW')
+parser.add_option('--EWvsQCD', dest='ewvsqcd', default = False, action='store_true', help = 'Default does not run EW vs QCD fit')
 parser.add_option('--notit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
@@ -57,6 +58,9 @@ elif opt.sm:
     elif opt.wpwp:
         modtag = "WpWpJJ"
     models.append(modtag)
+elif opt.ewvsqcd:
+    modtag = "WpWpJJ_EWK:WpWpJJ_QCD"
+    models.append(modtag)
 else:
     raise RuntimeError("Please specify a model, with either --sm or --eft [ops]!")
 
@@ -78,7 +82,10 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             ### Run Significance for only-SM models
             if opt.sm:
                 RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user)
-            
+            ### Run EW vs QCD VBS fit
+            elif opt.ewvsqcd:
+                print "model", model
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user)
             ### Run EFT Likelihood Scan for EFT models
             else:
                 RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)

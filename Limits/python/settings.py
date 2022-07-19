@@ -16,12 +16,13 @@ setfile = open("/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/pytho
 setlist = [line.replace("\n", "") for line in setfile.readlines()]
 sr_var, cr_var = setlist[0].split(",")
 intfolder = setlist[1]
+model = setlist[2]
 cut = setlist[4]
 
 print sr_var, cr_var, intfolder, cut
 
 shapesyst = ""
-if setlist[2].startswith("c") or setlist[2].startswith("F"):
+if model.startswith("c") or model.startswith("F"):
     shapesyst = "shapeN"
 else:
     shapesyst = "shape"
@@ -613,7 +614,7 @@ syst["FR_sys_electron_2018"] = ["lnN", "Fake", 1.3]
 syst["autoMCstat"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "uncorr"]
 syst["PF"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["pu"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
-#syst["puID"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
+syst["puID"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["lep"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "uncorr"]
 syst["btag"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["mistag"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
@@ -629,6 +630,7 @@ syst["jes"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu"
 syst["jer"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "uncorr"]
 syst["TES"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["FES"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
+syst["VBS"] = [shapesyst, ("WpWpJJ_QCD", "sig"), "uncorr"]
 
 systgroups = collections.OrderedDict()
 
@@ -679,13 +681,13 @@ if(not splityearjes):
 #                                *
 #*********************************
 
-if ":" in setlist[2]:
-    ops = setlist[2].split(":")
+if ":" in model and not model.startswith("WpWp"):
+    ops = model.split(":")
     setpiecs = []
     for op in ops:
         if len(op.split("_")) > 1:
             setpiecs.append(("_")+op.split("_")[-1])
-    combo = copy.deepcopy(setlist[2])
+    combo = copy.deepcopy(model)
     for setpiec in setpiecs:
         combo = combo.replace(setpiec, "")
     sigs = [
@@ -710,51 +712,61 @@ if ":" in setlist[2]:
             if not op.startswith("F") and not ops[idothop].startswith("F"):
                 lssamples_1D[combo]['quad_mixed_'+op.split("_")[0]+"_"+ops[idothop].split("_")[0]] += ",VBS_SSWW_" + op + "_" + ops[idothop] + ",VBS_SSWW_" + ops[idothop] + "_" + op
 
-elif setlist[2].endswith("SM"):
-    sigs = [setlist[2]]
+elif ":" in model and model.startswith("WpWp"):
+    sigs = model.split(":")
     lssamples_1D = {
-        setlist[2]:collections.OrderedDict([    
+        model:collections.OrderedDict([    
+            ('sm', sigs[0]),
+            ('sm_lin_quad_cW', sigs[0]),
+            ('quad_cW', sigs[0]),
+        ]),
+    }
+    
+elif model.endswith("SM"):
+    sigs = [model]
+    lssamples_1D = {
+        model:collections.OrderedDict([    
             ('sm', "VBS_SSWW_" + sigs[0]),#"VBS_SSWW_SM",
             ('sm_lin_quad_cW', "VBS_SSWW_" + sigs[0]),#"VBS_SSWW_cW_SM",
             ('quad_cW', "VBS_SSWW_" + sigs[0]),#"VBS_SSWW_cW_BSM",
         ]),
     }
 
-elif setlist[2].startswith("c"):
+elif model.startswith("c"):
     sigs = [
         "SM",
-        setlist[2] + "_SM",
-        setlist[2] + "_BSM",
+        model + "_SM",
+        model + "_BSM",
     ]
     lssamples_1D = {
-        setlist[2]:collections.OrderedDict([    
+        model:collections.OrderedDict([    
             ('sm', "VBS_SSWW_" + sigs[0]),#"VBS_SSWW_SM",
-            ('sm_lin_quad_' + setlist[2], "VBS_SSWW_" + sigs[1]),#"VBS_SSWW_cW_SM",
-            ('quad_' + setlist[2], "VBS_SSWW_" + sigs[2]),#"VBS_SSWW_cW_BSM",
+            ('sm_lin_quad_' + model, "VBS_SSWW_" + sigs[1]),#"VBS_SSWW_cW_SM",
+            ('quad_' + model, "VBS_SSWW_" + sigs[2]),#"VBS_SSWW_cW_BSM",
         ]),
     }
 
-elif setlist[2].startswith("F"):
+elif model.startswith("F"):
     sigs = [
-        setlist[2].replace(setlist[2].split("_")[-1],"") + "0",
-        setlist[2] + "_SM",
-        setlist[2] + "_BSM",
+        model.replace(model.split("_")[-1],"") + "0",
+        model + "_SM",
+        model + "_BSM",
     ]
     lssamples_1D = {
-        setlist[2]:collections.OrderedDict([    
+        model:collections.OrderedDict([    
             ('sm', "VBS_SSWW_" + sigs[0]),#"VBS_SSWW_SM",
-            ('sm_lin_quad_' + setlist[2], "VBS_SSWW_" + sigs[1]),#"VBS_SSWW_cW_SM",
-            ('quad_' + setlist[2], "VBS_SSWW_" + sigs[2]),#"VBS_SSWW_cW_BSM",
+            ('sm_lin_quad_' + model, "VBS_SSWW_" + sigs[1]),#"VBS_SSWW_cW_SM",
+            ('quad_' + model, "VBS_SSWW_" + sigs[2]),#"VBS_SSWW_cW_BSM",
         ]),
     }
 
-elif setlist[2].startswith("WpWp"):
-    sigs = [setlist[2]]
+elif model.startswith("WpWp"):
+    sigs = [model]
     lssamples_1D = {
-        setlist[2]:collections.OrderedDict([    
+        model:collections.OrderedDict([    
             ('sm', sigs[0]),
-            ('sm_lin_quad_'+setlist[2], sigs[0]),
-            ('quad_'+setlist[2], sigs[0]),
+            ('sm_lin_quad_'+model, sigs[0]),
+            ('quad_'+model, sigs[0]),
         ]),
     }
 
@@ -763,6 +775,5 @@ else:
 
 
 sigpoints = [sigs]
-
 
 #print sigpoints, lssamples_1D
