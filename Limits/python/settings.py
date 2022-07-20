@@ -96,7 +96,6 @@ channels_labels = {"SR":"Signal Region",
 #processes = ["ST", "QCD", "DDWJetsTT_Mtt"]
 
 bkg = [
-    "Fake",
     "WpWpJJ_QCD",
     "VBS_SSWW_SM",
     "VBS_SSWW_LL_SM",
@@ -110,6 +109,7 @@ bkg = [
     "WrongSign",
     dyjets_sample,
     "TTTo2L2Nu",
+    "Fake",
 ]
 
 class rateParam(object):
@@ -611,7 +611,7 @@ syst["FR_sys_electron_2018"] = ["lnN", "Fake", 1.3]
 
 ### UltraLegacy
 
-syst["autoMCstat"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "uncorr"]
+syst["autoMCstat"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "Fake", "sig"), "uncorr"]
 syst["PF"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["pu"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
 syst["puID"] = [shapesyst, ("WpWpJJ_QCD", "VG", "TVX", dyjets_sample, "TTTo2L2Nu", "WZ", triboson_sample, "WrongSign", "ZZtoLep", "sig"), "corr"]
@@ -645,13 +645,14 @@ for idk, krp in enumerate(rateParams.keys()):
 
 systgroups["FRsys group"] = ["FR_sys_muon_2016M", "FR_sys_electron_2016M", "FR_sys_muon_2017", "FR_sys_electron_2017", "FR_sys_muon_2018", "FR_sys_electron_2018"]
 systgroups["theory group"] = ["ISR", "FSR", "QCDScale", "pdf_total"]
-systgroups["btag group"] = ["btag"]
-systgroups["Pileup group"] = ["pu"]
+systgroups["btag group"] = ["btag", "mistag"]
+systgroups["Pileup group"] = ["pu", "puID"]
 systgroups["jet group"] = ["jes", "jer"]
 systgroups["PF group"] = ["PF"]
 systgroups["tau group"] = ["TES", "FES", "tau_vsjet", "tau_vsele", "tau_vsmu"]
 systgroups["lumi group"] = ["lumi_2016M", "lumi_2017", "lumi_2018"]
 systgroups["lepton group"] = ["lep", "PF"]
+systgroups["VBS group"] = ["VBS"]
 
 '''
 syst["trig"] = ["shape", ("QCD",  "sig")]

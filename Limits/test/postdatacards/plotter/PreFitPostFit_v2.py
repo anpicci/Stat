@@ -36,15 +36,15 @@ blind = (not opt.unblind)
 
 new_dic = defaultdict(dict)
 years = opt.era.replace("RunII", "2016M,2017,2018")
-infile = "../histos/histo_"
+infile = "../histos_" + opt.model + "/histo_"
 
 indir = opt.folder
 eosspace = "/eos/home-a/apiccine/VBS/nosynch/"
 sfolder = eosspace + indir + "/stack/"
-prefolder = sfolder + "prefit_" + opt.model + "_" + srvar + "_" + crvar
+#prefolder = sfolder + "prefit_" + opt.model + "_" + srvar + "_" + crvar
 postfolder = sfolder + "postfit" + opt.model + "_" + srvar + "_" + crvar
-if not os.path.exists(prefolder):
-    os.system("mkdir " + prefolder)
+#if not os.path.exists(prefolder):
+    #os.system("mkdir " + prefolder)
 if not os.path.exists(postfolder):
     os.system("mkdir " + postfolder)
 
@@ -93,7 +93,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         if variable == possvar.name:
             vartitle = possvar.title
     
-    fitfile = infile + variable + "_" + region + ".root"
+    fitfile = infile + variable + "_" + region + "_" + opt.model + ".root"
     f_mlfit = TFile(fitfile, 'READ')
     lyears = years.split(",")
     eras = years.split(",")

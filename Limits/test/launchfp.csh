@@ -5,9 +5,10 @@
 #python FitAndPlot.py --year RunII --folder vUL030 --eft cW:FT0 --fit m_o1 --notCI --notImpacts --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL030 --eft cW --fit m_o1 --notCI --notImpacts --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL030 --eft cW:cHW --fit m_o1 --notCI --notImpacts --notUncBreak
-#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1 --notUncBreak --doPost --notImpacts
-#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1 --notUncBreak
-python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwp --fit m_o1 --notImpacts --notUncBreak #--doPost
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1 --notUncBreak --notImpacts --doPost --plot m_o1
+python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1 --notUncBreak
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1 --notImpacts
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwp --fit m_o1 --notImpacts --notUncBreak --doPost
 #python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwp --fit m_o1 --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwpEW --fit m_o1 --notImpacts --notUncBreak --doPost
 #python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwpEW --fit m_o1 --notUncBreak

@@ -1,6 +1,7 @@
 import os
 import subprocess
 from Stat.Limits.settings import *
+import copy
 
 optionals = " --algo=grid  --points 500000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan"
 
@@ -8,14 +9,12 @@ optionalsSM = " --algo=grid  --points 500000 --robustFit=1 --alignEdges=1 --cmin
 
 def runCombine(cmdStr, logFile):
     "run combine for a specific case"
-
-    cmd = (cmdStr)
     #print os.getcwd()
     #print cmd
     #writer = open(logFile, 'w') 
     #process = subprocess.call(cmd, shell = True, stdout=writer)
     #print cmd + " 2>&1 | tee " + logFile
-    os.system(cmd + " 2>&1 | tee " + logFile)
+    os.system(cmdStr + " 2>&1 | tee " + logFile)
     return
 
 def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat):
@@ -282,7 +281,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat):
                 cmd = "combine -M MultiDimFit " + rootdc + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges "+ intervalstr + optionals
                 print cmd
                 runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
-                os.system("pwd")
+                #os.system("pwd")
                 
                 cmd = "python " + maindir + "drawLS.py --in0 higgsCombineTest.MultiDimFit.mH125.root --in1 higgsCombineTest.MultiDimFit.mH125.root --coeff " + dirmodel
                 if not ":" in models:

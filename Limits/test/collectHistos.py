@@ -61,7 +61,7 @@ for tor in toremove:
 
 # Getting list of files in histos
 
-#print("\n\n\ninside collecthistos")
+##print("\n\n\ninside collecthistos")
 for year in years:
     yearstring = ""
     if "UL" in path:
@@ -91,7 +91,7 @@ for year in years:
                         sigstr = "VBS_SSWW_" + sig
 
                     isThere = False
-                    #print 'VBS_SSWW_' + sig + "_" + yearstring
+                    ##print 'VBS_SSWW_' + sig + "_" + yearstring
                     for fn in tmp_list:
                         if fn.startswith(sigstr + "_" + yearstring):
                             isThere = True
@@ -133,10 +133,10 @@ for year in years:
                 break
             
 '''       
-print 'sampFiles:'
+#print 'sampFiles:'
 for k, v in sampFiles.items():
     for el in v:
-        print el
+        #print el
 '''
 #*******************************************************#
 #                                                       #
@@ -146,7 +146,7 @@ for k, v in sampFiles.items():
 
 ofile = ROOT.TFile(ofilename,"RECREATE")
 for year in years:
-    #print year
+    ##print year
     yeartag = ""
     if "vUL" in path:
         yeartag = "UL" + year
@@ -154,19 +154,19 @@ for year in years:
         yeartag = year
     
     for lep in leptons:
-        #print "\n", lep
+        ##print "\n", lep
         for k_, h_ in histos.iteritems():
             rootdir = k_ + "_" + lep + "_" + year
-            #print rootdir
+            ##print rootdir
             #if not os.path.isdir(k_+ "_" + year):
             #try:
             if not rootdir in ofile.GetListOfKeys():
-                #print "creating", rootdir
+                ##print "creating", rootdir
                 newsubdir = ofile.mkdir(rootdir)#k_ + "_" + lep + "_" + year)
-                #print newsubdir
+                ##print newsubdir
 
         path_ = path + lep + '/'
-        #print "path:", path_
+        ##print "path:", path_
         histos_data = []
         fstoopen = []
 
@@ -177,7 +177,7 @@ for year in years:
                 continue
 
             for flist in sampFiles[year+lep]:
-                #print "\nflist", flist
+                ##print "\nflist", flist
                 h = None
 
                 hsyst = collections.OrderedDict()
@@ -192,7 +192,7 @@ for year in years:
                     hsyst[syskey] = [None, None]
                 
                 samp = flist[1]
-                #print "\nsamp", samp, flist[0]
+                ##print "\nsamp", samp, flist[0]
                 for f in flist[0]:
                     try:
                         ifile = ROOT.TFile.Open(path_ + f)
@@ -200,10 +200,10 @@ for year in years:
                         print "Cannot open ", f, + "\n"
                     else:
                         pass
-                        #print "Opening file ",  path_ + f
+                        ##print "Opening file ",  path_ + f
                     ifile.cd()
                 
-                    #print "We are looking for object ", h_
+                    ##print "We are looking for object ", h_
                     htemp = copy.deepcopy(ifile.Get(h_).Clone())
                     sign = +1.
                     if "VBS_SSWW_" in f and "_F" in f:
@@ -217,7 +217,7 @@ for year in years:
                     else:
                         htemp.Scale(sign)
                     
-                    #print "htemp", htemp
+                    ##print "htemp", htemp
                     if h is None:
                         h = copy.deepcopy(htemp)
                     else:
@@ -229,18 +229,18 @@ for year in years:
                         if not systype[0].startswith("shape") or sysname == "autoMCstat":
                             continue
                         
-                        #print "systype[1]", systype[1]
+                        ##print "systype[1]", systype[1]
                         ifile.cd()
                         
-                        #print "to syst?", (systype[1] == "all"), (samp in systype[1]), ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp")))
+                        ##print "to syst?", (systype[1] == "all"), (samp in systype[1]), ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp")))
                         if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp"))):
                             hup_ = h_ + "_" + sysname
                             hdown_ = h_ + "_" + sysname
                             hup_ += "Up"
                             hdown_ += "Down"
                             sysName = sysname
-                            #print ifile
-                            #print hup_, hdown_
+                            ##print ifile
+                            ##print hup_, hdown_
                             if systype[0].startswith("shape"):
                                 if systype[2] == "uncorr":
                                     sysName += "_" + year
@@ -272,21 +272,21 @@ for year in years:
                                 hsyst[sysName][1].Add(hdowntemp, 1)
                             
                 #if "_F" in samp and not "DY" in samp:
-                    #print "h", h, h.Integral()
+                    ##print "h", h, h.Integral()
                     #for i in range(0, h.GetNbinsX()):
                         #content = h.GetBinContent(i)
-                        #print("content bin #" + str(i+1) + ":\t" + str(content))
+                        ##print("content bin #" + str(i+1) + ":\t" + str(content))
                     #for khs, vhs in hsyst.items():
                         #if not None in vhs:
-                            #print "h_", khs
-                            #print "vhs[0]", vhs[0], vhs[0].Integral()
+                            ##print "h_", khs
+                            ##print "vhs[0]", vhs[0], vhs[0].Integral()
                             #for i in range(0, vhs[0].GetNbinsX()):
                                 #content = vhs[0].GetBinContent(i)
-                                #print("content bin #" + str(i+1) + ":\t" + str(content))
-                            #print "vhs[1]", vhs[1], vhs[1].Integral()
+                                ##print("content bin #" + str(i+1) + ":\t" + str(content))
+                            ##print "vhs[1]", vhs[1], vhs[1].Integral()
                             #for i in range(0, vhs[1].GetNbinsX()):
                                 #content = vhs[1].GetBinContent(i)
-                                #print("content bin #" + str(i+1) + ":\t" + str(content))
+                                ##print("content bin #" + str(i+1) + ":\t" + str(content))
                             
 
                 ofile.cd(k_ + "_" + lep + "_" + year)
@@ -295,7 +295,7 @@ for year in years:
                     samplab = samp.replace("_F", "_c")
                 else:
                     samplab = samp
-                #print "h", h, h.Integral()
+                ##print "h", h, h.Integral()
                 h.SetName(samplab)
                 h.Write(samplab, ROOT.TObject.kWriteDelete)
 
@@ -308,7 +308,7 @@ for year in years:
                 for sname, shists in hsyst.items():
                     if None in shists:
                         continue
-                    #print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
+                    ##print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
                     for i, var in enumerate(shists):
                         samplab = ""
                         if samp.startswith("quad_") or samp.startswith("sm_lin_"):
@@ -333,7 +333,7 @@ for year in years:
                     #samp = samp.replace("_" + k_, "")                     
                 #elif "cat" in samp:
                     #samp = samp.replace("cat_", "")             
-                #print "SAMP after channel removal ",samp
+                ##print "SAMP after channel removal ",samp
                 #if(samp.startswith("data")):
                     #samp = "Data"
                     
@@ -341,7 +341,7 @@ for year in years:
                     #for n in xrange(nBinsX):
                         #hNameUp = "%s_mcstat_%s_bin%d_Up" % ( h_, samp, n+1)
                         #hNameDown = "%s_mcstat_%s_bin%d_Down" % ( h_, samp, n+1)
-                        ##print "Histogram: ", hNameUp                  
+                        ###print "Histogram: ", hNameUp                  
                         #h_mcStatUp = ifile.Get(hNameUp)
                         #h_mcStatDown = ifile.Get(hNameDown)
                         #h_mcStatUp.SetName("%s_mcstat_%s_%s_%s_bin%dUp" % (samp, k_, year, samp, n+1))
@@ -355,9 +355,9 @@ for year in years:
             ofile.cd(k_+ "_" + lep + "_" + year)
             histData[k_].SetName("Bkg")
             histData[k_].Write("Bkg", ROOT.TObject.kWriteDelete)
-            #print "Bkg integral ", histData[k_].Integral()
+            ##print "Bkg integral ", histData[k_].Integral()
             bkgpdf =  histData[k_].Clone("BkgPdf")
-            #print histData[k_].Integral()
+            ##print histData[k_].Integral()
 
             # check for negative bins in bkg pdf 
             for i in range(0, bkgpdf.GetNbinsX()+1):
@@ -368,12 +368,12 @@ for year in years:
             bkgint = float(bkgpdf.Integral())
             bkgscale = float(1./bkgint)
             bkgpdf.Scale(bkgscale)
-            ##print "Bkg pdf ", bkgpdf.Integral()
+            ###print "Bkg pdf ", bkgpdf.Integral()
             bkgpdf.Write(str(bkgpdf.GetName()), ROOT.TObject.kWriteDelete)    
             
-        #print "histData", histData
+        ##print "histData", histData
         #for kd, vd in histData.items():
-            #print kd, vd.Integral()
+            ##print kd, vd.Integral()
 
 
 #ofile.Write()
