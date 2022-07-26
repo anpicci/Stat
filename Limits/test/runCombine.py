@@ -1,7 +1,7 @@
 import os
 import subprocess
 import optparse
-from Stat.Limits.settings import *
+#from Stat.Limits.settings import *
 from Stat.Limits.combineUtils import *
 
 usage = 'usage: %prog [--cat N]'
@@ -9,6 +9,7 @@ parser = optparse.OptionParser(usage)
 parser.add_option("-y","--years",dest="years",type="string",default="all",help="Indicate years of interest. Default is 2016")
 parser.add_option('-s', '--syst', dest='syst', type='string', default = '1', help='Set the flag to 0 to remove systematics')
 parser.add_option('-m', '--method', dest='method', type='string', default = 'hist', help='Run a single method (all, hist, template)')
+parser.add_option('--model', dest='model', type='string', default = 'hist', help='model')
 parser.add_option('-S', '--sig', dest='sig', type='int', default = 0, help='Set the flag to 1 to enable significance computation')
 parser.add_option('-d', '--dir', dest='dir', type='string', default = 'outdir', help='datacards direcotry')
 parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
@@ -16,9 +17,20 @@ parser.add_option("--runSingleCat",dest="runSingleCat",action='store_true', defa
 
 (opt, args) = parser.parse_args()
 
+import importlib
+settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+bkg = settmod.bkg
+histos = settmod.histos
+years = settmod.years
+leptons = settmod.leptons
+sigpoints = settmod.sigpoints
+lssamples_1D = settmod.lssamples_1D
+syst = settmod.syst
+channels = settmod.channels
+
 wilson = opt.ls
 
-opt.ch = channels
+#opt.ch = channels
 
 path_ = os.path.abspath(os.getcwd()) + '/' 
 path_ += opt.dir
@@ -48,8 +60,8 @@ if wilson == "":
         #width = point[1]
         #chir = point[2]
         for method in methods:
-            runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat)
+            runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat, years)
             #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
 else:
     for method in methods:
-        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat)
+        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years)

@@ -1,8 +1,19 @@
 import ROOT
 from ROOT import RooRealVar, RooDataHist, RooArgList, RooGenericPdf, RooExtendPdf, RooWorkspace, RooFit
 import os, sys, copy
-from Stat.Limits.settings import *
+
+#from Stat.Limits.settings import *
 from collections import OrderedDict
+
+import importlib
+settmod = importlib.import_module("Stat.Limits.settings_" + model)
+bkg = settmod.bkg
+histos = settmod.histos
+years = settmod.years
+leptons = settmod.leptons
+sigpoints = settmod.sigpoints
+lssamples_1D = settmod.lssamples_1D
+syst = settmod.syst
 
 processes = bkg
 

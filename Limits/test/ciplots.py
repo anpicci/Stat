@@ -7,6 +7,8 @@ from FitAndPlotUtils import *
 #os.system("reset")
 from Stat.Limits.variables import *
 
+print "hello"
+
 def EvalGraph(x, graph):
     return gr.Eval(x[0])
 
@@ -25,6 +27,7 @@ parser.add_option('--era', dest='era', type='str', default = "RunII", help = 'er
 (opt, args) = parser.parse_args()
 
 varloops = IterateVars(opt.sr, opt.cr)
+print varloops
 
 gr = ROOT.TGraph()
 def myfunc(x):
@@ -217,9 +220,11 @@ for srv, crv in varloops:
 
     labels.append(srlabel + " + " + crlabel)
 
-    lspath = "./fit_" + opt.folder + "_" + srv + "_" + crv + "_" + opt.era + "_/" + opt.eftop + "/LS_objects_k_" + opt.eftop + ".root"
+    lspath = "./fit_" + opt.folder + "_" + srv + "_" + crv + "_" + opt.era + "/" + opt.eftop + "/LS_objects_k_" + opt.eftop + ".root"
+    print lspath
+
     lsfile = ROOT.TFile.Open(lspath, "READ")
-    gr = lsfile.Get("Graph;1")
+    gr = lsfile.Get("Graph")
     func = ROOT.TF1("func", myfunc, -1000, 1000, 0)
 
     s1down.append(round(func.GetX(y1,-1000,0), 4))
@@ -319,4 +324,5 @@ leg.Draw();
 
 c1.SaveAs(plotname+".pdf")
 c1.SaveAs(plotname+".png")
+
 

@@ -1,6 +1,6 @@
 import os
 import string
-from Stat.Limits.settings import *
+#from Stat.Limits.settings import *
 import optparse
 import copy
 
@@ -14,6 +14,19 @@ parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', 
 parser.add_option('--year', dest='year', type='string', default = '2016M,2017,2018', help = 'Variables to postfit')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables to postfit')
 (opt, args) = parser.parse_args()
+
+import importlib
+settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+bkg = settmod.bkg
+histos = settmod.histos
+years = settmod.years
+leptons = settmod.leptons
+sigpoints = settmod.sigpoints
+lssamples_1D = settmod.lssamples_1D
+syst = settmod.syst
+sr_var = settmod.sr_var
+cr_var = settmod.cr_var
+channels = settmod.channels
 
 srvars = opt.postvars.split(",")
 
@@ -107,12 +120,12 @@ for idv, srvar in enumerate(srvars):
 
 if not os.path.exists("control_cards_" + opt.model):
     os.system("mkdir control_cards_" + opt.model)
-os.system("mv control_card_*" + model + "* control_cards_" + opt.model)
+os.system("mv control_card_*" + opt.model + "* control_cards_" + opt.model)
 
 if not os.path.exists("fit_cards_" + opt.model):
     os.system("mkdir fit_cards_" + opt.model)
-os.system("mv fit_*" + model + "*root fit_cards_" + opt.model)
-os.system("mv fit_*" + model + "*txt fit_cards_" + opt.model)
+os.system("mv fit_*" + opt.model + "*root fit_cards_" + opt.model)
+os.system("mv fit_*" + opt.model + "*txt fit_cards_" + opt.model)
 
 if not os.path.exists("histos_" + opt.model):
     os.system("mkdir histos_" + opt.model)

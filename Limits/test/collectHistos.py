@@ -2,18 +2,29 @@ import ROOT
 import os, sys
 import optparse 
 import copy
-from Stat.Limits.settings import bkg, histos, years, leptons, sigpoints, lssamples_1D, syst
+#from Stat.Limits.settings import bkg, histos, years, leptons, sigpoints, lssamples_1D, syst
 import collections 
+import importlib
 
 usage = 'usage: %prog -p histosPath -o outputFile'
 parser = optparse.OptionParser(usage)
 parser.add_option('-i', '--input', dest='path', type='string', default= "./histos2017v6/",help='Where can I find input histos?')
+parser.add_option('-m', '--model', dest='model', type='string', default= "./histos2017v6/",help='model')
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option("--ls",dest="ls",type="string", default="")
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
+
+settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+bkg = settmod.bkg
+histos = settmod.histos
+years = settmod.years
+leptons = settmod.leptons
+sigpoints = settmod.sigpoints
+lssamples_1D = settmod.lssamples_1D
+syst = settmod.syst
 
 path =  opt.path
 ofilename = opt.output
@@ -61,8 +72,11 @@ for tor in toremove:
 
 # Getting list of files in histos
 
+#print "lssamples_1D:", lssamples_1D
+
 ##print("\n\n\ninside collecthistos")
 for year in years:
+    #print year
     yearstring = ""
     if "UL" in path:
         yearstring = "UL" + year
@@ -73,6 +87,7 @@ for year in years:
         path_ = path + lep + '/'
 
         tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and str(year+"_") in f)]
+        #print tmp_list
 
         sampFiles[year+lep] = []
 
@@ -125,19 +140,23 @@ for year in years:
                             break
 
         for p in procs:
+            #print p
+
             for fn in tmp_list:
                 if not fn.startswith(p + "_"):
                     continue
 
                 sampFiles[year+lep].append([[fn], p])
                 break
-            
-'''       
+    
+'''
 #print 'sampFiles:'
 for k, v in sampFiles.items():
+    print k
     for el in v:
-        #print el
+        print el     
 '''
+
 #*******************************************************#
 #                                                       #
 #     FILLING IN THE INPUT ROOT FILE FOR COMBINE        #
@@ -177,7 +196,8 @@ for year in years:
                 continue
 
             for flist in sampFiles[year+lep]:
-                ##print "\nflist", flist
+                #print "\nflist", flist
+                
                 h = None
 
                 hsyst = collections.OrderedDict()
@@ -190,9 +210,10 @@ for year in years:
                             syskey += "_" + year
 
                     hsyst[syskey] = [None, None]
-                
+    
                 samp = flist[1]
-                ##print "\nsamp", samp, flist[0]
+                #print "\nsamp", samp, flist[0]
+    
                 for f in flist[0]:
                     try:
                         ifile = ROOT.TFile.Open(path_ + f)
@@ -200,11 +221,13 @@ for year in years:
                         print "Cannot open ", f, + "\n"
                     else:
                         pass
-                        ##print "Opening file ",  path_ + f
+                        #print "Opening file ",  path_ + f
                     ifile.cd()
-                
-                    ##print "We are looking for object ", h_
+    
+                    #print "We are looking for object ", h_
                     htemp = copy.deepcopy(ifile.Get(h_).Clone())
+    
+                    #print "htemp", htemp
                     sign = +1.
                     if "VBS_SSWW_" in f and "_F" in f:
                         if samp.startswith("sm_lin_quad") and "_BSM_" in f:
@@ -222,9 +245,9 @@ for year in years:
                         h = copy.deepcopy(htemp)
                     else:
                         h.Add(htemp, 1)
-
+    
                     #hsyst = collections.OrderedDict()
-            
+    
                     for sysname, systype in syst.items():
                         if not systype[0].startswith("shape") or sysname == "autoMCstat":
                             continue
@@ -239,8 +262,8 @@ for year in years:
                             hup_ += "Up"
                             hdown_ += "Down"
                             sysName = sysname
-                            ##print ifile
-                            ##print hup_, hdown_
+                            #print ifile
+                            #print hup_, hdown_
                             if systype[0].startswith("shape"):
                                 if systype[2] == "uncorr":
                                     sysName += "_" + year
@@ -295,7 +318,7 @@ for year in years:
                     samplab = samp.replace("_F", "_c")
                 else:
                     samplab = samp
-                ##print "h", h, h.Integral()
+                #print "h", h, h.Integral()
                 h.SetName(samplab)
                 h.Write(samplab, ROOT.TObject.kWriteDelete)
 
@@ -304,7 +327,7 @@ for year in years:
                         histData[k_] = copy.deepcopy(h)
                     else:
                         histData[k_].Add(h)
-
+                    
                 for sname, shists in hsyst.items():
                     if None in shists:
                         continue
@@ -375,6 +398,7 @@ for year in years:
         #for kd, vd in histData.items():
             ##print kd, vd.Integral()
 
-
+                    
 #ofile.Write()
 ofile.Close()
+

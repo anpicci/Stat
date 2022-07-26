@@ -53,7 +53,6 @@ histofolders = {}
 
 lumi = {'UL2016M': 36.3, 'UL2017': 41.48, 'UL2018':59.83, "ULRunII":137.13}
 
-processes = []
 sigs = []
 for sigp in sigpoints:
     for sig in sigp:
@@ -62,16 +61,42 @@ for sigp in sigpoints:
             signn = "VBS_SSWW_" + signn
 
         sigs.append(signn)
-    
 
-for bk in bkg:
-    if bk in processes:
+processes = bkg    
+toremove = []
+for p in processes:
+    isSM = False
+
+    if p.startswith("DYJets"):
         continue
-    if bk in sigs:
-        continue
-    if "VBS" in bk and ("_LL_" in bk or "_TT_" in bk or "_TL_" in bk):
-        continue
-    processes.append(bk)
+
+    for sigp in sigpoints:
+        for sig in sigp:
+            if '_SM' in sig or sig == 'SM' or sig.startswith("WpWp"):
+                if 'TT_' in sig or 'TL_' in sig or 'LL_' in sig:
+                    if (sig in p and not "QCD" in p) or 'SSWW_SM' in p:
+                        isSM = True
+                        break
+                elif '_SM' in p:
+                    isSM = True
+
+                    break
+                elif sig == "WpWpJJ" or sig == "WpWpJJ_QCD":
+                    if p == "WpWpJJ_QCD":
+                        isSM = True
+                        break
+            else:
+                if 'TT_' in p or 'TL_' in p or 'LL_' in p or p=="VBS_SSWW_SM":
+                    isSM = True
+                    break
+    if isSM:
+        toremove.append(p)
+
+for tor in toremove:
+    processes.remove(tor)
+
+print "sigs:", sigs
+print "processes", processes
 
 ychannels = {}
 
@@ -177,7 +202,11 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
                 yproctag += y
             else:
                 yproctag += "2017"
-            color = merge_dict[yproctag].color
+            color = None 
+            for plotsam in plot_list:
+                if plotsam.label == yproctag:
+                    color = plotsam.color
+                    break
 
             if not "RunII" in y:
                 try:
@@ -245,8 +274,12 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
                 yproctag += y
             else:
                 yproctag += "2017"
-            color = merge_dict[yproctag].color
-
+            color = None 
+            for plotsam in plot_list:
+                if plotsam.label == yproctag:
+                    color = plotsam.color
+                    break
+        
             if not "RunII" in y:
                 try:
                     f_mlfit.Get(histname).GetEntries()
@@ -367,7 +400,12 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
             ysigtag += y
         else:
             ysigtag += "2017"
-        sigcolor = merge_dict[ysigtag].color
+        #print "color sig:", sigs, sigs[0], ysigtag
+        sigcolor = None 
+        for plotsam in plot_list:
+            if plotsam.label == yproctag:
+                sigcolor = plotsam.color
+                break
         
         #if sb is True:
         h_postfit[yul]['totalsig'].SetLineColor(sigcolor)
@@ -405,7 +443,12 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
                 yproctag += y
             else:
                 yproctag += "2017"
-            proclabel = merge_dict[yproctag].leglabel
+            proclabel = None 
+            for plotsam in plot_list:
+                if plotsam.label == yproctag:
+                    proclabel = plotsam.label
+                    break
+                    
             legend.AddEntry(h_postfit[yul][process], proclabel, "f")
 
 
@@ -416,9 +459,15 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
             ysigtag += y
         else:
             ysigtag += "2017"
-        siglabel = merge_dict[ysigtag].leglabel
-        legend.AddEntry(h_postfit[yul]['totalsig'], siglabel, "f")
 
+        siglabel = None 
+        for plotsam in plot_list:
+            if plotsam.label == yproctag:
+                siglabel = plotsam.label
+                break
+
+        legend.AddEntry(h_postfit[yul]['totalsig'], siglabel, "f")
+        print "label sig:", sigs, sigs[0], ysigtag
 
         h_err = h_stack_postfit.GetStack().Last().Clone("h_err")
         h_err.SetLineWidth(100)
@@ -775,3 +824,4 @@ for var in plotvars:
     for ch in channels:
         print "\nProcessing postfit for " + ch + "..."
         PreFitPostFit_v2(ch, "ltau", var, indir, years)
+

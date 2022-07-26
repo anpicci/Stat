@@ -30,7 +30,7 @@ parser.add_option('--vbs', dest='vbs', default = False, action='store_true', hel
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
 parser.add_option('--wpwpEW', dest='wpwpEW', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW')
 parser.add_option('--EWvsQCD', dest='ewvsqcd', default = False, action='store_true', help = 'Default does not run EW vs QCD fit')
-parser.add_option('--notit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
+parser.add_option('--noFit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
@@ -66,19 +66,21 @@ else:
 
 yeartag = opt.year.replace("RunII", "2016M,2017,2018")
 
+
 for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
     for model in models:
         if opt.dofit:
             print "Fitting for model", model
-        
             ### Write the file with metasettings for settings.py, and load the latter recursively
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            RecursiveImport('Stat.Limits.settings')
-        
-            ### Prepare plots for the run and clean remnants from previous fits
-            PrepareToRun(model, fitvar, crvar, folder, yeartag)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag)
+            RecursiveImport('Stat.Limits.settings_' + model + "_" + fitvar + "_" + crvar)
 
+            ### Prepare plots for the run and clean remnants from previous fits
+            print "yeartag", yeartag
+            PrepareToRun(model, fitvar, crvar, folder, yeartag)
+            
             ### Run Significance for only-SM models
             if opt.sm:
                 RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user)
@@ -89,7 +91,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             ### Run EFT Likelihood Scan for EFT models
             else:
                 RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user)
-
+            
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
             #os.system("reset")
@@ -106,12 +108,14 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind)
 
 
-if opt.eft != "none" and opt.doCI:
+if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
     for model in models:
+        print opt.varfit, opt.varcr, folder, model, opt.year
         ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
 
 ### ordering outputs
 os.system("cd " + cwd)
+
 '''
 bigdir = folder + "fitmaterial"
 if not os.path.exists(bigdir):

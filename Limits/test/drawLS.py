@@ -28,7 +28,7 @@ parser.add_option('--in1', dest='in1', type='string', default = 'higgsCombineTes
 parser.add_option('--coeff', dest='coeff', type='string', default = 'cW', help = 'Wilson coefficient(s), separated by :')
 parser.add_option('--year', dest='year', type='string', default = '2017,2018', help = 'Fit epoch')
 parser.add_option('--cut', dest='cut', type='string', default = '1', help = 'Cut')
-parser.add_option('--not1D', dest='oneD', default = True, action='store_false', help = '1D likelihood')
+parser.add_option('--1D', dest='oneD', default = False, action='store_true', help = '1D likelihood')
 parser.add_option('--2D', dest='twoD', default = False, action='store_true', help = '2D likelihood')
 (opt, args) = parser.parse_args()
 
@@ -39,6 +39,7 @@ ROOT.gROOT.LoadMacro("/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits
 ROOT.gROOT.ProcessLine("setTDRStyle();")
 
 def draw1D():
+    print "hello"
     _file0 = ROOT.TFile.Open(opt.in0, "READ")
     _file1 = ROOT.TFile.Open(opt.in1, "READ")
     variable = "k_" + str(opt.coeff)
@@ -516,7 +517,10 @@ def draw2D():
     cc2.SaveAs("LS_" + str(opt.coeff) + ".png")
     cc2.SaveAs("LS_" + str(opt.coeff) + ".pdf")
 
+print opt.oneD, opt.twoD
 if opt.oneD:
+    print "hello"
     draw1D()
 elif opt.twoD:
+    print "hellooo"
     draw2D()
