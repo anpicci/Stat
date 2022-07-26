@@ -24,6 +24,8 @@ parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action =
 parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', help = 'Variables to postfit')
 parser.add_option('--fitted', dest='fittedvars', type='string', default = 'm_o1,m_o1', help = 'Variables fitted in SR and CRs')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables fitted in SR and CRs')
+parser.add_option('--tag', dest='tag', type='string', default = '', help = 'Variables to postfit')
+
 
 (opt, args) = parser.parse_args()
 
@@ -118,7 +120,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         if variable == possvar.name:
             vartitle = possvar.title
     
-    fitfile = infile + variable + "_" + region + "_" + opt.model + ".root"
+    fitfile = infile + variable + "_" + region + "_" + opt.tag + ".root"
     f_mlfit = TFile(fitfile, 'READ')
     lyears = years.split(",")
     eras = years.split(",")

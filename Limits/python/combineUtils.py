@@ -2,10 +2,6 @@ import os
 import subprocess
 #from Stat.Limits.settings import *
 import copy
-algostring = " --algo=grid  --points 50000 "
-optionals = " --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan"
-
-optionalsSM = " --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND " #--fastScan"
 
 def runCombine(cmdStr, logFile):
     "run combine for a specific case"
@@ -92,6 +88,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years):
     maindir = os.getcwd() + "/"
     modelname = ""
+    optionalsSM = " --algo=grid --points=5000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND " #--fastScan"
     print "model", model
     for ids, sigp in enumerate(model):
         if not sigp.startswith("WpWp"):
@@ -210,6 +207,13 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
         os.chdir("..")
 
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
+    algostring = " --algo=grid  --points "
+    if ":" in models:
+        algostring += " 10 "#" 1000000 "
+    else:
+        algostring += " 10 "#" 10000 "
+    optionals = " --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan"
+
     print "Performing LikelihoodScan for operator ", models
     dirmodel = ""
     coeffs = models.split(":")

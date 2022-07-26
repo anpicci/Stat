@@ -295,7 +295,7 @@ def draw1D():
     cc.SaveAs("LS_" + str(nvariable) + ".png")
     cc.SaveAs("LS_" + str(nvariable) + ".pdf")
 
-    outfile = ROOT.TFile.Open("LS_objects_"+nvariable+".root" ,"UPDATE")
+    outfile = ROOT.TFile.Open("LS_objects_"+nvariable+".root" ,"RECREATE")
     outfile.cd()
     line1.Write()
     line2.Write()
@@ -519,8 +519,6 @@ def draw2D():
 
 print opt.oneD, opt.twoD
 if opt.oneD:
-    print "hello"
     draw1D()
 elif opt.twoD:
-    print "hellooo"
     draw2D()

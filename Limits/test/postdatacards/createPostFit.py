@@ -13,10 +13,11 @@ parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', he
 parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', help = 'Variables to postfit')
 parser.add_option('--year', dest='year', type='string', default = '2016M,2017,2018', help = 'Variables to postfit')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables to postfit')
+parser.add_option('--tag', dest='tag', type='string', default = '', help = 'Variables to postfit')
 (opt, args) = parser.parse_args()
 
 import importlib
-settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+settmod = importlib.import_module("Stat.Limits.settings_" + opt.tag)
 bkg = settmod.bkg
 histos = settmod.histos
 years = settmod.years
@@ -27,7 +28,7 @@ syst = settmod.syst
 sr_var = settmod.sr_var
 cr_var = settmod.cr_var
 channels = settmod.channels
-
+tag = opt.tag
 srvars = opt.postvars.split(",")
 
 inf = opt.folder
@@ -57,7 +58,7 @@ for idv, srvar in enumerate(srvars):
 
 string = "combineCards.py"
 
-fitcard = "fit_" + yeardir + "_" + opt.model + ".txt"
+fitcard = "fit_" + yeardir + "_" + tag + ".txt"
 fitroot = fitcard.replace("txt", "root")
 oldfitcard = yeardir + "_" + sr_var + "_" + cr_var + ".txt"
 
@@ -76,13 +77,13 @@ ftstring = "text2workspace.py " + fitcard + " -o " + fitroot
 print("Creating workspace for " + yeardir + " fit plots...")
 os.system(ftstring)
 
-fitdiagdir = "fitDiagnosticsCombined_" + opt.model
+fitdiagdir = "fitDiagnosticsCombined_" + tag
 if not os.path.exists(fitdiagdir):
     os.system("mkdir "+ fitdiagdir)
 else:
     os.system("rm " + fitdiagdir + "/*")
 
-os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin 0.1 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + opt.model)# --robustFit=1 ")
+os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin 0.1 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 ")
 
 for idv, srvar in enumerate(srvars):
     if opt.model == "SM":
@@ -92,7 +93,7 @@ for idv, srvar in enumerate(srvars):
     for c in channels:
         tmpcards = []
         cstring = copy.deepcopy(string)
-        controlcard = "control_card_" + srvar + "_" + c + "_" + opt.model + ".txt"
+        controlcard = "control_card_" + srvar + "_" + c + "_" + tag + ".txt"
         controlroot = controlcard.replace("txt", "root")
         for idc, card in enumerate(cards[srvar][c]):
             print c, card
@@ -116,19 +117,26 @@ for idv, srvar in enumerate(srvars):
             os.system("rm " + tmpcard)
 
         #os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + ".root --postfit --sampling -f fitDiagnosticsCombined/fitDiagnosticsTest.root:fit_s --total-shapes")
-        os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + "_" + opt.model + ".root --postfit -f " + fitdiagdir + "/fitDiagnostics_" + opt.model + ".root:fit_s --total-shapes")
+        os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + "_" + tag + ".root --postfit -f " + fitdiagdir + "/fitDiagnostics_" + tag + ".root:fit_s --total-shapes")
 
 if not os.path.exists("control_cards_" + opt.model):
     os.system("mkdir control_cards_" + opt.model)
-os.system("mv control_card_*" + opt.model + "* control_cards_" + opt.model)
+else:
+    os.system("rm control_cards_" + opt.model + "/" + "control_card_*" + tag)
+os.system("mv control_card_*" + tag + "* control_cards_" + opt.model)
 
 if not os.path.exists("fit_cards_" + opt.model):
     os.system("mkdir fit_cards_" + opt.model)
-os.system("mv fit_*" + opt.model + "*root fit_cards_" + opt.model)
-os.system("mv fit_*" + opt.model + "*txt fit_cards_" + opt.model)
+else:
+    os.system("rm fit_cards_" + opt.model + "/fit_*" + tag + "*root")
+    os.system("rm fit_cards_" + opt.model + "/fit_*" + tag + "*txt")
+os.system("mv fit_*" + tag + "*root fit_cards_" + opt.model)
+os.system("mv fit_*" + tag + "*txt fit_cards_" + opt.model)
 
 if not os.path.exists("histos_" + opt.model):
     os.system("mkdir histos_" + opt.model)
-os.system("mv histo_*" + opt.model + "*root histos_" + opt.model)
+else:
+    os.system("rm histos_" + opt.model + "/histo_*" + tag + "*root")
+os.system("mv histo_*" + tag + "*root histos_" + opt.model)
 
-os.system("mv higgsCombine*" + opt.model + "* " + fitdiagdir)
+os.system("mv higgsCombine*" + tag + "* " + fitdiagdir)
