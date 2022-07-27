@@ -448,7 +448,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
             proclabel = None 
             for plotsam in plot_list:
                 if plotsam.label == yproctag:
-                    proclabel = plotsam.label
+                    proclabel = plotsam.leglabel
                     break
                     
             legend.AddEntry(h_postfit[yul][process], proclabel, "f")
@@ -465,7 +465,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         siglabel = None 
         for plotsam in plot_list:
             if plotsam.label == yproctag:
-                siglabel = plotsam.label
+                siglabel = plotsam.leglabel
                 break
 
         legend.AddEntry(h_postfit[yul]['totalsig'], siglabel, "f")

@@ -2,11 +2,26 @@
 #python FitAndPlot.py --year 2017 --folder vUL030 --eft cW --fit m_o1 --notCI --notImpacts --notUncBreak
 
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW:FT0_1p0 --fit m_o1 --notCI --notImpacts --notUncBreak
-python FitAndPlot.py --year RunII --folder vUL035 --eft cW --fit m_o1 --notImpacts --notUncBreak --doPost --plot m_o1
+python FitAndPlot.py --year RunII --folder vUL035 --eft cW --fit m_o1 --doPost --plot m_o1
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FT1_1p0 --fit m_o1 --notCI --notImpacts --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW:cHW --fit m_o1 --doPost --plot m_o1 --notImpacts --notUncBreak --noFit
 
-#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit BDT_SM_UL035_v2 --notUncBreak --notImpacts
+
+
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit BDT_SM_UL035_v2 --doPost --plot m_o1
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit DNN_SM_UL035_v2 --doPost --plot m_o1
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1 --doPost --plot m_o1
+
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwp --fit BDT_SM_UL035_v2 --doPost --plot m_o1
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwp --fit DNN_SM_UL035_v2 --doPost --plot m_o1
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwp --fit m_o1 --doPost --plot m_o1
+
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwpEW --fit BDT_SM_UL035_v2 --doPost --plot m_o1
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwpEW --fit DNN_SM_UL035_v2 --doPost --plot m_o1
+#python FitAndPlot.py --year RunII --folder vUL035 --sm --wpwpEW --fit m_o1 --doPost --plot m_o1
+
+
+
 #python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1,BDT_SM_UL035_v2,DNN_SM_UL035_v2 --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL035 --sm --vbs --fit m_o1,BDT_SM_UL035_v2,DNN_SM_UL035_v2 --notImpacts
 
