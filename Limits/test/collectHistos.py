@@ -26,12 +26,15 @@ sigpoints = settmod.sigpoints
 lssamples_1D = settmod.lssamples_1D
 syst = settmod.syst
 
-path =  opt.path
+path = opt.path
 ofilename = opt.output
 mcstat = opt.mcstat
 unblind = opt.unblind
 print("ATTENTION UNBLIND OPTION IS " + str(unblind))
+print "From", path
 print "Creating output file", ofilename
+if os.path.exists(ofilename):
+    os.system("rm " + ofilename)
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
 sampFiles = {}

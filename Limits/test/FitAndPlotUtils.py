@@ -10,8 +10,6 @@ LineWrite = lambda fname, s : fname.write(s + "\n")
 
 colors = ["920", "632", "416", "600", "400", "616", "432", "800", "820", "840", "860", "880", "900"]
 
-
-
 def WriteSett(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     settname = open("../python/settings_" + model + "_" + srvar + "_" + crvar + ".py", "w")
     LineWrite(settname, "import collections")
@@ -37,7 +35,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     LineWrite(settname, "")
     LineWrite(settname, "shapesyst = ''")
     LineWrite(settname, "if model.startswith('c') or model.startswith('F'):")
-    LineWrite(settname, "\tshapesyst = 'shape'")
+    LineWrite(settname, "\tshapesyst = 'shapeN'")
     LineWrite(settname, "else:")
     LineWrite(settname, "\tshapesyst = 'shape'")
     LineWrite(settname, "")
@@ -490,18 +488,21 @@ def IterateVars(srvarlist, crvarlist):
 
     return zip(fitvars, crvars)
 
-def PrepareToRun(model, srvar, crvar, fold, year = "2016M,2017,2018"):
+def PrepareToRun(model, srvar, crvar, fold, year, tdmcut):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
-    os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar)
+    #os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + str(int(tdmcut)))
     os.system("rm histo_" + folder + "_" + model + ".root")
 
-def RunSMSignificance(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def RunSMSignificance(model, srvar, crvar, fold, year, username, tdmcut):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
-    plotrepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/plot/'
-    folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
-    
+    plotrepo = filerepo + 'plot'
+    if tdmcut:
+        plotrepo += "_tDM"
+    plotrepo += "/"
+
+    folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag    
     try:
         os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
@@ -509,10 +510,14 @@ def RunSMSignificance(model, srvar, crvar, fold, year = "2016M,2017,2018", usern
     os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
-def RunEWvsQCD(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def RunEWvsQCD(model, srvar, crvar, fold, year, username, tdmcut):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
-    plotrepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/plot/'
+    plotrepo = filerepo + 'plot'
+    if tdmcut:
+        plotrepo += "_tDM"
+    plotrepo += "/"
+
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     
     try:
@@ -523,10 +528,14 @@ def RunEWvsQCD(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "
     
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --EWvsQCD --model " + model)
 
-def RunEFTFit(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def RunEFTFit(model, srvar, crvar, fold, year, username, tdmcut):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
-    plotrepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/plot/'
+    plotrepo = filerepo + 'plot'
+    if tdmcut:
+        plotrepo += "_tDM"
+    plotrepo += "/"
+
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
 
     os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
@@ -543,44 +552,54 @@ def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "a
     else:
         dcname = model + "_hist"
         dcpath = ipwd + "/" + folder + "/" + model + "/" + dcname + ".txt"
-
+    print dcpath
     impactfolder = ipwd + "/" + folder + "/Checks_" + model + "/"
+    impactfolder = folder + "/Checks_" + model + "/"
+    
     if not os.path.exists(impactfolder):
         os.system("mkdir " + impactfolder)
-    wscard = impactfolder + dcname + ".root"
+    wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
     os.chdir(impactfolder)
+    
     os.system("text2workspace.py " + dcpath + " -o " + wscard)
-
-    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --robustFit 1 --expectSignal 0 --rMin 0.01  --cminDefaultMinimizerStrategy 0 -n " + tag + "_t0")
-    os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root >> " + impactfolder + "fitResults" + tag + "_t0.log")
-
-    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --robustFit 1 --expectSignal 1 --rMin 0.001 --cminDefaultMinimizerStrategy 0 -n " + tag + "_t1")
+    
+    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --robustFit 1 --expectSignal 0 --rMin -10  --cminDefaultMinimizerStrategy 0 -n " + tag + "_t0")
+    
+    os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root >> " + "fitResults" + tag + "_t0.log")
+    os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a --format html fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root >> " + "fitResults" + tag + "_t0.html")
+    
+    os.system("combine -M FitDiagnostics -d " + wscard + " -t -1 --robustFit 1 --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy 0 -n " + tag + "_t1")
     os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py  -a fitDiagnostics" + tag + "_t1.root -g plots" + tag + "_t1.root >> "+ impactfolder + "fitResults" + tag + "_t1.log")
+    os.system("python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a --format html fitDiagnostics" + tag + "_t1.root -g plots" + tag + "_t1.root >> " + "fitResults" + tag + "_t1.html")
 
-    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --robustFit 1 --expectSignal 0 --rMin 0.01 --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 10")
+    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --robustFit 1 --expectSignal 0 --rMin -10 --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50")
 
-    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --robustFit 1 --expectSignal 1 --rMin 0.01 --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 10")
+    os.system("combineTool.py -M Impacts -d " + wscard + " -t -1 --robustFit 1 --expectSignal 1 --rMin -10 --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50")
 
-    os.system("combineTool.py -M Impacts -d " + wscard + " -o " + impactfolder + "impacts" + tag + "_t0.json -t -1 --robustFit 1 --expectSignal 0 --rMin 0.01 --doFits -m 1 -n " + tag + "_t0 --parallel 10")
-    os.system("combineTool.py -M Impacts -d " + wscard + " -o " + impactfolder + "impacts" + tag + "_t1.json -t -1 --robustFit 1 --expectSignal 1 --rMin 0.01 --doFits -m 1 -n " + tag + "_t1 --parallel 10")
-
-    os.system("combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " + impactfolder + "impacts" + tag + "_t0.json --parallel 10")
-    os.system("combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " + impactfolder + "impacts" + tag + "_t1.json --parallel 10")
-
-    os.system("plotImpacts.py -i " + impactfolder + "impacts" + tag + "_t0.json -o " + impactfolder + "impacts" + tag + "_t0")
-    os.system("plotImpacts.py -i " + impactfolder + "impacts" + tag + "_t1.json -o " + impactfolder + "impacts" + tag + "_t1")
-
+    os.system("combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t0.json -t -1 --robustFit 1 --expectSignal 0 --rMin -10 --doFits -m 1 -n " + tag + "_t0 --parallel 50")
+    os.system("combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t1.json -t -1 --robustFit 1 --expectSignal 1 --rMin -10 --doFits -m 1 -n " + tag + "_t1 --parallel 50")
+    
+    os.system("combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " +  "impacts" + tag + "_t0.json --parallel 10")
+    os.system("combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " +  "impacts" + tag + "_t1.json --parallel 10")
+    
+    os.system("plotImpacts.py -i " +  "impacts" + tag + "_t0.json -o " +  "impacts" + tag + "_t0")
+    os.system("plotImpacts.py -i " +  "impacts" + tag + "_t1.json -o " +  "impacts" + tag + "_t1")
+    
     os.chdir(ipwd)
+    
     #os.system("mv higgsCombine*" + tag + "* " + impactfolder)
     #os.system("mv fitDiagnostics" + tag + "_t* plots" + tag + "_t* combine_logger_" + model + ".out " + impactfolder)
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year = "2016M,2017,2018", username = "apiccine", unblind = False):
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tdmcut):
     pwd = os.getcwd()
     vartopost = []
     yeartag = year.replace("2016M,2017,2018", "RunII") + "_"
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
-    plotrepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/plot/'
+    plotrepo = filerepo + 'plot'
+    if tdmcut:
+        plotrepo += "_tDM"
+    plotrepo += "/"
 
     if plotvars == "all":
         vartopost = variables
@@ -591,22 +610,21 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year = "2016M,
     
     for var in vartopost:
         varname = var.name
-        folder = fold + '_' + yeartag + varname
+        folder = fold + '_' + yeartag + varname + "_" + srvar + "_" + crvar
         print varname, folder
     
         WriteMeta(varname, varname, fold, model, cut, year)
         RecursiveImport("Stat.Limits.settings_" + model + "_" + varname + "_" + varname)
     
         #os.system("python PrepareEOSfolder.py " + fold)
-        os.system("rm " + yeartag + varname + "_" + model + ".root")
         
         appendix = ""
         
         if not "SM" in model and not model.startswith("WpWp"):
             appendix += " --ls " + model
         
-        os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + "_" + model + ".root" + appendix + " --model " + model + "_" + varname + "_" + varname)
-        os.system("python createDatacards.py -i " + yeartag + varname + "_" + model + ".root -d " + folder + appendix + " --model " + model + "_" + varname + "_" + varname)
+        os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + "_" + model + "_" + srvar + "_" + crvar + ".root" + appendix + " --model " + model + "_" + varname + "_" + varname)
+        os.system("python createDatacards.py -i " + yeartag + varname + "_" + model +  "_" + srvar + "_" + crvar + ".root -d " + folder + appendix + " --model " + model + "_" + varname + "_" + varname)
         
         WriteMeta(srvar, crvar, fold, model, cut, yeartag[:-1])
         RecursiveImport("Stat.Limits.settings_" + model + "_" + srvar + "_" + crvar)
@@ -619,6 +637,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year = "2016M,
         if unblind:
             poststring += " -u"
         os.system(poststring)
+        
         os.chdir(pwd)
         
 def ProduceCLPlots(srvars, crvars, folder, eftop, era):
@@ -653,7 +672,7 @@ def UncBreak(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "ap
                     approw += " " + systname
                 elif syst[systname][0] == "lnN":
                     approw += " " + systname
-                elif syst[systname][0] == "shape":
+                elif syst[systname][0].startswith("shape"):
                     if syst[systname][-1] == "corr":
                         approw += " " + systname
                     elif syst[systname][-1] == "uncorr":
@@ -673,10 +692,10 @@ def UncBreak(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "ap
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
     #print("combine " + wscard + " -M MultiDimFit -t -1 -m 120 --rMin -2 --rMax 2 --points 200 --saveWorkspace -n " + total + " --algo grid  --cminDefaultMinimizerStrategy 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT")
-    os.system("combine " + wscard + " -M MultiDimFit -t -1 -m 120 --rMin -5 --rMax 5 --points 10 --saveWorkspace -n " + total + " --algo grid " + optionalss) #"  --cminDefaultMinimizerStrategy 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT")
+    os.system("combine " + wscard + " -M MultiDimFit -t -1 -m 120 --rMin -5 --rMax 5 --points 1000 --saveWorkspace -n " + total + " --algo grid " + optionalss) #"  --cminDefaultMinimizerStrategy 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT")
     #file_to_move.append(totalfile)
     
-    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --rMin -5 --rMax 5 --points 10 --algo grid " + optionalss #"--cminDefaultMinimizerStrategy 0 --snapshotName MultiDimFit --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"
+    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --rMin -5 --rMax 5 --points 1000 --algo grid " + optionalss #"--cminDefaultMinimizerStrategy 0 --snapshotName MultiDimFit --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"
     
     plotcomm = "plot1DScan.py " + totalfile + " --main-label \"Total uncert.\" --others "
     bdstr = " -o freeze_ALL_st_" + model + " --breakdown \""

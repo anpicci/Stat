@@ -203,7 +203,13 @@ mins = []
 labels = []
 
 totpairs = 0
+
+varstring = ""
+
 for srv, crv in varloops:
+    varstring += "_" + str(srv)
+    if crv != srv:
+        varstring += "_" + str(crv)
     labfound = 0
 
     srlabel = ""
@@ -218,8 +224,10 @@ for srv, crv in varloops:
         if labfound == 2:
             break
 
-    labels.append(srlabel + " + " + crlabel)
-
+    if srlabel != crlabel:
+        labels.append(srlabel + " + " + crlabel)
+    else:
+        labels.append(srlabel)
     lspath = "./fit_" + opt.folder + "_" + srv + "_" + crv + "_" + opt.era + "/" + opt.eftop + "/LS_objects_k_" + opt.eftop + ".root"
     print lspath
 
@@ -259,7 +267,7 @@ outfolder = "CIplots_" + opt.folder + "/"
 if not os.path.exists(outfolder):
     os.system("mkdir " + outfolder)
     
-plotname = outfolder + "CI_" + opt.eftop
+plotname = outfolder + "CI_" + opt.eftop + "_" + varstring
 
 c1 = ROOT.TCanvas("c1","c1",0,0,800,650)
 c1_1 = ROOT.TPad("c1_1", "newpad",0.01,0.01,0.9,0.99)

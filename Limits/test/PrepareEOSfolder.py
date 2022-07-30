@@ -1,22 +1,27 @@
 import os
 import sys
 #from Stat.Limits.settings import *
-folder = '/eos/home-a/apiccine/VBS/nosynch/' + sys.argv[1] + "/plot/"
-#folder = '/eos/home-t/ttedesch/VBS/nosynch/' + sys.argv[1] + "/plot/"
-import importlib
-settmod = importlib.import_module("Stat.Limits.settings_" + sys.argv[2])
-bkg = settmod.bkg
-histos = settmod.histos
-years = settmod.years
-leptons = settmod.leptons
-sigpoints = settmod.sigpoints
-lssamples_1D = settmod.lssamples_1D
-syst = settmod.syst
+folder = '/eos/home-a/apiccine/VBS/nosynch/' + sys.argv[1] + "/plot"
+#folder = '/eos/home-t/ttedesch/VBS/nosynch/' + sys.argv[1] + "/plot"
+if sys.argv[2] == "1":
+    folder += "_tDM"
+folder += "/"
+
+#import importlib
+#settmod = importlib.import_module("Stat.Limits.settings_" + sys.argv[2])
+#bkg = settmod.bkg
+#histos = settmod.histos
+#years = settmod.years
+#leptons = settmod.leptons
+#sigpoints = settmod.sigpoints
+#lssamples_1D = settmod.lssamples_1D
+#syst = settmod.syst
 
 subfolders = [dirr for dirr in os.listdir(folder) if not "_" in dirr]#"mu" in dirr or "ele" in dirr]
 
 new_sf = [odirr.split("_")[0] for odirr in subfolders]
 
+years = ["2016M", "2017", "2018"]
 
 for i, odir in enumerate(new_sf):#subfolders):#
     ofilelist = []

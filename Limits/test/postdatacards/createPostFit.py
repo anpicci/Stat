@@ -29,7 +29,7 @@ sr_var = settmod.sr_var
 cr_var = settmod.cr_var
 channels = settmod.channels
 tag = opt.tag
-srvars = opt.postvars.split(",")
+postvars = opt.postvars.split(",")
 
 inf = opt.folder
 
@@ -37,7 +37,7 @@ lyear = opt.year
 years = lyear.split(",")
 yeardir = opt.year.replace("2016M,2017,2018", "RunII")
 
-folders = [inf + '_' + yeardir + '_' + srvar for srvar in srvars]
+folders = [inf + '_' + yeardir + '_' + postvar + "_" + sr_var + "_" + cr_var for postvar in postvars]
 
 eosspace = "/eos/home-a/apiccine"
 
@@ -47,14 +47,15 @@ fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir
 cards = {}
 
 
-for idv, srvar in enumerate(srvars):
-    cards[srvar] = {}
+for idv, postvar in enumerate(postvars):
+    cards[postvar] = {}
     for c in channels:
         if opt.model == "SM":
             cardfolder = "../" + folders[idv] + "/VBS_SSWW_SM/"
         else:
             cardfolder = "../" + folders[idv] + "/" + opt.model + "/"
-        cards[srvar][c] = [card for card in os.listdir(cardfolder) if c in card and not "RunII" in card]
+        print cardfolder
+        cards[postvar][c] = [card for card in os.listdir(cardfolder) if c in card and not "RunII" in card]
 
 string = "combineCards.py"
 
@@ -83,46 +84,51 @@ if not os.path.exists(fitdiagdir):
 else:
     os.system("rm " + fitdiagdir + "/*")
 
-os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --rMin 0.1 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 ")
+print "Creating FitDiagnostics for fitting datacard..."
+print "combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --expectSignal=1 --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 "
+os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --expectSignal=1 --toysFreq --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 ")
 
-for idv, srvar in enumerate(srvars):
+for idv, postvar in enumerate(postvars):
     if opt.model == "SM":
         ofold = "../" + folders[idv] + "/VBS_SSWW_SM/"
     else:
         ofold = "../" + folders[idv] + "/" + opt.model + "/"
+    print ofold, os.getcwd()
+
     for c in channels:
         tmpcards = []
         cstring = copy.deepcopy(string)
-        controlcard = "control_card_" + srvar + "_" + c + "_" + tag + ".txt"
+        controlcard = "control_card_" + postvar + "_" + c + "_" + tag + ".txt"
         controlroot = controlcard.replace("txt", "root")
-        for idc, card in enumerate(cards[srvar][c]):
-            print c, card
-            cbin = c + "_" + card.split("_hist")[0].split("_")[-1]
+        for idc, card in enumerate(cards[postvar][c]):
+            #print c, card
 
-            tmpcards.append(card)
-            os.system("cp " + ofold + card + " . ")
-            cstring += " " + cbin + "=" + card
+            cbin = c + "_" + card.split("_hist")[0].split("_")[-1]
+            newcard = card.replace(".txt", "_" + tag + ".txt")
+            tmpcards.append(newcard)
+            os.system("cp " + ofold + card + " ./" + newcard)
+            cstring += " " + cbin + "=" + newcard
         cstring += " > " + controlcard
-        print cstring, os.getcwd()
     
-        print("Creating card for " + yeardir + " " + srvar + " " + c + " control plots...")
+        print("Creating card for " + yeardir + " " + postvar + " " + c + " control plots...")
+        print cstring
         os.system(cstring)
 
         ctstring = "text2workspace.py " + controlcard + " -o " + controlroot
-        print("Creating workspace for " + yeardir + " " + srvar + " " + c + " control plots...")
+        print("Creating workspace for " + yeardir + " " + postvar + " " + c + " control plots...")
+        print(ctstring)
         os.system(ctstring)
-        #print(ctstring)
-
+        
         for tmpcard in tmpcards:
             os.system("rm " + tmpcard)
 
-        #os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + ".root --postfit --sampling -f fitDiagnosticsCombined/fitDiagnosticsTest.root:fit_s --total-shapes")
-        os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + srvar + "_" + c + "_" + tag + ".root --postfit -f " + fitdiagdir + "/fitDiagnostics_" + tag + ".root:fit_s --total-shapes")
+        #os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + postvar + "_" + c + ".root --postfit --sampling -f fitDiagnosticsCombined/fitDiagnosticsTest.root:fit_s --total-shapes")
+        os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + postvar + "_" + c + "_" + tag + ".root --postfit -f " + fitdiagdir + "/fitDiagnostics_" + tag + ".root:fit_s --total-shapes")
 
 if not os.path.exists("control_cards_" + opt.model):
     os.system("mkdir control_cards_" + opt.model)
 else:
-    os.system("rm control_cards_" + opt.model + "/" + "control_card_*" + tag)
+    os.system("rm control_cards_" + opt.model + "/" + "control_card_*" + tag + "*")
 os.system("mv control_card_*" + tag + "* control_cards_" + opt.model)
 
 if not os.path.exists("fit_cards_" + opt.model):

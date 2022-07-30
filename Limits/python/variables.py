@@ -31,15 +31,20 @@ variables = []
 bin_bdtsm = array("d", [0., 0.1, 0.2, 0.4, 0.6, 0.8, 1.])
 nbin_bdtsm = len(bin_bdtsm) - 1
 
-variables.append(variabile('BDT_SM_UL035_v2', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
-variables.append(variabile('DNN_cW_UL035_v2', 'c_{W} DNN output', True, nbin_bdtsm, bin_bdtsm))
-variables.append(variabile('DNN_cHW_UL035_v2', 'c_{HW} DNN output', True, nbin_bdtsm, bin_bdtsm))
-variables.append(variabile('DNN_aQGC_UL035_v2', 'aQGC DNN output', True, nbin_bdtsm, bin_bdtsm))
 
 variables.append(variabile('DNN_SM_UL035_v2', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
-variables.append(variabile('BDT_cW_UL035_v2', 'c_{W} BDT output', True, nbin_bdtsm, bin_bdtsm))
-variables.append(variabile('BDT_cHW_UL035_v2', 'c_{HW} BDT output', True, nbin_bdtsm, bin_bdtsm))
-variables.append(variabile('BDT_aQGC_UL035_v2', 'aQGC BDT output', True, nbin_bdtsm, bin_bdtsm))
+variables.append(variabile('DNN_SM_UL035_T_DYL', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
+variables.append(variabile('DNN_cW_UL035_v2', 'c_{W} DNN output', True, 5, 0., 1., smtitle = "c_{W} DNN"))
+variables.append(variabile('DNN_cW_UL035_novar', 'c_{W} DNN output', True, 5, 0., 1., smtitle = "c_{W} DNN novar"))
+variables.append(variabile('DNN_cHW_UL035_v2', 'c_{HW} DNN output', True, 5, 0., 1., smtitle = "c_{HW} DNN"))
+variables.append(variabile('DNN_aQGC_UL035_v2', 'aQGC DNN output', True, 5, 0., 1., smtitle = "a_{QGC} DNN"))
+
+variables.append(variabile('BDT_SM_UL035_v2', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
+variables.append(variabile('BDT_SM_UL035_T_DYL', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
+variables.append(variabile('BDT_cW_UL035_v2', 'c_{W} BDT output', True, 5, 0., 1., smtitle = "c_{W} BDT"))
+variables.append(variabile('BDT_cW_UL035_novar', 'c_{W} BDT output', True, 5, 0., 1., smtitle = "c_{W} BDT"))
+variables.append(variabile('BDT_cHW_UL035_v2', 'c_{HW} BDT output', True, 5, 0., 1., smtitle = "c_{HW} BDT"))
+variables.append(variabile('BDT_aQGC_UL035_v2', 'aQGC BDT output', True, 5, 0., 1., smtitle = "a_{QGC} BDT"))
 
 #variables.append(variabile('DNN_pol_UL030', 'LL vs TX VBS DNN output', True, 5, 0., 1., smtitle = "pol DNN"))
 #variables.append(variabile('BDT_pol_UL030', 'LL vs TX VBS BDT output', True, 5, 0., 1., smtitle = "pol BDT"))
@@ -87,7 +92,8 @@ variables.append(variabile('tauleadTk_ptOverTau',  '#tau LeadTk relative p_{T}',
 ##variables.append(variabile('tauleadTk_deltaPhi',  '#tau LeadTk relative #Delta#phi', False, 8, -0.2, 0.4))
 ##variables.append(variabile('tauleadTk_deltaEta',  '#tau LeadTk relative #Delta#eta', False, 8, -0.4, 0.4))
 variables.append(variabile('tauleadTk_Gamma',  '#tau LeadTk #Upsilon', True, 12, -1., 1.2))
-    
+variables.append(variabile('tau_DecayMode', '#tau Decay Mode', True, 12, -0.5, 11.5))
+
 #bintaujetrelpt = array("d", [0.85, 0.9, 0.92, 0.94, 0.96, 0.98, 1.])
 #nbin_taujetrelpt = len(bin_taujetrelpt) - 1
 ##variables.append(variabile('taujet_relpt',  '#tau jet relative p_{T}', False, nbin_taujetrelpt, bin_taujetrelpt))

@@ -47,7 +47,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                 cmd += "> %s_%s.txt" % (modelname, method)
                 print cmd
                 os.system(cmd)
-                runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1 -n " + modelname, "significance_" + modelname + "_" + method + ".log")
+                runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M Significance "+extraoption+ " "+modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
 
@@ -59,7 +59,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                     cmd += "> %s_%s.txt" % (modelname, method)
                     #print cmd
                     os.system(cmd)
-                    runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1 -n " + modelname, "significance_" + modelname + "_" + method + ".log")
+                    runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + ".log")  
 
@@ -70,7 +70,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                             #print ""+ modelname + "_" + cat +".txt"
                             #print "combine -M Significance "+extraoption + " "+modelname + "_" + cat +".txt", "significance_" + modelname + "_" + cat + ".log"
                             #print "combine -M FitDiagnostics " + modelname + "_" + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties"
-                            runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 --cminDefaultMinimizerStrategy 0 --expectSignal=1 -n " + modelname, "significance_" + modelname + "_" + cat + ".log")  
+                            runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + cat + ".log")  
                             #runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
                             #runCombine("combine -M FitDiagnostics " + modelname + "_"  + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + cat + ".log")  
 
@@ -80,7 +80,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                     #print "category: " + (cat)
                     cat = cat+"_"+year+"_"+method
                     if(runSingleCat):
-                        runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1 -n " + modelname, "significance_" + modelname + "_" + cat + ".log")  
+                        runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + cat + ".log")  
                         #runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
                         #runCombine("combine -M FitDiagnostics " + modelname + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + cat + ".log")  
         os.chdir("..")
@@ -88,7 +88,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years):
     maindir = os.getcwd() + "/"
     modelname = ""
-    optionalsSM = " --algo=grid --points=5000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND " #--fastScan"
+    optionalsSM = " --algo=grid --points=10000 --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND " #--fastScan"
     print "model", model
     for ids, sigp in enumerate(model):
         if not sigp.startswith("WpWp"):
@@ -209,9 +209,9 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
     algostring = " --algo=grid  --points "
     if ":" in models:
-        algostring += " 10 "#" 1000000 "
+        algostring += " 1000000 "
     else:
-        algostring += " 10 "#" 10000 "
+        algostring += " 5000 "
     optionals = " --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan"
 
     print "Performing LikelihoodScan for operator ", models

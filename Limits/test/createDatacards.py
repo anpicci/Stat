@@ -667,8 +667,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             #nproc = nproc -1
                             #continue
                      
-                     procNumbLine += ("%-25s") % (i + len(lssamp))
-                     #procNumbLine += ("%-25s") % (i)
+                     #procNumbLine += ("%-25s") % (i + len(lssamp))
+                     procNumbLine += ("%-25s") % (i)
                      procLine += ("%-25s") % (p)
                      rateLine += ("%-25f") % (bkgrate)
                      i+=1
@@ -730,8 +730,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        
        for sidx, sgs in enumerate(lssamp):
               procnameString += "%-25s" % (sgs.replace("_F", "_c"))
-              procidxString += "%-25s" % (sidx)
-              #procidxString += "%-25s" % (str(-len(lssamp)+sidx+1))
+              #procidxString += "%-25s" % (sidx)
+              procidxString += "%-25s" % (str(-len(lssamp)+sidx+1))
               rateString += "%-25.6f" % (rates[sgs])
               #card += "%-25s" % (sgs)
 
@@ -949,13 +949,13 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
 
 ifilename = opt.ifile
-outdir = ""
+outdirr = ""
 if opt.outdir.startswith("F"):
-    outdir = opt.outdir.split("_")[0].replace("F", "f")
+    outdirr = opt.outdir.split("_")[0].replace("F", "f")
 else:
-    outdir = opt.outdir
+    outdirr = opt.outdir
 
-#print outdir
+#print opt.outdir, outdirr
 
 #os.system("rm " + outdir + "/*/*")
 
@@ -1008,8 +1008,8 @@ for y in years:
     channels_years = [ch + '_' + y for ch in channels ]
     for ch in channels_years:
         if wilson != "":
-            getCardLS(wilson, ch, ifilename, outdir, mode, unblind)
+            getCardLS(wilson, ch, ifilename, outdirr, mode, unblind)
         else:
-            getCard(signals, ch, ifilename, outdir, mode, unblind)
+            getCard(signals, ch, ifilename, outdirr, mode, unblind)
         #for s in signals:
             #getCard(s, ch, ifilename, outdir, mode, unblind)

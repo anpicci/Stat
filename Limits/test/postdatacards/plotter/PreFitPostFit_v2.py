@@ -5,7 +5,7 @@ from tdrStyle import *
 import math
 import os
 import optparse
-from Stat.Limits.settings import *
+#from Stat.Limits.settings import *
 from Stat.Limits.variables import *
 from samplesUL import *
 from CMS_lumi import CMS_lumi
@@ -25,12 +25,26 @@ parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', he
 parser.add_option('--fitted', dest='fittedvars', type='string', default = 'm_o1,m_o1', help = 'Variables fitted in SR and CRs')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables fitted in SR and CRs')
 parser.add_option('--tag', dest='tag', type='string', default = '', help = 'Variables to postfit')
-
-
 (opt, args) = parser.parse_args()
 
 if len(opt.fittedvars.split(",")) != 2:
     raise RuntimeError("--fitted must be of the type \"[srvar],[[crvar]\"!")
+
+import importlib
+settmod = importlib.import_module("Stat.Limits.settings_" + opt.tag)
+bkg = settmod.bkg
+histos = settmod.histos
+years = settmod.years
+leptons = settmod.leptons
+sigpoints = settmod.sigpoints
+lssamples_1D = settmod.lssamples_1D
+syst = settmod.syst
+sr_var = settmod.sr_var
+cr_var = settmod.cr_var
+channels = settmod.channels
+tag = opt.tag
+srvars = opt.postvars.split(",")
+channels_labels = settmod.channels_labels
 
 srvar, crvar = opt.fittedvars.split(",")
 
@@ -405,7 +419,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
         #print "color sig:", sigs, sigs[0], ysigtag
         sigcolor = None 
         for plotsam in plot_list:
-            if plotsam.label == yproctag:
+            if plotsam.label == ysigtag:
                 sigcolor = plotsam.color
                 break
         
@@ -464,12 +478,12 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
 
         siglabel = None 
         for plotsam in plot_list:
-            if plotsam.label == yproctag:
+            if plotsam.label == ysigtag:
                 siglabel = plotsam.leglabel
                 break
 
         legend.AddEntry(h_postfit[yul]['totalsig'], siglabel, "f")
-        print "label sig:", sigs, sigs[0], ysigtag
+        print "label sig:", sigs, sigs[0], ysigtag, siglabel
 
         h_err = h_stack_postfit.GetStack().Last().Clone("h_err")
         h_err.SetLineWidth(100)
