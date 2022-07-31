@@ -545,10 +545,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        workdir_ = ifilename.split("/")[:-1]
        WORKDIR = "/".join(workdir_) + "/"
        dircoeff = ""
-       if coeff.startswith("F"):
-              dircoeff = coeff.split("_")[0].replace("F", "f")
-       else:
-              dircoeff = coeff
+       dircoeff = coeff
        carddir = outdir+  "/"  + dircoeff + "/"
 
        sig = lssamp

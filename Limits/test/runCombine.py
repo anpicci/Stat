@@ -64,4 +64,5 @@ if wilson == "":
             #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
 else:
     for method in methods:
+        print "hello", path_, wilson, channels, method, opt.runSingleCat, years
         runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years)

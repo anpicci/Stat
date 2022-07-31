@@ -25,6 +25,7 @@ parser.add_option('--vars', dest='postvars', type='string', default = 'm_o1', he
 parser.add_option('--fitted', dest='fittedvars', type='string', default = 'm_o1,m_o1', help = 'Variables fitted in SR and CRs')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables fitted in SR and CRs')
 parser.add_option('--tag', dest='tag', type='string', default = '', help = 'Variables to postfit')
+parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 (opt, args) = parser.parse_args()
 
 if len(opt.fittedvars.split(",")) != 2:
@@ -56,7 +57,11 @@ infile = "../histos_" + opt.model + "/histo_"
 
 indir = opt.folder
 eosspace = "/eos/home-a/apiccine/VBS/nosynch/"
-sfolder = eosspace + indir + "/stack/"
+
+sfolder = eosspace + indir + "/stack"
+if opt.tDMcut:
+    sfolder += "_tDM"
+sfolder += "/"
 #prefolder = sfolder + "prefit_" + opt.model + "_" + srvar + "_" + crvar
 postfolder = sfolder + "postfit" + opt.model + "_" + srvar + "_" + crvar
 #if not os.path.exists(prefolder):

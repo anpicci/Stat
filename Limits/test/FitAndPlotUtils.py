@@ -541,6 +541,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tdmcut):
     os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python createDatacards.py -i histo_" + folder + "_" + model + ".root -d " + folder + " --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
+    print "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar 
     
 def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     yeartag = year.replace("2016M,2017,2018", "RunII")
@@ -614,6 +615,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print varname, folder
     
         WriteMeta(varname, varname, fold, model, cut, year)
+        WriteSett(varname, varname, fold, model, cut, year)
         RecursiveImport("Stat.Limits.settings_" + model + "_" + varname + "_" + varname)
     
         #os.system("python PrepareEOSfolder.py " + fold)
@@ -634,6 +636,8 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         os.chdir("plotter")
     
         poststring = "python PreFitPostFit_v2.py --era " + yeartag[:-1] + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar
+        if tdmcut:
+            poststring += " --tDMcut"
         if unblind:
             poststring += " -u"
         os.system(poststring)

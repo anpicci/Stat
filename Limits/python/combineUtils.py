@@ -209,7 +209,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
     algostring = " --algo=grid  --points "
     if ":" in models:
-        algostring += " 1000000 "
+        algostring += " 50000 "
     else:
         algostring += " 5000 "
     optionals = " --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan"
@@ -228,7 +228,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
         dirmodel = models.replace(setpiec, "")
     
     path = ("%s/%s" % (path_, dirmodel) ) 
-    #print "==>path: ", path
+    print "==>path: ", path
     #print os.path.exists(path)
     maindir = os.getcwd() + "/"
     if(os.path.exists(path)):
@@ -283,8 +283,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                     intervalstr += "k_" + coeff + "=" + intervals[idc]
                 
                 cmd = "combine -M MultiDimFit " + rootdc + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges "+ intervalstr + " -n " + dirmodel
-                if True:#":" in models:
-                    cmd += " " + optionals 
+                cmd += " " + optionals 
                 print cmd
                 runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
                 #os.system("pwd")
@@ -325,6 +324,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
 
                 #launching Combine
                 cmd = "combine -M MultiDimFit " + rootdc + algostring +" -m 125  --cminDefaultMinimizerStrategy 0  -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges " + intervalstr + " -n " + dirmodel
+                cmd += " " + optionals 
                 if ":" in models:
                     cmd += " " + optionals 
                 print cmd
@@ -383,6 +383,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")  
     
                         cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
+                        cmd += " " + optionals 
                         if not ":" in models:
                             cmd += " --1D"
                         else:
