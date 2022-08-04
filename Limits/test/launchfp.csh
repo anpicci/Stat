@@ -4,7 +4,7 @@
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW:FT0_1p0 --fit m_o1 --notCI --notImpacts --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW --fit m_o1,m_1T,DNN_cW_UL035_novar,BDT_cW_UL035_novar --notImpacts --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FT1_1p0 --fit m_o1 --notCI --notImpacts --notUncBreak
-#python FitAndPlot.py --year RunII --folder vUL035 --eft cW:cHW --fit m_o1 --doPost --plot m_o1 --notImpacts --notUncBreak --noFit
+python FitAndPlot.py --year RunII --folder vUL035 --eft cW:cHW --fit m_o1 --notImpacts --notUncBreak
 
 
 

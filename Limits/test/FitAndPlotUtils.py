@@ -541,13 +541,20 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tdmcut):
     os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python createDatacards.py -i histo_" + folder + "_" + model + ".root -d " + folder + " --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
-    print "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar 
     
-def DoImpacts(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     ipwd = os.getcwd()
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
-    if model == "SM":
+
+    partmodel = modeltot.split(":")
+    model = ""
+    for idmt, mod in enumerate(partmodel):
+        if idmt > 0:
+                model += ":"
+        model += mod.split("_")[0]
+
+    if modeltot == "SM":
         dcname = "VBS_SSWW_SM_hist"
         dcpath = ipwd + "/" + folder + "/VBS_SSWW_SM/" + dcname + ".txt"
     else:
@@ -648,18 +655,26 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era):
     command = "python ciplots.py --sr " + srvars + " --cr " + crvars + " --folder " + folder + " --op " + eftop + " --era " + era
     os.system(command)
 
-def UncBreak(model, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     optionalss = " --robustFit=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
-    RecursiveImport("Stat.Limits.settings_" + model + "_" + srvar + "_" + crvar)
-    settmod = importlib.import_module("Stat.Limits.settings_" + model + "_" + srvar + "_" + crvar)
+    RecursiveImport("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
+    settmod = importlib.import_module("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
     systgroups = settmod.systgroups
     syst = settmod.syst
     upwd = os.getcwd()
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     #file_to_move = []
+    partmodel = modeltot.split(":")
+ 
+    model = ""
+    for idmt, mod in enumerate(partmodel):
+        if idmt > 0:
+            model += ":"
+        model += mod.split("_")[0]
+
     years = year.split(",")
-    if model == "SM":
+    if modeltot == "SM":
         dcname = "VBS_SSWW_SM_hist"
         dcpath = upwd + "/" + folder + "/VBS_SSWW_SM/" + dcname + ".txt"
     else:

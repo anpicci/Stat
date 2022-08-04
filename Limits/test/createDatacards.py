@@ -547,6 +547,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        dircoeff = ""
        dircoeff = coeff
        carddir = outdir+  "/"  + dircoeff + "/"
+       print carddir
 
        sig = lssamp
        hist_filename = os.getcwd()+"/"+ifilename

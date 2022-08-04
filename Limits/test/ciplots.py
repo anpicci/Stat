@@ -7,7 +7,7 @@ from FitAndPlotUtils import *
 #os.system("reset")
 from Stat.Limits.variables import *
 
-print "hello"
+#print "hello"
 
 def EvalGraph(x, graph):
     return gr.Eval(x[0])
@@ -35,6 +35,8 @@ def myfunc(x):
     return gr.Eval(x[0])
 
 lumi = {'2016M': 36.3, '2017': 41.48, '2018':59.83, "RunII":137.13}
+
+eftop = opt.eftop.split("_")[0]
 
 ROOT.gStyle.SetPalette(1)
 ROOT.gStyle.SetCanvasColor(0)
@@ -228,7 +230,7 @@ for srv, crv in varloops:
         labels.append(srlabel + " + " + crlabel)
     else:
         labels.append(srlabel)
-    lspath = "./fit_" + opt.folder + "_" + srv + "_" + crv + "_" + opt.era + "/" + opt.eftop + "/LS_objects_k_" + opt.eftop + ".root"
+    lspath = "./fit_" + opt.folder + "_" + srv + "_" + crv + "_" + opt.era + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
     print lspath
 
     lsfile = ROOT.TFile.Open(lspath, "READ")
@@ -267,7 +269,7 @@ outfolder = "CIplots_" + opt.folder + "/"
 if not os.path.exists(outfolder):
     os.system("mkdir " + outfolder)
     
-plotname = outfolder + "CI_" + opt.eftop + "_" + varstring
+plotname = outfolder + "CI_" + eftop + varstring
 
 c1 = ROOT.TCanvas("c1","c1",0,0,800,650)
 c1_1 = ROOT.TPad("c1_1", "newpad",0.01,0.01,0.9,0.99)
@@ -316,7 +318,7 @@ latexLabel2.DrawLatex(0.89, 0.865, "13 TeV")
 latexLabel3 = ROOT.TLatex()
 latexLabel3.SetTextSize(0.05)
 latexLabel3.SetNDC()
-coeff = opt.eftop.replace(opt.eftop[0], opt.eftop[0]+"_{")
+coeff = eftop.replace(eftop, eftop + "_{")
 coeff += "}"
 latexLabel3.DrawLatex(0.16, 0.03, coeff)
 

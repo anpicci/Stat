@@ -57,7 +57,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                     for cat in categories:
                         cmd += cat+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
                     cmd += "> %s_%s.txt" % (modelname, method)
-                    #print cmd
+                    print cmd
                     os.system(cmd)
                     runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
@@ -209,7 +209,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
     algostring = " --algo=grid  --points "
     if ":" in models:
-        algostring += " 50000 "
+        algostring += " 200000 "
     else:
         algostring += " 5000 "
     optionals = " --robustFit=1 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan"
@@ -242,10 +242,12 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
         for idc, coeff in enumerate(coeffs):
             if coeff.startswith("cS") or coeff.startswith("cM"):
                 intervals.append("-80,80")
+            elif coeff.startswith("cT"):
+                intervals.append("-10,10")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
-            else:
-                intervals.append("-1,1")
+            elif coeff.startswith("cW"):
+                intervals.append("-5,5")
 
             if idc > 0:
                 modComb += ","

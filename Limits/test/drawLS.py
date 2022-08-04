@@ -42,10 +42,10 @@ def draw1D():
     print "hello"
     _file0 = ROOT.TFile.Open(opt.in0, "READ")
     _file1 = ROOT.TFile.Open(opt.in1, "READ")
-    variable = "k_" + str(opt.coeff)
+    variable = "k_" + str(opt.coeff).replace("F", "c")
     year = str(opt.year)
 
-    nvariable = variable.replace("cS", "fS").replace("cM", "fM").replace("cT", "fT")
+    nvariable = variable.replace("cS", "FS").replace("cM", "FM").replace("cT", "FT")
 
     limit = _file0.Get("limit")
 
@@ -363,7 +363,7 @@ def draw2D():
     graphScan.GetXaxis().SetTitle(xNameVar)
     graphScan.GetYaxis().SetTitle(yNameVar)
     graphScan.GetZaxis().SetTitle("- 2#Delta logL")
-    graphScan.GetZaxis().SetRangeUser(0,10)
+    graphScan.GetZaxis().SetRangeUser(0,10.0)
     
     ##---- 2D likelihood thresholds
     
@@ -372,7 +372,7 @@ def draw2D():
     graphScan.GetHistogram().GetXaxis().SetTitle(xNameVar)
     graphScan.GetHistogram().GetYaxis().SetTitle(yNameVar)
     graphScan.GetHistogram().GetZaxis().SetTitle("- 2#Delta logL")
-    graphScan.GetHistogram().GetZaxis().SetRangeUser(0,9.99)
+    graphScan.GetHistogram().GetZaxis().SetRangeUser(0,10.0)
 
     
     if True:
