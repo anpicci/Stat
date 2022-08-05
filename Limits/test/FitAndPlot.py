@@ -26,6 +26,7 @@ parser.add_option('--year', dest='year', type='string', default = 'RunII', help 
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
+parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
@@ -38,6 +39,12 @@ parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action =
 (opt, args) = parser.parse_args()
 
 folder = opt.folder
+
+tagfolder = ""
+if opt.tDMcut:
+    tagfolder = "_tDM"
+elif opt.test:
+    tagfolder = "_test"
 
 models = []
 if opt.sm and not (opt.vbs or opt.wpwp or opt.wpwpEW):
@@ -80,18 +87,18 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 
             ### Prepare plots for the run and clean remnants from previous fits
             print "yeartag", yeartag
-            PrepareToRun(model, fitvar, crvar, folder, yeartag, opt.tDMcut)
+            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder)
             
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, opt.tDMcut)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
                 print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, opt.tDMcut)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, opt.tDMcut)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
             
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
@@ -106,7 +113,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, opt.tDMcut)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder)
 
 
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:

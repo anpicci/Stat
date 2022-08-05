@@ -238,6 +238,12 @@ for year in years:
                         elif samp.startswith("quad_"):
                             sign = 0.
                     
+                    if not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
+                        for ibin in range(htemp.GetNbinsX()):
+                            bincont = htemp.GetBinContent(ibin+1)
+                            if bincont <= 0.:
+                                htemp.SetBinContent(ibin+1, 0.0001)
+                            
                     if sign == 0:
                         htemp.Reset("ICE")
                     else:

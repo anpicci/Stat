@@ -33,13 +33,18 @@ nbin_bdtsm = len(bin_bdtsm) - 1
 
 
 variables.append(variabile('DNN_SM_UL035_v2', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
+variables.append(variabile('DNN_SM_UL035_novar', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
 variables.append(variabile('DNN_SM_UL035_T_DYL', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
 variables.append(variabile('DNN_cW_UL035_v2', 'c_{W} DNN output', True, 5, 0., 1., smtitle = "c_{W} DNN"))
 variables.append(variabile('DNN_cW_UL035_novar', 'c_{W} DNN output', True, 5, 0., 1., smtitle = "c_{W} DNN novar"))
 variables.append(variabile('DNN_cHW_UL035_v2', 'c_{HW} DNN output', True, 5, 0., 1., smtitle = "c_{HW} DNN"))
+variables.append(variabile('DNN_cHW_UL035_novar', 'c_{HW} DNN output', True, 5, 0., 1., smtitle = "c_{HW} DNN"))
 variables.append(variabile('DNN_aQGC_UL035_v2', 'aQGC DNN output', True, 5, 0., 1., smtitle = "a_{QGC} DNN"))
+variables.append(variabile('DNN_aQGC_UL035_novar', 'aQGC DNN output', True, 5, 0., 1., smtitle = "a_{QGC} DNN"))
 
 variables.append(variabile('BDT_SM_UL035_v2', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
+variables.append(variabile('BDT_SM_UL035_novar_SR', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
+variables.append(variabile('BDT_SM_UL035_novar', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
 variables.append(variabile('BDT_SM_UL035_T_DYL', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
 variables.append(variabile('BDT_cW_UL035_v2', 'c_{W} BDT output', True, 5, 0., 1., smtitle = "c_{W} BDT"))
 variables.append(variabile('BDT_cW_UL035_novar', 'c_{W} BDT output', True, 5, 0., 1., smtitle = "c_{W} BDT"))

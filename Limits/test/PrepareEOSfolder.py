@@ -1,11 +1,10 @@
 import os
 import sys
 #from Stat.Limits.settings import *
+print sys.argv
 folder = '/eos/home-a/apiccine/VBS/nosynch/' + sys.argv[1] + "/plot"
 #folder = '/eos/home-t/ttedesch/VBS/nosynch/' + sys.argv[1] + "/plot"
-if sys.argv[2] == "1":
-    folder += "_tDM"
-folder += "/"
+folder += sys.argv[3] + "/"
 
 #import importlib
 #settmod = importlib.import_module("Stat.Limits.settings_" + sys.argv[2])
