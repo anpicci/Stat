@@ -40,7 +40,8 @@ for i, odir in enumerate(new_sf):#subfolders):#
                 else:
                     new_dest = new_dest + of
                 if str(folder + odir + "/" + of) != str(new_dest):
-                    os.system("cp " + folder + odir + "/" + of + " " + new_dest)
+                    if not os.path.exists(new_dest):
+                        os.system("cp " + folder + odir + "/" + of + " " + new_dest)
                     #print "cp " + folder + odir + "/" + of + " " + new_dest
                 else:
                     continue

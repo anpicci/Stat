@@ -491,7 +491,7 @@ def IterateVars(srvarlist, crvarlist):
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
-    print "python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold
+    print "python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " \"" + tagfold + "\""
     os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
     os.system("rm histo_" + folder + "_" + model + ".root")
 
@@ -636,7 +636,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         print cmd0
         os.system(cmd0)
         print cmd1
-        #os.system(cmd1)
+        os.system(cmd1)
     
     cmddN0 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root "
     cmddN1 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t1.root -g plots" + tag + "_t1.root "
@@ -660,14 +660,14 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         print cmddN0
         os.system(cmddN0)
         print cmddN1
-        #os.system(cmddN1)
+        os.system(cmddN1)
         print cmddN0html
         os.system(cmddN0html)
         print cmddN1html
-        #os.system(cmddN1html)
+        os.system(cmddN1html)
     
-    imp0_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50"
-    imp0_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50"
+    imp0_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
+    imp0_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
     if isEFT:
         imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
         imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
@@ -686,8 +686,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t0.json -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50"
     imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t1.json -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50"
 
-    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50"
-    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50"
+    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
+    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
     if isEFT:
         imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
         imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
@@ -704,8 +704,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     imp1_0 += " --cminDefaultMinimizerStrategy=0"
     imp1_1 += " --cminDefaultMinimizerStrategy=0"
     
-    ctimp0 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " +  "impacts" + tag + "_t0.json --parallel 50"
-    ctimp1 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " +  "impacts" + tag + "_t1.json --parallel 50"
+    ctimp0 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " +  "impacts" + tag + "_t0.json --parallel 50"# --autoBoundsPOIs * --autoRange 3"
+    ctimp1 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " +  "impacts" + tag + "_t1.json --parallel 50"# --autoBoundsPOIs * --autoRange 3"
   
     if isEFT:
         ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
@@ -739,17 +739,17 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
 
     print imp0_0
     os.system(imp0_0)
-    #os.system(imp0_1)
+    os.system(imp0_1)
     
     print imp1_0
     os.system(imp1_0)
-    #os.system(imp1_1)
+    os.system(imp1_1)
     
     os.system(ctimp0)
-    #os.system(ctimp1)
+    os.system(ctimp1)
     
     os.system(printimp0)
-    #os.system(printimp1)
+    os.system(printimp1)
     
     os.chdir(ipwd)
     
@@ -923,6 +923,8 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     else:
         cmdmd += " --rMin -5 --rMax 5"
 
+    cmdmd += ""# --autoBoundsPOIs * --autoRange 3"
+
     #os.system("combine " + wscard + " -M MultiDimFit -t -1 -m 120 --rMin -5 --rMax 5 --points " + points + " --saveWorkspace -n " + total + " --algo grid " + optionalss) #"  --cminDefaultMinimizerStrategy 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT")
     print cmdmd
     os.system(cmdmd)
@@ -933,6 +935,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     else:
         md += " --rMin -5 --rMax 5"
     
+    md += ""# --autoBoundsPOIs * --autoRange 3"
     plotcomm = "plot1DScan.py " + totalfile + " --main-label \"Total uncert.\" --others "
     bdstr = " -o freeze_ALL_st_" + model + " --breakdown \""
     freeze = md + " --freezeNuisanceGroups "
@@ -959,6 +962,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     else:
         mdfa += " --rMin -5 --rMax 5"
     
+    mdfa += "--autoBoundsPOIs * --autoRange 3"
     freezeall = mdfa + " --freezeParameters "
     if isEFT:
         freezeall += "r,"
