@@ -491,6 +491,8 @@ def IterateVars(srvarlist, crvarlist):
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    if tagfold == "":
+        tagfold = "none"
     print "python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " \"" + tagfold + "\""
     os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
     os.system("rm histo_" + folder + "_" + model + ".root")
@@ -502,6 +504,7 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold):
     plotrepo += tagfold + "/"
 
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag    
+    
     try:
         os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
@@ -518,12 +521,12 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold):
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     
     try:
-        os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root")
+        os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
-    os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model)
+    os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
     
-    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --EWvsQCD --model " + model)
+    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
 def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
     yeartag = year.replace("2016M,2017,2018", "RunII")
@@ -962,7 +965,6 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     else:
         mdfa += " --rMin -5 --rMax 5"
     
-    mdfa += "--autoBoundsPOIs * --autoRange 3"
     freezeall = mdfa + " --freezeParameters "
     if isEFT:
         freezeall += "r,"
@@ -984,7 +986,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         plotcomm += " --POI " + modComb
     print(plotcomm)
-    if not isEFT or (isEFT and ":" not in modeltot):
+    if not ":" in modeltot:
         os.system(plotcomm)
     os.chdir(upwd)
     #for ftm in file_to_move:

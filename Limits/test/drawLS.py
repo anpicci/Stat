@@ -427,7 +427,10 @@ def draw2D():
         obj.Draw("C")
 
     cross11 = ROOT.TGraph()
-    cross11.SetPoint(0,0,0)
+    if opt.coeff.startswith("c") or opt.coeff.startswith("F"):
+        cross11.SetPoint(0,0,0)
+    else:
+        cross11.SetPoint(0,1,1)
     cross11.SetMarkerStyle(22)
     cross11.SetMarkerSize(2)
     cross11.SetMarkerColor(ROOT.kBlack)

@@ -59,7 +59,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                     cmd += "> %s_%s.txt" % (modelname, method)
                     print cmd
                     os.system(cmd)
-                    runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname + "--autoBoundsPOIs * --autoRange 3", "significance_" + modelname + "_" + method + ".log")
+                    runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname , "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
                     #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + ".log")  
 
@@ -80,7 +80,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                     #print "category: " + (cat)
                     cat = cat+"_"+year+"_"+method
                     if(runSingleCat):
-                        runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname + "--autoBoundsPOIs * --autoRange 3", "significance_" + modelname + "_" + cat + ".log")  
+                        runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname , "significance_" + modelname + "_" + cat + ".log")  
                         #runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
                         #runCombine("combine -M FitDiagnostics " + modelname + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + cat + ".log")  
         os.chdir("..")
@@ -88,20 +88,13 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years):
     maindir = os.getcwd() + "/"
     modelname = ""
-    optionalsSM = " --algo=grid --points=10000  --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
+    optionalsSM = " --algo=grid --points=100000 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
     print "model", model
-    for ids, sigp in enumerate(model):
-        if not sigp.startswith("WpWp"):
-            modelname += "VBS_SSWW_" + sigp
-        else:
-            modelname += sigp.replace(":", "_")
-        if ids < len(model) - 1:
-            modelname += "_"
-
+    modelname = model.replace(":", "_")
     #print "evaluate limit for model ", model
     path = "" + path_ + "/" + modelname
-    vbsmodels = model[0].split(":")
-    
+    vbsmodels = model.split(":")
+    print "hello", path
     if(os.path.exists(path)):
         print "ok i'm in the directory"
         os.chdir(path)
@@ -128,20 +121,21 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 intervalstr = ""
                 valuestr = ""
                 for idvm, vbsmodel in enumerate(vbsmodels):
-                    cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-100.0,100.0]' " 
+                    cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-150.0,150.0]' " 
                     if idvm > 0:
                         modComb += ","
                         intervalstr += ":"
                         valuestr += ","
                     modComb += "k_" + vbsmodel.split("_")[-1]
-                    intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-100.0,100.0" 
+                    intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-150.0,150.0" 
                     valuestr += "k_" + vbsmodel.split("_")[-1] + "=1" 
                 cmd += global_dc + " -o " + rootdc 
                 print cmd
                 os.system(cmd)
             
-                #cmd = "combine -M MultiDimFit " + rootdc + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameters " + valuestr + " --setParameterRanges "+ intervalstr + " " + optionalsSM # + " --freezeParameters r --setParameters r=1"
-                cmd = "combine -M MultiDimFit " + rootdc + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr + " -n " + modelname + " " + optionalsSM # + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameters " + valuestr + " --setParameterRanges " + intervalstr + " " + optionalsSM # + " --freezeParameters r --setParameters r=1"
+                cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
+            
                 print cmd
                 runCombine(cmd, "ls_k_" + model[0] + "_" + method + ".log")
                 

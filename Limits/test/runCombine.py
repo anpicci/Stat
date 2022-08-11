@@ -54,14 +54,27 @@ if opt.method != "all":
 print "Combinining the following categories: ", channels
 
 if wilson == "":
-    for point in sigpoints:
-        model = point
-        print model
-        #width = point[1]
-        #chir = point[2]
+    if not ":" in opt.model:
+        for point in sigpoints:
+            model = point
+            print model
+            #width = point[1]
+            #chir = point[2]
+            for method in methods:
+                runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat, years)
+            
+    else:
         for method in methods:
-            runSinglePointVBS_sign(path_, model, channels, method, opt.runSingleCat, years)
+            print "2D SM"
+            modelewqcd = ""
+            for sigps in sigpoints:
+                for idp, point in enumerate(sigps):
+                    if idp > 0:
+                        modelewqcd += ":"
+                    modelewqcd += point
+            runSinglePointVBS_EWvsQCD(path_, modelewqcd, channels, method, opt.runSingleCat, years)
             #runSinglePointVBS_AL(path_, model, channels, method, opt.runSingleCat)
+            
 else:
     for method in methods:
         print "hello", path_, wilson, channels, method, opt.runSingleCat, years

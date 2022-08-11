@@ -237,18 +237,24 @@ for srv, crv in varloops:
     gr = lsfile.Get("Graph")
     func = ROOT.TF1("func", myfunc, -1000, 1000, 0)
 
-    s1down.append(round(func.GetX(y1,-1000,0), 4))
-    s1up.append(round(func.GetX(y1,0,1000), 4))
-    s2down.append(round(func.GetX(y2,-1000,0), 4))
-    s2up.append(round(func.GetX(y2,0,1000), 4))
-    mins.append(round(func.GetMinimumX(-10,10), 4))
+    s1down.append(round(func.GetX(y1,-5,0), 4))
+    s1up.append(round(func.GetX(y1,0,5), 4))
+    s2down.append(round(func.GetX(y2,-5,0), 4))
+    s2up.append(round(func.GetX(y2,0,5), 4))
+    mins.append(round(func.GetMinimumX(-1,1), 4))
     gr.Clear()
     lsfile.Close()
     totpairs += 1
 
 y = []
+
+outfolder = "CIplots_" + opt.folder + "/"
+plotname = outfolder + "CI_" + eftop + varstring
+limitstxt = open(plotname + ".txt", "w")
+
 for idp in range(0, totpairs):
     idbin = int(2*(idp+1))
+    limitstxt.write(labels[idp] + "\t1sigma = [" + str(s1down[idp]) + "," + str(s1up[idp]) + "]\t2sigma = [" + str(s2down[idp]) + "," + str(s2up[idp]) + "]\n") 
     Gdown.SetBinContent(idbin, s1down[idp])
     Gup.SetBinContent(idbin, s1up[idp])
     Ydown.SetBinContent(idbin, s2down[idp])
@@ -256,6 +262,8 @@ for idp in range(0, totpairs):
     Yup.GetXaxis().SetBinLabel(idbin, labels[idp])    
     y.append(mins[idp])
     
+limitstxt.close()
+
 x = [n+1 for n in range(0, totpairs)]
 xarray = array('d', x)
 yarray = array('d', y)
@@ -264,12 +272,8 @@ g = ROOT.TGraph(totpairs, xarray, yarray)
 g.SetMarkerColor(ROOT.kRed)
 g.SetMarkerStyle(ROOT.kFullCircle)
 
-outfolder = "CIplots_" + opt.folder + "/"
-
 if not os.path.exists(outfolder):
     os.system("mkdir " + outfolder)
-    
-plotname = outfolder + "CI_" + eftop + varstring
 
 c1 = ROOT.TCanvas("c1","c1",0,0,800,650)
 c1_1 = ROOT.TPad("c1_1", "newpad",0.01,0.01,0.9,0.99)

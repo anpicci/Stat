@@ -17,6 +17,7 @@ parser.add_option("--ls",dest="ls",type="string", default="")
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
+print "Stat.Limits.settings_" + opt.model
 settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
 bkg = settmod.bkg
 histos = settmod.histos
