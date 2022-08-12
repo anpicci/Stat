@@ -540,7 +540,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     
 def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
-    optionals = " --robustFit=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
+    optionals = " --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     yeartag = year.replace("2016M,2017,2018", "RunII")
     ipwd = os.getcwd()
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
@@ -961,7 +961,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
     
-    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid --autoBoundsPOIs r"
+    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid --autoRange 15 --autoBoundsPOIs r"
     if isEFT:
         cmdmd += "," + modComb
         cmdmd += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
@@ -973,7 +973,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     print cmdmd
     os.system(cmdmd)
     
-    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoBoundsPOIs r"
+    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoRange 15 --autoBoundsPOIs r"
     if isEFT:
         md += "," + modComb
         md += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
@@ -1001,7 +1001,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
             #file_to_move.append(freezefile)
             plotcomm += "\'" + freezefile + ":Freeze " + groupname + ":" + colors[idsy] + "\' "
 
-    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoBoundsPOIs r" 
+    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoRange 15 --autoBoundsPOIs r" 
     if isEFT:
         mdfa += "," + modComb
         mdfa += " --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr + " --setParameters r=1"

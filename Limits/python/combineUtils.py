@@ -326,10 +326,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 os.system(cmd)
 
                 #launching Combine
-                cmd = "combine -M MultiDimFit " + rootdc + algostring +" -m 125  --cminDefaultMinimizerStrategy 0  -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges " + intervalstr + " -n " + dirmodel
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoRange 15 --autoBoundsPOIs r," + modComb 
                 cmd += " " + optionals 
-                if ":" in models:
-                    cmd += " " + optionals 
+                cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
                 print cmd
                 
                 runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
@@ -352,8 +351,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         cat = cat+"_"+year+"_"+method
                         datacat = dirmodel + "_" + cat +".txt"
                         #print datacat
-                        cmd = "combine -M MultiDimFit " + datacat + algostring + " -m 125  --cminDefaultMinimizerStrategy 0  -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges " + intervalstr + " -n " + dirmodel
-                        cmd += " " + optionals                 
+                        cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoRange 15 --autoBoundsPOIs r," + modComb 
+                        cmd += " " + optionals 
+                        cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
                         print cmd
                         runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")
                         
