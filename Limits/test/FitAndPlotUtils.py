@@ -504,7 +504,6 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold):
     plotrepo += tagfold + "/"
 
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag    
-    
     try:
         os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
@@ -519,13 +518,13 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold):
     plotrepo += tagfold + "/"
 
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
-    
+
     try:
         os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
     os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
-    
+
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
 def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
@@ -541,7 +540,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     
 def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
-    optionals = " --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
+    optionals = " --robustFit=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     yeartag = year.replace("2016M,2017,2018", "RunII")
     ipwd = os.getcwd()
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
@@ -609,6 +608,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         os.system("mkdir " + impactfolder)
     wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
+    print "cd " + impactfolder
     os.chdir(impactfolder)
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
@@ -622,11 +622,12 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     cmd1 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t1"
 
     if isEFT:
-        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
-        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
-        for coeff in coeffs:
-            cmd0 += ",k_" + coeff + "=0"
-            cmd1 += ",k_" + coeff + "=1"
+        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1"
+        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1"
+        for idc, coeff in enumerate(coeffs):
+            if idc > 0:
+                cmd1 += ","
+            cmd1 += "k_" + coeff + "=1"
 
         cmd0 += " " + optionals
         cmd1 += " " + optionals
@@ -638,9 +639,10 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     if not ":" in modeltot:
         print cmd0
         os.system(cmd0)
-        print cmd1
-        os.system(cmd1)
-    
+        if not isEFT:
+            print cmd1
+            os.system(cmd1)
+
     cmddN0 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root "
     cmddN1 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t1.root -g plots" + tag + "_t1.root "
     
@@ -662,71 +664,73 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     if not ":" in modeltot:
         print cmddN0
         os.system(cmddN0)
-        print cmddN1
-        os.system(cmddN1)
         print cmddN0html
         os.system(cmddN0html)
-        print cmddN1html
-        os.system(cmddN1html)
-    
-    imp0_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
-    imp0_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
+        if not isEFT:
+            print cmddN1
+            os.system(cmddN1)
+            print cmddN1html
+            os.system(cmddN1html)
+        
+
+    imp0_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50 --autoRange 3 --autoBoundsPOIs r" 
+    imp0_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50  --autoRange 3 --autoBoundsPOIs r"
     if isEFT:
+        imp0_0 += "," + modComb
+        imp0_1 += "," + modComb
         imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
         imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
-        for coeff in coeffs:
-            imp0_0 += ",k_" + coeff + "=0"
-            imp0_1 += ",k_" + coeff + "=1"
-        #imp0_0 += " " + optionals
-        #imp0_1 += " " + optionals
+        for idc, coeff in enumerate(coeffs):
+            if idc > 0:
+                imp0_1 += ","
+            imp0_1 += "k_" + coeff + "=1"
+        imp0_0 += " " + optionals
+        imp0_1 += " " + optionals
     
     else:
-        imp0_0 += " --expectSignal 0 --rMin -10" 
-        imp0_1 += " --expectSignal 1 --rMin -10"
-    imp0_0 += " --cminDefaultMinimizerStrategy=0"
-    imp0_1 += " --cminDefaultMinimizerStrategy=0"
+        imp0_0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        imp0_1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
 
-    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t0.json -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50"
-    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t1.json -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50"
+    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t0.json -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50 --autoRange 3 --autoBoundsPOIs r"
+    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t1.json -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50 --autoRange 3 --autoBoundsPOIs r"
 
-    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
-    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50"# --autoBoundsPOIs * --autoRange 3"
     if isEFT:
+        imp1_0 += "," + modComb
+        imp1_1 += "," + modComb
+
         imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
         imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
-        for coeff in coeffs:
-            imp1_0 += ",k_" + coeff + "=0"
-            imp1_1 += ",k_" + coeff + "=1"
-        #imp1_0 += " " + optionals
-        #imp1_1 += " " + optionals
+        for idc, coeff in enumerate(coeffs):
+            if idc > 0:
+                imp1_1 += ","
+            imp1_1 += "k_" + coeff + "=1"
+        imp1_0 += " " + optionals
+        imp1_1 += " " + optionals
    
     else:
-        imp1_0 += " --expectSignal 0 --rMin -10"
-        imp1_1 += " --expectSignal 1 --rMin -10"
-
-    imp1_0 += " --cminDefaultMinimizerStrategy=0"
-    imp1_1 += " --cminDefaultMinimizerStrategy=0"
+        imp1_0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        imp1_1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
     
-    ctimp0 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " +  "impacts" + tag + "_t0.json --parallel 50"# --autoBoundsPOIs * --autoRange 3"
-    ctimp1 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " +  "impacts" + tag + "_t1.json --parallel 50"# --autoBoundsPOIs * --autoRange 3"
+    ctimp0 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " +  "impacts" + tag + "_t0.json --parallel 50 --autoRange 3 --autoBoundsPOIs r"
+    ctimp1 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " +  "impacts" + tag + "_t1.json --parallel 50 --autoRange 3 --autoBoundsPOIs r"
   
     if isEFT:
+        ctimp0 += "," + modComb
+        ctimp1 += "," + modComb
+
         ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
-        ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
-        for coeff in coeffs:
-            ctimp0 += ",k_" + coeff + "=0"
-            ctimp1 += ",k_" + coeff + "=1"
-        #imp1_0 += " " + optionals
-        #imp1_1 += " " + optionals
+        ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1 "
+        for idc, coeff in enumerate(coeffs):
+            if idc > 0:
+                ctimp1 += ","
+            ctimp1 += "k_" + coeff + "=1"
+        ctimp0 += " " + optionals
+        ctimp1 += " " + optionals
    
     else:
-        ctimp0 += " --expectSignal 0 --rMin -10"
-        ctimp1 += " --expectSignal 1 --rMin -10"
-
-    ctimp0 += " --cminDefaultMinimizerStrategy=0"
-    ctimp1 += " --cminDefaultMinimizerStrategy=0"
+        ctimp0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        ctimp1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
     
-
     printimp0 = "plotImpacts.py -i " +  "impacts" + tag + "_t0.json -o " +  "impacts" + tag + "_t0"
     printimp1 = "plotImpacts.py -i " +  "impacts" + tag + "_t1.json -o " +  "impacts" + tag + "_t1"
 
@@ -742,17 +746,27 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
 
     print imp0_0
     os.system(imp0_0)
-    os.system(imp0_1)
+    if not isEFT:
+        print imp0_1
+        os.system(imp0_1)
     
     print imp1_0
     os.system(imp1_0)
-    os.system(imp1_1)
+    if not isEFT:
+        print imp1_1
+        os.system(imp1_1)
     
+    print ctimp0
     os.system(ctimp0)
-    os.system(ctimp1)
+    if not isEFT:
+        print ctimp1
+        os.system(ctimp1)
     
+    print printimp0
     os.system(printimp0)
-    os.system(printimp1)
+    if not isEFT:
+        print printimp1
+        os.system(printimp1)
     
     os.chdir(ipwd)
     
@@ -814,8 +828,11 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era):
     os.system(command)
 
 def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
-    optionalss = " --robustFit=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
-    points = "1000"
+    optionalss = " --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
+    if not ":" in modeltot:
+        points = "1000"
+    else:
+        points = "2000"
 
     RecursiveImport("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
     settmod = importlib.import_module("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
@@ -824,7 +841,10 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     upwd = os.getcwd()
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
-    #file_to_move = []
+    channels = settmod.channels
+    yearsett = settmod.years
+    method = "hist"
+
     partmodel = modeltot.split(":")
 
     isEFT = False
@@ -839,15 +859,36 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
             model += mod.split("_")[0]
         else:
             model += mod
-        
-    years = year.split(",")
+    
     if modeltot == "SM":
         dcname = "VBS_SSWW_SM_hist"
-        dcpath = upwd + "/" + folder + "/VBS_SSWW_SM/" + dcname + ".txt"
+        dcfold = upwd + "/" + folder + "/VBS_SSWW_SM/"
     else:
         dcname = model + "_hist"
-        dcpath = upwd + "/" + folder + "/" + model + "/" + dcname + ".txt"
+        dcfold = upwd + "/" + folder + "/" + model + "/"
+    dcpath = dcfold + dcname + ".txt"
 
+    os.chdir(dcfold)
+    os.system("pwd")
+    
+    cmdmer = "combineCards.py "
+    for year in yearsett:
+        for cat in channels:
+            if not isEFT:
+                cmdmer += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
+            else:
+                cmdmer += cat+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
+    if not isEFT:
+        cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
+    else:
+        cmdmer += "> %s_%s.txt" % (model, method)
+    os.system(cmdmer)
+    os.chdir(upwd)
+    
+    #file_to_move = []
+        
+    years = year.split(",")
+    
     if isEFT:
         coeffs = modeltot.split(":")
         setpiecs = []
@@ -920,25 +961,26 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
     
-    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid " + optionalss #"  --cminDefaultMinimizerStrategy 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT")
+    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid --autoBoundsPOIs r"
     if isEFT:
+        cmdmd += "," + modComb
         cmdmd += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
     else:
         cmdmd += " --rMin -5 --rMax 5"
 
-    cmdmd += ""# --autoBoundsPOIs * --autoRange 3"
+    cmdmd += " " + optionalss
 
-    #os.system("combine " + wscard + " -M MultiDimFit -t -1 -m 120 --rMin -5 --rMax 5 --points " + points + " --saveWorkspace -n " + total + " --algo grid " + optionalss) #"  --cminDefaultMinimizerStrategy 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT")
     print cmdmd
     os.system(cmdmd)
     
-    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid " + optionalss #"--cminDefaultMinimizerStrategy 0 --snapshotName MultiDimFit --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"
+    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoBoundsPOIs r"
     if isEFT:
+        md += "," + modComb
         md += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
     else:
         md += " --rMin -5 --rMax 5"
     
-    md += ""# --autoBoundsPOIs * --autoRange 3"
+    md += optionalss 
     plotcomm = "plot1DScan.py " + totalfile + " --main-label \"Total uncert.\" --others "
     bdstr = " -o freeze_ALL_st_" + model + " --breakdown \""
     freeze = md + " --freezeNuisanceGroups "
@@ -959,12 +1001,13 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
             #file_to_move.append(freezefile)
             plotcomm += "\'" + freezefile + ":Freeze " + groupname + ":" + colors[idsy] + "\' "
 
-    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid " + optionalss #"--cminDefaultMinimizerStrategy 0 --snapshotName MultiDimFit --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"
+    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoBoundsPOIs r" 
     if isEFT:
+        mdfa += "," + modComb
         mdfa += " --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr + " --setParameters r=1"
     else:
         mdfa += " --rMin -5 --rMax 5"
-    
+    mdfa += " " + optionalss 
     freezeall = mdfa + " --freezeParameters "
     if isEFT:
         freezeall += "r,"
@@ -988,6 +1031,8 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     print(plotcomm)
     if not ":" in modeltot:
         os.system(plotcomm)
-    os.chdir(upwd)
+    
     #for ftm in file_to_move:
         #os.system("mv ./" + ftm + " " + impactfolder)
+    
+    os.chdir(upwd)

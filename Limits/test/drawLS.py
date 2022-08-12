@@ -4,7 +4,7 @@ import copy
 import optparse
 import array
 import os
-
+from operator import itemgetter
 #os.system("reset")
 
 ROOT.gROOT.SetBatch()
@@ -39,7 +39,6 @@ ROOT.gROOT.LoadMacro("/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits
 ROOT.gROOT.ProcessLine("setTDRStyle();")
 
 def draw1D():
-    print "hello"
     _file0 = ROOT.TFile.Open(opt.in0, "READ")
     _file1 = ROOT.TFile.Open(opt.in1, "READ")
     variable = "k_" + str(opt.coeff).replace("F", "c")
@@ -57,7 +56,7 @@ def draw1D():
   
     toDraw = ROOT.TString(ROOT.Form("2*deltaNLL:"+variable))
   
-    n = limit.Draw( toDraw.Data(), "deltaNLL<50 && deltaNLL>-30", "l")
+    n = limit.Draw( toDraw.Data(), "deltaNLL<10 && deltaNLL>-30", "l")
     graphScan = ROOT.TGraph(n,limit.GetV2(),limit.GetV1())
     graphScan.RemovePoint(0)
   
@@ -65,7 +64,7 @@ def draw1D():
     limitData = _file1.Get("limit")  
     print " observed = ", _file1.GetName(), "\n"
     #     n_data = limitData.Draw("2*deltaNLL:r","deltaNLL<40 && deltaNLL>-30","l")
-    n_data = limitData.Draw(  toDraw.Data() , "deltaNLL<50 && deltaNLL>-30", "l")
+    n_data = limitData.Draw(  toDraw.Data() , "deltaNLL<10 && deltaNLL>-30", "l")
     graphScanData = ROOT.TGraph(n_data,limitData.GetV2(),limitData.GetV1())
     graphScanData.RemovePoint(0)
     graphScanData.SetTitle("")
@@ -133,21 +132,24 @@ def draw1D():
         graphScan.GetPoint(ip, x_value, y_value)
         #print "GetPoint: ", graphScan.GetPoint(ip, x_value, y_value)
         #print " x_value = ", x_value, "\n"
+        #ip += 1
 
+        #print x_value_double, x_value
         if x_value in x_std: #(std::find(x_std.begin(), x_std.end(), x_value) != x_std.end()) {
-            
             graphScan.RemovePoint(ip)
-            #       print "removed ", ip, "\n"
-            ip += -1
+            #print "removed ", ip, "\n"
+            #ip += -1
 
         else:
             x_std.append(copy.deepcopy(x_value))
             x_y_map.append([copy.deepcopy(x_value), copy.deepcopy(y_value)])
+            ip += 1
 
-        ip += 1
-
+    
     graphScan.Set(0)
     
+    x_y_map = sorted(x_y_map, key=itemgetter(0))
+
     if len(x_y_map) > 0:
         mc_min_x = -100.
         minimum = 1000.
@@ -163,13 +165,10 @@ def draw1D():
   
         #---- (end) fix the 0 of the likelihood scan
   
-  
         ip = 0
         for it in x_y_map:#(std::map<double, double>::iterator it = x_y_map.begin(); it != x_y_map.end(); it++) {
             graphScan.SetPoint(ip, it[0], it[1])
             ip += 1
-
-  
   
         #---- just for horizonthal lines
         for it in x_y_map:#(std::map<double, double>::iterator it = x_y_map.begin(); it != x_y_map.end(); it++) {
@@ -200,6 +199,8 @@ def draw1D():
   
     graphScanData.Set(0)
   
+    x_y_map = sorted(x_y_map, key=itemgetter(0))
+
     if len(x_y_map) > 0:
         #---- fix the 0 of the likelihood scan
         data_min_x = -100.
@@ -225,13 +226,13 @@ def draw1D():
   
     graphScan.GetXaxis().SetTitle(variable.replace("k_", ""))
     graphScan.GetYaxis().SetTitle("-2 #Delta lnL")
-  
+    
     graphScan.Draw("al")
     #   graphScan  .Draw("aPl")
     graphScan.GetYaxis().SetRangeUser(-0.1, 10.)
 
     if graphScanData: 
-        graphScanData.Draw("l")
+        graphScanData.Draw("al")
   
     tex.Draw("same")
     tex2.Draw("same")
@@ -306,7 +307,7 @@ def draw1D():
     #wait = input("Press Enter to continue.")
     #except:
     #print "Goodbye!"
-
+    
 def draw2D():
     NRGBs = 3
     NCont = 255
