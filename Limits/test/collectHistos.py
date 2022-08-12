@@ -244,6 +244,7 @@ for year in years:
                             bincont = htemp.GetBinContent(ibin+1)
                             if bincont <= 0.:
                                 htemp.SetBinContent(ibin+1, 0.0001)
+                                print ibin, "modified"
                             
                     if sign == 0:
                         htemp.Reset("ICE")

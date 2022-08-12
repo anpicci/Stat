@@ -284,7 +284,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         intervalstr += ":"
                     intervalstr += "k_" + coeff + "=" + intervals[idc]
                 
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep" 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoRange 15 --autoBoundsPOIs r," + modComb 
                 cmd += " " + optionals 
                 cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
                 print cmd
