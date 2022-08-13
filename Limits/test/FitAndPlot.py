@@ -5,7 +5,7 @@ import imp
 import importlib
 import sys
 import optparse
-from FitAndPlotUtils_dev import *
+from FitAndPlotUtils import *
 
 os.system("reset")
 
