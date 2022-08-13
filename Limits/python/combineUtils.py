@@ -243,7 +243,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
             if coeff.startswith("cS") or coeff.startswith("cM"):
                 intervals.append("-80,80")
             elif coeff.startswith("cT"):
-                intervals.append("-10,10")
+                intervals.append("-30,30")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
@@ -284,7 +284,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         intervalstr += ":"
                     intervalstr += "k_" + coeff + "=" + intervals[idc]
                 
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoRange 15 --autoBoundsPOIs r," + modComb 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
+                if not ":" in models:
+                    cmd += " --autoRange 15 "
                 cmd += " " + optionals 
                 cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
                 print cmd
@@ -326,7 +328,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 os.system(cmd)
 
                 #launching Combine
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoRange 15 --autoBoundsPOIs r," + modComb 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
+                if not ":" in models:
+                    cmd += " --autoRange 15 "
                 cmd += " " + optionals 
                 cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
                 print cmd
@@ -351,7 +355,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         cat = cat+"_"+year+"_"+method
                         datacat = dirmodel + "_" + cat +".txt"
                         #print datacat
-                        cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoRange 15 --autoBoundsPOIs r," + modComb 
+                        cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
+                        if not ":" in models:
+                            cmd += " --autoRange 15 "
                         cmd += " " + optionals 
                         cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
                         print cmd

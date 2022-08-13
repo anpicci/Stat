@@ -45,6 +45,9 @@ variables.append(variabile('DNN_aQGC_UL035_novar', 'aQGC DNN output', True, 5, 0
 variables.append(variabile('DNN_FT_UL035_novar', 'f_{T} DNN output', True, 5, 0., 1., smtitle = "f_{T} DNN"))
 variables.append(variabile('DNN_FM_UL035_novar', 'f_{M} DNN output', True, 5, 0., 1., smtitle = "f_{M} DNN"))
 variables.append(variabile('DNN_FS_UL035_novar', 'f_{S} DNN output', True, 5, 0., 1., smtitle = "f_{S} DNN"))
+variables.append(variabile('DNN_FT_UL035_novar_fix', 'f_{T} DNN output', True, 5, 0., 1., smtitle = "f_{T} DNN"))
+variables.append(variabile('DNN_FM_UL035_novar_fix', 'f_{M} DNN output', True, 5, 0., 1., smtitle = "f_{M} DNN"))
+variables.append(variabile('DNN_FS_UL035_novar_fix', 'f_{S} DNN output', True, 5, 0., 1., smtitle = "f_{S} DNN"))
 
 '''
 variables.append(variabile('BDT_SM_UL035_v2', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
