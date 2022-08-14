@@ -209,7 +209,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
     algostring = " --algo=grid  --points "
     if ":" in models:
-        algostring += " 200000 "
+        algostring += " 500000 "
     else:
         algostring += " 5000 "
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
@@ -243,7 +243,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
             if coeff.startswith("cS") or coeff.startswith("cM"):
                 intervals.append("-80,80")
             elif coeff.startswith("cT"):
-                intervals.append("-30,30")
+                intervals.append("-50,20")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
