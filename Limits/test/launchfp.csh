@@ -2,8 +2,9 @@
 #python FitAndPlot.py --year 2017 --folder vUL030 --eft cW --fit m_o1 --notCI --notImpacts --notUncBreak
 
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --eft FT0_1p0 --fit m_o1 --notCI --notUncBreak --noFit
-#python FitAndPlot.py --year RunII --folder vUL035 --eft FT0_1p0 --fit m_o1,DNN_aQGC_UL035_novar,DNN_FT_UL035_novar_fix --notImpacts --notUncBreak --tDMcut --noFit
-python FitAndPlot_dev.py --year RunII --folder vUL035 --eft FT1_1p0 --fit DNN_FT_UL035_novar_fix --notUncBreak --tDMcut --noFit
+python FitAndPlot.py --year RunII --folder vUL035 --eft FS2_1p0 --fit m_o1,DNN_aQGC_UL035_novar,DNN_FS_UL035_novar_fix --notImpacts --notUncBreak --tDMcut --noFit
+python FitAndPlot.py --year RunII --folder vUL035 --eft FS2_1p0 --fit m_o1,DNN_FS_UL035_novar_fix --notImpacts --notUncBreak --tDMcut --noFit
+#python FitAndPlot_dev.py --year RunII --folder vUL035 --eft FT0_1p0 --fit DNN_FT_UL035_novar_fix --notUncBreak --tDMcut --noFit
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --eft cW --fit m_1T --notCI --notUncBreak --notCI --tDMcut --noFit
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FM7_1p0 --fit DNN_FM_UL035_novar --tDMcut --notUncBreak --notImpacts --notCI
 
