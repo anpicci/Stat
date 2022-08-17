@@ -540,7 +540,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     
 def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
-    optionals = " --cminDefaultMinimizerStrategy=0 --cminDefaultMinimizerTolerance 0.01 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
+    optionals = " --cminDefaultMinimizerStrategy=0 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     yeartag = year.replace("2016M,2017,2018", "RunII")
     ipwd = os.getcwd()
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag

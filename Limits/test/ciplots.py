@@ -237,11 +237,11 @@ for srv, crv in varloops:
     gr = lsfile.Get("Graph")
     func = ROOT.TF1("func", myfunc, -1000, 1000, 0)
 
-    s1down.append(round(func.GetX(y1,-5,0), 4))
-    s1up.append(round(func.GetX(y1,0,5), 4))
-    s2down.append(round(func.GetX(y2,-5,0), 4))
-    s2up.append(round(func.GetX(y2,0,5), 4))
-    mins.append(round(func.GetMinimumX(-1,1), 4))
+    s1down.append(round(func.GetX(y1, -10, 0), 4))
+    s1up.append(round(func.GetX(y1, 0, 10), 4))
+    s2down.append(round(func.GetX(y2, -10, 0), 4))
+    s2up.append(round(func.GetX(y2, 0, 10), 4))
+    mins.append(round(func.GetMinimumX(-1, 1), 4))
     gr.Clear()
     lsfile.Close()
     totpairs += 1
