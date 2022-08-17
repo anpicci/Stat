@@ -243,7 +243,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
             if coeff.startswith("cS") or coeff.startswith("cM"):
                 intervals.append("-80,80")
             elif coeff.startswith("cT"):
-                intervals.append("-50,20")
+                intervals.append("-80,20")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
