@@ -138,7 +138,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 cmd += global_dc + " -o " + rootdc 
                 print cmd
                 os.system(cmd)
-            
+                os.system("rm higgsCombineTest*root")
                 cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 5 " + optionalsSM # " --setParameters " + valuestr + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
@@ -209,7 +209,10 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
     algostring = " --algo=grid  --points "
     if ":" in models:
-        algostring += " 500000 "
+        if not ":FT" in models:
+            algostring += " 200000 "
+        else:
+            algostring += " 1200000 "
     else:
         algostring += " 5000 "
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
@@ -241,9 +244,13 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
         opstring = ""
         for idc, coeff in enumerate(coeffs):
             if coeff.startswith("cS") or coeff.startswith("cM"):
-                intervals.append("-80,80")
-            elif coeff.startswith("cT"):
+                intervals.append("-50,70")
+            elif coeff.startswith("cT0"):
                 intervals.append("-80,20")
+            elif coeff.startswith("cT1"):
+                intervals.append("-8,4")
+            elif coeff.startswith("cT2"):
+                intervals.append("-100,20")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
@@ -284,7 +291,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         intervalstr += ":"
                     intervalstr += "k_" + coeff + "=" + intervals[idc]
                 
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
+                os.system("rm higgsCombine" + dirmodel + "*root")
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
                 if not ":" in models:
                     cmd += " --autoRange 15 "
                 cmd += " " + optionals 
