@@ -153,13 +153,12 @@ for year in years:
                 sampFiles[year+lep].append([[fn], p])
                 break
     
-'''
+
 #print 'sampFiles:'
-for k, v in sampFiles.items():
-    print k
-    for el in v:
-        print el     
-'''
+#for k, v in sampFiles.items():
+    #print k
+    #for el in v:
+        #print el     
 
 #*******************************************************#
 #                                                       #
@@ -200,8 +199,9 @@ for year in years:
                 continue
 
             for flist in sampFiles[year+lep]:
-                #print "\nflist", flist
                 
+                #print "\nflist", flist
+
                 h = None
 
                 hsyst = collections.OrderedDict()
@@ -231,15 +231,17 @@ for year in years:
                     #print "We are looking for object ", h_
                     htemp = copy.deepcopy(ifile.Get(h_).Clone())
     
-                    #print "htemp", htemp
+                    #print "before htemp", htemp.Integral()
                     sign = +1.
-                    if "VBS_SSWW_" in f and "_F" in f:
+                    if not ":" in opt.model:
+                        pass
+                    elif "VBS_SSWW_" in f and "_F" in f:
                         if samp.startswith("sm_lin_quad") and "_BSM_" in f:
                             sign = -1.
                         elif samp.startswith("quad_"):
                             sign = 0.
                     
-                    if not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
+                    elif not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
                         for ibin in range(htemp.GetNbinsX()):
                             bincont = htemp.GetBinContent(ibin+1)
                             if bincont <= 0.:
@@ -251,12 +253,15 @@ for year in years:
                     else:
                         htemp.Scale(sign)
                     
+                    #print "after htemp", htemp.Integral()
+
                     ##print "htemp", htemp
                     if h is None:
                         h = copy.deepcopy(htemp)
                     else:
                         h.Add(htemp, 1)
-    
+                    #print "h:", h.Integral()
+
                     #hsyst = collections.OrderedDict()
     
                     for sysname, systype in syst.items():
@@ -282,7 +287,10 @@ for year in years:
                             huptemp = copy.deepcopy(ifile.Get(hup_).Clone())
                             hdowntemp = copy.deepcopy(ifile.Get(hdown_).Clone())
                             sign = +1.
-                            if "VBS_SSWW_" in f and "_F" in f:
+                            if not ":" in opt.model:
+                                pass
+                    
+                            elif "VBS_SSWW_" in f and "_F" in f:
                                 if samp.startswith("sm_lin_quad") and "_BSM_" in f:
                                     sign = -1.
                                 elif samp.startswith("quad_"):
@@ -409,7 +417,7 @@ for year in years:
         #for kd, vd in histData.items():
             ##print kd, vd.Integral()
 
-                    
+                   
 #ofile.Write()
 ofile.Close()
 

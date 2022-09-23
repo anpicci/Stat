@@ -1,8 +1,9 @@
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW --fit DNN_cW_UL025_bal_v2,DNN_cHW_UL025_bal,BDT_cW_xgb_UL025_bal_noopt,BDT_cHW_xgb_UL025_bal_noopt,m_o1 --doPost --notImpacts --notCI
-python FitAndPlot_dev.py --year RunII --folder vUL035 --eft cW --fit m_o1 --notCI --notUncBreak --tDMcut --noFit
-#python FitAndPlot_dev.py --year RunII --folder vUL035 --eft FT0_1p0 --fit m_o1 --notCI --notUncBreak --tDMcut --noFit
+#python FitAndPlot_dev.py --year RunII --folder vUL035 --eft cW --fit m_o1 --notCI --notUncBreak --tDMcut --noFit
+#python FitAndPlot.py --year RunII --folder vUL040 --eft FT1_1p0 --fit m_o1 --notImpacts --notUncBreak --tDMcut --notCI
 
-#python FitAndPlot_dev.py --year RunII --folder vUL035 --eft FT0_1p0 --fit m_o1 --notCI --notUncBreak --noFit
+#python FitAndPlot.py --year RunII --folder vUL035 --eft cW:FM1_0p9 --fit m_o1 --notImpacts --notUncBreak --notCI
+#python FitAndPlot.py --year RunII --folder vUL035 --eft FM1_0p9 --fit m_o1 --notImpacts --notUncBreak --notCI
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FS2_1p0 --fit m_o1,DNN_aQGC_UL035_novar,DNN_FS_UL035_novar_fix --notImpacts --notUncBreak --tDMcut --noFit
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FS2_1p0 --fit m_o1,DNN_FS_UL035_novar_fix --notImpacts --notUncBreak --tDMcut --noFit
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --eft FT0_1p0 --fit DNN_FT_UL035_novar_fix --notUncBreak --tDMcut --noFit
@@ -43,3 +44,5 @@ python FitAndPlot_dev.py --year RunII --folder vUL035 --eft cW --fit m_o1 --notC
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cHW --fit DNN_cHW_UL025_bal,DNN_cHW_UL025_bal,DNN_cW_UL025_bal_v2,m_o1,m_o1 --cr countings,DNN_cHW_UL025_bal,DNN_cW_UL025_bal_v2,countings,m_o1 --notImpacts --noFit --doPost
 #python FitAndPlot.py --year RunII --folder vUL020 --eft cW --fit m_o1,m_o1 --cr countings,m_o1 --notImpacts
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --EWvsQCD --fit m_o1 --notUncBreak --notImpacts --tDMcut
+
+python FitAndPlot.py --year RunII --folder vUL040 --eft FT0_1p0,FT1_1p0,FT2_0p9,FM0_1p0,FM1_0p9,FM6_1p0,FM7_1p0,FS0_1p0,FS1_1p0,FS2_1p0 --fit m_o1 --notImpacts --notUncBreak --noFit

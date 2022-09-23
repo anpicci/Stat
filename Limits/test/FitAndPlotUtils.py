@@ -540,32 +540,59 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     
 def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
-    optionals = " --cminDefaultMinimizerStrategy=0 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
-    yeartag = year.replace("2016M,2017,2018", "RunII")
+    optionals = " --cminDefaultMinimizerStrategy=0 --cminDefaultMinimizerTolerance 0.01 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
+    #optionals = " --cminDefaultMinimizerStrategy=0 --cminDefaultMinimizerTolerance 0.01" 
+    RecursiveImport("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
+    settmod = importlib.import_module("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
+    systgroups = settmod.systgroups
+    syst = settmod.syst
     ipwd = os.getcwd()
+    yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
     folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    channels = settmod.channels
+    yearsett = settmod.years
+    method = "hist"
+
+    partmodel = modeltot.split(":")
 
     isEFT = False
     if modeltot.startswith("c") or modeltot.startswith("F") or ":" in modeltot:
-        isEFT = True
+        isEFT = True 
 
-    partmodel = modeltot.split(":")
     model = ""
     for idmt, mod in enumerate(partmodel):
         if idmt > 0:
-                model += ":"
+            model += ":"
         if isEFT:
             model += mod.split("_")[0]
         else:
             model += mod
-
+    
     if modeltot == "SM":
         dcname = "VBS_SSWW_SM_hist"
-        dcpath = ipwd + "/" + folder + "/VBS_SSWW_SM/" + dcname + ".txt"
+        dcfold = ipwd + "/" + folder + "/VBS_SSWW_SM/"
     else:
         dcname = model + "_hist"
-        dcpath = ipwd + "/" + folder + "/" + model + "/" + dcname + ".txt"
-    print dcpath
+        dcfold = ipwd + "/" + folder + "/" + model + "/"
+    dcpath = dcfold + dcname + ".txt"
+
+    os.chdir(dcfold)
+    os.system("pwd")
+    
+    cmdmer = "combineCards.py "
+    for year in yearsett:
+        for cat in channels:
+            if not isEFT:
+                cmdmer += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
+            else:
+                cmdmer += cat+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
+    if not isEFT:
+        cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
+    else:
+        cmdmer += "> %s_%s.txt" % (model, method)
+    os.system(cmdmer)
+    os.chdir(ipwd)
+
     
     if isEFT:
         coeffs = modeltot.split(":")
@@ -622,12 +649,16 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     cmd1 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t1"
 
     if isEFT:
-        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr# + " --setParameters r=1"
-        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr# + " --setParameters r=1"
+        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr
+        if modeltot.startswith("F"):
+            cmd0 += " --setParameters "#r=1,"
+        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 cmd1 += ","
             cmd1 += "k_" + coeff + "=1"
+            if modeltot.startswith("F"):
+                cmd0 += "k_" + coeff + "=0"
 
         cmd0 += " " + optionals
         cmd1 += " " + optionals
@@ -678,12 +709,16 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     if isEFT:
         imp0_0 += "," + modComb
         imp0_1 += "," + modComb
-        imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr# + " --setParameters r=1"
-        imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr# + " --setParameters r=1"
+        imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        if modeltot.startswith("F"):
+            imp0_0 += " --setParameters "#r=1,"
+        imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 imp0_1 += ","
             imp0_1 += "k_" + coeff + "=1"
+            if modeltot.startswith("F"):
+                imp0_0 += "k_" + coeff + "=0"
         imp0_0 += " " + optionals
         imp0_1 += " " + optionals
     
@@ -698,12 +733,16 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         imp1_0 += "," + modComb
         imp1_1 += "," + modComb
 
-        imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr# + " --setParameters r=1"
-        imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr# + " --setParameters r=1"
+        imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
+        if modeltot.startswith("F"):
+            imp1_0 += " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 imp1_1 += ","
             imp1_1 += "k_" + coeff + "=1"
+            if modeltot.startswith("F"):
+                imp1_0 += "k_" + coeff + "=0"
         imp1_0 += " " + optionals
         imp1_1 += " " + optionals
    
@@ -718,12 +757,16 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         ctimp0 += "," + modComb
         ctimp1 += "," + modComb
 
-        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr# + " --setParameters r=1"
-        ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr# + " --setParameters r=1 "
+        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterranges " + intervalstr
+        ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1 "
+        if modeltot.startswith("F"):
+            ctimp0 += " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 ctimp1 += ","
             ctimp1 += "k_" + coeff + "=1"
+            if modeltot.startswith("F"):
+                ctimp0 += "k_" + coeff + "=0"
         ctimp0 += " " + optionals
         ctimp1 += " " + optionals
    
@@ -805,10 +848,12 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             appendix += " --ls " + model
         
         os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + "_" + model + "_" + srvar + "_" + crvar + ".root" + appendix + " --model " + model + "_" + varname + "_" + varname)
+        
         os.system("python createDatacards.py -i " + yeartag + varname + "_" + model +  "_" + srvar + "_" + crvar + ".root -d " + folder + appendix + " --model " + model + "_" + varname + "_" + varname)
         
         WriteMeta(srvar, crvar, fold, model, cut, yeartag[:-1])
         RecursiveImport("Stat.Limits.settings_" + model + "_" + srvar + "_" + crvar)
+        
         os.chdir("postdatacards")
         os.system("python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar)
         
@@ -961,10 +1006,17 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
     
-    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid --autoRange 15 --autoBoundsPOIs r"
+    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid --autoBoundsPOIs r"
     if isEFT:
         cmdmd += "," + modComb
-        cmdmd += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
+        cmdmd += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        if modeltot.startswith("F"):
+            cmdmd += " --setParameters "
+            for idc, coeff in enumerate(coeffs):
+                if idc > 0:
+                    cmdmd += ","
+                cmdmd+= "k_" + coeff + "=0"
+        
     else:
         cmdmd += " --rMin -5 --rMax 5"
 
@@ -973,10 +1025,17 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     print cmdmd
     os.system(cmdmd)
     
-    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoRange 15 --autoBoundsPOIs r"
+    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoBoundsPOIs r"
     if isEFT:
         md += "," + modComb
-        md += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
+        md += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        if modeltot.startswith("F"):
+            md += " --setParameters "
+            for idc, coeff in enumerate(coeffs):
+                if idc > 0:
+                    md += ","
+                md+= "k_" + coeff + "=0"
+        
     else:
         md += " --rMin -5 --rMax 5"
     
@@ -1001,10 +1060,17 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
             #file_to_move.append(freezefile)
             plotcomm += "\'" + freezefile + ":Freeze " + groupname + ":" + colors[idsy] + "\' "
 
-    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoRange 15 --autoBoundsPOIs r" 
+    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid --autoBoundsPOIs r" 
     if isEFT:
         mdfa += "," + modComb
-        mdfa += " --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr + " --setParameters r=1"
+        mdfa += " --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr
+        if modeltot.startswith("F"):
+            mdfa += " --setParameters "#r=1"
+            for idc, coeff in enumerate(coeffs):
+                if idc > 0:
+                    mdfa += ","
+                mdfa += "k_" + coeff + "=0"
+        
     else:
         mdfa += " --rMin -5 --rMax 5"
     mdfa += " " + optionalss 
