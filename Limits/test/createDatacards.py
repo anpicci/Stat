@@ -550,7 +550,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        dircoeff = ""
        dircoeff = coeff
        carddir = outdir+  "/"  + dircoeff + "/"
-       print carddir
+       #print carddir
 
        sig = lssamp
        hist_filename = os.getcwd()+"/"+ifilename
@@ -685,12 +685,18 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        else:
               rates["data_obs"] = getRate(ch, "data_obs", ifile)
        for sgs in lssamp:
+              #print "sgs:", sgs
+              torem = "_" + sgs.split("_")[-1]
+              #print "torem:", torem
               sgslab = ""
               if sgs.startswith("quad_") or sgs.startswith("sm_lin_"):
                      sgslab = sgs.replace("_F", "_c")
+                     if "_F" in sgs:
+                         sgslab = sgslab.replace(torem, "")
+                         
               else:
                      sgslab = sgs
-
+              #print sgslab
               rates[sgs] = getRate(ch, sgslab, ifile)
        
        ##print 'rates:'
@@ -730,7 +736,16 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        #rateString = "rate                                    "
        
        for sidx, sgs in enumerate(lssamp):
-              procnameString += "%-25s" % (sgs.replace("_F", "_c"))
+              if sgs.startswith("quad_") or sgs.startswith("sm_lin_"):
+                     sgslab = sgs.replace("_F", "_c")
+                     if "_F" in sgs:
+                         #print "removing"
+                         sgslab = sgslab.replace(torem, "")
+                         #print sgslab
+              else:
+                     sgslab = sgs
+              
+              procnameString += "%-25s" % sgslab#(sgs.replace("_F", "_c"))
               #procidxString += "%-25s" % (sidx)
               procidxString += "%-25s" % (str(-len(lssamp)+sidx+1))
               rateString += "%-25.6f" % (rates[sgs])
@@ -834,10 +849,12 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                             if ("sig" in sysValue[1]):
                                    for sigp in sig:
                                           #card += "%-25s" % ( "-") 
-                                          
                                           sigplab = ""
                                           if sigp.startswith("quad_") or sigp.startswith("sm_lin_"):
                                                  sigplab = sigp.replace("_F", "_c")
+                                                 torem = "_" + sigp.split("_")[-1]
+                                                 if "_F" in sigp:
+                                                     sigplab = sigplab.replace(torem, "")
                                           else:
                                                  sigplab = sigp
                                           

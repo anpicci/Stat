@@ -56,7 +56,7 @@ def draw1D():
   
     toDraw = ROOT.TString(ROOT.Form("2*deltaNLL:"+variable))
   
-    n = limit.Draw( toDraw.Data(), "deltaNLL<10 && deltaNLL>-30", "l")
+    n = limit.Draw( toDraw.Data(), "deltaNLL<30 && deltaNLL>-30", "l")
     graphScan = ROOT.TGraph(n,limit.GetV2(),limit.GetV1())
     graphScan.RemovePoint(0)
   
@@ -64,7 +64,7 @@ def draw1D():
     limitData = _file1.Get("limit")  
     print " observed = ", _file1.GetName(), "\n"
     #     n_data = limitData.Draw("2*deltaNLL:r","deltaNLL<40 && deltaNLL>-30","l")
-    n_data = limitData.Draw(  toDraw.Data() , "deltaNLL<10 && deltaNLL>-30", "l")
+    n_data = limitData.Draw(  toDraw.Data() , "deltaNLL<30 && deltaNLL>-30", "l")
     graphScanData = ROOT.TGraph(n_data,limitData.GetV2(),limitData.GetV1())
     graphScanData.RemovePoint(0)
     graphScanData.SetTitle("")

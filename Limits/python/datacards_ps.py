@@ -497,7 +497,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        year = ch.split("_")[-1]
        ##print "channel:", ch
        ##print outdir
-
+       print "hello card ls"
        ops = incoeff.split(":")
        setpiecs = []
        for op in ops:
@@ -667,6 +667,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        else:
               rates["data_obs"] = getRate(ch, "data_obs", ifile)
        for sgs in lssamp:
+              print "sgs:", sgs
               sgslab = ""
               if sgs.startswith("quad_") or sgs.startswith("sm_lin_"):
                      sgslab = sgs.replace("_F", "_c")

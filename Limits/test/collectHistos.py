@@ -334,11 +334,17 @@ for year in years:
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 samplab = ""
                 if samp.startswith("quad_") or samp.startswith("sm_lin_"):
-                    samplab = samp.replace("_F", "_c")
+                    if "_F" in samp:
+                        torem = "_" + samp.split("_")[-1]
+                        samplab = samp.replace("_F", "_c").replace(torem, "")
+                    else:
+                        samplab = samp
                 else:
                     samplab = samp
+                #print "samplab", samplab
                 #print "h", h, h.Integral()
                 h.SetName(samplab)
+                #print "hname", h.GetName()
                 h.Write(samplab, ROOT.TObject.kWriteDelete)
 
                 if samp in bkg:
@@ -354,7 +360,11 @@ for year in years:
                     for i, var in enumerate(shists):
                         samplab = ""
                         if samp.startswith("quad_") or samp.startswith("sm_lin_"):
-                            samplab = samp.replace("_F", "_c")
+                            if "_F" in samp:
+                                torem = "_" + samp.split("_")[-1]
+                                samplab = samp.replace("_F", "_c").replace(torem, "")
+                            else:
+                                samplab = samp
                         else:
                             samplab = samp
 
