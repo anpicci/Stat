@@ -241,7 +241,8 @@ for year in years:
                         elif samp.startswith("quad_"):
                             sign = 0.
                     
-                    elif not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
+                    #elif not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
+                    if htemp.Integral()>=0.:
                         for ibin in range(htemp.GetNbinsX()):
                             bincont = htemp.GetBinContent(ibin+1)
                             if bincont <= 0.:
@@ -295,7 +296,22 @@ for year in years:
                                     sign = -1.
                                 elif samp.startswith("quad_"):
                                     sign = 0.
-                            
+                    
+                            if huptemp.Integral()>=0.:
+                                for ibin in range(huptemp.GetNbinsX()):
+                                    bincont = huptemp.GetBinContent(ibin+1)
+                                    if bincont <= 0.:
+                                        huptemp.SetBinContent(ibin+1, 0.0001)
+                                        #print ibin, "modified"
+
+                            if hdowntemp.Integral()>=0.:
+                                for ibin in range(hdowntemp.GetNbinsX()):
+                                    bincont = hdowntemp.GetBinContent(ibin+1)
+                                    if bincont <= 0.:
+                                        hdowntemp.SetBinContent(ibin+1, 0.0001)
+                                        #print ibin, "modified"
+                    
+        
                             if sign == 0:
                                 huptemp.Reset("ICE")
                                 hdowntemp.Reset("ICE")
@@ -312,7 +328,9 @@ for year in years:
                                 hsyst[sysName][1] = copy.deepcopy(hdowntemp)
                             else:
                                 hsyst[sysName][1].Add(hdowntemp, 1)
+                    
                             
+        
                 #if "_F" in samp and not "DY" in samp:
                     ##print "h", h, h.Integral()
                     #for i in range(0, h.GetNbinsX()):

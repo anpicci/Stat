@@ -648,18 +648,14 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     cmd0 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t0"
     cmd1 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t1"
 
-    if isEFT:
+    if isEFT:               
         cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr
-        if modeltot.startswith("F"):
-            cmd0 += " --setParameters "#r=1,"
         cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 cmd1 += ","
             cmd1 += "k_" + coeff + "=1"
-            if modeltot.startswith("F"):
-                cmd0 += "k_" + coeff + "=0"
-
+   
         cmd0 += " " + optionals
         cmd1 += " " + optionals
     
@@ -710,15 +706,11 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         imp0_0 += "," + modComb
         imp0_1 += "," + modComb
         imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
-        if modeltot.startswith("F"):
-            imp0_0 += " --setParameters "#r=1,"
         imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 imp0_1 += ","
             imp0_1 += "k_" + coeff + "=1"
-            if modeltot.startswith("F"):
-                imp0_0 += "k_" + coeff + "=0"
         imp0_0 += " " + optionals
         imp0_1 += " " + optionals
     
@@ -735,14 +727,10 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
 
         imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
         imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
-        if modeltot.startswith("F"):
-            imp1_0 += " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 imp1_1 += ","
             imp1_1 += "k_" + coeff + "=1"
-            if modeltot.startswith("F"):
-                imp1_0 += "k_" + coeff + "=0"
         imp1_0 += " " + optionals
         imp1_1 += " " + optionals
    
@@ -757,16 +745,12 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         ctimp0 += "," + modComb
         ctimp1 += "," + modComb
 
-        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterranges " + intervalstr
+        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr
         ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1 "
-        if modeltot.startswith("F"):
-            ctimp0 += " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 ctimp1 += ","
             ctimp1 += "k_" + coeff + "=1"
-            if modeltot.startswith("F"):
-                ctimp0 += "k_" + coeff + "=0"
         ctimp0 += " " + optionals
         ctimp1 += " " + optionals
    
@@ -792,6 +776,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     if not isEFT:
         print imp0_1
         os.system(imp0_1)
+    
     
     print imp1_0
     os.system(imp1_0)
