@@ -649,7 +649,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     cmd1 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t1"
 
     if isEFT:               
-        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr
+        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1"
         cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
@@ -705,7 +705,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     if isEFT:
         imp0_0 += "," + modComb
         imp0_1 += "," + modComb
-        imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
         imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
@@ -725,7 +725,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         imp1_0 += "," + modComb
         imp1_1 += "," + modComb
 
-        imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1"
         imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
@@ -745,7 +745,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
         ctimp0 += "," + modComb
         ctimp1 += "," + modComb
 
-        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr
+        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1"
         ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1 "
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
@@ -860,9 +860,9 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era):
 def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     optionalss = " --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not ":" in modeltot:
-        points = "1000"
+        points = "10000"
     else:
-        points = "2000"
+        points = "20000"
 
     RecursiveImport("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
     settmod = importlib.import_module("Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar)
@@ -932,8 +932,10 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
         modComb = ""
         opstring = ""
         for idc, coeff in enumerate(coeffs):
-            if coeff.startswith("cS") or coeff.startswith("cM"):
-                intervals.append("-80,80")
+            if coeff.startswith("cS"):
+                intervals.append("-85,85")
+            elif coeff.startswith("cM"):
+                intervals.append("-50,50")
             elif coeff.startswith("cT"):
                 intervals.append("-10,10")
             elif coeff.startswith("cHW"):
@@ -995,13 +997,14 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         cmdmd += "," + modComb
         cmdmd += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        '''
         if modeltot.startswith("F"):
             cmdmd += " --setParameters "
             for idc, coeff in enumerate(coeffs):
                 if idc > 0:
                     cmdmd += ","
                 cmdmd+= "k_" + coeff + "=0"
-        
+        '''
     else:
         cmdmd += " --rMin -5 --rMax 5"
 
@@ -1014,13 +1017,14 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         md += "," + modComb
         md += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
+        '''
         if modeltot.startswith("F"):
             md += " --setParameters "
             for idc, coeff in enumerate(coeffs):
                 if idc > 0:
                     md += ","
                 md+= "k_" + coeff + "=0"
-        
+        '''
     else:
         md += " --rMin -5 --rMax 5"
     
@@ -1049,13 +1053,14 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         mdfa += "," + modComb
         mdfa += " --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr
+        '''
         if modeltot.startswith("F"):
             mdfa += " --setParameters "#r=1"
             for idc, coeff in enumerate(coeffs):
                 if idc > 0:
                     mdfa += ","
                 mdfa += "k_" + coeff + "=0"
-        
+        '''
     else:
         mdfa += " --rMin -5 --rMax 5"
     mdfa += " " + optionalss 
