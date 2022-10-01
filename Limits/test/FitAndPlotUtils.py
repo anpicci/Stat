@@ -305,6 +305,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     LineWrite(settname, "syst['ISR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['FSR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['jes'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+    #LineWrite(settname, "syst['metUnclust'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['jer'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
     LineWrite(settname, "syst['TES'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['FES'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
@@ -997,14 +998,14 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         cmdmd += "," + modComb
         cmdmd += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
-        '''
+        
         if modeltot.startswith("F"):
-            cmdmd += " --setParameters "
+            cmdmd += " --setParameters r=1,"
             for idc, coeff in enumerate(coeffs):
                 if idc > 0:
                     cmdmd += ","
                 cmdmd+= "k_" + coeff + "=0"
-        '''
+        
     else:
         cmdmd += " --rMin -5 --rMax 5"
 
@@ -1017,14 +1018,14 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         md += "," + modComb
         md += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr
-        '''
+        
         if modeltot.startswith("F"):
-            md += " --setParameters "
+            md += " --setParameters r=1,"
             for idc, coeff in enumerate(coeffs):
                 if idc > 0:
                     md += ","
                 md+= "k_" + coeff + "=0"
-        '''
+        
     else:
         md += " --rMin -5 --rMax 5"
     
@@ -1053,14 +1054,14 @@ def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = 
     if isEFT:
         mdfa += "," + modComb
         mdfa += " --redefineSignalPOIs " + modComb + " --setParameterRanges "+ intervalstr
-        '''
+        
         if modeltot.startswith("F"):
-            mdfa += " --setParameters "#r=1"
+            mdfa += " --setParameters r=1,"
             for idc, coeff in enumerate(coeffs):
                 if idc > 0:
                     mdfa += ","
                 mdfa += "k_" + coeff + "=0"
-        '''
+        
     else:
         mdfa += " --rMin -5 --rMax 5"
     mdfa += " " + optionalss 
