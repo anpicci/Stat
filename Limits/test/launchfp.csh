@@ -1,6 +1,8 @@
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW --fit DNN_cW_UL025_bal_v2,DNN_cHW_UL025_bal,BDT_cW_xgb_UL025_bal_noopt,BDT_cHW_xgb_UL025_bal_noopt,m_o1 --doPost --notImpacts --notCI
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --eft cW --fit m_o1 --notCI --notUncBreak --tDMcut --noFit
-python FitAndPlot_dev.py --year RunII --folder vUL040 --eft FT0_1p0 --fit m_o1 --notUncBreak --tDMcut --notImpacts --notCI
+#python FitAndPlot_dev.py --year RunII --folder vUL040 --eft cW:cHW --fit m_o1 --notUncBreak --tDMcut --noFit --notCI
+#python FitAndPlot_dev.py --year RunII --folder vUL040 --eft FM1_0p9 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
+python FitAndPlot_loc.py --year RunII --folder vUL040 --eft cHW:FS0_1p0 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
 
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW:FM1_0p9 --fit m_o1 --notImpacts --notUncBreak --notCI
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FM1_0p9 --fit m_o1 --notImpacts --notUncBreak --notCI
