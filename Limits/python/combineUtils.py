@@ -124,7 +124,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                     if "_DNN_" in path_:
                         cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-150.0,150.0]' "
                     else:
-                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-200.0,200.0]' "
+                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-250.0,250.0]' "
                     if idvm > 0:
                         modComb += ","
                         intervalstr += ":"
@@ -133,13 +133,13 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                     if "_DNN_" in path_:
                         intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-150.0,150.0"
                     else:
-                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-200.0,200.0"
+                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-250.0,250.0"
                     valuestr += "k_" + vbsmodel.split("_")[-1] + "=1" 
                 cmd += global_dc + " -o " + rootdc 
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 5 " + optionalsSM # " --setParameters " + valuestr + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 5 " + optionalsSM #+ " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
@@ -411,3 +411,5 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 
                     
         os.chdir("..")
+
+        

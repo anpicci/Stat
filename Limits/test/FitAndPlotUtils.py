@@ -869,7 +869,7 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era):
 def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
     optionalss = " --cminDefaultMinimizerStrategy=0"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not ":" in modeltot:
-        points = "1000"
+        points = "100"
     else:
         points = "20000"
 

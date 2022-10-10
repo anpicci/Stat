@@ -2,8 +2,8 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo_fit_vUL040_m_o1_m_o1_RunII_FT0_1p0.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/histo_fit_vUL040_m_o1_m_o1_RunII_FT0_1p0.root    $CHANNEL/$PROCESS
+shapes   *      *   ../shapes/histo_fit_vUL040_m_o1_m_o1_RunII_FT0_1p0.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   ../shapes/histo_fit_vUL040_m_o1_m_o1_RunII_FT0_1p0.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               CRF_muon_2017
 observation       434

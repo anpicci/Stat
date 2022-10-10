@@ -2,7 +2,7 @@
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --eft cW --fit m_o1 --notCI --notUncBreak --tDMcut --noFit
 #python FitAndPlot_dev.py --year RunII --folder vUL040 --eft cW:cHW --fit m_o1 --notUncBreak --tDMcut --noFit --notCI
 #python FitAndPlot_dev.py --year RunII --folder vUL040 --eft FM1_0p9 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
-python FitAndPlot_loc.py --year RunII --folder vUL040 --eft cHW:FS0_1p0 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
+#python FitAndPlot_loc.py --year RunII --folder vUL040 --eft cHW:FS0_1p0 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
 
 #python FitAndPlot.py --year RunII --folder vUL035 --eft cW:FM1_0p9 --fit m_o1 --notImpacts --notUncBreak --notCI
 #python FitAndPlot.py --year RunII --folder vUL035 --eft FM1_0p9 --fit m_o1 --notImpacts --notUncBreak --notCI
@@ -47,7 +47,7 @@ python FitAndPlot_loc.py --year RunII --folder vUL040 --eft cHW:FS0_1p0 --fit m_
 #python FitAndPlot.py --year RunII --folder vUL020 --eft cW --fit m_o1,m_o1 --cr countings,m_o1 --notImpacts
 #python FitAndPlot_dev.py --year RunII --folder vUL035 --EWvsQCD --fit m_o1 --notUncBreak --notImpacts --tDMcut
 
-#python FitAndPlot.py --year RunII --folder vUL040 --eft FT0_1p0,FT1_1p0,FT2_0p9,FM0_1p0,FM1_0p9,FM6_1p0,FM7_1p0,FS0_1p0,FS1_1p0,FS2_1p0 --fit m_o1 --notImpacts --notUncBreak --noFit
+python FitAndPlot.py --year RunII --folder vUL040 --eft cW,cHW,FT0_1p0,FT1_1p0,FT2_0p9,FM0_1p0,FM1_0p9,FM6_1p0,FM7_1p0,FS0_1p0,FS1_1p0,FS2_1p0 --fit m_o1 --notImpacts --notUncBreak --noFit
 #python FitAndPlot.py --year RunII --folder vUL040 --eft cW,cHW --fit m_o1 --notImpacts --notUncBreak --noFit
 #python FitAndPlot.py --year RunII --folder vUL040 --eft FM0_1p0,FM1_0p9,FM6_1p0,FM7_1p0,FS0_1p0,FS1_1p0,FS2_1p0 --fit m_o1 --notImpacts --notUncBreak --noFit
 #python FitAndPlot_dev.py --year RunII --folder vUL040 --eft FM0_1p0 --fit m_o1 --notUncBreak --tDMcut
