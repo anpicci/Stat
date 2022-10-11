@@ -218,6 +218,7 @@ for year in years:
                 samp = flist[1]
                 #print "\nsamp", samp, flist[0]
     
+                Error = False
                 for f in flist[0]:
                     try:
                         ifile = ROOT.TFile.Open(path_ + f)
@@ -229,8 +230,13 @@ for year in years:
                     ifile.cd()
     
                     #print "We are looking for object ", h_
-                    htemp = copy.deepcopy(ifile.Get(h_).Clone())
-    
+                    try:
+                        htemp = copy.deepcopy(ifile.Get(h_).Clone())
+                    except:
+                        print "Problems in " + path_ + f + " searching for " + h_
+                        Error = True
+                        continue
+                        
                     #print "before htemp", htemp.Integral()
                     sign = +1.
                     if not ":" in opt.model:
@@ -348,7 +354,8 @@ for year in years:
                                 #content = vhs[1].GetBinContent(i)
                                 ##print("content bin #" + str(i+1) + ":\t" + str(content))
                             
-
+                if Error:
+                    continue
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 samplab = ""
                 if samp.startswith("quad_") or samp.startswith("sm_lin_"):
