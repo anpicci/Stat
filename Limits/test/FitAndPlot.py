@@ -91,14 +91,14 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, tagfolder)
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
                 print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, tagfolder)
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, tagfolder)
             
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
@@ -113,7 +113,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.unblind, tagfolder)
 
 
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:

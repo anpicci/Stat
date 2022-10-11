@@ -10,6 +10,9 @@ LineWrite = lambda fname, s : fname.write(s + "\n")
 
 colors = ["920", "632", "416", "600", "400", "616", "432", "800", "820", "840", "860", "880", "900"]
 
+user = str(os.environ.get('USER'))
+inituser = str(os.environ.get('USER')[0])
+
 def WriteSett(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     settname = open("../python/settings_" + model + "_" + srvar + "_" + crvar + ".py", "w")
     LineWrite(settname, "import collections")
@@ -24,7 +27,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     LineWrite(settname, "#*********************************")
     LineWrite(settname, "hist_pre = 'h_'")
     LineWrite(settname, "")
-    LineWrite(settname, "setfile = open('/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/python/metasett_" + model + "_" + srvar + "_" + crvar + ".txt', 'r')")
+    LineWrite(settname, "setfile = open('/afs/cern.ch/work/" + inituser + "/" + user + "/CMSSW_10_2_13/src/Stat/Limits/python/metasett_" + model + "_" + srvar + "_" + crvar + ".txt', 'r')")
     LineWrite(settname, "setlist = [line.replace('\\n', '') for line in setfile.readlines()]")
     LineWrite(settname, "sr_var, cr_var = setlist[0].split(',')")
     LineWrite(settname, "intfolder = setlist[1]")
@@ -498,7 +501,7 @@ def PrepareToRun(model, srvar, crvar, fold, year, tagfold):
     os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
     os.system("rm histo_" + folder + "_" + model + ".root")
 
-def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold):
+def RunSMSignificance(model, srvar, crvar, fold, year, tagfold, username = user):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -512,7 +515,7 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold):
     os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
-def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold):
+def RunEWvsQCD(model, srvar, crvar, fold, year, tagfold, username = user):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -528,7 +531,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold):
 
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
-def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
+def RunEFTFit(model, srvar, crvar, fold, year, tagfold, username = user):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -540,7 +543,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold):
     os.system("python createDatacards.py -i histo_" + folder + "_" + model + ".root -d " + folder + " --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     
-def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = user):
     #optionals = " --cminDefaultMinimizerStrategy=1 --cminDefaultMinimizerTolerance 0.01 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     #optionals = "  " 
     optionals = " --cminDefaultMinimizerStrategy=0"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
@@ -810,7 +813,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     #os.system("mv higgsCombine*" + tag + "* " + impactfolder)
     #os.system("mv fitDiagnostics" + tag + "_t* plots" + tag + "_t* combine_logger_" + model + ".out " + impactfolder)
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold):
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, unblind, tagfold, username = user):
     pwd = os.getcwd()
     vartopost = []
     yeartag = year.replace("2016M,2017,2018", "RunII") + "_"
