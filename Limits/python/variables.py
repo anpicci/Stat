@@ -27,11 +27,28 @@ class variabile(object):
 variables = []
 
 #variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5))#
-        
+'''        
 bin_bdtsm = array("d", [0., 0.1, 0.2, 0.4, 0.6, 0.8, 1.])
 nbin_bdtsm = len(bin_bdtsm) - 1
+'''
 
+bin_bdtsm_dev = array("d", [0., 0.5, 0.6, 0.7, 0.8, 0.9, 1.])
+nbin_bdtsm_dev = len(bin_bdtsm_dev) - 1
 
+variables.append(variabile('DNN_SM_50I_TV', 'SM DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
+variables.append(variabile('DNN_SM_50I_TV1', 'SM DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV1)"))
+variables.append(variabile('DNN_SM_ACAT', 'SM DNN output (ACAT)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (ACAT)"))
+
+variables.append(variabile('DNN_cHW_50I_TV2', 'c_{HW} DNN output (50I TV2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (50I TV2)"))
+variables.append(variabile('DNN_cW_50I_TV0', 'c_{HW} DNN output (50I TV0)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (50I TV0)"))
+
+variables.append(variabile('DNN_fS_50I_TV1', 'f_{S} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{S} DNN (50I TV1)"))
+variables.append(variabile('DNN_fT_50I_TV1', 'f_{T} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{T} DNN (50I TV1)"))
+variables.append(variabile('DNN_fM_50I_TV1', 'f_{M} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{M} DNN (50I TV1)"))
+
+variables.append(variabile('DNN_POL_50I_TV', 'Pol. DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
+
+'''
 #variables.append(variabile('DNN_SM_UL035_v2', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
 variables.append(variabile('DNN_SM_UL035_novar', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
 variables.append(variabile('DNN_SM_UL035_novar_truesr_allbkg', 'SM DNN output', True, 5, 0., 1., smtitle = "SM DNN"))
@@ -48,7 +65,7 @@ variables.append(variabile('DNN_FS_UL035_novar', 'f_{S} DNN output', True, 5, 0.
 variables.append(variabile('DNN_FT_UL035_novar_fix', 'f_{T} DNN output', True, 5, 0., 1., smtitle = "f_{T} DNN"))
 variables.append(variabile('DNN_FM_UL035_novar_fix', 'f_{M} DNN output', True, 5, 0., 1., smtitle = "f_{M} DNN"))
 variables.append(variabile('DNN_FS_UL035_novar_fix', 'f_{S} DNN output', True, 5, 0., 1., smtitle = "f_{S} DNN"))
-
+'''
 '''
 variables.append(variabile('BDT_SM_UL035_v2', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
 variables.append(variabile('BDT_SM_UL035_novar_SR', 'SM BDT output', True, 5, 0., 1., smtitle = "SM BDT"))
