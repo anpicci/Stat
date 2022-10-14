@@ -79,7 +79,9 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
     for model in models:
         if opt.dofit:
+            print opt.dofit
             print "Fitting for model", model
+            
             ### Write the file with metasettings for settings.py, and load the latter recursively
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
             WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag)

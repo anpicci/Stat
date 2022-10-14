@@ -40,7 +40,7 @@ variables.append(variabile('DNN_SM_50I_TV1', 'SM DNN output (50I TV1)', True, nb
 variables.append(variabile('DNN_SM_ACAT', 'SM DNN output (ACAT)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (ACAT)"))
 
 variables.append(variabile('DNN_cHW_50I_TV2', 'c_{HW} DNN output (50I TV2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (50I TV2)"))
-variables.append(variabile('DNN_cW_50I_TV0', 'c_{HW} DNN output (50I TV0)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (50I TV0)"))
+variables.append(variabile('DNN_cW_50I_TV0', 'c_{HW} DNN output (50I TV0)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{W} DNN (50I TV0)"))
 
 variables.append(variabile('DNN_fS_50I_TV1', 'f_{S} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{S} DNN (50I TV1)"))
 variables.append(variabile('DNN_fT_50I_TV1', 'f_{T} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{T} DNN (50I TV1)"))
