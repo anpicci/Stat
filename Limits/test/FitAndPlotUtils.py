@@ -587,7 +587,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     cmdmer = "combineCards.py "
     for year in yearsett:
         for cat in channels:
-            if not isEFT:
+            if not (isEFT or "WpWp" in model):
                 cmdmer += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
             else:
                 cmdmer += cat+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
