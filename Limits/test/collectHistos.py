@@ -14,6 +14,8 @@ parser.add_option("-o","--outputFile",dest="output",type="string",default="histo
 parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option("--ls",dest="ls",type="string", default="")
+parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
+
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
@@ -91,11 +93,12 @@ for year in years:
         path_ = path + lep + '/'
 
         tmp_list = [f for f in os.listdir(path_) if (os.path.isfile(os.path.join(path_, f)) and f.endswith(".root") and f!=ofilename and str(year+"_") in f)]
-        #print tmp_list
+        #print "\n", tmp_list
 
         sampFiles[year+lep] = []
 
         for fn in tmp_list:
+            #print fn
             if fn.startswith("Data"):
                 sampFiles[year+lep].append([[fn], "data_obs"])
                 break
@@ -131,6 +134,7 @@ for year in years:
                 combo = combo.replace(setpiec, "")
                     
             ls_dict = lssamples_1D[combo]
+            #print ls_dict
 
             for nout, nin in ls_dict.items():
                 ninlist = nin.split(",")
@@ -152,7 +156,6 @@ for year in years:
 
                 sampFiles[year+lep].append([[fn], p])
                 break
-    
 
 #print 'sampFiles:'
 #for k, v in sampFiles.items():
@@ -243,9 +246,15 @@ for year in years:
                         pass
                     elif "VBS_SSWW_" in f and "_F" in f:
                         if samp.startswith("sm_lin_quad") and "_BSM_" in f:
-                            sign = -1.
+                            if not opt.Lambda8:
+                                sign = -1.
+                            else:
+                                sign = 0.
                         elif samp.startswith("quad_"):
-                            sign = 0.
+                            if not opt.Lambda8:
+                                sign = 0.
+                            else:
+                                sign = +1.
                     
                     #elif not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
                     if htemp.Integral()>=0.:
@@ -261,13 +270,13 @@ for year in years:
                         htemp.Scale(sign)
                     
                     #print "after htemp", htemp.Integral()
-
+                    #print "before h:", h #.GetName(), h.Integral()
                     ##print "htemp", htemp
                     if h is None:
                         h = copy.deepcopy(htemp)
                     else:
                         h.Add(htemp, 1)
-                    #print "h:", h.Integral()
+                    #print "after h:", h.GetName(), h.Integral()
 
                     #hsyst = collections.OrderedDict()
     
@@ -299,9 +308,15 @@ for year in years:
                     
                             elif "VBS_SSWW_" in f and "_F" in f:
                                 if samp.startswith("sm_lin_quad") and "_BSM_" in f:
-                                    sign = -1.
+                                    if not opt.Lambda8:
+                                        sign = -1.
+                                    else:
+                                        sign = 0.
                                 elif samp.startswith("quad_"):
-                                    sign = 0.
+                                    if not opt.Lambda8:
+                                        sign = 0.
+                                    else:
+                                        sign = +1.
                     
                             if huptemp.Integral()>=0.:
                                 for ibin in range(huptemp.GetNbinsX()):
@@ -353,20 +368,27 @@ for year in years:
                             #for i in range(0, vhs[1].GetNbinsX()):
                                 #content = vhs[1].GetBinContent(i)
                                 ##print("content bin #" + str(i+1) + ":\t" + str(content))
-                            
+                #print "before if error h:", h.GetName(), h.Integral()
                 if Error:
                     continue
+                
                 ofile.cd(k_ + "_" + lep + "_" + year)
                 samplab = ""
+                #print "\nsamp", samp
                 if samp.startswith("quad_") or samp.startswith("sm_lin_"):
+                    #print "after if error h:", h.GetName(), h.Integral()
                     if "_F" in samp:
                         torem = "_" + samp.split("_")[-1]
-                        samplab = samp.replace("_F", "_c").replace(torem, "")
+                        samplab = samp.replace("_F", "_c")
+                        if not ":" in opt.model:
+                            samplab = samplab.replace(torem, "")
                     else:
                         samplab = samp
                 else:
                     samplab = samp
                 #print "samplab", samplab
+
+                #print "2after h:", h.GetName(), h.Integral()
                 #print "h", h, h.Integral()
                 h.SetName(samplab)
                 #print "hname", h.GetName()
@@ -387,7 +409,10 @@ for year in years:
                         if samp.startswith("quad_") or samp.startswith("sm_lin_"):
                             if "_F" in samp:
                                 torem = "_" + samp.split("_")[-1]
-                                samplab = samp.replace("_F", "_c").replace(torem, "")
+                                samplab = samp.replace("_F", "_c")
+                                if not ":" in opt.model:
+                                    samplab = samplab.replace(torem, "")
+
                             else:
                                 samplab = samp
                         else:
@@ -455,4 +480,3 @@ for year in years:
                    
 #ofile.Write()
 ofile.Close()
-

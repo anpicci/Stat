@@ -494,12 +494,17 @@ def IterateVars(srvarlist, crvarlist):
 
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold):
     yeartag = year.replace("2016M,2017,2018", "RunII")
-    folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if tagfold == "":
         tagfold = "none"
+        folder += "/nom"
+    else:
+        folder += "/" + tagfold.replace("_", "")
+    if not os.path.exists(folder):
+        os.system("mkdir -p " + folder)
     #print "python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " \"" + tagfold + "\""
     #os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
-    os.system("rm histo_" + folder + "_" + model + ".root")
+    #os.system("rm histo_" + folder + "_" + model + ".root")
 
 def RunSMSignificance(model, srvar, crvar, fold, year, tagfold, username = user):
     yeartag = year.replace("2016M,2017,2018", "RunII")
@@ -507,13 +512,19 @@ def RunSMSignificance(model, srvar, crvar, fold, year, tagfold, username = user)
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag    
+    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    if tagfold == "":
+        tagfold = "none"
+        folder += "/nom"
+    else:
+        folder +="/" + tagfold.replace("_", "")
+    
     try:
-        os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
+        os.system("python collectHistos.py -i " + plotrepo + " -o " + folder + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
-    os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
-    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
+    os.system("python createDatacards.py -i " + folder + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
+    #os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
 def RunEWvsQCD(model, srvar, crvar, fold, year, tagfold, username = user):
     yeartag = year.replace("2016M,2017,2018", "RunII")

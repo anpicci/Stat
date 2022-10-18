@@ -14,7 +14,7 @@ parser = optparse.OptionParser(usage)
 
 cwd = os.getcwd()
 
-parser.add_option('--fit', dest='varfit', type='string', default = 'm_o1', help = 'Variables to fit in SR (and CRif for the latter is not specified)')
+parser.add_option('--fit', dest='varfit', type='string', default = 'm_o1', help = 'Variables to fit in SR (and CR if for the latter is not specified)')
 parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', help = 'Analysis folder')
 parser.add_option('--user', dest='user', type='string', default = 'apiccine', help = 'Username')
 parser.add_option('--cr', dest='varcr', type='string', default = 'same', help = 'Variables to fit in CR (default is the same chosen for SR)')

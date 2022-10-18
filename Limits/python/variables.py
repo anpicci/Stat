@@ -26,7 +26,7 @@ class variabile(object):
 
 variables = []
 
-#variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5))#
+variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5))#
 '''        
 bin_bdtsm = array("d", [0., 0.1, 0.2, 0.4, 0.6, 0.8, 1.])
 nbin_bdtsm = len(bin_bdtsm) - 1
@@ -88,6 +88,7 @@ bin_mjj = array("d", [0., 300., 500., 700., 1000., 1500., 2000.])
 nbin_mjj = len(bin_mjj) - 1 
 variables.append(variabile('m_jj', 'invariant mass j_{1} j_{2} [GeV]', True, nbin_mjj, bin_mjj))
 
+'''
 ######### without systematics ###########
 
 #variables.append(variabile('lepton_eta', 'lepton  #eta', True, 12, -3., 3.))
@@ -233,3 +234,4 @@ variables.append(variabile('event_RT', 'R_{T}', True, 15, 0., 3.))
 
 variables.append(variabile('leadjet_DeepFlv_b', 'leading jet DeepFlavour b raw', True, 5, 0., 1.))
 variables.append(variabile('subleadjet_DeepFlv_b', 'subleading jet DeepFlavour b raw', True, 5, 0., 1.))
+'''

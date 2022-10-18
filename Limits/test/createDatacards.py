@@ -691,7 +691,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               sgslab = ""
               if sgs.startswith("quad_") or sgs.startswith("sm_lin_"):
                      sgslab = sgs.replace("_F", "_c")
-                     if "_F" in sgs:
+                     if "_F" in sgs and not ":" in opt.ls:
                          sgslab = sgslab.replace(torem, "")
                          
               else:
@@ -738,7 +738,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        for sidx, sgs in enumerate(lssamp):
               if sgs.startswith("quad_") or sgs.startswith("sm_lin_"):
                      sgslab = sgs.replace("_F", "_c")
-                     if "_F" in sgs:
+                     if "_F" in sgs and not ":" in opt.ls:
                          #print "removing"
                          sgslab = sgslab.replace(torem, "")
                          #print sgslab
@@ -853,7 +853,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           if sigp.startswith("quad_") or sigp.startswith("sm_lin_"):
                                                  sigplab = sigp.replace("_F", "_c")
                                                  torem = "_" + sigp.split("_")[-1]
-                                                 if "_F" in sigp:
+                                                 if "_F" in sigp and not ":" in opt.ls:
                                                      sigplab = sigplab.replace(torem, "")
                                           else:
                                                  sigplab = sigp
