@@ -104,12 +104,12 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
             #os.system("reset")
-            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user)
+            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
 
         ### Run Impacts, if desired
         if opt.impacts:
             #os.system("reset")
-            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user)
+            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
 
         ### Run PostFit plots, if desiderd
         if opt.postfit:

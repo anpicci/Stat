@@ -519,14 +519,14 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold):
         folder += "/nom"
     else:
         folder +="/" + tagfold.replace("_", "")
-    
+    folderhisto = folder + "/shapes"
+
     try:
-        #print "python collectHistos.py -i " + plotrepo + " -o " + folder + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar
-        os.system("python collectHistos.py -i " + plotrepo + " -o " + folder + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
+        os.system("python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
-    os.system("python createDatacards.py -i " + folder + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
-    #os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
+    os.system("python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
+    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
 def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold):
     yeartag = year.replace("2016M,2017,2018", "RunII")
@@ -534,14 +534,21 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold):
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fitt_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    if tagfold == "":
+        tagfold = "none"
+        folder += "/nom"
+    else:
+        folder +="/" + tagfold.replace("_", "")
+    folderhisto = folder + "/shapes"
 
     try:
-        os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
+        #os.system("python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
+        os.system("python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
-    os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
-
+    #os.system("python createDatacards.py -i  histo_" + folder + "_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
+    os.system("python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar)
     os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar)
 
 def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8 = False):
@@ -550,18 +557,26 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8 = F
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fitt_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    if tagfold == "":
+        tagfold = "none"
+        folder += "/nom"
+    else:
+        folder +="/" + tagfold.replace("_", "")
     if addLambda8:
         folder += "_Lambda8" 
+    folderhisto = folder + "/shapes"
         
-    cmd1 = "python collectHistos_dev.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar
+    #cmd1 = "python collectHistos.py -i " + plotrepo + " -o histo_" + folder + "_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar
+    cmd1 = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar
     if addLambda8:
         cmd1 += " --Lambda8"
     os.system(cmd1)
-    os.system("python createDatacards_dev.py -i histo_" + folder + "_" + model + ".root -d " + folder + " --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
-    os.system("python runCombine_dev.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
+    #os.system("python createDatacards.py -i histo_" + folder + "_" + model + ".root -d " + folder + " --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
+    os.system("python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --ls " + model+ " --model " + model + "_" + srvar + "_" + crvar)
+    os.system("python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar)
     
-def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold):
     #optionals = " --cminDefaultMinimizerStrategy=1 --cminDefaultMinimizerTolerance 0.01 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     #optionals = "  " 
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
@@ -571,10 +586,20 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     syst = settmod.syst
     ipwd = os.getcwd()
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
-    folder = 'fitt_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    #folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     channels = settmod.channels
     yearsett = settmod.years
     method = "hist"
+
+    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    if tagfold == "":
+        tagfold = "none"
+        folder += "/nom"
+    else:
+        folder +="/" + tagfold.replace("_", "")
+    #if addLambda8:
+        #folder += "_Lambda8" 
+    folderhisto = folder + "/shapes"
 
     partmodel = modeltot.split(":")
 
@@ -600,23 +625,24 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
     dcpath = dcfold + dcname + ".txt"
 
     os.chdir(dcfold)
-    os.system("pwd")
+    #os.system("pwd")
+    
     
     cmdmer = "combineCards.py "
     for year in yearsett:
         for cat in channels:
-            if not isEFT:
+            if not isEFT and not "WpWp" in model:
                 cmdmer += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
             else:
                 cmdmer += cat+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
-    if not isEFT:
+    if not isEFT and not "WpWp" in model:
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
+    #print cmdmer
     os.system(cmdmer)
     os.chdir(ipwd)
 
-    
     if isEFT:
         coeffs = modeltot.split(":")
         setpiecs = []
@@ -653,11 +679,14 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
    
     impactfolder = ipwd + "/" + folder + "/Checks_" + model + "/"
     impactfolder = folder + "/Checks_" + model + "/"
-    
+    print impactfolder
     if not os.path.exists(impactfolder):
         os.system("mkdir " + impactfolder)
+    else:
+        os.system("rm " + impactfolder + "/higgsCombine_paramFit*")
     wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
+    os.system("pwd")
     print "cd " + impactfolder
     os.chdir(impactfolder)
     
@@ -834,7 +863,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username =
 def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold):
     pwd = os.getcwd()
     vartopost = []
-    yeartag = year.replace("2016M,2017,2018", "RunII") + "_"
+    yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
@@ -845,10 +874,36 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         for var in variables:
             if var.name in plotvars.split(","):
                 vartopost.append(var)
-    
+
+    '''
+    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    if tagfold == "":
+        tagfold = "none"
+        folder += "/nom"
+    else:
+        folder +="/" + tagfold.replace("_", "")
+    #if addLambda8:
+        #folder += "_Lambda8" 
+    folderhisto = folder + "/shapes"
+    '''
     for var in vartopost:
         varname = var.name
-        folder = fold + '_' + yeartag + varname + "_" + srvar + "_" + crvar
+        #folder = fold + '_' + yeartag + varname + "_" + srvar + "_" + crvar
+        folder = 'postfit_' + fold + '/' + model + "/" + srvar + '_' + crvar + '_' + yeartag
+        if tagfold == "":
+            tagfold = "none"
+            folder += "/nom"
+        else:
+            folder +="/" + tagfold.replace("_", "")
+        #if addLambda8:
+        #folder += "_Lambda8" 
+        folderhisto = folder + "/shapes"
+
+        if not os.path.exists(folder):
+            os.system("mkdir -p " + folder) 
+        if not os.path.exists(folderhisto):
+            os.system("mkdir -p " + folderhisto) 
+
         print varname, folder
     
         WriteMeta(varname, varname, fold, model, cut, year)
@@ -862,16 +917,16 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         if not "SM" in model and not model.startswith("WpWp"):
             appendix += " --ls " + model
         
-        os.system("python collectHistos.py -i " + plotrepo + " -o " + yeartag + varname + "_" + model + "_" + srvar + "_" + crvar + ".root" + appendix + " --model " + model + "_" + varname + "_" + varname)
-        
-        os.system("python createDatacards.py -i " + yeartag + varname + "_" + model +  "_" + srvar + "_" + crvar + ".root -d " + folder + appendix + " --model " + model + "_" + varname + "_" + varname)
-        
+        #os.system("python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + "_" + varname + "_" + varname + ".root " + appendix + " --model " + model + "_" + varname + "_" + varname)
+        #os.system("python createDatacards.py -i " + folderhisto + "/histo_" + model + "_" + varname + "_" + varname + ".root -d " + folder + appendix + " --model " + model + "_" + varname + "_" + varname)
+    
         WriteMeta(srvar, crvar, fold, model, cut, yeartag[:-1])
         RecursiveImport("Stat.Limits.settings_" + model + "_" + srvar + "_" + crvar)
         
         os.chdir("postdatacards")
-        os.system("python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar)
         
+        os.system("python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar + " --tagfold " + tagfold)
+        '''
         os.chdir("plotter")
     
         poststring = "python PreFitPostFit_v2.py --era " + yeartag[:-1] + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar
@@ -880,14 +935,14 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         if unblind:
             poststring += " -u"
         os.system(poststring)
-        
+        '''
         os.chdir(pwd)
     
 def ProduceCLPlots(srvars, crvars, folder, eftop, era):
     command = "python ciplots.py --sr " + srvars + " --cr " + crvars + " --folder " + folder + " --op " + eftop + " --era " + era
     os.system(command)
 
-def UncBreak(modeltot, srvar, crvar, fold, year = "2016M,2017,2018", username = "apiccine"):
+def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold):
     optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not ":" in modeltot:
         points = "50"#"10000"

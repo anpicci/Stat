@@ -4,6 +4,7 @@ import subprocess
 import copy
 
 def runCombine(cmdStr, logFile):
+    os.system("pwd")
     "run combine for a specific case"
     #print os.getcwd()
     #print cmd

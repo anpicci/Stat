@@ -36,8 +36,12 @@ unblind = opt.unblind
 print("ATTENTION UNBLIND OPTION IS " + str(unblind))
 print "From", path
 print "Creating output file", ofilename
+shapedir = ofilename.replace(ofilename.split("/")[-1], "")
+
 if os.path.exists(ofilename):
     os.system("rm " + ofilename)
+elif not os.path.exists(shapedir):
+    os.system("mkdir "+ shapedir)
 ofile = ROOT.TFile(ofilename,"RECREATE")
 ofile.Close()
 sampFiles = {}

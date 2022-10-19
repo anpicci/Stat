@@ -132,7 +132,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 
        carddir += "/"
 
-       hist_filename = os.getcwd()+"/"+ifilename
+       #hist_filename = os.getcwd()+"/"+ifilename
+       hist_filename = "../shapes/"+ifilename.split("/")[-1]
        hist = []
        for sigp in sig:
               hist.append(getHist(ch, sigp, ifile))
@@ -553,7 +554,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        #print carddir
 
        sig = lssamp
-       hist_filename = os.getcwd()+"/"+ifilename
+       #hist_filename = os.getcwd()+"/"+ifilename
+       hist_filename = "../shapes/"+ifilename.split("/")[-1]
        hist = []
        for sigp in sig:
               ##print getHist(ch, sigp, ifile)
@@ -973,9 +975,10 @@ if opt.outdir.startswith("F"):
 else:
     outdirr = opt.outdir
 
-#print opt.outdir, outdirr
-
-#os.system("rm " + outdir + "/*/*")
+#outdirr += "/shapes"
+if not os.path.exists(outdirr):
+    os.system("mkdir -p " + outdirr)
+#print "outdirr", opt.outdir, outdirr
 
 mode = opt.mode
 unblind = opt.unblind

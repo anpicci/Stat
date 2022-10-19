@@ -14,6 +14,8 @@ parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', 
 parser.add_option('--year', dest='year', type='string', default = '2016M,2017,2018', help = 'Variables to postfit')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables to postfit')
 parser.add_option('--tag', dest='tag', type='string', default = '', help = 'Variables to postfit')
+parser.add_option('--tagfold', dest='tagfold', type='string', default = '', help = 'Variables to postfit')
+
 (opt, args) = parser.parse_args()
 
 import importlib
@@ -30,20 +32,29 @@ cr_var = settmod.cr_var
 channels = settmod.channels
 tag = opt.tag
 postvars = opt.postvars.split(",")
-
+tagfolder = opt.tagfold
 inf = opt.folder
-
+model = opt.model
 lyear = opt.year
 years = lyear.split(",")
 yeardir = opt.year.replace("2016M,2017,2018", "RunII")
 
-folders = [inf + '_' + yeardir + '_' + postvar + "_" + sr_var + "_" + cr_var for postvar in postvars]
+#folders = [inf + '_' + yeardir + '_' + postvar + "_" + sr_var + "_" + cr_var for postvar in postvars]
+#folders = ['postfit_' + fold + '/' + model + "/" + sr_var + '_' + crvar + '_' + yeartag for postvar in postvars]
+folders = []
+for postvar in postvars:
+    postfold = 'postfit_' + inf + '/' + model + "/" + sr_var + '_' + cr_var + '_' + yeardir
+    if tagfolder == "none":
+        postfold += "/nom"
+    else:
+        postfold +="/" + tagfolder.replace("_", "")
+    folders.append(postfold)
 
-eosspace = "/eos/home-a/apiccine"
+fitfolder = '../fit_' + inf + '/' + sr_var + '_' + cr_var + '_' + yeardir
 
-fitfolder = '../fit_' + inf + '_' + sr_var + '_' + cr_var + '_' + yeardir
-
-#print "\nfolders:", folders 
+print "\nfolders:", folders 
+print"\nfitfolder:", fitfolder
+'''
 cards = {}
 
 
@@ -146,3 +157,4 @@ else:
 os.system("mv histo_*" + tag + "*root histos_" + opt.model)
 
 os.system("mv higgsCombine*" + tag + "* " + fitdiagdir)
+'''
