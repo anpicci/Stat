@@ -9,18 +9,19 @@ from FitAndPlotUtils import *
 
 os.system("reset")
 
-usage = "python3 FitAndPlot.py"
+usage = "python3 FitAndPlot_dev.py"
 parser = optparse.OptionParser(usage)
 
 cwd = os.getcwd()
 
-parser.add_option('--fit', dest='varfit', type='string', default = 'm_o1', help = 'Variables to fit in SR (and CR if for the latter is not specified)')
+parser.add_option('--fit', dest='varfit', type='string', default = 'm_o1', help = 'Variables to fit in SR (and CRif for the latter is not specified)')
 parser.add_option('--folder', dest='folder', type='string', default = 'vUL025', help = 'Analysis folder')
 parser.add_option('--user', dest='user', type='string', default = 'apiccine', help = 'Username')
 parser.add_option('--cr', dest='varcr', type='string', default = 'same', help = 'Variables to fit in CR (default is the same chosen for SR)')
 parser.add_option('--notImpacts', dest='impacts', default = True, action='store_false', help = 'Default does impacts')
 parser.add_option('--notUncBreak', dest='uncbreak', default = True, action='store_false', help = 'Default does unc. breaking')
 parser.add_option('--eft', dest='eft', type='string', default = 'none', help = 'EFT operators to do LS')
+parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
@@ -79,9 +80,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
     for model in models:
         if opt.dofit:
-            print opt.dofit
             print "Fitting for model", model
-            
             ### Write the file with metasettings for settings.py, and load the latter recursively
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
             WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag)
@@ -89,18 +88,18 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 
             ### Prepare plots for the run and clean remnants from previous fits
             print "yeartag", yeartag
-            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder)
+            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder, opt.Lambda8)
             
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, tagfolder)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
                 print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, tagfolder)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, tagfolder)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8)
             
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
@@ -115,7 +114,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.unblind, tagfolder)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder)
 
 
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
