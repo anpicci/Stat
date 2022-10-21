@@ -2,10 +2,11 @@ import os
 import subprocess
 #from Stat.Limits.settings import *
 import copy
+import sys
 
 def runCombine(cmdStr, logFile):
     os.system("pwd")
-    "run combine for a specific case"
+    #"run combine for a specific case"
     #print os.getcwd()
     #print cmd
     #writer = open(logFile, 'w') 
