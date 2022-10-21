@@ -23,7 +23,9 @@
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwpEW --fit DNN_SM_UL040_v2 --doPost --plot m_o1
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwpEW --fit m_jj --notUncBreak --notImpacts --tDMcut
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwp --fit m_jj --notUncBreak --tDMcut --WithFakeCR --PDFWithTTDY --noFit #--doPost --plot m_o1
-python FitAndPlot.py --year RunII --folder vUL040 --eft cW --fit m_o1 --notCI --notUncBreak --notImpacts --tDMcut 
+#python FitAndPlot.py --year RunII --folder vUL040 --eft cW --fit m_o1 --notCI --notUncBreak --notImpacts --tDMcut 
+
+python FitAndPlot.py --year RunII --folder vUL045 --eft FT0_1p0 --fit m_o1,DNN_dim6_final_1,DNN_dim8_final_1 --noFit --notUncBreak --notImpacts --tDMcut --PDFWithTTDY
 
 
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --vbs --fit m_o1,BDT_SM_UL040_v2,DNN_SM_UL040_v2 --notUncBreak

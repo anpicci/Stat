@@ -236,7 +236,7 @@ for srv, crv in varloops:
     lspath = "fit_" + opt.folder + "/" + srv + "_" + crv + "_" + opt.era
     if opt.wfc:
         lspath += "_WithFakeCR"
-    if pdfttdy:
+    if opt.pdfttdy:
         lspath += "_PDFWithTTDY"
 
         lspath += "/" + opt.tagfold + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
@@ -258,7 +258,7 @@ for srv, crv in varloops:
 y = []
 
 outfolder = "CIplots_" + opt.folder + "/" + opt.tagfold
-if opt.wcf:
+if opt.wfc:
     outfolder += "_WithFakeCR"
 if opt.pdfttdy:
     outfolder += "_PDFWithTTDY"
