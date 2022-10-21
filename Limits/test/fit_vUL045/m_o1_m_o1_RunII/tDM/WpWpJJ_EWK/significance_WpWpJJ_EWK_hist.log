@@ -772,9 +772,7 @@ Bin        Contents        Error           Notes
 2          19.000000       4.358899        Unweighted events, alpha=13.126306
   => Total parameter prop_binCRWS_electron2018_bin2[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
-3          139.949SysError in <TFile::TFile>: file roostats-mYNYnn.root can not be opened (Disk quota exceeded)
-Error in <TROOT::WriteTObject>: The current directory (PyROOT) is not associated with a file. The object (w) has not been written.
-403      27.528058       total sum                     
+3          139.949403      27.528058       total sum                     
 3          139.942103      27.528058       excluding marked processes    
 3          26.000000       5.099020        Unweighted events, alpha=5.382669
   => Total parameter prop_binCRWS_electron2018_bin3[0.00,-7.00,7.00] to be gaussian constrained
@@ -789,5 +787,7 @@ Error in <TROOT::WriteTObject>: The current directory (PyROOT) is not associated
 5          15.000000       3.872983        Unweighted events, alpha=0.552253
   => Total parameter prop_binCRWS_electron2018_bin5[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
-Error when running the combination:
-	Failed to convert the input datacard from LandS to RooStats format. The lines above probably contain more information about the error.
+
+ -- Significance -- 
+Significance: 1.03348
+Done in 0.02 min (cpu), 0.02 min (real)
