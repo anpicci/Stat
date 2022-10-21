@@ -2,11 +2,9 @@ import os
 import subprocess
 #from Stat.Limits.settings import *
 import copy
-import sys
 
 def runCombine(cmdStr, logFile):
-    os.system("pwd")
-    #"run combine for a specific case"
+    "run combine for a specific case"
     #print os.getcwd()
     #print cmd
     #writer = open(logFile, 'w') 
@@ -141,7 +139,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 5 " + optionalsSM + " --setParameters " + valuestr # + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 5 " + optionalsSM #+ " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
@@ -211,13 +209,23 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
     algostring = " --algo=grid  --points "
     if ":" in models:
-        if not ":FT" in models:
-            algostring += " 2500000 "
+        if not models.startswith("cW:"):
+            if not ":FT" in models:
+                #algostring += " 200000 "
+                algostring +=  "  50000 "
+            else:
+                algostring +=  "  50000 "
         else:
-            algostring += " 2500000 "
+            if not ":FT" in models:
+                algostring +=  "   50000 "
+                #algostring += " 1000000 "
+            else:
+                algostring +=  "   50000 "
+                #algostring += " 2000000 "
+        
     else:
         algostring +=     "  20000 "
-    optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" #--autoBoundsPOIs * --autoRange 3" 
+    optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 "#--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
 
     print "Performing LikelihoodScan for operator ", models
     dirmodel = ""
@@ -246,11 +254,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
         opstring = ""
         for idc, coeff in enumerate(coeffs):
             if coeff.startswith("cS"):
-                intervals.append("-85,85")
+                intervals.append("-100,100")
             elif coeff.startswith("cM"):
-                intervals.append("-50,50")
+                intervals.append("-100,100")
             elif coeff.startswith("cT"):
-                intervals.append("-10,10")
+                intervals.append("-50,50")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
@@ -286,11 +294,22 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 os.system(cmd)
     
                 intervalstr = ""
+                namedraw = ""
+                labels = []
                 for idc, coeff in enumerate(coeffs):
                     if idc > 0:
                         intervalstr += ":"
+                        namedraw += " " 
                     intervalstr += "k_" + coeff + "=" + intervals[idc]
-                
+                    namedraw += "k_" + coeff
+                    label = coeff.replace("c", "c_{") + "}"
+                    if coeff.startswith("cT") or coeff.startswith("cM") or coeff.startswith("cS"):
+                        label = label.replace("c_", "f_")
+                        label += " [TeV^{-4}] "
+                    else:
+                        label += " [TeV^{-2}] "
+                    labels.append(label)
+
                 os.system("rm higgsCombine" + dirmodel + "*root")
                 cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
                 #if not ":" in models:
@@ -301,19 +320,28 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
                 #os.system("pwd")
                 
-                cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
+                cmd = ""
                 if not ":" in models:
-                    cmd += " --1D"
+                    cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
+                    if not ":" in models:
+                        cmd += " --1D"
+                    else:
+                        cmd += " --2D"
+                    cmd += " --year " 
+                    for year in years:
+                        cmd += year
+                        if year != years[-1]:
+                            cmd += "," 
+                
                 else:
-                    cmd += " --2D"
-                cmd += " --year " 
-                for year in years:
-                    cmd += year
-                    if year != years[-1]:
-                        cmd += "," 
+                    os.chdir(maindir)
+                    cmd = "python mkEFTScan.py " + path + "/higgsCombine" + dirmodel + ".MultiDimFit.mH125.root -p " + namedraw + " -maxNLL 10 -cms -preliminary -lumi 138 -xlabel " + labels[0] 
+                    if ":" in models:
+                        cmd += " -ylabel " + labels[1]
+                    cmd += " -outdir " + path
                 print cmd
                 os.system(cmd)
-                
+                os.chdir(path)
                 
             else:
                 

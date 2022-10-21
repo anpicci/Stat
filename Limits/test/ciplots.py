@@ -250,7 +250,7 @@ for srv, crv in varloops:
     s1up.append(round(func.GetX(y1, 0, 100), 4))
     s2down.append(round(func.GetX(y2, -100, 0), 4))
     s2up.append(round(func.GetX(y2, 0, 100), 4))
-    mins.append(round(func.GetMinimumX(-1, 1), 4))
+    mins.append(round(func.GetMinimumX(-0.5, 0.5), 4))
     gr.Clear()
     lsfile.Close()
     totpairs += 1
