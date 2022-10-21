@@ -23,6 +23,9 @@ parser.add_option('--cr', dest='cr', type='str', default = "m_o1", help = 'CRs v
 parser.add_option('--folder', dest='folder', type='str', default = "vUL025", help = 'Folder to fit')
 parser.add_option('--op', dest='eftop', type='str', default = "cW", help = 'EFT operator')
 parser.add_option('--era', dest='era', type='str', default = "RunII", help = 'era')
+parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
+parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
+parser.add_option('--tagfolder', dest='tagfold', type='string', default = '', help = 'Variables to postfit')
 
 (opt, args) = parser.parse_args()
 
@@ -34,7 +37,7 @@ def myfunc(x):
     #print x
     return gr.Eval(x[0])
 
-lumi = {'2016M': 36.3, '2017': 41.48, '2018':59.83, "RunII":137.13}
+lumi = {'2016M': 36.3, '2017': 41.48, '2018':59.83, "RunII":138}
 
 eftop = opt.eftop.split("_")[0]
 
@@ -230,7 +233,13 @@ for srv, crv in varloops:
         labels.append(srlabel + " + " + crlabel)
     else:
         labels.append(srlabel)
-    lspath = "./fit_" + opt.folder + "_" + srv + "_" + crv + "_" + opt.era + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
+    lspath = "fit_" + opt.folder + "/" + srv + "_" + crv + "_" + opt.era
+    if opt.wfc:
+        lspath += "_WithFakeCR"
+    if pdfttdy:
+        lspath += "_PDFWithTTDY"
+
+        lspath += "/" + opt.tagfold + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
     print lspath
 
     lsfile = ROOT.TFile.Open(lspath, "READ")
@@ -248,7 +257,14 @@ for srv, crv in varloops:
 
 y = []
 
-outfolder = "CIplots_" + opt.folder + "/"
+outfolder = "CIplots_" + opt.folder + "/" + opt.tagfold
+if opt.wcf:
+    outfolder += "_WithFakeCR"
+if opt.pdfttdy:
+    outfolder += "_PDFWithTTDY"
+if not os.path.exists(outfolder):
+    os.system("mkdir -p " + outfolder)
+
 plotname = outfolder + "CI_" + eftop + varstring
 limitstxt = open(plotname + ".txt", "w")
 

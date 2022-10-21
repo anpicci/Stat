@@ -15,12 +15,20 @@ parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option("--ls",dest="ls",type="string", default="")
 parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
+parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
+parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
-print "Stat.Limits.settings_" + opt.model
-settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+setname = "Stat.Limits.settings_" + opt.model
+if opt.wfc:
+    setname += "_WithFakeCR"
+if opt.pdfttdy:
+    setname += "_PDFWithTTDY"
+
+print setname
+settmod = importlib.import_module(setname)
 bkg = settmod.bkg
 histos = settmod.histos
 years = settmod.years

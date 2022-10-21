@@ -32,52 +32,63 @@ cr_var = settmod.cr_var
 channels = settmod.channels
 tag = opt.tag
 postvars = opt.postvars.split(",")
-tagfolder = opt.tagfold
+tagfolder = opt.tagfold.replace("_", "")
 inf = opt.folder
 model = opt.model
 lyear = opt.year
 years = lyear.split(",")
 yeardir = opt.year.replace("2016M,2017,2018", "RunII")
 
-#folders = [inf + '_' + yeardir + '_' + postvar + "_" + sr_var + "_" + cr_var for postvar in postvars]
-#folders = ['postfit_' + fold + '/' + model + "/" + sr_var + '_' + crvar + '_' + yeartag for postvar in postvars]
+fitfolder = '../fit_' + inf + '/' + sr_var + '_' + cr_var + '_' + yeardir + "/" + tagfolder
+fithisto = fitfolder + "/shapes/histo_" + opt.model + ".root"
+
 folders = []
 for postvar in postvars:
-    postfold = 'postfit_' + inf + '/' + model + "/" + sr_var + '_' + cr_var + '_' + yeardir
+    postfold = 'postfit_' + inf + '/' + sr_var + '_' + cr_var + '_' + yeardir
     if tagfolder == "none":
         postfold += "/nom"
     else:
-        postfold +="/" + tagfolder.replace("_", "")
+        postfold +="/" + tagfolder.replace("_", "") + "/" + postvar
     folders.append(postfold)
+    os.system("cp " + fithisto + " ../" + postfold +"/shapes")
 
-fitfolder = '../fit_' + inf + '/' + sr_var + '_' + cr_var + '_' + yeardir
-
+os.system("pwd")
 print "\nfolders:", folders 
-print"\nfitfolder:", fitfolder
-'''
-cards = {}
+print"fitfolder:", fitfolder
 
+cards = {}
 
 for idv, postvar in enumerate(postvars):
     cards[postvar] = {}
+    print postvar
+
     for c in channels:
+        #print "channel", c
         if opt.model == "SM":
             cardfolder = "../" + folders[idv] + "/VBS_SSWW_SM/"
         else:
             cardfolder = "../" + folders[idv] + "/" + opt.model + "/"
-        print cardfolder
+        #print cardfolder
         cards[postvar][c] = [card for card in os.listdir(cardfolder) if c in card and not "RunII" in card]
 
-string = "combineCards.py"
-
-fitcard = "fit_" + yeardir + "_" + tag + ".txt"
+    #print cards
+'''
+    string = "combineCards.py"
+    postfold = 'postfit_' + inf + '/' + sr_var + '_' + cr_var + '_' + yeardir
+    if tagfolder == "none":
+        postfold += "/nom"
+    else:
+        postfold +="/" + tagfolder.replace("_", "") + "/" + postvar
+    
+    fitcard = "fit_" + yeardir + "_" + tag + ".txt"
 fitroot = fitcard.replace("txt", "root")
 oldfitcard = yeardir + "_" + sr_var + "_" + cr_var + ".txt"
+print oldfitcard, fitcard
 
-if opt.model == "SM":
-    os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)
-else:
-    os.system("cp "+ fitfolder + "/" + opt.model + "/" + opt.model +"_hist.txt " + fitcard)
+#if opt.model == "SM":
+    #os.system("cp "+ fitfolder + "/VBS_SSWW_SM/VBS_SSWW_SM_hist.txt " + fitcard)
+#else:
+    #os.system("cp "+ fitfolder + "/" + opt.model + "/" + opt.model +"_hist.txt " + fitcard)
 
 #fstring = "combineCards.py "
 #fstring += "bin1=" + oldfitcard

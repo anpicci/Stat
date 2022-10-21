@@ -14,11 +14,21 @@ parser.add_option('-S', '--sig', dest='sig', type='int', default = 0, help='Set 
 parser.add_option('-d', '--dir', dest='dir', type='string', default = 'outdir', help='datacards direcotry')
 parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
 parser.add_option("--runSingleCat",dest="runSingleCat",action='store_true', default=False)
+parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
+parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 
 (opt, args) = parser.parse_args()
 
 import importlib
-settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+setname = "Stat.Limits.settings_" + opt.model
+if opt.wfc:
+    setname += "_WithFakeCR"
+if opt.pdfttdy:
+    setname += "_PDFWithTTDY"
+
+print setname
+settmod = importlib.import_module(setname)
+
 bkg = settmod.bkg
 histos = settmod.histos
 years = settmod.years

@@ -37,6 +37,8 @@ parser.add_option('--noFit', dest='dofit', default = True, action='store_false',
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
+parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
+parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 (opt, args) = parser.parse_args()
 
 folder = opt.folder
@@ -82,57 +84,51 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         if opt.dofit:
             print "Fitting for model", model
             ### Write the file with metasettings for settings.py, and load the latter recursively
+            setmod = 'Stat.Limits.settings_' + model + "_" + fitvar + "_" + crvar
+            if opt.wfc:
+                setmod += "_WithFakeCR"
+            if opt.pdfttdy:
+                setmod += "_PDFWithTTDY"
+
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag)
-            RecursiveImport('Stat.Limits.settings_' + model + "_" + fitvar + "_" + crvar)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.wfc, opt.pdfttdy)
+            RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
             print "yeartag", yeartag
-            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder, opt.Lambda8)
+            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
             
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy)
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
                 print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy)
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
             
-        ### Run uncertainties breaking, if desired
-        if opt.uncbreak:
-            #os.system("reset")
-            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
-
         ### Run Impacts, if desired
         if opt.impacts:
             #os.system("reset")
-            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder)
+            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
 
+        ### Run uncertainties breaking, if desired
+        if opt.uncbreak:
+            #os.system("reset")
+            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
+        
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
 
 
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
     for model in models:
         print opt.varfit, opt.varcr, folder, model, opt.year
-        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year)
+        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.wfc, opt.pdfttdy)
 
 ### ordering outputs
 os.system("cd " + cwd)
-
-'''
-bigdir = folder + "fitmaterial"
-if not os.path.exists(bigdir):
-    os.system("mkdir " + bigdir)
-os.system("cp -rf fit_" + folder + "_* " + bigdir)
-os.system("rm -rf fit_" + folder + "_*")
-os.system("cp -rf " + folder + "_* " + bigdir)
-os.system("rm -rf " + folder + "_* ")
-os.system("cp -rf histo*"+ folder + "*root " + bigdir)
-os.system("rm -rf histo*"+ folder + "*root")
-'''

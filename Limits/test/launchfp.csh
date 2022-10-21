@@ -1,5 +1,4 @@
 #python FitAndPlot.py --year RunII --folder vUL040 --eft cW --fit DNN_cW_UL025_bal_v2,DNN_cHW_UL025_bal,BDT_cW_xgb_UL025_bal_noopt,BDT_cHW_xgb_UL025_bal_noopt,m_o1 --doPost --notImpacts --notCI
-#python FitAndPlot_dev.py --year RunII --folder vUL040 --eft cW --fit m_o1 --notCI --notUncBreak --tDMcut --noFit
 #python FitAndPlot_dev.py --year RunII --folder vUL040 --eft cW:FT0_1p0 --fit m_o1 --notUncBreak --tDMcut --notImpacts --notCI --Lambda8
 #python FitAndPlot_dev.py --year RunII --folder vUL040 --eft FM1_0p9 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
 #python FitAndPlot_loc.py --year RunII --folder vUL040 --eft cHW:FS0_1p0 --fit m_o1 --tDMcut --notUncBreak --notImpacts --notCI
@@ -23,8 +22,8 @@
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwpEW --fit BDT_SM_UL040_v2 --doPost --plot m_o1 --notImpacts --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwpEW --fit DNN_SM_UL040_v2 --doPost --plot m_o1
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwpEW --fit m_jj --notUncBreak --notImpacts --tDMcut
-python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwp --fit m_jj --notUncBreak --notImpacts --noFit --tDMcut --doPost --plot m_o1
-
+#python FitAndPlot.py --year RunII --folder vUL040 --sm --wpwp --fit m_jj --notUncBreak --tDMcut --WithFakeCR --PDFWithTTDY --noFit #--doPost --plot m_o1
+python FitAndPlot.py --year RunII --folder vUL040 --eft cW --fit m_o1 --notCI --notUncBreak --notImpacts --tDMcut 
 
 
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --vbs --fit m_o1,BDT_SM_UL040_v2,DNN_SM_UL040_v2 --notUncBreak

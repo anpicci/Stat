@@ -17,10 +17,21 @@ parser.add_option("--model",dest="model",type="string",default="",help="model")
 parser.add_option("-c","--channel",dest="ch",type="string",default="all",help="Indicate channels of interest. Default is all")
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
+parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
+parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
+
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
-settmod = importlib.import_module("Stat.Limits.settings_" + opt.model)
+setname = "Stat.Limits.settings_" + opt.model
+if opt.wfc:
+    setname += "_WithFakeCR"
+if opt.pdfttdy:
+    setname += "_PDFWithTTDY"
+
+print setname
+settmod = importlib.import_module(setname)
+
 bkg = settmod.bkg
 histos = settmod.histos
 years = settmod.years
