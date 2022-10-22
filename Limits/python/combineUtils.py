@@ -122,24 +122,24 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 valuestr = ""
                 for idvm, vbsmodel in enumerate(vbsmodels):
                     if "_DNN_" in path_:
-                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-300.0,300.0]' "
+                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-100.0,100.0]' "
                     else:
-                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-300.0,300.0]' "
+                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-100.0,100.0]' "
                     if idvm > 0:
                         modComb += ","
                         intervalstr += ":"
                         valuestr += ","
                     modComb += "k_" + vbsmodel.split("_")[-1]
                     if "_DNN_" in path_:
-                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-300.0,300.0"
+                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-100.0,100.0"
                     else:
-                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-300.0,300.0"
+                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-100.0,100.0"
                     valuestr += "k_" + vbsmodel.split("_")[-1] + "=1" 
                 cmd += global_dc + " -o " + rootdc 
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 20 " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
