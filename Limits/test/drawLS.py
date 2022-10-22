@@ -364,7 +364,7 @@ def draw2D():
     graphScan.GetXaxis().SetTitle(xNameVar)
     graphScan.GetYaxis().SetTitle(yNameVar)
     graphScan.GetZaxis().SetTitle("- 2#Delta logL")
-    graphScan.GetZaxis().SetRangeUser(0,10.0)
+    graphScan.GetZaxis().SetRangeUser(0,100.0)
     
     ##---- 2D likelihood thresholds
     
@@ -373,7 +373,7 @@ def draw2D():
     graphScan.GetHistogram().GetXaxis().SetTitle(xNameVar)
     graphScan.GetHistogram().GetYaxis().SetTitle(yNameVar)
     graphScan.GetHistogram().GetZaxis().SetTitle("- 2#Delta logL")
-    graphScan.GetHistogram().GetZaxis().SetRangeUser(0,10.0)
+    graphScan.GetHistogram().GetZaxis().SetRangeUser(0,100.0)
 
     
     if True:
@@ -395,7 +395,7 @@ def draw2D():
     HistStreamFn_ph2.SetLineWidth(2)
     HistStreamFn_ph2.SetLineStyle(2)
     
-    HistStreamFn_ph2.GetZaxis().SetRangeUser(0,10.0)
+    HistStreamFn_ph2.GetZaxis().SetRangeUser(0,100.0)
     HistStreamFn_ph2.Draw("CONT1 LIST SAME")
     cc2.Update()
     cc.cd()
@@ -438,13 +438,16 @@ def draw2D():
     cross11.SetLineColor(ROOT.kBlack)
     cross11.Draw("P")
 
-    xmin = array.array('d', [0.])
-    ymin = array.array('d', [0.])
+    #xmin = array.array('d', [0.])
+    #ymin = array.array('d', [0.])
 
-    limit.SetBranchAddress("k_" + xName, xmin)
-    limit.SetBranchAddress("k_" + yName, ymin)
+    #limit.SetBranchAddress("k_" + xName, xmin)
+    #limit.SetBranchAddress("k_" + yName, ymin)
+    #print limit.GetEntry(0)
     limit.GetEntry(0)
-    #print xmin, ymin
+    xmin = array.array('d', [getattr(limit, 'k_' + xName)])
+    ymin = array.array('d', [getattr(limit, 'k_' + yName)])
+    print xmin, ymin
 
     crossMin = ROOT.TGraph()
     crossMin.SetPoint(0, xmin[0], ymin[0])

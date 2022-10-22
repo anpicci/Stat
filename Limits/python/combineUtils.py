@@ -88,7 +88,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years):
     maindir = os.getcwd() + "/"
     modelname = ""
-    optionalsSM = " --algo=grid --points=100000 --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
+    optionalsSM = " --algo=grid --points=50000 --cminDefaultMinimizerStrategy=0 "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
     print "model", model
     modelname = model.replace(":", "_")
     #print "evaluate limit for model ", model
@@ -122,24 +122,24 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 valuestr = ""
                 for idvm, vbsmodel in enumerate(vbsmodels):
                     if "_DNN_" in path_:
-                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-150.0,150.0]' "
+                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-300.0,300.0]' "
                     else:
-                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-250.0,250.0]' "
+                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-300.0,300.0]' "
                     if idvm > 0:
                         modComb += ","
                         intervalstr += ":"
                         valuestr += ","
                     modComb += "k_" + vbsmodel.split("_")[-1]
                     if "_DNN_" in path_:
-                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-150.0,150.0"
+                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-300.0,300.0"
                     else:
-                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-250.0,250.0"
+                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-300.0,300.0"
                     valuestr += "k_" + vbsmodel.split("_")[-1] + "=1" 
                 cmd += global_dc + " -o " + rootdc 
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 5 " + optionalsSM #+ " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " --autoRange 20 " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
