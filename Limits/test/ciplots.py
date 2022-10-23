@@ -246,11 +246,11 @@ for srv, crv in varloops:
     gr = lsfile.Get("Graph")
     func = ROOT.TF1("func", myfunc, -1000, 1000, 0)
 
-    s1down.append(round(func.GetX(y1, -100, 0), 4))
-    s1up.append(round(func.GetX(y1, 0, 100), 4))
-    s2down.append(round(func.GetX(y2, -100, 0), 4))
-    s2up.append(round(func.GetX(y2, 0, 100), 4))
-    mins.append(round(func.GetMinimumX(-0.5, 0.5), 4))
+    s1down.append(round(func.GetX(y1, -100, 0), 3))
+    s1up.append(round(func.GetX(y1, 0, 100), 3))
+    s2down.append(round(func.GetX(y2, -100, 0), 3))
+    s2up.append(round(func.GetX(y2, 0, 100), 3))
+    mins.append(round(func.GetMinimumX(-0.5, 0.5), 3))
     gr.Clear()
     lsfile.Close()
     totpairs += 1
@@ -270,7 +270,7 @@ limitstxt = open(plotname + ".txt", "w")
 
 for idp in range(0, totpairs):
     idbin = int(2*(idp+1))
-    limitstxt.write(labels[idp] + "\t1sigma = [" + str(s1down[idp]) + "," + str(s1up[idp]) + "]\t2sigma = [" + str(s2down[idp]) + "," + str(s2up[idp]) + "]\n") 
+    limitstxt.write(labels[idp] + "\t1sigma = [" + str(s1down[idp]) + ", " + str(s1up[idp]) + "]\t2sigma = [" + str(s2down[idp]) + ", " + str(s2up[idp]) + "]\n") 
     Gdown.SetBinContent(idbin, s1down[idp])
     Gup.SetBinContent(idbin, s1up[idp])
     Ydown.SetBinContent(idbin, s2down[idp])
