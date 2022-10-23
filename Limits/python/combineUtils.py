@@ -124,7 +124,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                     if "_DNN_" in path_:
                         cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-100.0,100.0]' "
                     else:
-                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-100.0,100.0]' "
+                        cmd += "--PO 'map=.*/" + vbsmodel + ":k_" + vbsmodel.split("_")[-1] + "[1,-200.0,200.0]' "
                     if idvm > 0:
                         modComb += ","
                         intervalstr += ":"
@@ -133,7 +133,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                     if "_DNN_" in path_:
                         intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-100.0,100.0"
                     else:
-                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-100.0,100.0"
+                        intervalstr += "k_" + vbsmodel.split("_")[-1] + "=-200.0,200.0"
                     valuestr += "k_" + vbsmodel.split("_")[-1] + "=1" 
                 cmd += global_dc + " -o " + rootdc 
                 print cmd
@@ -211,18 +211,18 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
     if ":" in models:
         if not models.startswith("cW:"):
             if not ":FT" in models:
-                algostring += " 200000 "
+                algostring += "1000000 "
                 #algostring += " 50000 "
             else:
-                algostring +=  "  200000 "
+                algostring +=  " 1000000 "
                 #algostring +=  "  50000 "
         else:
             if not ":FT" in models:
-                algostring +=  "   50000 "
-                #algostring += " 1000000 "
+                #algostring +=  "   50000 "
+                algostring += " 1000000 "
             else:
-                algostring +=  "   50000 "
-                #algostring += " 2000000 "
+                #algostring +=  "   50000 "
+                algostring += " 1000000 "
         
     else:
         algostring +=     "  20000 "
