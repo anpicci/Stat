@@ -211,10 +211,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
     if ":" in models:
         if not models.startswith("cW:"):
             if not ":FT" in models:
-                #algostring += " 200000 "
-                algostring +=  "  50000 "
+                algostring += " 200000 "
+                #algostring += " 50000 "
             else:
-                algostring +=  "  50000 "
+                algostring +=  "  200000 "
+                #algostring +=  "  50000 "
         else:
             if not ":FT" in models:
                 algostring +=  "   50000 "
@@ -254,11 +255,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
         opstring = ""
         for idc, coeff in enumerate(coeffs):
             if coeff.startswith("cS"):
-                intervals.append("-100,100")
+                intervals.append("-60,50")
             elif coeff.startswith("cM"):
-                intervals.append("-100,100")
+                intervals.append("-60,50")
             elif coeff.startswith("cT"):
-                intervals.append("-50,50")
+                intervals.append("-60,50")
             elif coeff.startswith("cHW"):
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
