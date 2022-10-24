@@ -265,7 +265,7 @@ if opt.pdfttdy:
 if not os.path.exists(outfolder):
     os.system("mkdir -p " + outfolder)
 
-plotname = outfolder + "CI_" + eftop + varstring
+plotname = outfolder + "/CI_" + eftop + varstring
 limitstxt = open(plotname + ".txt", "w")
 
 for idp in range(0, totpairs):
