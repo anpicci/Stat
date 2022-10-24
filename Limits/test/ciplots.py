@@ -338,8 +338,10 @@ latexLabel2.DrawLatex(0.89, 0.865, "13 TeV")
 latexLabel3 = ROOT.TLatex()
 latexLabel3.SetTextSize(0.05)
 latexLabel3.SetNDC()
-coeff = eftop.replace(eftop, eftop + "_{")
+coeff = eftop.replace("F", "f_{").replace("c", "c_{")
 coeff += "}"
+print eftop, coeff
+
 latexLabel3.DrawLatex(0.16, 0.03, coeff)
 
 leg = ROOT.TLegend(0.48, 0.89, 0.70, 0.99)
