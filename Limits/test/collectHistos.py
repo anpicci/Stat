@@ -269,11 +269,11 @@ for year in years:
                                 sign = +1.
                     
                     #elif not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
-                    if htemp.Integral()>=0.:
+                    if True: #htemp.Integral()<=0.:
                         for ibin in range(htemp.GetNbinsX()):
                             bincont = htemp.GetBinContent(ibin+1)
                             if bincont <= 0.:
-                                htemp.SetBinContent(ibin+1, 0.0001)
+                                htemp.SetBinContent(ibin+1, 0.001)
                                 #print ibin, "modified"
                             
                     if sign == 0:
@@ -330,18 +330,18 @@ for year in years:
                                     else:
                                         sign = +1.
                     
-                            if huptemp.Integral()>=0.:
+                            if True:#huptemp.Integral()<=0.:
                                 for ibin in range(huptemp.GetNbinsX()):
                                     bincont = huptemp.GetBinContent(ibin+1)
                                     if bincont <= 0.:
-                                        huptemp.SetBinContent(ibin+1, 0.0001)
+                                        huptemp.SetBinContent(ibin+1, 0.001)
                                         #print ibin, "modified"
 
-                            if hdowntemp.Integral()>=0.:
+                            if True:#hdowntemp.Integral()<=0.:
                                 for ibin in range(hdowntemp.GetNbinsX()):
                                     bincont = hdowntemp.GetBinContent(ibin+1)
                                     if bincont <= 0.:
-                                        hdowntemp.SetBinContent(ibin+1, 0.0001)
+                                        hdowntemp.SetBinContent(ibin+1, 0.001)
                                         #print ibin, "modified"
                     
         
