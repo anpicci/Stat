@@ -59,6 +59,10 @@ variables.append(variabile('DNN_fM_50I_TV1', 'f_{M} DNN output (50I TV1)', True,
 
 variables.append(variabile('DNN_POL_50I_TV', 'Pol. DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
 
+variables.append(variabile('DNN_cHW_final_1', 'c_{HW} DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (final 1)"))
+variables.append(variabile('DNN_dim6_final_2', 'dim6 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 DNN (final 2)"))
+variables.append(variabile('DNN_dim8_final_2', 'dim8 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final 2)"))
+variables.append(variabile('DNN_dim8_final_3', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final 3)"))
 '''
 variables.append(variabile('DNN_SM_50I_TV1', 'SM DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV1)"))
 variables.append(variabile('DNN_SM_ACAT', 'SM DNN output (ACAT)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (ACAT)"))
