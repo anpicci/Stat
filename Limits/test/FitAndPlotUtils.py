@@ -154,7 +154,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "TTbarele_rate_2016M.bkg = 'TTTo2L2Nu'")
     LineWrite(settname, "")
 
-    if not (model == "SM" or model.startswith("WpWp")):
+    if True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "DYmu_rate_2016M = rateParam()")
         LineWrite(settname, "DYmu_rate_2016M.chs = [")
         LineWrite(settname, "\t'SR_muon',")
@@ -200,7 +200,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "TTbarele_rate_2017.bkg = 'TTTo2L2Nu'")
     LineWrite(settname, "")
 
-    if not (model == "SM" or model.startswith("WpWp")):
+    if True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "DYmu_rate_2017 = rateParam()")
         LineWrite(settname, "DYmu_rate_2017.chs = [")
         LineWrite(settname, "\t'SR_muon',")
@@ -246,7 +246,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "TTbarele_rate_2018.bkg = 'TTTo2L2Nu'")
     LineWrite(settname, "")
 
-    if not (model == "SM" or model.startswith("WpWp")):
+    if True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "DYmu_rate_2018 = rateParam()")
         LineWrite(settname, "DYmu_rate_2018.chs = [")
         LineWrite(settname, "\t'SR_muon',")
@@ -278,7 +278,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "rateParams['TTest_electron_2018'] = TTbarele_rate_2018")
     LineWrite(settname, "")
 
-    if not (model == "SM" or model.startswith("WpWp")):
+    if True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "rateParams['DYest_muon_2016M'] = DYmu_rate_2016M")
         LineWrite(settname, "rateParams['DYest_electron_2016M'] = DYele_rate_2016M")
         LineWrite(settname, "rateParams['DYest_muon_2017'] = DYmu_rate_2017")
