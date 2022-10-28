@@ -526,7 +526,7 @@ def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeC
     if not os.path.exists(folder):
         os.system("mkdir -p " + folder)
     #print "python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " \"" + tagfold + "\""
-    #os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
+    os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
     #os.system("rm histo_" + folder + "_" + model + ".root")
 
 def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY):
