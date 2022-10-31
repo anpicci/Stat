@@ -347,24 +347,30 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      continue
               elif("ele" in sysName and "ele" not in ch): 
                      continue
+              #print sysName, sysValue
 
-              if(sysValue[0]=="lnN"): 
+              if(sysValue[0]=="lnN"):
                      if "lumi" in sysName and "1718_" in sysName:
                             sysName = sysName.replace("APV", "").replace("_2016", "").replace("_2017", "").replace("_2018", "")
                      card += "%-25s%-25s" % (sysName, sysValue[0])
-                     if(sysValue[1]=="all" and len(sysValue)>2):
-                            if(mode == "template"):
-                                   card += "%-25s" % (sysValue[2]) * (2)
-                            else:  
-                                   card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
-                     elif(sysValue[1]=="QCD" and len(sysValue)>2):
-                            if(mode == "template"):
-                                   card += "%-25s" % (sysValue[2]) * (2)
-                            else: 
-                                   card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
-                     elif(sysValue[1]=="Fake"):
-                            if not mode == "template":
-                                   card += "%-25s" % ("-") * (len(sig)) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - 1) 
+                     if len(sysValue)>2:
+                            if(sysValue[1]=="all" and len(sysValue)>2):
+                                   if(mode == "template"):
+                                          card += "%-25s" % (sysValue[2]) * (2)
+                                   else:  
+                                          card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
+                            elif(sysValue[1]=="QCD" and len(sysValue)>2):
+                                   if(mode == "template"):
+                                          card += "%-25s" % (sysValue[2]) * (2)
+                                   else: 
+                                          card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
+                            else:#(sysValue[1]=="Fake"):
+                                   idx_p = processes.index(sysValue[1])
+                                   idx_p_tot = idx_p + len(sig)
+                                   if not mode == "template":
+                                          card += "%-25s" % ("-") * (idx_p_tot) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - (idx_p + 1)) 
+                                          #print "%-25s" % ("-") * (idx_p_tot) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - (idx_p + 1)) 
+
                      else:
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
@@ -398,7 +404,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           card += "%-25s" % (bkgSys)
                                    else:  card += "%-25s" % ("-")
               elif(sysValue[0].startswith("shape")):
-                     ##print "sys shape named ", sysName
+                     #print "sys shape named ", sysName, sysValue
                      if("mcstat" not in sysName and 'autoMCstat' not in sysName):
                             card += "%-25s%-25s" % (sysName, sysValue[0])
                             #card += "%-25s     shape     " % (sysName)
@@ -415,7 +421,9 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                                  card += "%-25s" % ( "1") 
                                           elif isbogussys:
                                                  card += "%-25s" % ( "-")
-                                          
+                            else:
+                                   card += "%-25s" % ("-") * (len(sig))
+                            
                             for p in processes:
                                    if p not in sysValue[1]:
                                           card += "%-25s" % ( "-") 
@@ -427,7 +435,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                    if ((getRate(ch, p, ifile) > 0.) and not isbogussys): 
                                           card += "%-25s" % ( "1") 
                                    elif isbogussys: 
-                                          card += "%-25s" % ( "-") 
+                                          card += "%-25s" % ( "-")
+                                          print p, "bogus", sysname
                      elif("mcstat" in sysName):
                             # CAMBIARE NOME DELLA SYST                     #here
                             for samp in sysValue[1]:
@@ -883,6 +892,9 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           elif isbogussys: 
                                                  card += "%-25s" % ( "-") 
                                           ##print sigplab, sysName, "is bogus?", isbogussys
+                            else:
+                                   card += "%-25s" % ("-") * (len(sig))
+
                             for p in processes:
                                    ##print "sysName in p", p, sysName
                                    if p not in sysValue[1]:
@@ -1045,3 +1057,4 @@ for y in years:
             getCard(signals, ch, ifilename, outdirr, mode, unblind)
         #for s in signals:
             #getCard(s, ch, ifilename, outdir, mode, unblind)
+

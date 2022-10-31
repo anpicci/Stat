@@ -295,9 +295,9 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "")
     LineWrite(settname, "syst = collections.OrderedDict()")
     LineWrite(settname, "")
-    LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.012]")
-    LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.023]")
-    LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.025]")
+    LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.016]")
+    LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.016]")
+    LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['FR_sys_muon_2016M'] = ['lnN', 'Fake', 1.3]")
     LineWrite(settname, "syst['FR_sys_electron_2016M'] = ['lnN', 'Fake', 1.3]")
     LineWrite(settname, "syst['FR_sys_muon_2017'] = ['lnN', 'Fake', 1.3]")
@@ -318,16 +318,19 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
         LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     else:
         LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+    #LineWrite(settname, "syst['QCDScale'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+    
+    LineWrite(settname, "syst['QCDScale_sig'] = [shapesyst, ('sig'), 'corr']")
     LineWrite(settname, "syst['QCDScale_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
     LineWrite(settname, "syst['QCDScale_VG'] = [shapesyst, ('VG'), 'corr']")
     LineWrite(settname, "syst['QCDScale_TVX'] = [shapesyst, ('TVX'), 'corr']")
     LineWrite(settname, "syst['QCDScale_DY'] = [shapesyst, (dyjets_sample), 'corr']")
     LineWrite(settname, "syst['QCDScale_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
     LineWrite(settname, "syst['QCDScale_WZ'] = [shapesyst, ('WZ'), 'corr']")
-    LineWrite(settname, "syst['QCDScale_Triboson'] = [shapesyst, ('triboson_sample'), 'corr']")
+    LineWrite(settname, "syst['QCDScale_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
     LineWrite(settname, "syst['QCDScale_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
     LineWrite(settname, "syst['QCDScale_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
-    LineWrite(settname, "syst['QCDScale_sig'] = [shapesyst, ('sig'), 'corr']")
+    
     LineWrite(settname, "syst['ISR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['FSR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['jes'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
@@ -572,6 +575,8 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
         os.system(collhist)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
+    
+    print createdata
     os.system(createdata)
     os.system(runcomb)
 

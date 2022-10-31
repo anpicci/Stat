@@ -210,6 +210,8 @@ for year in years:
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
 
         for k_, h_ in histos.iteritems():
+         
+        
             if lep=='emu' and not k_.startswith("CRTT"):
                 continue
 
@@ -220,19 +222,26 @@ for year in years:
                 h = None
 
                 hsyst = collections.OrderedDict()
-                for sysname, systype in syst.items():
-                    if not systype[0].startswith("shape") or sysname == "autoMCstat":
+                for sysnam, systype in syst.items():
+                    if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                         continue
-                    syskey = copy.deepcopy(sysname)
+                    syskey = copy.deepcopy(sysnam)
+                    if not sysnam.startswith("QCDscale"):
+                        sysname = sysnam.split("_")[0]
+                    else:
+                        sysname = sysname
                     if systype[0].startswith("shape"):
                         if systype[2] == "uncorr":
                             syskey += "_" + year
 
+            
                     hsyst[syskey] = [None, None]
-    
+                
                 samp = flist[1]
-                #print "\nsamp", samp, flist[0]
-    
+                #print "\nsamp", samp#, flist[0]
+                #for k, v in hsyst.items():
+                    #print k, v 
+
                 Error = False
                 for f in flist[0]:
                     try:
@@ -291,23 +300,31 @@ for year in years:
                     #print "after h:", h.GetName(), h.Integral()
 
                     #hsyst = collections.OrderedDict()
-    
-                    for sysname, systype in syst.items():
-                        if not systype[0].startswith("shape") or sysname == "autoMCstat":
+                    #print "\nsamp:", samp
+
+                    for sysnam, systype in syst.items():
+                        sysname = None
+                        if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                             continue
                         
+                        if sysnam.startswith("QCDScale"):
+                            sysname = sysnam.split("_")[0]
+                        else:
+                            sysname = sysnam
                         ##print "systype[1]", systype[1]
                         ifile.cd()
                         
-                        ##print "to syst?", (systype[1] == "all"), (samp in systype[1]), ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp")))
+                        #print "to syst?", (systype[1] == "all"), (samp in systype[1]), ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp")))
                         if systype[1] == "all" or samp in systype[1] or ('sig' in systype[1] and (f.startswith("VBS_") or f.startswith("WpWp"))):
+                            #print sysnam, sysname#, systype
                             hup_ = h_ + "_" + sysname
                             hdown_ = h_ + "_" + sysname
                             hup_ += "Up"
                             hdown_ += "Down"
-                            sysName = sysname
+                            sysName = sysnam
                             #print ifile
                             #print hup_, hdown_
+
                             if systype[0].startswith("shape"):
                                 if systype[2] == "uncorr":
                                     sysName += "_" + year
@@ -351,7 +368,7 @@ for year in years:
                             else:
                                 huptemp.Scale(sign)
                                 hdowntemp.Scale(sign)
-                    
+                            
                             if hsyst[sysName][0] is None:
                                 hsyst[sysName][0] = copy.deepcopy(huptemp)
                             else:
@@ -362,8 +379,9 @@ for year in years:
                             else:
                                 hsyst[sysName][1].Add(hdowntemp, 1)
                     
-                            
-        
+                #for k, v in hsyst.items():
+                    #print k, v 
+                   
                 #if "_F" in samp and not "DY" in samp:
                     ##print "h", h, h.Integral()
                     #for i in range(0, h.GetNbinsX()):
@@ -489,6 +507,6 @@ for year in years:
         #for kd, vd in histData.items():
             ##print kd, vd.Integral()
 
-                   
+
 #ofile.Write()
 ofile.Close()
