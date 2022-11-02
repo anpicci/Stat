@@ -38,12 +38,15 @@ for i, odir in enumerate(new_sf):#subfolders):#
                 new_dest = folder + new_sf[i] + "/"
                 #print of, new_dest
                 
+                toOverWrite = True
                 if of.startswith("FakeMu_") or of.startswith("FakeEle_"):
                     new_dest = new_dest + of.replace("Mu", "").replace("Ele", "")
+                    if os.path.exists(new_dest) and os.path.getmtime(new_dest) > os.path.getmtime(of):
+                        toOverWrite = False
                 else:
                     new_dest = new_dest + of
                 
-                if str(folder + odir + "/" + of) != str(new_dest):
+                if str(folder + odir + "/" + of) != str(new_dest) and toOverWrite:
                     os.system("cp " + folder + odir + "/" + of + " " + new_dest)
                     #print "cp " + folder + odir + "/" + of + " " + new_dest
                 else:
