@@ -33,7 +33,6 @@ for i, odir in enumerate(new_sf):#subfolders):#
             ofilelist.append(yfile)
         
         for of in ofilelist: 
-
             if not (of.startswith('FakeMuPromptTau') or of.startswith('FakeMuFakeTau') or of.startswith('PromptMuFakeTau') or of.startswith('FakeElePromptTau') or of.startswith('FakeEleFakeTau') or of.startswith('PromptEleFakeTau')):
                 new_dest = folder + new_sf[i] + "/"
                 #print of, new_dest
@@ -41,7 +40,7 @@ for i, odir in enumerate(new_sf):#subfolders):#
                 toOverWrite = True
                 if of.startswith("FakeMu_") or of.startswith("FakeEle_"):
                     new_dest = new_dest + of.replace("Mu", "").replace("Ele", "")
-                    if os.path.exists(new_dest) and os.path.getmtime(new_dest) > os.path.getmtime(of):
+                    if os.path.exists(new_dest) and os.path.getmtime(new_dest) > os.path.getmtime(folder + new_sf[i] + "/" + of):
                         toOverWrite = False
                 else:
                     new_dest = new_dest + of
