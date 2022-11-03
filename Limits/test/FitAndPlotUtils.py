@@ -522,7 +522,7 @@ def IterateVars(srvarlist, crvarlist):
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY): 
     yeartag = year.replace("2016M,2017,2018", "RunII")
 
-    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fitbis_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -547,7 +547,7 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
     
-    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fitbis_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -586,7 +586,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fitbis_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -623,7 +623,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fitbis_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -675,12 +675,12 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     syst = settmod.syst
     ipwd = os.getcwd()
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
-    #folder = 'fit_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    #folder = 'fitbis_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     channels = settmod.channels
     yearsett = settmod.years
     method = "hist"
 
-    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fitbis_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -1101,7 +1101,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     yearsett = settmod.years
     method = "hist"
     
-    folder = 'fit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fitbis_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:

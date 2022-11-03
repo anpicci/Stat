@@ -328,7 +328,8 @@ for year in years:
                             if systype[0].startswith("shape"):
                                 if systype[2] == "uncorr":
                                     sysName += "_" + year
-
+                                    
+                            #print "Taking " + hup_ + " " + hdown_ 
                             huptemp = copy.deepcopy(ifile.Get(hup_).Clone())
                             hdowntemp = copy.deepcopy(ifile.Get(hdown_).Clone())
                             sign = +1.
