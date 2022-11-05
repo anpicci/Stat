@@ -278,7 +278,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "rateParams['TTest_electron_2018'] = TTbarele_rate_2018")
     LineWrite(settname, "")
 
-    if False:#True: #not (model == "SM" or model.startswith("WpWp")):
+    if True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "rateParams['DYest_muon_2016M'] = DYmu_rate_2016M")
         LineWrite(settname, "rateParams['DYest_electron_2016M'] = DYele_rate_2016M")
         LineWrite(settname, "rateParams['DYest_muon_2017'] = DYmu_rate_2017")
@@ -317,7 +317,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     if PDFWithTTDY:
         LineWrite(settname, "syst['pdf_Tot'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     else:
-        LineWrite(settname, "syst['pdf_Tot'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+        LineWrite(settname, "syst['pdf_Tot'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     #LineWrite(settname, "syst['QCDScale'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     
     LineWrite(settname, "syst['QCDScale_sig'] = [shapesyst, ('sig'), 'corr']")
@@ -325,7 +325,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "syst['QCDScale_VG'] = [shapesyst, ('VG'), 'corr']")
     LineWrite(settname, "syst['QCDScale_TVX'] = [shapesyst, ('TVX'), 'corr']")
     LineWrite(settname, "syst['QCDScale_DY'] = [shapesyst, (dyjets_sample), 'corr']")
-    #LineWrite(settname, "syst['QCDScale_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
+    LineWrite(settname, "syst['QCDScale_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
     LineWrite(settname, "syst['QCDScale_WZ'] = [shapesyst, ('WZ'), 'corr']")
     LineWrite(settname, "syst['QCDScale_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
     LineWrite(settname, "syst['QCDScale_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
