@@ -278,7 +278,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "rateParams['TTest_electron_2018'] = TTbarele_rate_2018")
     LineWrite(settname, "")
 
-    if True: #not (model == "SM" or model.startswith("WpWp")):
+    if False:#True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "rateParams['DYest_muon_2016M'] = DYmu_rate_2016M")
         LineWrite(settname, "rateParams['DYest_electron_2016M'] = DYele_rate_2016M")
         LineWrite(settname, "rateParams['DYest_muon_2017'] = DYmu_rate_2017")
@@ -319,7 +319,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
         LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     else:
         #LineWrite(settname, "syst['pdf_Tot'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-        LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+        LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     #LineWrite(settname, "syst['QCDScale'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     
     LineWrite(settname, "syst['QCDScale_sig'] = [shapesyst, ('sig'), 'corr']")
@@ -524,7 +524,7 @@ def IterateVars(srvarlist, crvarlist):
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY): 
     yeartag = year.replace("2016M,2017,2018", "RunII")
 
-    folder = 'fittotal_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -549,7 +549,7 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
     
-    folder = 'fittotal_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -588,7 +588,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fittotal_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -625,7 +625,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fittotal_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -677,12 +677,12 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     syst = settmod.syst
     ipwd = os.getcwd()
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
-    #folder = 'fittotal_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
+    #folder = 'fittotal_nodyrp_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     channels = settmod.channels
     yearsett = settmod.years
     method = "hist"
 
-    folder = 'fittotal_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -1103,7 +1103,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     yearsett = settmod.years
     method = "hist"
     
-    folder = 'fittotal_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
