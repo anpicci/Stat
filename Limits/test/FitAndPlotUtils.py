@@ -10,13 +10,15 @@ LineWrite = lambda fname, s : fname.write(s + "\n")
 
 colors = ["920", "632", "416", "600", "400", "616", "432", "800", "820", "840", "860", "880", "900", "403","814","435"]
 
-def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
+def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     settitle = "../python/settings_" + model + "_" + srvar + "_" + crvar 
     if WithFakeCR:
         settitle += "_WithFakeCR"
     if PDFWithTTDY:
         settitle += "_PDFWithTTDY"
-    settitle += ".py"
+    if DYrp:
+        settitle += "_DYrp"
+    settitle += "_" + pdftype + ".py"
     settname = open(settitle, "w")
     LineWrite(settname, "import collections")
     LineWrite(settname, "import copy")
@@ -154,7 +156,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "TTbarele_rate_2016M.bkg = 'TTTo2L2Nu'")
     LineWrite(settname, "")
 
-    if True: #not (model == "SM" or model.startswith("WpWp")):
+    if DYrp: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "DYmu_rate_2016M = rateParam()")
         LineWrite(settname, "DYmu_rate_2016M.chs = [")
         LineWrite(settname, "\t'SR_muon',")
@@ -200,7 +202,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "TTbarele_rate_2017.bkg = 'TTTo2L2Nu'")
     LineWrite(settname, "")
 
-    if True: #not (model == "SM" or model.startswith("WpWp")):
+    if DYrp: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "DYmu_rate_2017 = rateParam()")
         LineWrite(settname, "DYmu_rate_2017.chs = [")
         LineWrite(settname, "\t'SR_muon',")
@@ -246,7 +248,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "TTbarele_rate_2018.bkg = 'TTTo2L2Nu'")
     LineWrite(settname, "")
 
-    if True: #not (model == "SM" or model.startswith("WpWp")):
+    if DYrp: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "DYmu_rate_2018 = rateParam()")
         LineWrite(settname, "DYmu_rate_2018.chs = [")
         LineWrite(settname, "\t'SR_muon',")
@@ -278,14 +280,14 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "rateParams['TTest_electron_2018'] = TTbarele_rate_2018")
     LineWrite(settname, "")
 
-    if False:#True: #not (model == "SM" or model.startswith("WpWp")):
+    if DYrp:#True: #not (model == "SM" or model.startswith("WpWp")):
         LineWrite(settname, "rateParams['DYest_muon_2016M'] = DYmu_rate_2016M")
         LineWrite(settname, "rateParams['DYest_electron_2016M'] = DYele_rate_2016M")
         LineWrite(settname, "rateParams['DYest_muon_2017'] = DYmu_rate_2017")
         LineWrite(settname, "rateParams['DYest_electron_2017'] = DYele_rate_2017")
         LineWrite(settname, "rateParams['DYest_muon_2018'] = DYmu_rate_2018")
         LineWrite(settname, "rateParams['DYest_electron_2018'] = DYele_rate_2018")
-    LineWrite(settname, "")
+        LineWrite(settname, "")
 
     LineWrite(settname, "#*********************************")
     LineWrite(settname, "#                                *")
@@ -314,16 +316,44 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "syst['tau_vsjet'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
     LineWrite(settname, "syst['tau_vsele'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
     LineWrite(settname, "syst['tau_vsmu'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
-    if PDFWithTTDY:
-        #LineWrite(settname, "syst['pdf_Tot'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-        LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+    pdfstr = "pdf_" + pdftype.split("_")[0]
+    if pdftype.endswith("sep"):
+        LineWrite(settname, "if model != 'WpWpJJ':")
+        LineWrite(settname, "\tsyst['" + pdfstr + "_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_VG'] = [shapesyst, ('VG'), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_TVX'] = [shapesyst, ('TVX'), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_DY'] = [shapesyst, (dyjets_sample), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_WZ'] = [shapesyst, ('WZ'), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
+        LineWrite(settname, "syst['" + pdfstr + "_sig'] = [shapesyst, ('sig'), 'corr']")
+        if not DYrp:
+            if PDFWithTTDY:
+                LineWrite(settname, "syst['" + pdfstr + "_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
+            LineWrite(settname, "syst['" + pdfstr + "_DY'] = [shapesyst, (dyjets_sample), 'corr']")
+        else:
+            if PDFWithTTDY:
+                LineWrite(settname, "syst['" + pdfstr + "_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
+                LineWrite(settname, "syst['" + pdfstr + "_DY'] = [shapesyst, (dyjets_sample), 'corr']")
+            
     else:
-        #LineWrite(settname, "syst['pdf_Tot'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-        LineWrite(settname, "syst['pdf_total'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+        if not DYrp:
+            if not PDFWithTTDY:
+                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+            else:
+                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+        else:
+            if PDFWithTTDY:
+                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+            else:
+                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+
     #LineWrite(settname, "syst['QCDScale'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', dyjets_sample, 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     
     LineWrite(settname, "syst['QCDScale_sig'] = [shapesyst, ('sig'), 'corr']")
-    LineWrite(settname, "syst['QCDScale_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
+    LineWrite(settname, "if model !='WpWpJJ':")
+    LineWrite(settname, "\tsyst['QCDScale_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
     LineWrite(settname, "syst['QCDScale_VG'] = [shapesyst, ('VG'), 'corr']")
     LineWrite(settname, "syst['QCDScale_TVX'] = [shapesyst, ('TVX'), 'corr']")
     LineWrite(settname, "syst['QCDScale_DY'] = [shapesyst, (dyjets_sample), 'corr']")
@@ -356,7 +386,36 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY):
     LineWrite(settname, "")
     
     #LineWrite(settname, "systgroups['FRsys group'] = ['FR_sys_muon_2016M', 'FR_sys_electron_2016M', 'FR_sys_muon_2017', 'FR_sys_electron_2017', 'FR_sys_muon_2018', 'FR_sys_electron_2018']")
-    LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_WpWpJJ_QCD', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_DY', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', 'pdf_total']")#Tot']")
+    if not pdftype.endswith("sep"):
+        LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_DY', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
+        LineWrite(settname, "if model != 'WpWpJJ':")
+        LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
+    else:
+        if not DYrp:
+            if PDFWithTTDY:
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_DY', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "if model != 'WpWpJJ':")
+                LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
+                LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
+
+            else:
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_DY', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "if model != 'WpWpJJ':")
+                LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
+                LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
+        else:
+            if PDFWithTTDY:
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_DY', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "if model != 'WpWpJJ':")
+                LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
+                LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
+
+            else:
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_DY', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "if model != 'WpWpJJ':")
+                LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
+                LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
+
     LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
     LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
     LineWrite(settname, "systgroups['jet group'] = ['jes', 'jer']")
@@ -521,10 +580,13 @@ def IterateVars(srvarlist, crvarlist):
 
     return zip(fitvars, crvars)
 
-def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY): 
+def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"): 
     yeartag = year.replace("2016M,2017,2018", "RunII")
 
-    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit' + pdftype + "_"
+    if not DYrp:
+        folder += 'nodyrp_' 
+    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -543,13 +605,17 @@ def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeC
     os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
     #os.system("rm histo_" + folder + "_" + model + ".root")
 
-def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY):
+def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
     
-    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit' + pdftype + "_"
+    if not DYrp:
+        folder += 'nodyrp_'
+    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
+
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -572,6 +638,13 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
         collhist += " --PDFWithTTDY"
         createdata += " --PDFWithTTDY"
         runcomb += " --PDFWithTTDY"
+    if DYrp:
+        collhist += " --DYrp"
+        createdata += " --DYrp"
+        runcomb += " --DYrp"
+    collhist += " --pdf " + pdftype 
+    createdata += " --pdf " + pdftype 
+    runcomb += " --pdf " + pdftype
     
     try:
         os.system(collhist)
@@ -582,13 +655,17 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
     os.system(createdata)
     os.system(runcomb)
 
-def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY):
+def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit' + pdftype + "_"
+    if not DYrp:
+        folder += 'nodyrp_'
+    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
+
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -619,13 +696,16 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
     os.system(createdata)
     os.system(runcomb)
 
-def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY):
+def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit' + pdftype + "_"
+    if not DYrp:
+        folder += 'nodyrp_'
+    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -661,7 +741,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     os.system(createdata)
     os.system(runcomb)
     
-def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY):
+def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     #optionals = " --cminDefaultMinimizerStrategy=1 --cminDefaultMinimizerTolerance 0.01 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     #optionals = "  " 
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
@@ -670,6 +750,9 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
         settitle += "_WithFakeCR"
     if PDFWithTTDY:
         settitle += "_PDFWithTTDY"
+    if DYrp:
+        settitle += "_DYrp"
+    settitle += "_" + pdftype
 
     RecursiveImport(settitle)
     settmod = importlib.import_module(settitle)
@@ -682,7 +765,11 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     yearsett = settmod.years
     method = "hist"
 
-    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit' + pdftype + "_"
+    if not DYrp:
+        folder += 'nodyrp_'
+    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
+
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:
@@ -953,7 +1040,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     
     os.chdir(ipwd)
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold, addLambda8, WithFakeCR, PDFWithTTDY):
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+    print "WithFakeCR, PDFWithTTDY, DYrp, pdftype:", WithFakeCR, PDFWithTTDY, DYrp, pdftype
     pwd = os.getcwd()
     vartopost = []
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
@@ -973,7 +1061,11 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
     for var in vartopost:
         varname = var.name
 
-        folder = 'postfit_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+        folder = 'postfit' + pdftype + "_"
+        if not DYrp:
+            folder += 'nodyrp_'
+        folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
+        
         if WithFakeCR:
             folder += "_WithFakeCR"
         if PDFWithTTDY:
@@ -996,14 +1088,16 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print varname, folder
     
         WriteMeta(varname, varname, fold, model, cut, year)
-        WriteSett(varname, varname, fold, model, cut, year, WithFakeCR, PDFWithTTDY)
+        WriteSett(varname, varname, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype)
 
         settitle = "Stat.Limits.settings_" + model + "_" + varname + "_" + varname
         if WithFakeCR:
             settitle += "_WithFakeCR"
         if PDFWithTTDY:
             settitle += "_PDFWithTTDY"
-
+        if DYrp:
+            settitle += "_DYrp"
+        settitle += "_" + pdftype
         RecursiveImport(settitle)
         #os.system("python PrepareEOSfolder.py " + fold)
         
@@ -1028,7 +1122,13 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             createdata += " --PDFWithTTDY"
         if addLambda8:
             collhist += " --Lambda8"
-        
+        if DYrp:
+            collhist += " --DYrp"
+            createdata += " --DYrp"
+            
+        collhist += " --pdf " + pdftype
+        createdata += " --pdf " + pdftype
+
         os.system(collhist)
         os.system(createdata)
 
@@ -1037,6 +1137,10 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             settitle2 += "_WithFakeCR"
         if PDFWithTTDY:
             settitle2 += "_PDFWithTTDY"        
+        if DYrp:
+            settitle += "_DYrp"
+        settitle += "_" + pdftype
+
         WriteMeta(srvar, crvar, fold, model, cut, year)#, WithFakeCR, PDFWithTTDY)
         RecursiveImport(settitle2)
     
@@ -1045,7 +1149,10 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             createpostfit += " --WithFakeCR"
         if PDFWithTTDY:
             createpostfit += " --PDFWithTTDY"
-        
+        if DYrp:
+            createpostfit += " --DYrp"
+        createpostfit += " --pdf " + pdftype
+
         os.system(createpostfit)
         
         poststring = "python plotter/PreFitPostFit_v2.py --era " + yeartag + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar
@@ -1057,13 +1164,16 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             poststring += " --WithFakeCR"
         if PDFWithTTDY:
             poststring += " --PDFWithTTDY"
+        if DYrp:
+            poststring += " --DYrp"
+        poststring += " --pdf " + pdftype
         
         print poststring
         os.system(poststring)
         
         #os.chdir(pwd)
     
-def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFWithTTDY):
+def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     command = "python ciplots.py --sr " + srvars + " --cr " + crvars + " --folder " + folder + " --op " + eftop + " --era " + era
     if WithFakeCR:
         command += " --WithFakeCR"
@@ -1078,7 +1188,7 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFW
     command += " --tagfolder " + tagfolder
     os.system(command)
 
-def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY):
+def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not ":" in modeltot:
         points = "500"#"10000"
@@ -1090,7 +1200,9 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
         settitle += "_WithFakeCR"
     if PDFWithTTDY:
         settitle += "_PDFWithTTDY"
-
+    if DYrp:
+        settitle += "_DYrp"
+    settitle += "_" + pdftype
     RecursiveImport(settitle)
     #print("../python/settings_" + modeltot + "_" + srvar + "_" + crvar)
     settmod = importlib.import_module(settitle)
@@ -1103,7 +1215,11 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     yearsett = settmod.years
     method = "hist"
     
-    folder = 'fittotal_nodyrp_' + fold + '/' + srvar + '_' + crvar + '_' + yeartag
+    folder = 'fit' + pdftype + "_"
+    if not DYrp:
+        folder += 'nodyrp_'
+    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
+
     if WithFakeCR:
         folder += "_WithFakeCR"
     if PDFWithTTDY:

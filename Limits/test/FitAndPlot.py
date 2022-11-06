@@ -25,6 +25,7 @@ parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_tr
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
+parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
@@ -39,6 +40,7 @@ parser.add_option('--notCI', dest='doCI', default = True, action='store_false', 
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
+parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
 (opt, args) = parser.parse_args()
 
 folder = opt.folder
@@ -76,7 +78,8 @@ else:
     raise RuntimeError("Please specify a model, with either --sm or --eft [ops]!")
 
 yeartag = opt.year.replace("RunII", "2016M,2017,2018")
-
+DYrp = opt.DYrp
+pdftype = opt.pdf
 
 for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
@@ -89,46 +92,48 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
                 setmod += "_WithFakeCR"
             if opt.pdfttdy:
                 setmod += "_PDFWithTTDY"
-
+            if DYrp:
+                setmod += "_DYrp"
+            setmod += "_" + pdftype
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.wfc, opt.pdfttdy)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.wfc, opt.pdfttdy, DYrp, pdftype)
             RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
             print "yeartag", yeartag
-            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
+            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
             
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
                 print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
             
         ### Run Impacts, if desired
         if opt.impacts:
             #os.system("reset")
-            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
+            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
 
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
             #os.system("reset")
-            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
+            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
         
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
 
 
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
     for model in models:
         print opt.varfit, opt.varcr, folder, model, opt.year
-        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.wfc, opt.pdfttdy)
+        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
 
 ### ordering outputs
 os.system("cd " + cwd)

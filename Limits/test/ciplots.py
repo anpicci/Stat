@@ -26,6 +26,12 @@ parser.add_option('--era', dest='era', type='str', default = "RunII", help = 'er
 parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--tagfolder', dest='tagfold', type='string', default = '', help = 'Variables to postfit')
+parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
+
+DYrp = opt.DYrp
+pdftype = opt.pdf
+
 
 (opt, args) = parser.parse_args()
 
@@ -233,13 +239,16 @@ for srv, crv in varloops:
         labels.append(srlabel + " + " + crlabel)
     else:
         labels.append(srlabel)
-    lspath = "fit_" + opt.folder + "/" + srv + "_" + crv + "_" + opt.era
+    lspath = "fit" + pdftype
+    if not DYrp:
+        lspath += 'nodyrp_'
+    lspath += "_" + opt.folder + "/" + srv + "_" + crv + "_" + opt.era
     if opt.wfc:
         lspath += "_WithFakeCR"
     if opt.pdfttdy:
         lspath += "_PDFWithTTDY"
-
-        lspath += "/" + opt.tagfold + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
+    
+    lspath += "/" + opt.tagfold + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
     print lspath
 
     lsfile = ROOT.TFile.Open(lspath, "READ")

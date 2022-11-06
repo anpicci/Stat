@@ -17,15 +17,23 @@ parser.add_option("--ls",dest="ls",type="string", default="")
 parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
 parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
+parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
+
+pdftype = opt.pdf
+DYrp = opt.DYrp
 
 setname = "Stat.Limits.settings_" + opt.model
 if opt.wfc:
     setname += "_WithFakeCR"
 if opt.pdfttdy:
     setname += "_PDFWithTTDY"
+if DYrp:
+    setname += "_DYrp"
+setname += "_" + pdftype
 
 print setname
 settmod = importlib.import_module(setname)
@@ -45,6 +53,7 @@ print("ATTENTION UNBLIND OPTION IS " + str(unblind))
 print "From", path
 print "Creating output file", ofilename
 shapedir = ofilename.replace(ofilename.split("/")[-1], "")
+
 
 if os.path.exists(ofilename):
     os.system("rm " + ofilename)
@@ -226,10 +235,14 @@ for year in years:
                     if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                         continue
                     syskey = copy.deepcopy(sysnam)
-                    if not sysnam.startswith("QCDscale"):
-                        sysname = sysnam.split("_")[0]
+                    if sysnam.startswith("QCDScale") or sysnam.startswith("pdf_Tot"):
+                        sysname = sysnam.replace("WpWpJJ_", "").replace("_" + sysnam.split("_")[-1], "")
                     else:
-                        sysname = sysname
+                        sysname = sysnam
+                    #if not sysnam.startswith("QCDscale"):
+                        #sysname = sysnam.split("_")[0]
+                    #else:
+                        #sysname = sysname
                     if systype[0].startswith("shape"):
                         if systype[2] == "uncorr":
                             syskey += "_" + year
@@ -306,11 +319,12 @@ for year in years:
                         sysname = None
                         if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                             continue
-                        
-                        if sysnam.startswith("QCDScale"):
-                            sysname = sysnam.split("_")[0]
+
+                        if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")):
+                            sysname = sysnam.replace("WpWpJJ_", "").replace("_" + sysnam.split("_")[-1], "")
                         else:
                             sysname = sysnam
+
                         ##print "systype[1]", systype[1]
                         ifile.cd()
                         

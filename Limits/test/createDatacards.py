@@ -19,15 +19,23 @@ parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=F
 parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
 parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
+parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
+
+DYrp = opt.DYrp
+pdftype = opt.pdf
 
 setname = "Stat.Limits.settings_" + opt.model
 if opt.wfc:
     setname += "_WithFakeCR"
 if opt.pdfttdy:
     setname += "_PDFWithTTDY"
+if DYrp:
+    setname += "_DYrp"
+setname += "_" + pdftype
 
 print setname
 settmod = importlib.import_module(setname)
