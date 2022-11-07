@@ -125,21 +125,21 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "\tpass")
     LineWrite(settname, "rateParams = collections.OrderedDict()")
     LineWrite(settname, "")
-    #if WithFakeCR:
-        #LineWrite(settname, "FakeMu_rate_2016M = rateParam()")
-        #LineWrite(settname, "FakeMu_rate_2016M.chs = [")
-        #LineWrite(settname, "\t'SR_muon',")
-        #LineWrite(settname, "\t'CRF_muon',")
-        #LineWrite(settname, "]")
-        #LineWrite(settname, "FakeMu_rate_2016M.bkg = 'Fake'")
-        #LineWrite(settname, "")
-        #LineWrite(settname, "FakeEle_rate_2016M = rateParam()")
-        #LineWrite(settname, "FakeEle_rate_2016M.chs = [")
-        #LineWrite(settname, "\t'SR_electron',")
-        #LineWrite(settname, "\t'CRF_electron',")
-        #LineWrite(settname, "]")
-        #LineWrite(settname, "FakeEle_rate_2016M.bkg = 'Fake'")
-        #LineWrite(settname, "")
+    if WithFakeCR:
+        LineWrite(settname, "FakeMu_rate_2016M = rateParam()")
+        LineWrite(settname, "FakeMu_rate_2016M.chs = [")
+        LineWrite(settname, "\t'SR_muon',")
+        LineWrite(settname, "\t'CRF_muon',")
+        LineWrite(settname, "]")
+        LineWrite(settname, "FakeMu_rate_2016M.bkg = 'Fake'")
+        LineWrite(settname, "")
+        LineWrite(settname, "FakeEle_rate_2016M = rateParam()")
+        LineWrite(settname, "FakeEle_rate_2016M.chs = [")
+        LineWrite(settname, "\t'SR_electron',")
+        LineWrite(settname, "\t'CRF_electron',")
+        LineWrite(settname, "]")
+        LineWrite(settname, "FakeEle_rate_2016M.bkg = 'Fake'")
+        LineWrite(settname, "")
     
     LineWrite(settname, "TTbarmu_rate_2016M = rateParam()")
     LineWrite(settname, "TTbarmu_rate_2016M.chs = [")
@@ -171,21 +171,21 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "]")
         LineWrite(settname, "DYele_rate_2016M.bkg = dyjets_sample")
         LineWrite(settname, "")
-    #if WithFakeCR:
-        #LineWrite(settname, "FakeMu_rate_2017 = rateParam()")
-        #LineWrite(settname, "FakeMu_rate_2017.chs = [")
-        #LineWrite(settname, "\t'SR_muon',")
-        #LineWrite(settname, "\t'CRF_muon',")
-        #LineWrite(settname, "]")
-        #LineWrite(settname, "FakeMu_rate_2017.bkg = 'Fake'")
-        #LineWrite(settname, "")
-        #LineWrite(settname, "FakeEle_rate_2017 = rateParam()")
-        #LineWrite(settname, "FakeEle_rate_2017.chs = [")
-        #LineWrite(settname, "\t'SR_electron',")
-        #LineWrite(settname, "\t'CRF_electron',")
-        #LineWrite(settname, "]")
-        #LineWrite(settname, "FakeEle_rate_2017.bkg = 'Fake'")
-        #LineWrite(settname, "")
+    if WithFakeCR:
+        LineWrite(settname, "FakeMu_rate_2017 = rateParam()")
+        LineWrite(settname, "FakeMu_rate_2017.chs = [")
+        LineWrite(settname, "\t'SR_muon',")
+        LineWrite(settname, "\t'CRF_muon',")
+        LineWrite(settname, "]")
+        LineWrite(settname, "FakeMu_rate_2017.bkg = 'Fake'")
+        LineWrite(settname, "")
+        LineWrite(settname, "FakeEle_rate_2017 = rateParam()")
+        LineWrite(settname, "FakeEle_rate_2017.chs = [")
+        LineWrite(settname, "\t'SR_electron',")
+        LineWrite(settname, "\t'CRF_electron',")
+        LineWrite(settname, "]")
+        LineWrite(settname, "FakeEle_rate_2017.bkg = 'Fake'")
+        LineWrite(settname, "")
 
     LineWrite(settname, "TTbarmu_rate_2017 = rateParam()")
     LineWrite(settname, "TTbarmu_rate_2017.chs = [")
@@ -217,21 +217,21 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "]")
         LineWrite(settname, "DYele_rate_2017.bkg = dyjets_sample")
         LineWrite(settname, "")
-    #if WithFakeCR:
-        #LineWrite(settname, "FakeMu_rate_2018 = rateParam()")
-        #LineWrite(settname, "FakeMu_rate_2018.chs = [")
-        #LineWrite(settname, "\t'SR_muon',")
-        #LineWrite(settname, "\t'CRF_muon',")
-        #LineWrite(settname, "]")
-        #LineWrite(settname, "FakeMu_rate_2018.bkg = 'Fake'")
-        #LineWrite(settname, "")
-        #LineWrite(settname, "FakeEle_rate_2018 = rateParam()")
-        #LineWrite(settname, "FakeEle_rate_2018.chs = [")
-        #LineWrite(settname, "\t'SR_electron',")
-        #LineWrite(settname, "\t'CRF_electron',")
-        #LineWrite(settname, "]")
-        #LineWrite(settname, "FakeEle_rate_2018.bkg = 'Fake'")
-        #LineWrite(settname, "")
+    if WithFakeCR:
+        LineWrite(settname, "FakeMu_rate_2018 = rateParam()")
+        LineWrite(settname, "FakeMu_rate_2018.chs = [")
+        LineWrite(settname, "\t'SR_muon',")
+        LineWrite(settname, "\t'CRF_muon',")
+        LineWrite(settname, "]")
+        LineWrite(settname, "FakeMu_rate_2018.bkg = 'Fake'")
+        LineWrite(settname, "")
+        LineWrite(settname, "FakeEle_rate_2018 = rateParam()")
+        LineWrite(settname, "FakeEle_rate_2018.chs = [")
+        LineWrite(settname, "\t'SR_electron',")
+        LineWrite(settname, "\t'CRF_electron',")
+        LineWrite(settname, "]")
+        LineWrite(settname, "FakeEle_rate_2018.bkg = 'Fake'")
+        LineWrite(settname, "")
     
     LineWrite(settname, "TTbarmu_rate_2018 = rateParam()")
     LineWrite(settname, "TTbarmu_rate_2018.chs = [")
@@ -263,14 +263,14 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "]")
         LineWrite(settname, "DYele_rate_2018.bkg = dyjets_sample")
         LineWrite(settname, "")
-    #if WithFakeCR:
-        #LineWrite(settname, "rateParams['FRest_muon_2016M'] = FakeMu_rate_2016M")
-        #LineWrite(settname, "rateParams['FRest_electron_2016M'] = FakeEle_rate_2016M")
-        #LineWrite(settname, "rateParams['FRest_muon_2017'] = FakeMu_rate_2017")
-        #LineWrite(settname, "rateParams['FRest_electron_2017'] = FakeEle_rate_2017")
-        #LineWrite(settname, "rateParams['FRest_muon_2018'] = FakeMu_rate_2018")
-        #LineWrite(settname, "rateParams['FRest_electron_2018'] = FakeEle_rate_2018")
-        #LineWrite(settname, "")
+    if WithFakeCR:
+        LineWrite(settname, "rateParams['FRest_muon_2016M'] = FakeMu_rate_2016M")
+        LineWrite(settname, "rateParams['FRest_electron_2016M'] = FakeEle_rate_2016M")
+        LineWrite(settname, "rateParams['FRest_muon_2017'] = FakeMu_rate_2017")
+        LineWrite(settname, "rateParams['FRest_electron_2017'] = FakeEle_rate_2017")
+        LineWrite(settname, "rateParams['FRest_muon_2018'] = FakeMu_rate_2018")
+        LineWrite(settname, "rateParams['FRest_electron_2018'] = FakeEle_rate_2018")
+        LineWrite(settname, "")
         
     LineWrite(settname, "rateParams['TTest_muon_2016M'] = TTbarmu_rate_2016M")
     LineWrite(settname, "rateParams['TTest_electron_2016M'] = TTbarele_rate_2016M")
@@ -583,7 +583,7 @@ def IterateVars(srvarlist, crvarlist):
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"): 
     yeartag = year.replace("2016M,2017,2018", "RunII")
 
-    folder = 'fit' + pdftype + "_"
+    folder = 'fit' + pdftype + "_Frp_"
     if not DYrp:
         folder += 'nodyrp_' 
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -611,7 +611,7 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
     
-    folder = 'fit' + pdftype + "_"
+    folder = 'fit' + pdftype + "_Frp_"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -661,7 +661,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit' + pdftype + "_"
+    folder = 'fit' + pdftype + "_Frp_"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -702,7 +702,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit' + pdftype + "_"
+    folder = 'fit' + pdftype + "_Frp_"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -765,7 +765,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     yearsett = settmod.years
     method = "hist"
 
-    folder = 'fit' + pdftype + "_"
+    folder = 'fit' + pdftype + "_Frp_"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -1215,7 +1215,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     yearsett = settmod.years
     method = "hist"
     
-    folder = 'fit' + pdftype + "_"
+    folder = 'fit' + pdftype + "_Frp_"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
