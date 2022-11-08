@@ -235,7 +235,7 @@ for year in years:
                     if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                         continue
                     syskey = copy.deepcopy(sysnam)
-                    if sysnam.startswith("QCDScale") or sysnam.startswith("pdf_Tot"):
+                    if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR"):
                         sysname = sysnam.replace("WpWpJJ_", "").replace("_" + sysnam.split("_")[-1], "")
                     else:
                         sysname = sysnam
@@ -320,7 +320,7 @@ for year in years:
                         if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                             continue
 
-                        if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")):
+                        if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR"):
                             sysname = sysnam.replace("WpWpJJ_", "").replace("_" + sysnam.split("_")[-1], "")
                         else:
                             sysname = sysnam

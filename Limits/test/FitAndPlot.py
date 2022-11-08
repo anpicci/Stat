@@ -29,6 +29,7 @@ parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
+parser.add_option('--flat', dest='flat', default = False, action='store_true', help='Enable flattening bin')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
@@ -50,6 +51,8 @@ if opt.tDMcut:
     tagfolder = "_tDM"
 elif opt.test:
     tagfolder = "_test"
+if opt.flat:
+    tagfolder += "_flat"
 
 models = []
 if opt.sm and not (opt.vbs or opt.wpwp or opt.wpwpEW):
