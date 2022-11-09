@@ -368,29 +368,29 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "syst['QCDScale_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
     LineWrite(settname, "syst['QCDScale_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
     
-    #LineWrite(settname, "syst['ISR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-    LineWrite(settname, "if model !='WpWpJJ':")
-    LineWrite(settname, "\tsyst['ISR_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
-    LineWrite(settname, "syst['ISR_VG'] = [shapesyst, ('VG'), 'corr']")
-    LineWrite(settname, "syst['ISR_TVX'] = [shapesyst, ('TVX'), 'corr']")
-    LineWrite(settname, "syst['ISR_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
-    LineWrite(settname, "syst['ISR_WZ'] = [shapesyst, ('WZ'), 'corr']")
-    LineWrite(settname, "syst['ISR_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
-    LineWrite(settname, "syst['ISR_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
-    LineWrite(settname, "syst['ISR_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
-    LineWrite(settname, "syst['ISR_sig'] = [shapesyst, ('sig'), 'corr']")
+    LineWrite(settname, "syst['ISR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+    #LineWrite(settname, "if model !='WpWpJJ':")
+    #LineWrite(settname, "\tsyst['ISR_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
+    #LineWrite(settname, "syst['ISR_VG'] = [shapesyst, ('VG'), 'corr']")
+    #LineWrite(settname, "syst['ISR_TVX'] = [shapesyst, ('TVX'), 'corr']")
+    #LineWrite(settname, "syst['ISR_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
+    #LineWrite(settname, "syst['ISR_WZ'] = [shapesyst, ('WZ'), 'corr']")
+    #LineWrite(settname, "syst['ISR_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
+    #LineWrite(settname, "syst['ISR_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
+    #LineWrite(settname, "syst['ISR_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
+    #LineWrite(settname, "syst['ISR_sig'] = [shapesyst, ('sig'), 'corr']")
 
-    #LineWrite(settname, "syst['FSR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-    LineWrite(settname, "if model !='WpWpJJ':")
-    LineWrite(settname, "\tsyst['FSR_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
-    LineWrite(settname, "syst['FSR_VG'] = [shapesyst, ('VG'), 'corr']")
-    LineWrite(settname, "syst['FSR_TVX'] = [shapesyst, ('TVX'), 'corr']")
-    LineWrite(settname, "syst['FSR_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
-    LineWrite(settname, "syst['FSR_WZ'] = [shapesyst, ('WZ'), 'corr']")
-    LineWrite(settname, "syst['FSR_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
-    LineWrite(settname, "syst['FSR_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
-    LineWrite(settname, "syst['FSR_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
-    LineWrite(settname, "syst['FSR_sig'] = [shapesyst, ('sig'), 'corr']")
+    LineWrite(settname, "syst['FSR'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+    #LineWrite(settname, "if model !='WpWpJJ':")
+    #LineWrite(settname, "\tsyst['FSR_WpWpJJ_QCD'] = [shapesyst, ('WpWpJJ_QCD'), 'corr']")
+    #LineWrite(settname, "syst['FSR_VG'] = [shapesyst, ('VG'), 'corr']")
+    #LineWrite(settname, "syst['FSR_TVX'] = [shapesyst, ('TVX'), 'corr']")
+    #LineWrite(settname, "syst['FSR_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
+    #LineWrite(settname, "syst['FSR_WZ'] = [shapesyst, ('WZ'), 'corr']")
+    #LineWrite(settname, "syst['FSR_Triboson'] = [shapesyst, (triboson_sample), 'corr']")
+    #LineWrite(settname, "syst['FSR_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
+    #LineWrite(settname, "syst['FSR_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
+    #LineWrite(settname, "syst['FSR_sig'] = [shapesyst, ('sig'), 'corr']")
     
     LineWrite(settname, "syst['jes'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['metUnclust'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
@@ -414,42 +414,47 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     
     #LineWrite(settname, "systgroups['FRsys group'] = ['FR_sys_muon_2016M', 'FR_sys_electron_2016M', 'FR_sys_muon_2017', 'FR_sys_electron_2017', 'FR_sys_muon_2018', 'FR_sys_electron_2018']")
     if not pdftype.endswith("sep"):
-        LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
+        LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
+        #LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
         LineWrite(settname, "if model != 'WpWpJJ':")
         LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
-        LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
-        LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
+        #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
+        #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
     else:
         if not DYrp:
             if PDFWithTTDY:
-                LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                #LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
                 LineWrite(settname, "if model != 'WpWpJJ':")
                 LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
                 LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
             else:
-                LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                #LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
                 LineWrite(settname, "if model != 'WpWpJJ':")
                 LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
                 LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
         else:
             if PDFWithTTDY:
-                LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                #LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_DY', '" + pdfstr + "_TTdilep', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
                 LineWrite(settname, "if model != 'WpWpJJ':")
                 LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
                 LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
             else:
-                LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
+                #LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "_sig', '" + pdfstr + "_VG', '" + pdfstr + "_TVX', '" + pdfstr + "_WZ', '" + pdfstr + "_Triboson', '" + pdfstr + "_WrongSign', '" + pdfstr + "_ZZtoLep']")
                 LineWrite(settname, "if model != 'WpWpJJ':")
                 LineWrite(settname, "\tsystgroups['theory group'].append('QCDScale_WpWpJJ_QCD')")
                 LineWrite(settname, "\tsystgroups['theory group'].append('" + pdfstr + "_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
-                LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
+                #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
 
     LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
     LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
@@ -618,7 +623,7 @@ def IterateVars(srvarlist, crvarlist):
 def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"): 
     yeartag = year.replace("2016M,2017,2018", "RunII")
 
-    folder = 'fit' + pdftype + "_DYinOS_"
+    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
     if not DYrp:
         folder += 'nodyrp_' 
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -646,7 +651,7 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
     
-    folder = 'fit' + pdftype + "_DYinOS_"
+    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -696,7 +701,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit' + pdftype + "_DYinOS_"
+    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -737,7 +742,7 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit' + pdftype + "_DYinOS_"
+    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -800,7 +805,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     yearsett = settmod.years
     method = "hist"
 
-    folder = 'fit' + pdftype + "_DYinOS_"
+    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
@@ -1250,7 +1255,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     yearsett = settmod.years
     method = "hist"
     
-    folder = 'fit' + pdftype + "_DYinOS_"
+    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
     if not DYrp:
         folder += 'nodyrp_'
     folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
