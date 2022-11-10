@@ -29,11 +29,10 @@ parser.add_option('--tagfolder', dest='tagfold', type='string', default = '', he
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 
+(opt, args) = parser.parse_args()
+
 DYrp = opt.DYrp
 pdftype = opt.pdf
-
-
-(opt, args) = parser.parse_args()
 
 varloops = IterateVars(opt.sr, opt.cr)
 print varloops

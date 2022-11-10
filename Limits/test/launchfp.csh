@@ -31,7 +31,7 @@
 #python FitAndPlot.py --year RunII --folder vUL045 --eft FT0_1p0,FT1_1p0,FT2_0p9,FM0_1p0,FM1_0p9,FM7_1p0,FS0_1p0,FS1_1p0,FS2_1p0 --fit m_o1,DNN_dim6_final_1 --noFit --notUncBreak --notImpacts --PDFWithTTDY --WithFakeCR --tDMcut 
 #python FitAndPlot.py --year RunII --folder vUL045 --eft cW,cHW --fit m_o1,DNN_dim6_final_1,DNN_dim8_final_1 --noFit --notUncBreak --notImpacts --PDFWithTTDY --WithFakeCR --tDMcut 
 
-python FitAndPlot.py --year RunII --folder vUL045 --eft FM7_1p0 --fit m_o1 --notUncBreak --notImpacts --PDFWithTTDY --WithFakeCR --tDMcut 
+python FitAndPlot.py --year RunII --folder vUL050 --eft FM7_1p0 --fit m_o1 --notUncBreak --notImpacts --DYrp --WithFakeCR --tDMcut --pdf Tot --notCI
 
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --vbs --fit m_o1,BDT_SM_UL040_v2,DNN_SM_UL040_v2 --notUncBreak
 #python FitAndPlot.py --year RunII --folder vUL040 --sm --vbs --fit m_o1,BDT_SM_UL040_v2,DNN_SM_UL040_v2 --notImpacts

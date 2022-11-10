@@ -116,6 +116,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             ### Run EFT Likelihood Scan for EFT models
             else:
                 RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+                pass
             
         ### Run Impacts, if desired
         if opt.impacts:

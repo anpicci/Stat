@@ -21,6 +21,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     if DYrp:
         settitle += "_DYrp"
     settitle += "_" + pdftype + ".py"
+    print("Producing " + settitle)
     settname = open(settitle, "w")
     LineWrite(settname, "import collections")
     LineWrite(settname, "import copy")
@@ -773,7 +774,14 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
         runcomb += " --PDFWithTTDY"
     if addLambda8:
         collhist += " --Lambda8"
-    
+    if DYrp:
+        collhist += " --DYrp"
+        createdata += " --DYrp"
+        runcomb += " --DYrp"
+    collhist += " --pdf " + pdftype 
+    createdata += " --pdf " + pdftype 
+    runcomb += " --pdf " + pdftype
+   
     try:
         os.system(collhist)
     except:
@@ -1101,7 +1109,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
     for var in vartopost:
         varname = var.name
 
-        folder = 'postfit' + pdftype + "_"
+        folder = 'postfit' + pdftype + "_DYinOS_oneIFSR"
         if not DYrp:
             folder += 'nodyrp_'
         folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
