@@ -38,31 +38,31 @@ bin_bdtsm_dev = array("d", [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.65, 0.7, 0.
 nbin_bdtsm_dev = len(bin_bdtsm_dev) - 1
 
 variables.append(variabile('DNN_SM_final_1', 'SM DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (final)"))
-variables.append(variabile('DNN_dim6_final_1', 'dim6 DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 DNN (final)"))
-variables.append(variabile('DNN_dim8_final_1', 'dim8 DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final)"))
-variables.append(variabile('DNN_pol_final_1', 'pol DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "pol DNN (final)"))
+variables.append(variabile('DNN_dim6_final_2', 'dim6 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 DNN (final)"))
+variables.append(variabile('DNN_dim8_final_3', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final)"))
+#variables.append(variabile('DNN_pol_final_1', 'pol DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "pol DNN (final)"))
 
-variables.append(variabile('BDT_SM_final_1', 'SM BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM BDT (final)"))
-variables.append(variabile('BDT_dim6_final_1', 'dim6 BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 BDT (final)"))
-variables.append(variabile('BDT_dim8_final_1', 'dim8 BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 BDT (final)"))
-variables.append(variabile('BDT_pol_final_1', 'pol BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "pol BDT (final)"))
+#variables.append(variabile('BDT_SM_final_1', 'SM BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM BDT (final)"))
+#variables.append(variabile('BDT_dim6_final_1', 'dim6 BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 BDT (final)"))
+#variables.append(variabile('BDT_dim8_final_1', 'dim8 BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 BDT (final)"))
+#variables.append(variabile('BDT_pol_final_1', 'pol BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "pol BDT (final)"))
 
 
-variables.append(variabile('DNN_SM_50I_TV', 'SM DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
+#variables.append(variabile('DNN_SM_50I_TV', 'SM DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
 
-variables.append(variabile('DNN_cHW_50I_TV2', 'c_{HW} DNN output (50I TV2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (50I TV2)"))
-variables.append(variabile('DNN_cW_50I_TV0', 'c_{HW} DNN output (50I TV0)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{W} DNN (50I TV0)"))
+#variables.append(variabile('DNN_cHW_50I_TV2', 'c_{HW} DNN output (50I TV2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (50I TV2)"))
+#variables.append(variabile('DNN_cW_50I_TV0', 'c_{HW} DNN output (50I TV0)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{W} DNN (50I TV0)"))#
 
-variables.append(variabile('DNN_fS_50I_TV1', 'f_{S} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{S} DNN (50I TV1)"))
-variables.append(variabile('DNN_fT_50I_TV1', 'f_{T} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{T} DNN (50I TV1)"))
-variables.append(variabile('DNN_fM_50I_TV1', 'f_{M} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{M} DNN (50I TV1)"))
+#variables.append(variabile('DNN_fS_50I_TV1', 'f_{S} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{S} DNN (50I TV1)"))
+#variables.append(variabile('DNN_fT_50I_TV1', 'f_{T} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{T} DNN (50I TV1)"))
+#variables.append(variabile('DNN_fM_50I_TV1', 'f_{M} DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "f_{M} DNN (50I TV1)"))
 
-variables.append(variabile('DNN_POL_50I_TV', 'Pol. DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
+#variables.append(variabile('DNN_POL_50I_TV', 'Pol. DNN output (50I TV)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV)"))
 
-variables.append(variabile('DNN_cHW_final_1', 'c_{HW} DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (final 1)"))
-variables.append(variabile('DNN_dim6_final_2', 'dim6 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 DNN (final 2)"))
-variables.append(variabile('DNN_dim8_final_2', 'dim8 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final 2)"))
-variables.append(variabile('DNN_dim8_final_3', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final 3)"))
+#variables.append(variabile('DNN_cHW_final_1', 'c_{HW} DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "c_{HW} DNN (final 1)"))
+#variables.append(variabile('DNN_dim6_final_2', 'dim6 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 DNN (final 2)"))
+#variables.append(variabile('DNN_dim8_final_2', 'dim8 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final 2)"))
+#variables.append(variabile('DNN_dim8_final_3', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 DNN (final 3)"))
 '''
 variables.append(variabile('DNN_SM_50I_TV1', 'SM DNN output (50I TV1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (50I TV1)"))
 variables.append(variabile('DNN_SM_ACAT', 'SM DNN output (ACAT)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (ACAT)"))

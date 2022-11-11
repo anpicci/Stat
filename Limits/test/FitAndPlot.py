@@ -56,7 +56,7 @@ if opt.flat:
 
 models = []
 if opt.sm and not (opt.vbs or opt.wpwp or opt.wpwpEW):
-    raise ValueError("With --sm you have to use at least one among --vbs and --wpwp")
+    raise ValueError("With --sm you have to use at least one among --vbs, --wpwp, and --wpwpEW")
 
 if opt.sm and opt.vbs:
     modtag = ""

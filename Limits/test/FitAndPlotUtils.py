@@ -729,6 +729,13 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
         collhist += " --PDFWithTTDY"
         createdata += " --PDFWithTTDY"
         runcomb += " --PDFWithTTDY"
+    if DYrp:
+        collhist += " --DYrp"
+        createdata += " --DYrp"
+        runcomb += " --DYrp"
+    collhist += " --pdf " + pdftype
+    createdata += " --pdf " + pdftype
+    runcomb += " --pdf " + pdftype
 
     try:
         os.system(collhist)

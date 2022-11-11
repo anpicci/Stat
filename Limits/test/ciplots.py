@@ -238,7 +238,8 @@ for srv, crv in varloops:
         labels.append(srlabel + " + " + crlabel)
     else:
         labels.append(srlabel)
-    lspath = "fit" + pdftype
+    lspath = "fit" + pdftype + "_DYinOS_oneIFSR"
+    #lspath = "fit"
     if not DYrp:
         lspath += 'nodyrp_'
     lspath += "_" + opt.folder + "/" + srv + "_" + crv + "_" + opt.era
@@ -265,7 +266,7 @@ for srv, crv in varloops:
 
 y = []
 
-outfolder = "CIplots_" + opt.folder + "/" + opt.tagfold
+outfolder = "CIplots_" + pdftype + "_DYinOS_oneIFSR_" + opt.folder + "/" + opt.tagfold
 if opt.wfc:
     outfolder += "_WithFakeCR"
 if opt.pdfttdy:

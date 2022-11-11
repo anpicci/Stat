@@ -1,0 +1,550 @@
+diffNuisances run on fitDiagnosticsFM7_DNN_dim6_final_2_DNN_dim6_final_2_t0.root, at 2022-11-11 08:45:17.264199 with the following options ... {'absolute_values': False, 'show_all_parameters': True, 'format': 'text', 'stol2': 0.5, 'pullDef': '', 'vtol': 0.3, 'stol': 0.1, 'plotfile': 'plotsFM7_DNN_dim6_final_2_DNN_dim6_final_2_t0.root', 'skipFitB': False, 'sortBy': 'correlation', 'vtol2': 2.0, 'poi': 'k_cM7', 'skipFitS': False}
+
+name                                              b-only fit            s+b fit         rho  approx impact
+FSR                                              +0.00, 0.55     * -0.00, 0.56*     *-0.13*      -9.085
+prop_binCRF_electron2016M_bin11_Fake             +0.00, 0.97        -0.00, 0.98       -0.11     -12.362
+QCDScale_sig                                     -0.00, 0.98        +0.00, 0.98       -0.10     -12.131
+pdf_Tot                                          -0.00, 0.97        -0.00, 0.97       -0.09     -10.615
+prop_binCROS_muon2016M_bin2                      -0.00, 0.57     * +0.00, 0.57*     *+0.08*      +5.309
+prop_binCROS_muon2016M_bin6                      -0.00, 0.79     * +0.00, 0.79*     *+0.07*      +6.610
+prop_binCRF_muon2016M_bin9_Fake                  +0.00, 0.97        -0.00, 0.97       -0.07      -7.964
+prop_binCROS_electron2018_bin1                   -0.00, 0.39     ! +0.00, 0.40!     !+0.06!      +2.842
+prop_binCROS_muon2018_bin1                       +0.00, 0.51     * +0.00, 0.51*     *+0.05*      +3.131
+pu                                               +0.00, 0.87     * +0.00, 0.87*     *+0.04*      +3.999
+prop_binCRTT_muon2018_bin1                       -0.00, 0.43     ! +0.00, 0.43!     !-0.04!      -1.960
+prop_binCROS_muon2018_bin8                       -0.00, 0.70     * +0.00, 0.70*     *-0.04*      -3.267
+prop_binCROS_muon2017_bin12_WrongSign            +0.00, 0.84     * -0.00, 0.84*     *+0.04*      +4.442
+prop_binCROS_muon2017_bin1                       -0.00, 0.56     * +0.00, 0.56*     *+0.04*      +2.649
+prop_binCROS_muon2016M_bin1                      -0.00, 0.49     ! +0.00, 0.49!     !-0.04!      -2.470
+prop_binCROS_electron2017_bin6                   -0.00, 0.76     * +0.00, 0.76*     *+0.04*      +3.274
+prop_binCRF_muon2016M_bin9_WZ                    +0.00, 0.99        -0.00, 0.99       -0.04      -4.273
+metUnclust                                       +0.00, 0.36     ! -0.00, 0.36!     !-0.04!      -1.795
+lumi_2017                                        -0.00, 0.98        -0.00, 0.98       -0.04      -4.612
+lumi_2016M                                       -0.00, 0.98        +0.00, 0.98       -0.04      -4.885
+QCDScale_TTdilep                                 -0.00, 0.79     * +0.00, 0.80*     *+0.04*      +4.016
+PF                                               +0.00, 0.96        +0.00, 0.96       +0.04      +4.254
+tau_vsjet_2016M                                  -0.00, 0.99        +0.00, 0.99       -0.03      -3.216
+prop_binSR_muon2017_bin8                         +0.00, 0.97        -0.00, 0.98       -0.03      -3.007
+prop_binSR_muon2017_bin7                         -0.00, 0.93        -0.00, 0.93       -0.03      -2.915
+prop_binSR_muon2016M_bin9                        -0.00, 0.96        -0.00, 0.96       -0.03      -2.903
+prop_binSR_muon2016M_bin8                        -0.00, 0.96        -0.00, 0.96       -0.03      -2.966
+prop_binSR_muon2016M_bin7                        -0.00, 0.93        -0.00, 0.93       -0.03      -3.010
+prop_binSR_muon2016M_bin2                        -0.00, 0.72     * -0.00, 0.72*     *-0.03*      -2.693
+prop_binSR_electron2018_bin9                     -0.00, 0.85     * -0.00, 0.85*     *-0.03*      -2.561
+prop_binSR_electron2018_bin8                     -0.00, 0.86     * -0.00, 0.86*     *-0.03*      -2.633
+prop_binSR_electron2018_bin7                     -0.00, 0.92        -0.00, 0.92       -0.03      -3.171
+prop_binSR_electron2017_bin8                     +0.00, 0.94        -0.00, 0.94       -0.03      -3.103
+prop_binSR_electron2017_bin7                     -0.00, 0.93        -0.00, 0.93       -0.03      -3.216
+prop_binSR_electron2017_bin6                     -0.00, 0.93        -0.00, 0.93       -0.03      -2.902
+prop_binSR_electron2017_bin4                     -0.00, 0.88     * -0.00, 0.88*     *-0.03*      -2.812
+prop_binSR_electron2017_bin2                     +0.00, 0.81     * -0.00, 0.81*     *-0.03*      -2.453
+prop_binSR_electron2016M_bin8                    -0.00, 0.89     * -0.00, 0.89*     *-0.03*      -3.151
+prop_binSR_electron2016M_bin6                    -0.00, 0.89     * -0.00, 0.89*     *-0.03*      -2.922
+prop_binSR_electron2016M_bin4                    -0.00, 0.91        -0.00, 0.91       -0.03      -3.033
+prop_binSR_electron2016M_bin3                    +0.00, 0.90     * -0.00, 0.90*     *-0.03*      -3.009
+prop_binCRTT_muon2018_bin0                       -0.00, 0.37     ! +0.00, 0.37!     !-0.03!      -1.212
+prop_binCRTT_muon2017_bin0                       -0.00, 0.40     ! +0.00, 0.40!     !-0.03!      -1.204
+prop_binCROS_muon2018_bin5                       -0.00, 0.64     * +0.00, 0.64*     *+0.03*      +1.933
+prop_binCROS_muon2017_bin8_WrongSign             +0.00, 0.58     * -0.00, 0.58*     *-0.03*      -2.081
+prop_binCROS_muon2017_bin0                       -0.00, 0.58     * +0.00, 0.58*     *-0.03*      -1.881
+prop_binCROS_muon2016M_bin11                     -0.00, 0.85     * +0.00, 0.85*     *+0.03*      +2.826
+prop_binCROS_electron2017_bin1                   -0.00, 0.59     * +0.00, 0.59*     *+0.03*      +2.344
+prop_binCROS_electron2016M_bin5_WrongSign         -0.00, 0.80     * -0.00, 0.80*     *+0.03*      +2.429
+prop_binCROS_electron2016M_bin3                  +0.00, 0.72     * +0.00, 0.72*     *-0.03*      -2.299
+prop_binCRF_muon2018_bin9                        +0.00, 0.90        -0.00, 0.90       -0.03      -3.270
+prop_binCRF_muon2018_bin7                        +0.00, 0.89     * -0.00, 0.89*     *-0.03*      -3.211
+prop_binCRF_muon2018_bin6                        -0.00, 0.89     * -0.00, 0.89*     *-0.03*      -2.930
+prop_binCRF_muon2018_bin11                       -0.00, 0.96        -0.00, 0.96       -0.03      -3.383
+prop_binCRF_muon2018_bin10                       +0.00, 0.96        -0.00, 0.96       -0.03      -3.420
+prop_binCRF_muon2018_bin0                        -0.00, 0.14     ! -0.00, 0.14!     !+0.03!      +0.441
+prop_binCRF_muon2017_bin6                        +0.00, 0.88     * -0.00, 0.88*     *-0.03*      -3.158
+prop_binCRF_muon2017_bin5                        +0.00, 0.88     * -0.00, 0.88*     *-0.03*      -2.819
+prop_binCRF_muon2017_bin4                        -0.00, 0.84     * -0.00, 0.84*     *-0.03*      -2.684
+prop_binCRF_muon2017_bin10                       +0.00, 0.93        -0.00, 0.93       -0.03      -3.628
+prop_binCRF_muon2016M_bin6                       +0.00, 0.88     * -0.00, 0.88*     *-0.03*      -3.099
+prop_binCRF_muon2016M_bin5                       +0.00, 0.88     * -0.00, 0.88*     *-0.03*      -3.132
+prop_binCRF_muon2016M_bin4                       +0.00, 0.79     * -0.00, 0.79*     *-0.03*      -2.383
+prop_binCRF_muon2016M_bin11_TTTo2L2Nu            +0.00, 1.00        -0.00, 1.00       -0.03      -3.441
+prop_binCRF_electron2018_bin9                    -0.00, 0.90        -0.00, 0.90       -0.03      -3.352
+prop_binCRF_electron2018_bin12                   +0.00, 0.92        -0.00, 0.92       -0.03      -3.610
+prop_binCRF_electron2017_bin9                    -0.00, 0.87     * -0.00, 0.87*     *-0.03*      -3.190
+prop_binCRF_electron2017_bin8                    +0.00, 0.90        -0.00, 0.90       -0.03      -3.311
+prop_binCRF_electron2017_bin6                    +0.00, 0.97        -0.00, 0.97       -0.03      -3.488
+prop_binCRF_electron2017_bin5                    -0.00, 0.89     * -0.00, 0.89*     *-0.03*      -3.059
+prop_binCRF_electron2017_bin4                    -0.00, 0.86     * -0.00, 0.86*     *-0.03*      -2.901
+prop_binCRF_electron2017_bin0                    +0.00, 0.17     ! +0.00, 0.17!     !+0.03!      +0.544
+prop_binCRF_electron2016M_bin8                   +0.00, 0.98        -0.00, 0.98       -0.03      -3.850
+prop_binCRF_electron2016M_bin7                   -0.00, 0.96        -0.00, 0.96       -0.03      -3.610
+prop_binCRF_electron2016M_bin6                   +0.00, 0.88     * -0.00, 0.88*     *-0.03*      -3.014
+prop_binCRF_electron2016M_bin5                   -0.00, 0.93        -0.00, 0.93       -0.03      -3.304
+prop_binCRF_electron2016M_bin12                  +0.00, 0.97        -0.00, 0.97       -0.03      -3.578
+prop_binCRF_electron2016M_bin10                  -0.00, 0.91        -0.00, 0.91       -0.03      -3.451
+lumi_2018                                        -0.00, 0.97        -0.00, 0.97       -0.03      -3.471
+TES                                              +0.00, 0.45     ! -0.00, 0.45!     !+0.03!      +1.528
+ISR                                              +0.00, 0.70     * -0.00, 0.71*     *-0.03*      -2.281
+prop_binSR_muon2018_bin9                         +0.00, 0.92        -0.00, 0.92       -0.02      -2.443
+prop_binSR_muon2018_bin8                         -0.00, 0.87     * -0.00, 0.87*     *-0.02*      -2.334
+prop_binSR_muon2018_bin5                         +0.00, 0.74     * +0.00, 0.74*     *-0.02*      -1.813
+prop_binSR_muon2018_bin3                         +0.00, 0.67     * +0.00, 0.67*     *-0.02*      -1.412
+prop_binSR_muon2018_bin10                        +0.00, 0.93        -0.00, 0.93       -0.02      -2.146
+prop_binSR_muon2017_bin6                         -0.00, 0.88     * -0.00, 0.88*     *-0.02*      -2.500
+prop_binSR_muon2017_bin5                         -0.00, 0.93        -0.00, 0.94       -0.02      -2.543
+prop_binSR_muon2017_bin2                         -0.00, 0.70     * -0.00, 0.70*     *-0.02*      -1.570
+prop_binSR_muon2017_bin11                        -0.00, 0.95        -0.00, 0.95       -0.02      -2.185
+prop_binSR_muon2017_bin1                         +0.00, 0.62     * +0.00, 0.62*     *-0.02*      -1.129
+prop_binSR_muon2016M_bin6                        +0.00, 0.89     * +0.00, 0.89*     *-0.02*      -2.521
+prop_binSR_muon2016M_bin5                        -0.00, 0.80     * -0.00, 0.80*     *-0.02*      -2.264
+prop_binSR_muon2016M_bin4                        -0.00, 0.81     * -0.00, 0.81*     *-0.02*      -2.308
+prop_binSR_muon2016M_bin11                       -0.00, 0.98        -0.00, 0.98       -0.02      -1.979
+prop_binSR_muon2016M_bin10                       -0.00, 0.98        -0.00, 0.98       -0.02      -2.156
+prop_binSR_muon2016M_bin1                        +0.00, 0.60     * +0.00, 0.60*     *-0.02*      -1.106
+prop_binSR_electron2018_bin6                     -0.00, 0.85     * -0.00, 0.85*     *-0.02*      -2.531
+prop_binSR_electron2018_bin5                     +0.00, 0.88     * -0.00, 0.88*     *-0.02*      -2.475
+prop_binSR_electron2018_bin3                     +0.00, 0.68     * -0.00, 0.68*     *-0.02*      -1.598
+prop_binSR_electron2018_bin11                    -0.00, 0.95        -0.00, 0.95       -0.02      -1.931
+prop_binSR_electron2018_bin1                     +0.00, 0.58     * +0.00, 0.58*     *-0.02*      -1.065
+prop_binSR_electron2017_bin5                     +0.00, 0.90     * -0.00, 0.90*     *-0.02*      -2.580
+prop_binSR_electron2017_bin11                    -0.00, 0.99        -0.00, 0.99       -0.02      -1.837
+prop_binSR_electron2017_bin10                    +0.00, 0.98        -0.00, 0.98       -0.02      -2.535
+prop_binSR_electron2017_bin1                     -0.00, 0.64     * -0.00, 0.64*     *-0.02*      -1.868
+prop_binSR_electron2016M_bin9                    -0.00, 0.98        -0.00, 0.98       -0.02      -2.743
+prop_binSR_electron2016M_bin5                    -0.00, 0.80     * -0.00, 0.80*     *-0.02*      -2.376
+prop_binSR_electron2016M_bin2                    +0.00, 0.75     * +0.00, 0.75*     *-0.02*      -1.983
+prop_binSR_electron2016M_bin11                   +0.00, 0.93        -0.00, 0.93       -0.02      -2.658
+prop_binSR_electron2016M_bin10                   -0.00, 0.95        -0.00, 0.95       -0.02      -2.593
+prop_binSR_electron2016M_bin1                    -0.00, 0.62     * -0.00, 0.62*     *-0.02*      -1.389
+prop_binSR_electron2016M_bin0                    +0.00, 0.48     ! +0.00, 0.48!     !+0.02!      +1.060
+prop_binCRTT_muon2018_bin4                       -0.00, 0.65     * -0.00, 0.65*     *-0.02*      -1.683
+prop_binCRTT_muon2018_bin2                       -0.00, 0.54     * +0.00, 0.54*     *+0.02*      +1.135
+prop_binCRTT_muon2018_bin12                      -0.00, 0.80     * +0.00, 0.80*     *+0.02*      +2.263
+prop_binCRTT_muon2018_bin10                      -0.00, 0.71     * -0.00, 0.71*     *+0.02*      +1.474
+prop_binCRTT_muon2017_bin8                       -0.00, 0.80     * +0.00, 0.80*     *+0.02*      +2.344
+prop_binCRTT_muon2016M_bin4                      -0.00, 0.70     * +0.00, 0.70*     *+0.02*      +1.428
+prop_binCRTT_muon2016M_bin2                      -0.00, 0.56     * +0.00, 0.56*     *-0.02*      -1.641
+prop_binCRTT_muon2016M_bin12                     -0.00, 0.89     * +0.00, 0.89*     *+0.02*      +1.917
+prop_binCRTT_electron2018_bin11                  -0.00, 0.77     * +0.00, 0.77*     *+0.02*      +1.596
+prop_binCRTT_electron2018_bin0                   -0.00, 0.39     ! +0.00, 0.39!     !-0.02!      -0.909
+prop_binCRTT_electron2017_bin1                   -0.00, 0.54     * +0.00, 0.54*     *-0.02*      -1.381
+prop_binCROS_muon2018_bin4                       +0.00, 0.58     * +0.00, 0.58*     *+0.02*      +1.545
+prop_binCROS_muon2018_bin3                       +0.00, 0.50     * +0.00, 0.50*     *+0.02*      +1.139
+prop_binCROS_muon2018_bin12                      -0.00, 0.79     * +0.00, 0.79*     *+0.02*      +1.541
+prop_binCROS_muon2018_bin0                       -0.00, 0.62     * -0.00, 0.62*     *-0.02*      -1.733
+prop_binCROS_muon2017_bin9_WrongSign             +0.00, 0.85     * -0.00, 0.85*     *-0.02*      -2.489
+prop_binCROS_muon2017_bin5                       -0.00, 0.83     * +0.00, 0.83*     *+0.02*      +1.845
+prop_binCROS_muon2017_bin4                       -0.00, 0.77     * +0.00, 0.77*     *+0.02*      +1.963
+prop_binCROS_muon2016M_bin9                      -0.00, 0.83     * +0.00, 0.83*     *-0.02*      -2.289
+prop_binCROS_muon2016M_bin5                      -0.00, 0.67     * +0.00, 0.67*     *+0.02*      +1.757
+prop_binCROS_muon2016M_bin0                      +0.00, 0.63     * +0.00, 0.63*     *-0.02*      -1.865
+prop_binCROS_electron2018_bin8_WrongSign         -0.00, 0.72     * -0.00, 0.72*     *-0.02*      -1.886
+prop_binCROS_electron2018_bin6                   -0.00, 0.71     * -0.00, 0.71*     *+0.02*      +1.552
+prop_binCROS_electron2018_bin3                   -0.00, 0.61     * +0.00, 0.61*     *-0.02*      -1.197
+prop_binCROS_electron2018_bin2                   -0.00, 0.51     * -0.00, 0.51*     *+0.02*      +1.425
+prop_binCROS_electron2018_bin11                  -0.00, 0.74     * +0.00, 0.74*     *-0.02*      -1.605
+prop_binCROS_electron2017_bin9                   -0.00, 0.84     * -0.00, 0.84*     *-0.02*      -1.896
+prop_binCROS_electron2017_bin8_WrongSign         +0.00, 0.91        -0.00, 0.91       -0.02      -3.186
+prop_binCROS_electron2017_bin7_WrongSign         -0.00, 0.76     * -0.00, 0.76*     *-0.02*      -2.107
+prop_binCROS_electron2017_bin2                   -0.00, 0.58     * -0.00, 0.58*     *-0.02*      -1.100
+prop_binCROS_electron2017_bin10_WrongSign         +0.00, 0.74     * -0.00, 0.74*     *+0.02*      +1.785
+prop_binCROS_electron2017_bin0                   -0.00, 0.45     ! +0.00, 0.45!     !+0.02!      +0.854
+prop_binCROS_electron2016M_bin9_WrongSign         +0.00, 0.58     * -0.00, 0.58*     *+0.02*      +1.103
+prop_binCROS_electron2016M_bin2                  -0.00, 0.70     * -0.00, 0.70*     *+0.02*      +1.495
+prop_binCROS_electron2016M_bin10                 -0.00, 0.95        -0.00, 0.95       -0.02      -1.806
+prop_binCRF_muon2018_bin5                        -0.00, 0.80     * -0.00, 0.80*     *-0.02*      -2.290
+prop_binCRF_muon2018_bin4                        -0.00, 0.82     * -0.00, 0.82*     *-0.02*      -2.389
+prop_binCRF_muon2018_bin3                        +0.00, 0.67     * +0.00, 0.67*     *-0.02*      -1.551
+prop_binCRF_muon2018_bin2                        -0.00, 0.58     * -0.00, 0.58*     *-0.02*      -1.076
+prop_binCRF_muon2017_bin8                        -0.00, 1.00        -0.00, 1.00       -0.02      -2.274
+prop_binCRF_muon2017_bin7_TTTo2L2Nu              +0.00, 1.00        -0.00, 1.00       -0.02      -2.564
+prop_binCRF_muon2017_bin2                        +0.00, 0.72     * +0.00, 0.72*     *-0.02*      -1.671
+prop_binCRF_muon2017_bin12                       -0.00, 1.00        -0.00, 1.00       -0.02      -2.920
+prop_binCRF_muon2017_bin0                        +0.00, 0.18     ! +0.00, 0.18!     !+0.02!      +0.374
+prop_binCRF_muon2016M_bin9_TTTo2L2Nu             +0.00, 1.00        -0.00, 1.00       -0.02      -1.788
+prop_binCRF_muon2016M_bin3                       -0.00, 0.79     * -0.00, 0.79*     *-0.02*      -2.127
+prop_binCRF_muon2016M_bin2                       +0.00, 0.74     * +0.00, 0.74*     *-0.02*      -1.785
+prop_binCRF_muon2016M_bin1                       +0.00, 0.54     * +0.00, 0.54*     *+0.02*      +1.511
+prop_binCRF_muon2016M_bin0                       +0.00, 0.17     ! +0.00, 0.17!     !+0.02!      +0.440
+prop_binCRF_electron2018_bin4                    -0.00, 0.77     * -0.00, 0.77*     *-0.02*      -2.268
+prop_binCRF_electron2018_bin3                    -0.00, 0.66     * -0.00, 0.66*     *-0.02*      -1.543
+prop_binCRF_electron2018_bin1                    -0.00, 0.43     ! +0.00, 0.43!     !+0.02!      +1.270
+prop_binCRF_electron2018_bin0                    +0.00, 0.14     ! +0.00, 0.14!     !+0.02!      +0.363
+prop_binCRF_electron2016M_bin9_WrongSign         +0.00, 0.93        +0.00, 0.93       -0.02      -2.239
+prop_binCRF_electron2016M_bin11_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.02      -2.469
+prop_binCRF_electron2016M_bin0                   -0.00, 0.16     ! -0.00, 0.16!     !+0.02!      +0.423
+jes                                              -0.00, 0.20     ! +0.00, 0.20!     !+0.02!      +0.466
+QCDScale_WpWpJJ_QCD                              -0.00, 1.00        -0.00, 1.00       -0.02      -1.840
+QCDScale_TVX                                     -0.00, 1.00        +0.00, 1.00       -0.02      -1.880
+tau_vsjet_2017                                   -0.00, 1.00        -0.00, 1.00       -0.01      -1.789
+puID                                             -0.00, 0.99        -0.00, 0.99       -0.01      -0.843
+prop_binSR_muon2018_bin4                         +0.00, 0.69     * +0.00, 0.69*     *+0.01*      +0.511
+prop_binSR_muon2018_bin2                         +0.00, 0.64     * +0.00, 0.64*     *+0.01*      +0.488
+prop_binSR_muon2018_bin12                        +0.00, 0.82     * +0.00, 0.82*     *-0.01*      -0.631
+prop_binSR_muon2018_bin11                        -0.00, 0.86     * -0.00, 0.86*     *-0.01*      -1.498
+prop_binSR_muon2018_bin1                         -0.00, 0.51     * -0.00, 0.51*     *-0.01*      -0.695
+prop_binSR_muon2017_bin4                         +0.00, 0.81     * +0.00, 0.81*     *+0.01*      +0.518
+prop_binSR_muon2017_bin10_WrongSign              -0.00, 0.89     * -0.00, 0.89*     *-0.01*      -1.203
+prop_binSR_muon2017_bin10_Fake                   -0.00, 0.96        -0.00, 0.96       -0.01      -0.700
+prop_binSR_muon2017_bin0                         -0.00, 0.35     ! -0.00, 0.35!     !+0.01!      +0.352
+prop_binSR_electron2018_bin2                     -0.00, 0.64     * -0.00, 0.64*     *-0.01*      -1.014
+prop_binSR_electron2018_bin12                    -0.00, 0.94        -0.00, 0.94       -0.01      -1.339
+prop_binSR_electron2018_bin0                     +0.00, 0.34     ! +0.00, 0.34!     !-0.01!      -0.233
+prop_binSR_electron2017_bin9                     -0.00, 0.99        -0.00, 0.99       -0.01      -0.675
+prop_binSR_electron2017_bin0                     -0.00, 0.40     ! -0.00, 0.40!     !-0.01!      -0.509
+prop_binCRTT_muon2018_bin8                       -0.00, 0.73     * +0.00, 0.73*     *-0.01*      -0.637
+prop_binCRTT_muon2018_bin6                       -0.00, 0.68     * -0.00, 0.68*     *-0.01*      -0.901
+prop_binCRTT_muon2018_bin5                       -0.00, 0.59     * +0.00, 0.59*     *-0.01*      -0.548
+prop_binCRTT_muon2018_bin3                       -0.00, 0.54     * +0.00, 0.54*     *-0.01*      -0.509
+prop_binCRTT_muon2018_bin11                      -0.00, 0.72     * -0.00, 0.72*     *+0.01*      +1.129
+prop_binCRTT_muon2017_bin9                       -0.00, 0.84     * +0.00, 0.84*     *+0.01*      +0.616
+prop_binCRTT_muon2017_bin7                       -0.00, 0.85     * +0.00, 0.85*     *-0.01*      -1.257
+prop_binCRTT_muon2017_bin5                       -0.00, 0.75     * +0.00, 0.75*     *-0.01*      -0.533
+prop_binCRTT_muon2017_bin12                      -0.00, 0.78     * +0.00, 0.78*     *+0.01*      +0.938
+prop_binCRTT_muon2017_bin11                      -0.00, 0.75     * +0.00, 0.75*     *-0.01*      -0.985
+prop_binCRTT_muon2017_bin10                      -0.00, 0.80     * +0.00, 0.80*     *+0.01*      +0.589
+prop_binCRTT_muon2017_bin1                       -0.00, 0.51     * +0.00, 0.51*     *-0.01*      -0.740
+prop_binCRTT_muon2016M_bin9                      -0.00, 0.83     * +0.00, 0.83*     *+0.01*      +0.588
+prop_binCRTT_muon2016M_bin8                      -0.00, 0.77     * -0.00, 0.77*     *-0.01*      -1.378
+prop_binCRTT_muon2016M_bin7                      -0.00, 0.83     * +0.00, 0.83*     *-0.01*      -0.590
+prop_binCRTT_muon2016M_bin6                      -0.00, 0.64     * -0.00, 0.64*     *-0.01*      -0.782
+prop_binCRTT_muon2016M_bin3                      -0.00, 0.66     * +0.00, 0.66*     *-0.01*      -0.761
+prop_binCRTT_muon2016M_bin0                      -0.00, 0.37     ! +0.00, 0.37!     !-0.01!      -0.511
+prop_binCRTT_electron2018_bin7                   +0.00, 0.83     * +0.00, 0.83*     *-0.01*      -1.087
+prop_binCRTT_electron2018_bin6                   -0.00, 0.75     * +0.00, 0.75*     *+0.01*      +0.573
+prop_binCRTT_electron2018_bin5                   -0.00, 0.74     * +0.00, 0.74*     *-0.01*      -0.637
+prop_binCRTT_electron2018_bin3                   -0.00, 0.63     * +0.00, 0.63*     *+0.01*      +0.546
+prop_binCRTT_electron2018_bin2                   -0.00, 0.57     * -0.00, 0.57*     *+0.01*      +0.448
+prop_binCRTT_electron2018_bin12                  -0.00, 0.76     * +0.00, 0.76*     *+0.01*      +0.748
+prop_binCRTT_electron2018_bin10                  -0.00, 0.90        -0.00, 0.90       -0.01      -1.109
+prop_binCRTT_electron2017_bin8                   -0.00, 0.88     * +0.00, 0.88*     *-0.01*      -0.627
+prop_binCRTT_electron2017_bin7                   -0.00, 0.87     * +0.00, 0.87*     *-0.01*      -1.325
+prop_binCRTT_electron2017_bin5                   -0.00, 0.82     * +0.00, 0.82*     *+0.01*      +0.724
+prop_binCRTT_electron2017_bin2                   -0.00, 0.65     * +0.00, 0.65*     *-0.01*      -0.974
+prop_binCRTT_electron2017_bin12                  -0.00, 0.92        +0.00, 0.92       +0.01      +1.467
+prop_binCRTT_electron2017_bin11                  -0.00, 0.86     * +0.00, 0.86*     *+0.01*      +1.001
+prop_binCRTT_electron2016M_bin9                  -0.00, 0.89     * +0.00, 0.89*     *-0.01*      -0.981
+prop_binCRTT_electron2016M_bin8                  -0.00, 0.90     * +0.00, 0.90*     *-0.01*      -0.542
+prop_binCRTT_electron2016M_bin6                  -0.00, 0.72     * -0.00, 0.72*     *+0.01*      +0.712
+prop_binCRTT_electron2016M_bin12                 -0.00, 0.87     * +0.00, 0.87*     *+0.01*      +0.848
+prop_binCRTT_electron2016M_bin11                 -0.00, 0.88     * -0.00, 0.88*     *+0.01*      +1.148
+prop_binCRTT_electron2016M_bin10                 -0.00, 0.83     * +0.00, 0.83*     *-0.01*      -1.071
+prop_binCROS_muon2018_bin9                       -0.00, 0.73     * +0.00, 0.73*     *-0.01*      -1.214
+prop_binCROS_muon2018_bin7                       +0.00, 0.75     * +0.00, 0.75*     *+0.01*      +0.594
+prop_binCROS_muon2017_bin9_Fake                  -0.00, 0.99        +0.00, 0.99       -0.01      -0.766
+prop_binCROS_muon2017_bin7                       -0.00, 0.81     * -0.00, 0.81*     *-0.01*      -0.934
+prop_binCROS_muon2017_bin3                       -0.00, 0.65     * -0.00, 0.65*     *+0.01*      +0.994
+prop_binCROS_muon2017_bin2                       -0.00, 0.69     * +0.00, 0.69*     *-0.01*      -1.125
+prop_binCROS_muon2017_bin12_TTTo2L2Nu            -0.00, 1.00        -0.00, 1.00       +0.01      +0.719
+prop_binCROS_muon2017_bin12_Fake                 -0.00, 0.99        -0.00, 0.99       +0.01      +1.147
+prop_binCROS_muon2017_bin11                      -0.00, 0.96        -0.00, 0.96       -0.01      -0.926
+prop_binCROS_muon2017_bin10_WrongSign            +0.00, 0.82     * -0.00, 0.82*     *-0.01*      -1.434
+prop_binCROS_muon2017_bin10_Fake                 -0.00, 0.96        -0.00, 0.96       -0.01      -0.694
+prop_binCROS_muon2016M_bin8                      -0.00, 0.81     * +0.00, 0.81*     *+0.01*      +0.976
+prop_binCROS_muon2016M_bin4                      +0.00, 0.68     * +0.00, 0.68*     *-0.01*      -0.954
+prop_binCROS_muon2016M_bin3                      -0.00, 0.61     * -0.00, 0.61*     *+0.01*      +0.821
+prop_binCROS_electron2018_bin7                   -0.00, 0.78     * -0.00, 0.78*     *-0.01*      -0.902
+prop_binCROS_electron2018_bin5_WrongSign         -0.00, 0.77     * -0.00, 0.77*     *+0.01*      +1.176
+prop_binCROS_electron2018_bin5_Fake              -0.00, 0.88     * -0.00, 0.88*     *+0.01*      +0.875
+prop_binCROS_electron2018_bin10                  -0.00, 0.70     * +0.00, 0.70*     *-0.01*      -0.559
+prop_binCROS_electron2018_bin0                   +0.00, 0.36     ! +0.00, 0.36!     !+0.01!      +0.622
+prop_binCROS_electron2017_bin8_Fake              -0.00, 0.98        -0.00, 0.98       -0.01      -1.044
+prop_binCROS_electron2017_bin7_Fake              -0.00, 0.97        +0.00, 0.97       -0.01      -0.808
+prop_binCROS_electron2017_bin4                   -0.00, 0.71     * -0.00, 0.71*     *-0.01*      -0.500
+prop_binCROS_electron2017_bin3                   -0.00, 0.73     * +0.00, 0.73*     *-0.01*      -0.768
+prop_binCROS_electron2017_bin12                  -0.00, 0.95        +0.00, 0.95       +0.01      +1.591
+prop_binCROS_electron2017_bin11                  -0.00, 0.96        -0.00, 0.96       -0.01      -0.804
+prop_binCROS_electron2017_bin10_Fake             +0.00, 0.95        -0.00, 0.95       +0.01      +0.836
+prop_binCROS_electron2016M_bin8_WrongSign         -0.00, 0.70     * +0.00, 0.70*     *-0.01*      -0.554
+prop_binCROS_electron2016M_bin7_WrongSign         -0.00, 0.83     * +0.00, 0.83*     *-0.01*      -1.799
+prop_binCROS_electron2016M_bin7_Fake             -0.00, 0.96        +0.00, 0.96       -0.01      -0.620
+prop_binCROS_electron2016M_bin6                  -0.00, 0.79     * -0.00, 0.79*     *-0.01*      -0.888
+prop_binCROS_electron2016M_bin5_Fake             -0.00, 0.92        +0.00, 0.92       +0.01      +1.581
+prop_binCROS_electron2016M_bin12                 +0.00, 0.97        +0.00, 0.97       +0.01      +0.834
+prop_binCROS_electron2016M_bin11                 -0.00, 0.86     * +0.00, 0.86*     *+0.01*      +0.965
+prop_binCROS_electron2016M_bin0                  -0.00, 0.49     ! +0.00, 0.49!     !+0.01!      +0.293
+prop_binCRF_muon2018_bin12_sm_lin_quad_cM7         +0.00, 1.00        +0.00, 1.00       -0.01      -0.686
+prop_binCRF_muon2018_bin1                        -0.00, 0.44     ! -0.00, 0.44!     !-0.01!      -0.290
+prop_binCRF_muon2017_bin7_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.01      -1.582
+prop_binCRF_muon2017_bin7_ZZtoLep                +0.00, 1.00        -0.00, 1.00       -0.01      -1.132
+prop_binCRF_muon2017_bin1                        -0.00, 0.55     * -0.00, 0.55*     *-0.01*      -0.710
+prop_binCRF_muon2016M_bin9_sm_lin_quad_cM7         +0.00, 1.00        +0.00, 1.00       -0.01      -0.925
+prop_binCRF_muon2016M_bin11_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.01      -1.336
+prop_binCRF_muon2016M_bin11_ZZtoLep              +0.00, 1.00        -0.00, 1.00       -0.01      -1.489
+prop_binCRF_muon2016M_bin11_Fake                 -0.00, 1.00        -0.00, 1.00       -0.01      -1.291
+prop_binCRF_electron2018_bin2                    -0.00, 0.59     * -0.00, 0.59*     *-0.01*      -0.970
+prop_binCRF_electron2017_bin2                    +0.00, 0.71     * +0.00, 0.71*     *+0.01*      +0.622
+prop_binCRF_electron2017_bin1                    -0.00, 0.55     * -0.00, 0.55*     *-0.01*      -0.668
+prop_binCRF_electron2016M_bin9_Fake              -0.00, 0.98        +0.00, 0.98       -0.01      -1.064
+prop_binCRF_electron2016M_bin2                   +0.00, 0.63     * +0.00, 0.63*     *-0.01*      -1.076
+prop_binCRF_electron2016M_bin1                   +0.00, 0.54     * +0.00, 0.54*     *+0.01*      +0.691
+mistag                                           -0.00, 0.99        -0.00, 0.99       +0.01      +1.333
+jer_2018                                         +0.00, 0.73     * -0.00, 0.73*     *-0.01*      -0.870
+jer_2016M                                        -0.00, 0.88     * -0.00, 0.88*     *+0.01*      +1.387
+btag                                             -0.00, 0.99        +0.00, 0.99       +0.01      +1.352
+tau_vsmu_2018                                    +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+tau_vsmu_2017                                    +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+tau_vsmu_2016M                                   +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+tau_vsjet_2018                                   -0.00, 1.00        -0.00, 1.00       -0.00      -0.536
+tau_vsele_2018                                   +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+tau_vsele_2017                                   +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+tau_vsele_2016M                                  +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binSR_muon2018_bin7                         -0.00, 0.92        -0.00, 0.92       +0.00      +0.030
+prop_binSR_muon2018_bin6                         +0.00, 0.79     * +0.00, 0.79*     *+0.00*      +0.407
+prop_binSR_muon2018_bin0                         +0.00, 0.27     ! +0.00, 0.27!     !+0.00!      +0.039
+prop_binSR_muon2017_bin9                         -0.00, 0.98        -0.00, 0.98       +0.00      +0.156
+prop_binSR_muon2017_bin3                         +0.00, 0.74     * +0.00, 0.74*     *+0.00*      +0.408
+prop_binSR_muon2017_bin12                        +0.00, 0.99        -0.00, 0.99       -0.00      -0.366
+prop_binSR_muon2017_bin10_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.054
+prop_binSR_muon2017_bin10_sm                     -0.00, 1.00        +0.00, 1.00       +0.00      +0.014
+prop_binSR_muon2017_bin10_quad_cM7               +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binSR_muon2017_bin10_ZZtoLep                +0.00, 1.00        -0.00, 1.00       -0.00      -0.016
+prop_binSR_muon2017_bin10_WpWpJJ_QCD             -0.00, 1.00        +0.00, 1.00       -0.00      -0.006
+prop_binSR_muon2017_bin10_Triboson               -0.00, 1.00        +0.00, 1.00       -0.00      -0.004
+prop_binSR_muon2017_bin10_TVX                    -0.00, 1.00        -0.00, 1.00       -0.00      -0.007
+prop_binSR_muon2016M_bin3                        +0.00, 0.73     * +0.00, 0.73*     *+0.00*      +0.385
+prop_binSR_muon2016M_bin12                       -0.00, 0.99        -0.00, 0.99       +0.00      +0.073
+prop_binSR_muon2016M_bin0                        +0.00, 0.39     ! +0.00, 0.39!     !+0.00!      +0.101
+prop_binSR_electron2018_bin4                     -0.00, 0.87     * -0.00, 0.87*     *+0.00*      +0.360
+prop_binSR_electron2018_bin10                    -0.00, 0.98        +0.00, 0.98       -0.00      -0.029
+prop_binSR_electron2017_bin3                     -0.00, 0.87     * -0.00, 0.87*     *+0.00*      +0.283
+prop_binSR_electron2017_bin12                    -0.00, 0.92        +0.00, 0.92       +0.00      +0.220
+prop_binSR_electron2016M_bin7                    -0.00, 0.94        +0.00, 0.94       +0.00      +0.178
+prop_binSR_electron2016M_bin12                   -0.00, 0.98        -0.00, 0.98       +0.00      +0.264
+prop_binCRTT_muon2018_bin9                       -0.00, 0.74     * +0.00, 0.74*     *+0.00*      +0.431
+prop_binCRTT_muon2018_bin7                       -0.00, 0.67     * -0.00, 0.67*     *-0.00*      -0.092
+prop_binCRTT_muon2017_bin6                       -0.00, 0.75     * +0.00, 0.75*     *+0.00*      +0.384
+prop_binCRTT_muon2017_bin4                       -0.00, 0.66     * +0.00, 0.66*     *-0.00*      -0.178
+prop_binCRTT_muon2017_bin3                       -0.00, 0.67     * +0.00, 0.67*     *+0.00*      +0.104
+prop_binCRTT_muon2017_bin2                       -0.00, 0.56     * -0.00, 0.56*     *+0.00*      +0.204
+prop_binCRTT_muon2016M_bin5                      -0.00, 0.69     * +0.00, 0.69*     *-0.00*      -0.311
+prop_binCRTT_muon2016M_bin11                     -0.00, 0.79     * +0.00, 0.79*     *+0.00*      +0.214
+prop_binCRTT_muon2016M_bin10                     -0.00, 0.86     * +0.00, 0.86*     *+0.00*      +0.088
+prop_binCRTT_muon2016M_bin1                      -0.00, 0.53     * +0.00, 0.53*     *-0.00*      -0.090
+prop_binCRTT_electron2018_bin9                   -0.00, 0.82     * +0.00, 0.82*     *+0.00*      +0.001
+prop_binCRTT_electron2018_bin8                   -0.00, 0.80     * -0.00, 0.80*     *-0.00*      -0.208
+prop_binCRTT_electron2018_bin4                   -0.00, 0.66     * +0.00, 0.66*     *+0.00*      +0.090
+prop_binCRTT_electron2018_bin1                   -0.00, 0.52     * +0.00, 0.52*     *+0.00*      +0.260
+prop_binCRTT_electron2017_bin9                   -0.00, 0.83     * +0.00, 0.83*     *-0.00*      -0.393
+prop_binCRTT_electron2017_bin6                   -0.00, 0.80     * +0.00, 0.80*     *+0.00*      +0.051
+prop_binCRTT_electron2017_bin4                   -0.00, 0.76     * +0.00, 0.76*     *-0.00*      -0.009
+prop_binCRTT_electron2017_bin3                   -0.00, 0.71     * +0.00, 0.71*     *+0.00*      +0.369
+prop_binCRTT_electron2017_bin10                  -0.00, 0.88     * +0.00, 0.88*     *-0.00*      -0.388
+prop_binCRTT_electron2017_bin0                   -0.00, 0.44     ! -0.00, 0.44!     !+0.00!      +0.126
+prop_binCRTT_electron2016M_bin7                  -0.00, 0.80     * +0.00, 0.80*     *-0.00*      -0.207
+prop_binCRTT_electron2016M_bin5                  -0.00, 0.75     * +0.00, 0.75*     *+0.00*      +0.270
+prop_binCRTT_electron2016M_bin4                  -0.00, 0.80     * +0.00, 0.80*     *+0.00*      +0.018
+prop_binCRTT_electron2016M_bin3                  -0.00, 0.70     * +0.00, 0.70*     *+0.00*      +0.390
+prop_binCRTT_electron2016M_bin2                  -0.00, 0.68     * +0.00, 0.68*     *-0.00*      -0.101
+prop_binCRTT_electron2016M_bin1                  -0.00, 0.58     * -0.00, 0.58*     *-0.00*      -0.253
+prop_binCRTT_electron2016M_bin0                  +0.00, 0.42     ! +0.00, 0.42!     !+0.00!      +0.026
+prop_binCROS_muon2018_bin6                       -0.00, 0.63     * -0.00, 0.63*     *-0.00*      -0.012
+prop_binCROS_muon2018_bin2                       -0.00, 0.55     * +0.00, 0.55*     *-0.00*      -0.299
+prop_binCROS_muon2018_bin11                      -0.00, 0.70     * -0.00, 0.70*     *-0.00*      -0.386
+prop_binCROS_muon2018_bin10_ZZtoLep              +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_muon2018_bin10_WrongSign            +0.00, 0.61     * -0.00, 0.61*     *-0.00*      -0.237
+prop_binCROS_muon2018_bin10_VG                   +0.00, 1.00        -0.00, 1.00       -0.00      -0.006
+prop_binCROS_muon2018_bin10_Triboson             +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_muon2018_bin10_TVX                  +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_muon2018_bin10_TTTo2L2Nu            +0.00, 1.00        -0.00, 1.00       -0.00      -0.019
+prop_binCROS_muon2018_bin10_Fake                 +0.00, 0.97        -0.00, 0.97       -0.00      -0.078
+prop_binCROS_muon2017_bin9_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_muon2017_bin9_sm                    +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_muon2017_bin9_ZZtoLep               +0.00, 1.00        -0.00, 1.00       -0.00      -0.007
+prop_binCROS_muon2017_bin9_VG                    -0.00, 1.00        +0.00, 1.00       -0.00      -0.065
+prop_binCROS_muon2017_bin9_Triboson              -0.00, 1.00        +0.00, 1.00       -0.00      -0.009
+prop_binCROS_muon2017_bin9_TVX                   -0.00, 1.00        +0.00, 1.00       -0.00      -0.041
+prop_binCROS_muon2017_bin9_TTTo2L2Nu             -0.00, 1.00        +0.00, 1.00       -0.00      -0.276
+prop_binCROS_muon2017_bin8_ZZtoLep               +0.00, 1.00        -0.00, 1.00       -0.00      -0.007
+prop_binCROS_muon2017_bin8_VG                    +0.00, 1.00        -0.00, 1.00       -0.00      -0.039
+prop_binCROS_muon2017_bin8_Triboson              -0.00, 1.00        +0.00, 1.00       -0.00      -0.004
+prop_binCROS_muon2017_bin8_TVX                   +0.00, 1.00        -0.00, 1.00       -0.00      -0.005
+prop_binCROS_muon2017_bin8_TTTo2L2Nu             -0.00, 1.00        +0.00, 1.00       -0.00      -0.140
+prop_binCROS_muon2017_bin8_Fake                  -0.00, 0.98        -0.00, 0.98       -0.00      -0.475
+prop_binCROS_muon2017_bin6_ZZtoLep               +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_muon2017_bin6_WrongSign             +0.00, 0.64     * -0.00, 0.64*     *-0.00*      -0.147
+prop_binCROS_muon2017_bin6_VG                    -0.00, 1.00        +0.00, 1.00       -0.00      -0.005
+prop_binCROS_muon2017_bin6_Triboson              -0.00, 1.00        +0.00, 1.00       -0.00      -0.002
+prop_binCROS_muon2017_bin6_TVX                   +0.00, 1.00        -0.00, 1.00       -0.00      -0.005
+prop_binCROS_muon2017_bin6_TTTo2L2Nu             -0.00, 1.00        +0.00, 1.00       -0.00      -0.010
+prop_binCROS_muon2017_bin6_Fake                  -0.00, 0.93        +0.00, 0.93       -0.00      -0.068
+prop_binCROS_muon2017_bin12_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       +0.00      +0.004
+prop_binCROS_muon2017_bin12_sm                   +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_muon2017_bin12_quad_cM7             +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_muon2017_bin12_ZZtoLep              +0.00, 1.00        -0.00, 1.00       +0.00      +0.004
+prop_binCROS_muon2017_bin12_Triboson             -0.00, 1.00        -0.00, 1.00       +0.00      +0.034
+prop_binCROS_muon2017_bin12_TVX                  -0.00, 1.00        -0.00, 1.00       +0.00      +0.147
+prop_binCROS_muon2017_bin10_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_muon2017_bin10_sm                   +0.00, 1.00        -0.00, 1.00       -0.00      -0.000
+prop_binCROS_muon2017_bin10_quad_cM7             +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCROS_muon2017_bin10_ZZtoLep              +0.00, 1.00        -0.00, 1.00       -0.00      -0.005
+prop_binCROS_muon2017_bin10_Triboson             +0.00, 1.00        +0.00, 1.00       -0.00      -0.009
+prop_binCROS_muon2017_bin10_TVX                  +0.00, 1.00        -0.00, 1.00       -0.00      -0.099
+prop_binCROS_muon2017_bin10_TTTo2L2Nu            -0.00, 1.00        +0.00, 1.00       -0.00      -0.191
+prop_binCROS_muon2016M_bin7                      +0.00, 0.87     * +0.00, 0.87*     *+0.00*      +0.114
+prop_binCROS_muon2016M_bin12                     -0.00, 0.97        +0.00, 0.97       -0.00      -0.399
+prop_binCROS_muon2016M_bin10_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.002
+prop_binCROS_muon2016M_bin10_sm                  +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_muon2016M_bin10_quad_cM7            +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCROS_muon2016M_bin10_ZZtoLep             +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_muon2016M_bin10_WrongSign           +0.00, 0.70     * -0.00, 0.70*     *+0.00*      +0.087
+prop_binCROS_muon2016M_bin10_WZ                  +0.00, 1.00        -0.00, 1.00       +0.00      +0.001
+prop_binCROS_muon2016M_bin10_Triboson            -0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCROS_muon2016M_bin10_TVX                 +0.00, 1.00        -0.00, 1.00       +0.00      +0.000
+prop_binCROS_muon2016M_bin10_TTTo2L2Nu           -0.00, 1.00        -0.00, 1.00       +0.00      +0.008
+prop_binCROS_muon2016M_bin10_Fake                -0.00, 0.98        -0.00, 0.98       +0.00      +0.022
+prop_binCROS_electron2018_bin9                   -0.00, 0.95        +0.00, 0.95       -0.00      -0.327
+prop_binCROS_electron2018_bin8_ZZtoLep           +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_electron2018_bin8_Triboson          -0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_electron2018_bin8_TVX               +0.00, 1.00        -0.00, 1.00       -0.00      -0.010
+prop_binCROS_electron2018_bin8_TTTo2L2Nu         -0.00, 1.00        -0.00, 1.00       -0.00      -0.064
+prop_binCROS_electron2018_bin8_Fake              -0.00, 0.98        -0.00, 0.98       -0.00      -0.380
+prop_binCROS_electron2018_bin5_ZZtoLep           +0.00, 1.00        -0.00, 1.00       +0.00      +0.011
+prop_binCROS_electron2018_bin5_Triboson          +0.00, 1.00        -0.00, 1.00       +0.00      +0.002
+prop_binCROS_electron2018_bin5_TVX               -0.00, 1.00        -0.00, 1.00       +0.00      +0.028
+prop_binCROS_electron2018_bin5_TTTo2L2Nu         -0.00, 1.00        -0.00, 1.00       +0.00      +0.084
+prop_binCROS_electron2018_bin4                   -0.00, 0.78     * +0.00, 0.78*     *-0.00*      -0.066
+prop_binCROS_electron2018_bin12                  +0.00, 0.93        +0.00, 0.93       -0.00      -0.034
+prop_binCROS_electron2017_bin8_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_electron2017_bin8_sm                +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2017_bin8_quad_cM7          +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2017_bin8_ZZtoLep           +0.00, 1.00        -0.00, 1.00       -0.00      -0.017
+prop_binCROS_electron2017_bin8_WZ                +0.00, 1.00        -0.00, 1.00       -0.00      -0.080
+prop_binCROS_electron2017_bin8_Triboson          +0.00, 1.00        -0.00, 1.00       -0.00      -0.016
+prop_binCROS_electron2017_bin8_TVX               -0.00, 1.00        -0.00, 1.00       -0.00      -0.005
+prop_binCROS_electron2017_bin8_TTTo2L2Nu         -0.00, 1.00        -0.00, 1.00       -0.00      -0.187
+prop_binCROS_electron2017_bin7_ZZtoLep           +0.00, 1.00        -0.00, 1.00       -0.00      -0.005
+prop_binCROS_electron2017_bin7_WZ                +0.00, 1.00        -0.00, 1.00       -0.00      -0.125
+prop_binCROS_electron2017_bin7_VG                -0.00, 1.00        +0.00, 1.00       -0.00      -0.077
+prop_binCROS_electron2017_bin7_Triboson          +0.00, 1.00        -0.00, 1.00       -0.00      -0.014
+prop_binCROS_electron2017_bin7_TVX               -0.00, 1.00        +0.00, 1.00       -0.00      -0.057
+prop_binCROS_electron2017_bin7_TTTo2L2Nu         -0.00, 1.00        +0.00, 1.00       -0.00      -0.171
+prop_binCROS_electron2017_bin5                   -0.00, 0.74     * +0.00, 0.74*     *+0.00*      +0.153
+prop_binCROS_electron2017_bin10_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       +0.00      +0.001
+prop_binCROS_electron2017_bin10_sm               +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2017_bin10_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.002
+prop_binCROS_electron2017_bin10_ZZtoLep          +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2017_bin10_VG               +0.00, 1.00        -0.00, 1.00       +0.00      +0.035
+prop_binCROS_electron2017_bin10_Triboson         +0.00, 1.00        -0.00, 1.00       +0.00      +0.048
+prop_binCROS_electron2017_bin10_TVX              +0.00, 1.00        -0.00, 1.00       +0.00      +0.016
+prop_binCROS_electron2017_bin10_TTTo2L2Nu         +0.00, 1.00        -0.00, 1.00       +0.00      +0.153
+prop_binCROS_electron2016M_bin9_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.000
+prop_binCROS_electron2016M_bin9_sm               +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2016M_bin9_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2016M_bin9_ZZtoLep          +0.00, 1.00        -0.00, 1.00       -0.00      -0.002
+prop_binCROS_electron2016M_bin9_Triboson         +0.00, 1.00        -0.00, 1.00       -0.00      -0.000
+prop_binCROS_electron2016M_bin9_TVX              +0.00, 1.00        -0.00, 1.00       +0.00      +0.001
+prop_binCROS_electron2016M_bin9_TTTo2L2Nu         -0.00, 1.00        +0.00, 1.00       +0.00      +0.061
+prop_binCROS_electron2016M_bin9_Fake             -0.00, 0.97        +0.00, 0.97       +0.00      +0.337
+prop_binCROS_electron2016M_bin8_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.002
+prop_binCROS_electron2016M_bin8_sm               +0.00, 1.00        -0.00, 1.00       -0.00      -0.000
+prop_binCROS_electron2016M_bin8_quad_cM7         +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2016M_bin8_ZZtoLep          +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_electron2016M_bin8_VG               +0.00, 1.00        -0.00, 1.00       -0.00      -0.006
+prop_binCROS_electron2016M_bin8_Triboson         +0.00, 1.00        -0.00, 1.00       -0.00      -0.006
+prop_binCROS_electron2016M_bin8_TVX              +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_electron2016M_bin8_TTTo2L2Nu         -0.00, 1.00        +0.00, 1.00       -0.00      -0.037
+prop_binCROS_electron2016M_bin8_Fake             -0.00, 0.98        +0.00, 0.98       -0.00      -0.155
+prop_binCROS_electron2016M_bin7_ZZtoLep          +0.00, 1.00        -0.00, 1.00       -0.00      -0.002
+prop_binCROS_electron2016M_bin7_Triboson         -0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCROS_electron2016M_bin7_TVX              +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCROS_electron2016M_bin7_TTTo2L2Nu         -0.00, 1.00        +0.00, 1.00       -0.00      -0.092
+prop_binCROS_electron2016M_bin5_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       +0.00      +0.001
+prop_binCROS_electron2016M_bin5_sm               +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2016M_bin5_quad_cM7         +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCROS_electron2016M_bin5_ZZtoLep          +0.00, 1.00        -0.00, 1.00       +0.00      +0.013
+prop_binCROS_electron2016M_bin5_WZ               +0.00, 1.00        -0.00, 1.00       +0.00      +0.140
+prop_binCROS_electron2016M_bin5_VG               -0.00, 1.00        +0.00, 1.00       +0.00      +0.045
+prop_binCROS_electron2016M_bin5_Triboson         -0.00, 1.00        -0.00, 1.00       +0.00      +0.005
+prop_binCROS_electron2016M_bin5_TVX              +0.00, 1.00        -0.00, 1.00       +0.00      +0.002
+prop_binCROS_electron2016M_bin5_TTTo2L2Nu         -0.00, 1.00        +0.00, 1.00       +0.00      +0.201
+prop_binCROS_electron2016M_bin4                  +0.00, 0.75     * +0.00, 0.75*     *+0.00*      +0.068
+prop_binCROS_electron2016M_bin1                  -0.00, 0.54     * +0.00, 0.54*     *+0.00*      +0.313
+prop_binCRF_muon2018_bin8                        -0.00, 0.98        -0.00, 0.98       +0.00      +0.057
+prop_binCRF_muon2018_bin12_sm                    -0.00, 1.00        +0.00, 1.00       +0.00      +0.075
+prop_binCRF_muon2018_bin12_quad_cM7              +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCRF_muon2018_bin12_ZZtoLep               +0.00, 1.00        -0.00, 1.00       -0.00      -0.011
+prop_binCRF_muon2018_bin12_WrongSign             +0.00, 1.00        -0.00, 1.00       -0.00      -0.042
+prop_binCRF_muon2018_bin12_WpWpJJ_QCD            +0.00, 1.00        -0.00, 1.00       -0.00      -0.043
+prop_binCRF_muon2018_bin12_Triboson              +0.00, 1.00        -0.00, 1.00       -0.00      -0.017
+prop_binCRF_muon2018_bin12_TVX                   +0.00, 1.00        +0.00, 1.00       -0.00      -0.087
+prop_binCRF_muon2017_bin9                        -0.00, 0.97        -0.00, 0.97       +0.00      +0.113
+prop_binCRF_muon2017_bin7_sm                     -0.00, 1.00        +0.00, 1.00       +0.00      +0.180
+prop_binCRF_muon2017_bin7_quad_cM7               +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCRF_muon2017_bin7_WrongSign              +0.00, 1.00        -0.00, 1.00       -0.00      -0.724
+prop_binCRF_muon2017_bin7_WpWpJJ_QCD             +0.00, 1.00        -0.00, 1.00       -0.00      -0.793
+prop_binCRF_muon2017_bin7_Triboson               +0.00, 1.00        -0.00, 1.00       -0.00      -0.024
+prop_binCRF_muon2017_bin7_TVX                    +0.00, 1.00        -0.00, 1.00       -0.00      -1.663
+prop_binCRF_muon2017_bin3                        -0.00, 0.87     * -0.00, 0.87*     *+0.00*      +0.326
+prop_binCRF_muon2017_bin11                       -0.00, 0.98        -0.00, 0.98       +0.00      +0.243
+prop_binCRF_muon2016M_bin9_sm                    -0.00, 1.00        +0.00, 1.00       +0.00      +0.119
+prop_binCRF_muon2016M_bin9_quad_cM7              +0.00, 1.00        +0.00, 1.00       -0.00      -0.002
+prop_binCRF_muon2016M_bin9_ZZtoLep               +0.00, 1.00        -0.00, 1.00       -0.00      -0.024
+prop_binCRF_muon2016M_bin9_WrongSign             +0.00, 1.00        -0.00, 1.00       -0.00      -0.707
+prop_binCRF_muon2016M_bin9_WpWpJJ_QCD            +0.00, 1.00        -0.00, 1.00       -0.00      -0.160
+prop_binCRF_muon2016M_bin9_Triboson              +0.00, 1.00        -0.00, 1.00       -0.00      -0.142
+prop_binCRF_muon2016M_bin9_TVX                   -0.00, 1.00        +0.00, 1.00       -0.00      -0.421
+prop_binCRF_muon2016M_bin8                       +0.00, 0.94        -0.00, 0.94       +0.00      +0.097
+prop_binCRF_muon2016M_bin7                       +0.00, 0.94        +0.00, 0.94       +0.00      +0.084
+prop_binCRF_muon2016M_bin12                      -0.00, 0.96        -0.00, 0.96       +0.00      +0.073
+prop_binCRF_muon2016M_bin11_sm                   -0.00, 1.00        +0.00, 1.00       +0.00      +0.154
+prop_binCRF_muon2016M_bin11_quad_cM7             +0.00, 1.00        +0.00, 1.00       -0.00      -0.002
+prop_binCRF_muon2016M_bin11_WrongSign            +0.00, 1.00        -0.00, 1.00       -0.00      -1.408
+prop_binCRF_muon2016M_bin11_WpWpJJ_QCD           +0.00, 1.00        -0.00, 1.00       -0.00      -0.304
+prop_binCRF_muon2016M_bin11_Triboson             +0.00, 1.00        -0.00, 1.00       -0.00      -0.074
+prop_binCRF_muon2016M_bin11_TVX                  +0.00, 1.00        -0.00, 1.00       -0.00      -0.487
+prop_binCRF_muon2016M_bin10                      +0.00, 1.00        +0.00, 1.00       +0.00      +0.055
+prop_binCRF_electron2018_bin8                    +0.00, 0.91        +0.00, 0.91       +0.00      +0.099
+prop_binCRF_electron2018_bin7                    -0.00, 0.96        -0.00, 0.96       +0.00      +0.123
+prop_binCRF_electron2018_bin6                    +0.00, 0.82     * +0.00, 0.82*     *+0.00*      +0.236
+prop_binCRF_electron2018_bin5_sm_lin_quad_cM7         +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2018_bin5_sm                 +0.00, 1.00        +0.00, 1.00       -0.00      -0.002
+prop_binCRF_electron2018_bin5_quad_cM7           +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2018_bin5_ZZtoLep            +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2018_bin5_WrongSign          +0.00, 0.80     * -0.00, 0.80*     *+0.00*      +0.221
+prop_binCRF_electron2018_bin5_WpWpJJ_QCD         +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCRF_electron2018_bin5_VG                 +0.00, 1.00        -0.00, 1.00       +0.00      +0.008
+prop_binCRF_electron2018_bin5_Triboson           +0.00, 1.00        -0.00, 1.00       -0.00      -0.003
+prop_binCRF_electron2018_bin5_TVX                +0.00, 1.00        -0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2018_bin5_Fake               +0.00, 0.87     * -0.00, 0.87*     *+0.00*      +0.177
+prop_binCRF_electron2018_bin11                   -0.00, 0.92        -0.00, 0.92       +0.00      +0.298
+prop_binCRF_electron2018_bin10                   +0.00, 0.90        +0.00, 0.90       +0.00      +0.174
+prop_binCRF_electron2017_bin7                    +0.00, 0.94        +0.00, 0.94       +0.00      +0.168
+prop_binCRF_electron2017_bin3                    +0.00, 0.87     * +0.00, 0.87*     *+0.00*      +0.392
+prop_binCRF_electron2017_bin12_sm_lin_quad_cM7         +0.00, 1.00        +0.00, 1.00       +0.00      +0.020
+prop_binCRF_electron2017_bin12_sm                -0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2017_bin12_quad_cM7          +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2017_bin12_ZZtoLep           +0.00, 1.00        -0.00, 1.00       -0.00      -0.000
+prop_binCRF_electron2017_bin12_WrongSign         +0.00, 1.00        -0.00, 1.00       +0.00      +0.032
+prop_binCRF_electron2017_bin12_WpWpJJ_QCD         +0.00, 1.00        -0.00, 1.00       +0.00      +0.004
+prop_binCRF_electron2017_bin12_Triboson          +0.00, 1.00        -0.00, 1.00       +0.00      +0.005
+prop_binCRF_electron2017_bin12_TVX               -0.00, 1.00        +0.00, 1.00       +0.00      +0.019
+prop_binCRF_electron2017_bin11                   -0.00, 0.97        -0.00, 0.97       +0.00      +0.226
+prop_binCRF_electron2017_bin10                   -0.00, 0.97        -0.00, 0.97       +0.00      +0.006
+prop_binCRF_electron2016M_bin9_sm_lin_quad_cM7         +0.00, 1.00        +0.00, 1.00       -0.00      -0.041
+prop_binCRF_electron2016M_bin9_sm                -0.00, 1.00        +0.00, 1.00       +0.00      +0.008
+prop_binCRF_electron2016M_bin9_quad_cM7          +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+prop_binCRF_electron2016M_bin9_ZZtoLep           +0.00, 1.00        -0.00, 1.00       -0.00      -0.044
+prop_binCRF_electron2016M_bin9_WpWpJJ_QCD         +0.00, 1.00        -0.00, 1.00       -0.00      -0.004
+prop_binCRF_electron2016M_bin9_Triboson          +0.00, 1.00        -0.00, 1.00       -0.00      -0.002
+prop_binCRF_electron2016M_bin9_TVX               +0.00, 1.00        -0.00, 1.00       -0.00      -0.042
+prop_binCRF_electron2016M_bin9_TTTo2L2Nu         +0.00, 1.00        -0.00, 1.00       -0.00      -0.207
+prop_binCRF_electron2016M_bin4                   -0.00, 0.84     * -0.00, 0.84*     *+0.00*      +0.378
+prop_binCRF_electron2016M_bin3                   +0.00, 0.75     * +0.00, 0.75*     *+0.00*      +0.364
+prop_binCRF_electron2016M_bin11_sm               +0.00, 1.00        +0.00, 1.00       +0.00      +0.289
+prop_binCRF_electron2016M_bin11_quad_cM7         +0.00, 1.00        +0.00, 1.00       -0.00      -0.002
+prop_binCRF_electron2016M_bin11_ZZtoLep          +0.00, 1.00        -0.00, 1.00       -0.00      -0.144
+prop_binCRF_electron2016M_bin11_WrongSign         +0.00, 1.00        -0.00, 1.00       -0.00      -0.399
+prop_binCRF_electron2016M_bin11_WpWpJJ_QCD         +0.00, 1.00        -0.00, 1.00       -0.00      -0.550
+prop_binCRF_electron2016M_bin11_Triboson         +0.00, 1.00        -0.00, 1.00       -0.00      -0.333
+prop_binCRF_electron2016M_bin11_TVX              +0.00, 1.00        -0.00, 1.00       -0.00      -0.354
+lep_2018                                         -0.00, 1.00        -0.00, 1.00       -0.00      -0.033
+lep_2017                                         -0.00, 1.00        -0.00, 1.00       -0.00      -0.088
+lep_2016M                                        -0.00, 1.00        +0.00, 1.00       -0.00      -0.166
+jer_2017                                         +0.00, 0.39     ! -0.00, 0.39!     !-0.00!      -0.226
+VBS_2018                                         +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+VBS_2017                                         +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+VBS_2016M                                        +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+QCDScale_ZZtoLep                                 +0.00, 1.00        -0.00, 1.00       -0.00      -0.199
+QCDScale_WrongSign                               -0.00, 0.50     ! -0.00, 0.50!     !+0.00!      +0.068
+QCDScale_WZ                                      +0.00, 1.00        +0.00, 1.00       -0.00      -0.001
+QCDScale_VG                                      -0.00, 1.00        -0.00, 1.00       -0.00      -0.203
+QCDScale_Triboson                                -0.00, 1.00        -0.00, 1.00       -0.00      -0.535
+FES                                              +0.00, 1.00        -0.00, 1.00       +0.00      +0.000

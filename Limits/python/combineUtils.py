@@ -154,7 +154,8 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                         cmd += "," 
                 print cmd
                 os.system(cmd)                
-
+                os.system("rm higgsCombineTest.*.MultiDimFit.mH125.root")
+                
 def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
     print "evaluate limit for VBS_SSWW_" + model
     path = ("%s/VBS_SSWW_%s" % (path_, model) )
@@ -344,7 +345,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 print cmd
                 os.system(cmd)
                 os.chdir(path)
-                
+                os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")
+
             else:
                 
                 for year in years:
@@ -386,7 +388,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         cmd += "," 
                 print cmd
                 os.system(cmd)
-                
+                os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")
+
                 if(runSingleCat): 
                     for cat in categories:
                         #print "category: " + (cat)
