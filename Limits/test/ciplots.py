@@ -242,7 +242,7 @@ for srv, crv in varloops:
     #lspath = "fit"
     if not DYrp:
         lspath += 'nodyrp_'
-    lspath += "_" + opt.folder + "/" + srv + "_" + crv + "_" + opt.era
+    lspath += opt.folder + "/" + srv + "_" + crv + "_" + opt.era
     if opt.wfc:
         lspath += "_WithFakeCR"
     if opt.pdfttdy:
@@ -337,7 +337,7 @@ latexLabel.DrawLatex(0.15, 0.915, "CMS (Preliminary)")
 lumiLab = ROOT.TLatex()
 lumiLab.SetTextSize(0.04)
 lumiLab.SetNDC()
-latexLabel.DrawLatex(0.84, 0.915, "L = " + str(lumi[opt.era]) + " fb^{-1}")
+latexLabel.DrawLatex(0.83, 0.915, "L = " + str(lumi[opt.era]) + " fb^{-1}")
 
 latexLabel2 = ROOT.TLatex()
 latexLabel2.SetNDC()

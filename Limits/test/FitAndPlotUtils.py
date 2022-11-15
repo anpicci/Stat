@@ -1234,7 +1234,10 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFW
         command += " --WithFakeCR"
     if PDFWithTTDY:
         command += " --PDFWithTTDY"
-    
+    if DYrp:
+        command += " --DYrp"
+    command += " --pdf " + pdftype
+
     if tagfold == "":
         tagfolder = "nom"
     else:
