@@ -45,6 +45,8 @@ sigpoints = settmod.sigpoints
 lssamples_1D = settmod.lssamples_1D
 syst = settmod.syst
 
+print "lssamples:", lssamples_1D
+
 path = opt.path
 ofilename = opt.output
 mcstat = opt.mcstat
