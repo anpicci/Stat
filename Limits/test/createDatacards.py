@@ -553,8 +553,9 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               if len(op.split("_")) > 1:
                      setpiecs.append(("_")+op.split("_")[-1])
        coeff = copy.deepcopy(incoeff)
-       for setpiec in setpiecs:
-              coeff = coeff.replace(setpiec, "")
+       if incoeff.startswith("F"):
+              for setpiec in setpiecs:
+                     coeff = coeff.replace(setpiec, "")
 
        lssamp = []
        for name, coll in lssamples_1D.items():
@@ -579,7 +580,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        dircoeff = ""
        dircoeff = coeff
        carddir = outdir+  "/"  + dircoeff + "/"
-       #print carddir
+       #print "directory with cards:", carddir
 
        sig = lssamp
        #hist_filename = os.getcwd()+"/"+ifilename

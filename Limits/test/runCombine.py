@@ -95,5 +95,5 @@ if wilson == "":
             
 else:
     for method in methods:
-        print "hello", path_, wilson, channels, method, opt.runSingleCat, years
+        #print "hello", path_, wilson, channels, method, opt.runSingleCat, years
         runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years)

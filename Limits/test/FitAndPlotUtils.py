@@ -790,10 +790,18 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     runcomb += " --pdf " + pdftype
    
     try:
+        print "\n"
+        print collhist
         os.system(collhist)
     except:
         raise RuntimeError("Problems when collecting histos for the fit")
+    
+    print "\n"
+    print createdata
     os.system(createdata)
+    
+    print "\n"
+    print runcomb
     os.system(runcomb)
     
 def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
@@ -849,7 +857,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     for idmt, mod in enumerate(partmodel):
         if idmt > 0:
             model += ":"
-        if isEFT:
+        if isEFT and mod.startswith("F"):
             model += mod.split("_")[0]
         else:
             model += mod
@@ -902,6 +910,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
                 intervals.append("-5,5")
+            else:
+                intervals.append("-100,100")
 
             if idc > 0:
                 modComb += ","
@@ -1302,7 +1312,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     for idmt, mod in enumerate(partmodel):
         if idmt > 0:
             model += ":"
-        if isEFT:
+        if isEFT and mod.startswith("F"):
             model += mod.split("_")[0]
         else:
             model += mod
@@ -1358,6 +1368,8 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
                 intervals.append("-5,5")
+            else:
+                intervals.append("-100,100")
 
             if idc > 0:
                 modComb += ","

@@ -239,10 +239,14 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
             setpiecs.append(("_")+coeff.split("_")[-1])
         coeffs[idc] = coeff.split("_")[0].replace("F", "c")
 
-    dirmodel = models
+    dirmodel = copy.deepcopy(models)
+    drawcoeff = copy.deepcopy(models)
+
     for setpiec in setpiecs:
-        dirmodel = models.replace(setpiec, "")
-    
+        if dirmodel.startswith("F") or ":F" in dirmodel:
+            dirmodel = models.replace(setpiec, "")
+        drawcoeff = models.replace(setpiec, "")
+            
     path = ("%s/%s" % (path_, dirmodel) ) 
     print "==>path: ", path
     #print os.path.exists(path)
@@ -266,7 +270,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 intervals.append("-30,30")
             elif coeff.startswith("cW"):
                 intervals.append("-5,5")
-
+            else:
+                intervals.append("-100,100")
             if idc > 0:
                 modComb += ","
                 opstring += ","
@@ -325,11 +330,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 
                 cmd = ""
                 if not ":" in models:
-                    cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
-                    if not ":" in models:
-                        cmd += " --1D"
-                    else:
-                        cmd += " --2D"
+                    cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + drawcoeff
+                    #if not ":" in models:
+                    cmd += " --1D"
+                    #else:
+                        #cmd += " --2D"
                     cmd += " --year " 
                     for year in years:
                         cmd += year
@@ -339,8 +344,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                 else:
                     os.chdir(maindir)
                     cmd = "python mkEFTScan.py " + path + "/higgsCombine" + dirmodel + ".MultiDimFit.mH125.root -p " + namedraw + " -maxNLL 10 -cms -preliminary -lumi 138 -xlabel " + labels[0] 
-                    if ":" in models:
-                        cmd += " -ylabel " + labels[1]
+                    #if ":" in models:
+                    cmd += " -ylabel " + labels[1]
                     cmd += " -outdir " + path
                 print cmd
                 os.system(cmd)
@@ -404,7 +409,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         print cmd
                         runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")
                         
-                        cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
+                        cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + drawcoeff
                         if not ":" in models:
                             cmd += " --1D"
                         else:
