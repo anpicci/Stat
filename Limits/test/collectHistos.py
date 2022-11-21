@@ -142,7 +142,6 @@ for year in years:
                             isThere = True
                             sampFiles[year+lep].append([[fn], sigstr])
                             break
-                
                     if not isThere:
                         raise RuntimeError("Signal plots are not available for " + sig + "!")
 

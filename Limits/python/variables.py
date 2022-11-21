@@ -38,12 +38,17 @@ bin_bdtsm_dev = array("d", [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.55, 0.6, 0.65, 0.7, 0.
 nbin_bdtsm_dev = len(bin_bdtsm_dev) - 1
 
 variables.append(variabile('DNN_SM_final_1', 'SM DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (final)"))
+variables.append(variabile('DNN_SM_rec', 'SM DNN output (reco)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (reco)"))
+
 variables.append(variabile('DNN_dim6_final_2', 'dim6 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 LIN+QUAD"))
 variables.append(variabile('DNN_dim8_final_3', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN+QUAD f3"))
-variables.append(variabile('DNN_dim8_final_3_1to2', 'dim8 DNN output (final 3 1to2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN+QUAD f31to2"))
-variables.append(variabile('DNN_dim8_final_3_again', 'dim8 DNN output (final 3 again)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN+QUAD f3aga"))
 variables.append(variabile('DNN_dim6_final_2_noQUAD', 'dim6 DNN output (final 2 noQUAD)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 LIN"))
 variables.append(variabile('DNN_dim8_final_3_noQUAD_fix', 'dim8 DNN output (final 3 noQUAD)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN"))
+variables.append(variabile('DNN_dim8_final_3_NOMOREDY_test', 'dim8 DNN output (f3 NMR test)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 f3 NMR test"))
+
+variables.append(variabile('DNN_SM_final_1_NOMOREDY_test', 'SM DNN output (f1 NMR test)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN (f1 NMR test)"))
+
+
 #variables.append(variabile('DNN_pol_final_1', 'pol DNN output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "pol DNN (final)"))
 
 #variables.append(variabile('BDT_SM_final_1', 'SM BDT output (final 1)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM BDT (final)"))
