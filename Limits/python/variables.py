@@ -26,7 +26,7 @@ class variabile(object):
 
 variables = []
 
-variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5))#
+variables.append(variabile('countings', 'countings', True, 1, -0.5, 0.5, smtitle = "evts"))#
 '''        
 bin_bdtsm = array("d", [0., 0.1, 0.2, 0.4, 0.6, 0.8, 1.])
 nbin_bdtsm = len(bin_bdtsm) - 1
@@ -42,6 +42,8 @@ variables.append(variabile('DNN_SM_rec', 'SM DNN output (reco)', True, nbin_bdts
 
 variables.append(variabile('DNN_dim6_final_2', 'dim6 DNN output (final 2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 LIN+QUAD"))
 variables.append(variabile('DNN_dim8_final_3', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN+QUAD f3"))
+variables.append(variabile('DNN_dim8_final_3_1to2', 'dim8 DNN output (final 3 1to2)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN+QUAD f3 1to2"))
+variables.append(variabile('DNN_dim8_final_3_again', 'dim8 DNN output (final 3)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN+QUAD f3 again"))
 variables.append(variabile('DNN_dim6_final_2_noQUAD', 'dim6 DNN output (final 2 noQUAD)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 LIN"))
 variables.append(variabile('DNN_dim8_final_3_noQUAD_fix', 'dim8 DNN output (final 3 noQUAD)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 LIN"))
 variables.append(variabile('DNN_dim8_final_3_NOMOREDY_test', 'dim8 DNN output (f3 NMR test)', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 f3 NMR test"))
