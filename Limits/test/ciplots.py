@@ -266,7 +266,7 @@ for srv, crv in varloops:
 
 y = []
 
-outfolder = "CIplots_" + pdftype + "_DYinOS_oneIFSR_" + opt.folder + "/" + opt.tagfold
+outfolder = "CIplots_prova_" + pdftype + "_DYinOS_oneIFSR_" + opt.folder + "/" + opt.tagfold
 if opt.wfc:
     outfolder += "_WithFakeCR"
 if opt.pdfttdy:
