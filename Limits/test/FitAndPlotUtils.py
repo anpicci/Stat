@@ -1452,7 +1452,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
                 cmdmd+= "k_" + coeff + "=0"
         
     else:
-        cmdmd += " --rMin -5 --rMax 5"
+        cmdmd += " --rMin -5 --rMax 5 --expectSignal=1"
 
     cmdmd += " " + optionalss
 
@@ -1473,7 +1473,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
                 md+= "k_" + coeff + "=0"
         
     else:
-        md += " --rMin -5 --rMax 5"
+        md += " --rMin -5 --rMax 5 --expectSignal=1"
     
     md += optionalss 
     plotcomm = "plot1DScan.py " + totalfile + " --main-label \"Total uncert.\" --others "
@@ -1510,7 +1510,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
                 mdfa += "k_" + coeff + "=0"
         
     else:
-        mdfa += " --rMin -5 --rMax 5"
+        mdfa += " --rMin -5 --rMax 5 --expectSignal=1"
     mdfa += " " + optionalss 
     freezeall = mdfa + " --freezeParameters "
     if isEFT:
