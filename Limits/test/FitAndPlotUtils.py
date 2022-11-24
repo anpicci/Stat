@@ -133,6 +133,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "FakeMu_rate_2016M.chs = [")
         LineWrite(settname, "\t'SR_muon',")
         LineWrite(settname, "\t'CRF_muon',")
+        LineWrite(settname, "\t'CRTT_muon',")
+        LineWrite(settname, "\t'CROS_muon',")
         LineWrite(settname, "]")
         LineWrite(settname, "FakeMu_rate_2016M.bkg = 'Fake'")
         LineWrite(settname, "")
@@ -140,6 +142,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "FakeEle_rate_2016M.chs = [")
         LineWrite(settname, "\t'SR_electron',")
         LineWrite(settname, "\t'CRF_electron',")
+        LineWrite(settname, "\t'CRTT_electron',")
+        LineWrite(settname, "\t'CROS_electron',")
         LineWrite(settname, "]")
         LineWrite(settname, "FakeEle_rate_2016M.bkg = 'Fake'")
         LineWrite(settname, "")
@@ -180,6 +184,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "FakeMu_rate_2017.chs = [")
         LineWrite(settname, "\t'SR_muon',")
         LineWrite(settname, "\t'CRF_muon',")
+        LineWrite(settname, "\t'CRTT_muon',")
+        LineWrite(settname, "\t'CROS_muon',")
         LineWrite(settname, "]")
         LineWrite(settname, "FakeMu_rate_2017.bkg = 'Fake'")
         LineWrite(settname, "")
@@ -187,6 +193,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "FakeEle_rate_2017.chs = [")
         LineWrite(settname, "\t'SR_electron',")
         LineWrite(settname, "\t'CRF_electron',")
+        LineWrite(settname, "\t'CRTT_electron',")
+        LineWrite(settname, "\t'CROS_electron',")
         LineWrite(settname, "]")
         LineWrite(settname, "FakeEle_rate_2017.bkg = 'Fake'")
         LineWrite(settname, "")
@@ -227,6 +235,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "FakeMu_rate_2018.chs = [")
         LineWrite(settname, "\t'SR_muon',")
         LineWrite(settname, "\t'CRF_muon',")
+        LineWrite(settname, "\t'CRTT_muon',")
+        LineWrite(settname, "\t'CROS_muon',")
         LineWrite(settname, "]")
         LineWrite(settname, "FakeMu_rate_2018.bkg = 'Fake'")
         LineWrite(settname, "")
@@ -234,6 +244,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "FakeEle_rate_2018.chs = [")
         LineWrite(settname, "\t'SR_electron',")
         LineWrite(settname, "\t'CRF_electron',")
+        LineWrite(settname, "\t'CRTT_electron',")
+        LineWrite(settname, "\t'CROS_electron',")
         LineWrite(settname, "]")
         LineWrite(settname, "FakeEle_rate_2018.bkg = 'Fake'")
         LineWrite(settname, "")
@@ -306,13 +318,16 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.016]")
-    #LineWrite(settname, "syst['FR_sys_muon_2016M'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_electron_2016M'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_muon_2017'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_electron_2017'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_muon_2018'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_electron_2018'] = ['lnN', 'Fake', 1.3]")
+    ##LineWrite(settname, "syst['FR_sys_muon_2016M'] = ['lnN', 'Fake', 1.3]")
+    ##LineWrite(settname, "syst['FR_sys_electron_2016M'] = ['lnN', 'Fake', 1.3]")
+    ##LineWrite(settname, "syst['FR_sys_muon_2017'] = ['lnN', 'Fake', 1.3]")
+    ##LineWrite(settname, "syst['FR_sys_electron_2017'] = ['lnN', 'Fake', 1.3]")
+    ##LineWrite(settname, "syst['FR_sys_muon_2018'] = ['lnN', 'Fake', 1.3]")
+    ##LineWrite(settname, "syst['FR_sys_electron_2018'] = ['lnN', 'Fake', 1.3]")
+    #LineWrite(settname, "syst['FR_sys_muon'] = ['lnN', 'Fake', 1.3]")
+    #LineWrite(settname, "syst['FR_sys_electron'] = ['lnN', 'Fake', 1.3]")
     LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'Fake', 'sig'), 'uncorr']")
+    #LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
     LineWrite(settname, "syst['PF'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['pu'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['puID'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
@@ -1163,6 +1178,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         if DYrp:
             settitle += "_DYrp"
         settitle += "_" + pdftype
+        print "settings to import for control variable:", settitle
         RecursiveImport(settitle)
         #os.system("python PrepareEOSfolder.py " + fold)
         
@@ -1203,10 +1219,12 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         if PDFWithTTDY:
             settitle2 += "_PDFWithTTDY"        
         if DYrp:
-            settitle += "_DYrp"
-        settitle += "_" + pdftype
+            settitle2 += "_DYrp"
+        settitle2 += "_" + pdftype
 
+        print "settings to import for fitting variable:", settitle2
         WriteMeta(srvar, crvar, fold, model, cut, year)#, WithFakeCR, PDFWithTTDY)
+        #WriteSett(srvar, crvar, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype)
         RecursiveImport(settitle2)
     
         createpostfit = "python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar + " --tagfold " + tagfold
@@ -1259,7 +1277,7 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFW
 def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not ":" in modeltot:
-        points = "500"#"10000"
+        points = "2500"#"10000"
     else:
         points = "20000"
 

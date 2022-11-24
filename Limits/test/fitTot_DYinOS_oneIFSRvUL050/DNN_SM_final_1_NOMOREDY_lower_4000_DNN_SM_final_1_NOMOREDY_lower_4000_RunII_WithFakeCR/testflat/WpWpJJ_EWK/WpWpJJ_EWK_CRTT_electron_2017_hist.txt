@@ -14,6 +14,7 @@ process                                           0                        1    
 rate                                              0.012778                 0.017697                 0.327630                 0.672721                 9.648275                 1.617279                 0.525916                 255.858293               1795.022623              843.244293               
 -----------------------------------------------------------------------------------
 lumi_2017                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
+FR_sys_electron          lnN                      -                        -                        -                        -                        -                        -                        -                        -                        -                        1.3                      
 CRTT_electron_2017       autoMCStats              10                       0                         
 PF                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
 pu                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
@@ -42,4 +43,5 @@ TES                      shape                    1                        1    
 FES                      shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
 VBS_2017                 shape                    1                        1                        -                        -                        -                        -                        -                        -                        -                        -                        
 
+FRest_electron_2017      rateParam                CRTT_electron_2017       Fake                     1                        
 TTest_electron_2017      rateParam                CRTT_electron_2017       TTTo2L2Nu                1                        

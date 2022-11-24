@@ -553,7 +553,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               if len(op.split("_")) > 1:
                      setpiecs.append(("_")+op.split("_")[-1])
        coeff = copy.deepcopy(incoeff)
-       if incoeff.startswith("F"):
+       if incoeff.startswith("F") or ":F" in incoeff:
               for setpiec in setpiecs:
                      coeff = coeff.replace(setpiec, "")
 
