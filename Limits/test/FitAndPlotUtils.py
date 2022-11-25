@@ -1266,12 +1266,14 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFW
         command += " --DYrp"
     command += " --pdf " + pdftype
 
+    print "tagfold", tagfold
     if tagfold == "":
         tagfolder = "nom"
     else:
         tagfolder = tagfold.replace("_", "")
     
     command += " --tagfolder " + tagfolder
+    print command
     os.system(command)
 
 def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):

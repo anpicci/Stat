@@ -47,6 +47,7 @@ parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', h
 folder = opt.folder
 
 tagfolder = ""
+#print opt.tDMcut, opt.test
 if opt.tDMcut:
     tagfolder = "_tDM"
 elif opt.test:
@@ -136,7 +137,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
 
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
     for model in models:
-        print opt.varfit, opt.varcr, folder, model, opt.year
+        #print "FitAndPlot", opt.varfit, opt.varcr, folder, model, opt.year, tagfolder
         ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
 
 ### ordering outputs
