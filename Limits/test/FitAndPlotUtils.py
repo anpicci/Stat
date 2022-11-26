@@ -8,7 +8,25 @@ import optparse
 
 LineWrite = lambda fname, s : fname.write(s + "\n") 
 
-colors = ["920", "632", "416", "600", "400", "616", "432", "800", "820", "840", "860", "880", "900", "403","814","435"]
+colors = [
+    str(ROOT.kGray+3),
+    str(ROOT.kRed),
+    str(ROOT.kGreen+1),
+    str(ROOT.kBlue+1),
+    str(ROOT.kMagenta),
+    str(ROOT.kCyan),
+    str(ROOT.kYellow+1),
+    str(ROOT.kViolet-6),
+    str(ROOT.kOrange+4),
+    str(ROOT.kSpring+10),
+    str(ROOT.kPink+1),
+    str(ROOT.kGray),
+    str(ROOT.kAzure+2), 
+    str(ROOT.kOrange-3), 
+    str(ROOT.kYellow+4),
+    str(ROOT.kTeal-9),
+]
+
 Frp = False
 
 
@@ -421,15 +439,6 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
 
     LineWrite(settname, "systgroups = collections.OrderedDict()")
     LineWrite(settname, "")
-    LineWrite(settname, "rpname=''")
-    LineWrite(settname, "for idk, krp in enumerate(rateParams.keys()):")
-    LineWrite(settname, "\tif idk%6 == 0:")
-    LineWrite(settname, "\t\trpname = ''")
-    LineWrite(settname, "\t\trpname = krp.split('_')[0].replace('est', 'norm group')")
-    LineWrite(settname, "\t\tsystgroups[rpname] = [krp]")
-    LineWrite(settname, "\telse:")
-    LineWrite(settname, "\t\tsystgroups[rpname].append(krp)")
-    LineWrite(settname, "")
     
     #LineWrite(settname, "systgroups['FRsys group'] = ['FR_sys_muon_2016M', 'FR_sys_electron_2016M', 'FR_sys_muon_2017', 'FR_sys_electron_2017', 'FR_sys_muon_2018', 'FR_sys_electron_2018']")
     if not pdftype.endswith("sep"):
@@ -475,15 +484,26 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
                 #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
                 #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
 
-    LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
-    LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
-    LineWrite(settname, "systgroups['jet group'] = ['jes', 'jer']")
-    LineWrite(settname, "systgroups['MET group'] = ['metUnclust']")
+    LineWrite(settname, "rpname=''")
+    LineWrite(settname, "for idk, krp in enumerate(rateParams.keys()):")
+    LineWrite(settname, "\tif idk%6 == 0:")
+    LineWrite(settname, "\t\trpname = ''")
+    LineWrite(settname, "\t\trpname = krp.split('_')[0].replace('est', 'norm group')")
+    LineWrite(settname, "\t\tsystgroups[rpname] = [krp]")
+    LineWrite(settname, "\telse:")
+    LineWrite(settname, "\t\tsystgroups[rpname].append(krp)")
+    LineWrite(settname, "")
+
     LineWrite(settname, "systgroups['PF group'] = ['PF']")
-    LineWrite(settname, "systgroups['tau group'] = ['TES', 'FES', 'tau_vsjet', 'tau_vsele', 'tau_vsmu']")
     LineWrite(settname, "systgroups['lumi group'] = ['lumi_2016M', 'lumi_2017', 'lumi_2018']")
-    LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
+    LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
+    LineWrite(settname, "systgroups['jet group'] = ['jes', 'jer']")
+    LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
     LineWrite(settname, "systgroups['VBS group'] = ['VBS']")
+    LineWrite(settname, "systgroups['MET group'] = ['metUnclust']")
+    LineWrite(settname, "systgroups['tau group'] = ['TES', 'FES', 'tau_vsjet', 'tau_vsele', 'tau_vsmu']")
+    LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
+
     LineWrite(settname, "")
     
     LineWrite(settname, "years = setlist[3].split(',')")
