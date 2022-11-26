@@ -12,7 +12,7 @@ colors = ["920", "632", "416", "600", "400", "616", "432", "800", "820", "840", 
 Frp = False
 
 
-def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total", shapeN = True):
     settitle = "../python/settings_" + model + "_" + srvar + "_" + crvar 
     if WithFakeCR:
         settitle += "_WithFakeCR"
@@ -46,7 +46,10 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "")
     LineWrite(settname, "shapesyst = ''")
     LineWrite(settname, "if model.startswith('c') or model.startswith('F'):")
-    LineWrite(settname, "\tshapesyst = 'shapeN'")
+    if shapeN:
+        LineWrite(settname, "\tshapesyst = 'shapeN'")
+    else:
+        LineWrite(settname, "\tshapesyst = 'shape'")
     LineWrite(settname, "else:")
     LineWrite(settname, "\tshapesyst = 'shape'")
     LineWrite(settname, "")
@@ -1168,7 +1171,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print varname, folder
     
         WriteMeta(varname, varname, fold, model, cut, year)
-        WriteSett(varname, varname, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype)
+        WriteSett(varname, varname, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype, False)
 
         settitle = "Stat.Limits.settings_" + model + "_" + varname + "_" + varname
         if WithFakeCR:
@@ -1224,7 +1227,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
 
         print "settings to import for fitting variable:", settitle2
         WriteMeta(srvar, crvar, fold, model, cut, year)#, WithFakeCR, PDFWithTTDY)
-        #WriteSett(srvar, crvar, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype)
+        WriteSett(srvar, crvar, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype, False)
         RecursiveImport(settitle2)
     
         createpostfit = "python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar + " --tagfold " + tagfold
@@ -1279,7 +1282,7 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFW
 def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
     optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not ":" in modeltot:
-        points = "1000"#"10000"
+        points = "750"#"10000"
     else:
         points = "20000"
 
