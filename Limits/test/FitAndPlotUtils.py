@@ -987,8 +987,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     cmd1 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t1"
 
     if isEFT:               
-        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --rMin -10 --setParameters r=1,"
-        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1"
+        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
+        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 cmd1 += ","
@@ -1045,8 +1045,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     if isEFT:
         imp0_0 += "," + modComb
         imp0_1 += "," + modComb
-        imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --rMin -10 --setParameters r=1,"
-        imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
+        imp0_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1,"
+        imp0_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1,"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 imp0_1 += ","
@@ -1067,8 +1067,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
         imp1_0 += "," + modComb
         imp1_1 += "," + modComb
 
-        imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --rMin -10 --setParameters r=1,"
-        imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters "#r=1"
+        imp1_0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1,"
+        imp1_1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges "+ intervalstr + " --setParameters r=1,"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 imp1_1 += ","
@@ -1089,8 +1089,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
         ctimp0 += "," + modComb
         ctimp1 += "," + modComb
 
-        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --rMin -10 --setParameters r=1,"
-        ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters "#r=1 "
+        ctimp0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
+        ctimp1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
         for idc, coeff in enumerate(coeffs):
             if idc > 0:
                 ctimp1 += ","
