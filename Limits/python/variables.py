@@ -69,7 +69,7 @@ variables.append(variabile('DNN_dim8_final_3_NOMOREDY_lower', 'dim8 DNN output',
 variables.append(variabile('DNN_SM_final_1_NOMOREDY_lower_NONOISE_LCB', 'SM DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN"))
 variables.append(variabile('DNN_SM_final_1_NOMOREDY_lower_NONOISE_LCB_10000', 'SM DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN"))
 variables.append(variabile('DNN_SM_final_1_NOMOREDY_lower_NONOISE_LCB_10001', 'SM DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN"))
-variables.append(variabile('DNN_SM_final_1_NOMOREDY_lower_NONOISE_LCB_bis', 'SM DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN"))
+variables.append(variabile('DNN_SM_final_1_NOMOREDY_lower_NONOISE_LCB_bisnotopt', 'SM DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "SM DNN"))
 variables.append(variabile('DNN_dim6_final_2_NOMOREDY_lower_tobesure', 'dim6 DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 NMR l tbs"))
 variables.append(variabile('DNN_dim6_final_2_NOMOREDY_lower_NONOISE_LCB', 'dim6 DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim6 f2 NMR l NN LCB"))
 variables.append(variabile('DNN_dim8_final_3_NOMOREDY_lower_NONOISE_LCB_again_2', 'dim8 DNN output', True, nbin_bdtsm_dev, bin_bdtsm_dev, smtitle = "dim8 f3 NMR l NN LCBag2"))
