@@ -14,6 +14,7 @@ process                                           0                        1    
 rate                                              4.320356                 0.429772                 0.185645                 0.285725                 0.276849                 0.018000                 0.926450                 3.713771                 1.064370                 131.604508               
 -----------------------------------------------------------------------------------
 lumi_2016M               lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
+FR_sys_muon              lnN                      -                        -                        -                        -                        -                        -                        -                        -                        -                        1.3                      
 SR_muon_2016M            autoMCStats              10                       0                         
 PF                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
 pu                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
@@ -42,5 +43,6 @@ TES                      shape                    1                        1    
 FES                      shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
 VBS_2016M                shape                    1                        1                        -                        -                        -                        -                        -                        -                        -                        -                        
 
+FRest_muon_2016M         rateParam                SR_muon_2016M            Fake                     1                        
 TTest_muon_2016M         rateParam                SR_muon_2016M            TTTo2L2Nu                1                        
 OSest_muon_2016M         rateParam                SR_muon_2016M            WrongSign                1                        

@@ -14,6 +14,7 @@ process                                           0                        1    
 rate                                              0.024265                 1.693748                 2.238835                 1.207546                 6.712488                 5.428877                 1204.677773              212.309573               1316.184845              
 -----------------------------------------------------------------------------------
 lumi_2018                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
+FR_sys_muon              lnN                      -                        -                        -                        -                        -                        -                        -                        -                        1.3                      
 CROS_muon_2018           autoMCStats              10                       0                         
 PF                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        -                        
 pu                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        -                        
@@ -41,4 +42,5 @@ TES                      shape                    1                        1    
 FES                      shape                    1                        1                        1                        1                        1                        1                        1                        1                        -                        
 VBS_2018                 shape                    1                        -                        -                        -                        -                        -                        -                        -                        -                        
 
+FRest_muon_2018          rateParam                CROS_muon_2018           Fake                     1                        
 OSest_muon_2018          rateParam                CROS_muon_2018           WrongSign                1                        

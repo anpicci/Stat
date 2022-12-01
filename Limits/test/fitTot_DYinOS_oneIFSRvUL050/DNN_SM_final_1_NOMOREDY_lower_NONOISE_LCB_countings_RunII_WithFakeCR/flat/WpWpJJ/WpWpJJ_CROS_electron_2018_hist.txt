@@ -14,6 +14,7 @@ process                                           0                        1    
 rate                                              0.027855                 1.504728                 1.373032                 0.556759                 2.303902                 2.475405                 423.896259               114.339705               1092.275845              
 -----------------------------------------------------------------------------------
 lumi_2018                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
+FR_sys_electron          lnN                      -                        -                        -                        -                        -                        -                        -                        -                        1.3                      
 CROS_electron_2018       autoMCStats              10                       0                         
 PF                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        -                        
 pu                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        -                        
@@ -41,4 +42,5 @@ TES                      shape                    1                        1    
 FES                      shape                    1                        1                        1                        1                        1                        1                        1                        1                        -                        
 VBS_2018                 shape                    1                        -                        -                        -                        -                        -                        -                        -                        -                        
 
+FRest_electron_2018      rateParam                CROS_electron_2018       Fake                     1                        
 OSest_electron_2018      rateParam                CROS_electron_2018       WrongSign                1                        

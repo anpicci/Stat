@@ -14,6 +14,7 @@ process                                           0                        1    
 rate                                              2.833334                 0.280820                 0.274519                 0.175925                 0.151790                 0.299768                 0.740365                 0.917572                 1.269283                 99.826431                
 -----------------------------------------------------------------------------------
 lumi_2016M               lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
+FR_sys_electron          lnN                      -                        -                        -                        -                        -                        -                        -                        -                        -                        1.3                      
 SR_electron_2016M        autoMCStats              10                       0                         
 PF                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
 pu                       shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
@@ -42,5 +43,6 @@ TES                      shape                    1                        1    
 FES                      shape                    1                        1                        1                        1                        1                        1                        1                        1                        1                        -                        
 VBS_2016M                shape                    1                        1                        -                        -                        -                        -                        -                        -                        -                        -                        
 
+FRest_electron_2016M     rateParam                SR_electron_2016M        Fake                     1                        
 TTest_electron_2016M     rateParam                SR_electron_2016M        TTTo2L2Nu                1                        
 OSest_electron_2016M     rateParam                SR_electron_2016M        WrongSign                1                        
