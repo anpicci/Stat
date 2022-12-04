@@ -1143,7 +1143,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     
     os.chdir(ipwd)
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp, pdftype):
     print "WithFakeCR, PDFWithTTDY, DYrp, pdftype:", WithFakeCR, PDFWithTTDY, DYrp, pdftype
     pwd = os.getcwd()
     vartopost = []
@@ -1275,7 +1275,13 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         poststring += " --pdf " + pdftype
         
         print poststring
+
+        os.system(poststring + " --lastbins")
+        os.system(poststring + " --lastbins --scale")
+        os.system(poststring + " --lastbins --scale --linscale")
         os.system(poststring)
+        os.system(poststring + " --scale")
+        os.system(poststring + " --scale --linscale")
         
         #os.chdir(pwd)
     

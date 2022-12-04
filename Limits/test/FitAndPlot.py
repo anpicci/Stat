@@ -42,6 +42,7 @@ parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action =
 parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+
 (opt, args) = parser.parse_args()
 
 folder = opt.folder
