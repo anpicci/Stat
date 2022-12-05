@@ -782,7 +782,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, P
     os.system(createdata)
     os.system(runcomb)
 
-def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp, pdftype, profile):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -823,6 +823,8 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
         collhist += " --DYrp"
         createdata += " --DYrp"
         runcomb += " --DYrp"
+    if profile:
+        runcomb += " --profile"
     collhist += " --pdf " + pdftype 
     createdata += " --pdf " + pdftype 
     runcomb += " --pdf " + pdftype
@@ -1141,6 +1143,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
         print printimp1
         os.system(printimp1)
     
+    os.system("rm higgsCombine_paramFit*")
     os.chdir(ipwd)
     
 def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp, pdftype):
@@ -1563,4 +1566,5 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     if not ":" in modeltot:
         os.system(plotcomm)
     
+    os.system("rm higgsCombineWpWpJJ_hist.freeze*")
     os.chdir(upwd)

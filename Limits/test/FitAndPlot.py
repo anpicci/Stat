@@ -29,6 +29,7 @@ parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
+#parser.add_option('--noflat', dest='flat', default = True, action='store_false', help='Disable flattening bin')
 parser.add_option('--flat', dest='flat', default = False, action='store_true', help='Enable flattening bin')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
@@ -42,6 +43,7 @@ parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action =
 parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
 
 (opt, args) = parser.parse_args()
 
@@ -53,6 +55,8 @@ if opt.tDMcut:
     tagfolder = "_tDM"
 elif opt.test:
     tagfolder = "_test"
+#if not opt.flat:
+    #tagfolder += "_noflat"
 if opt.flat:
     tagfolder += "_flat"
 
@@ -117,7 +121,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
                 RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype, opt.profile)
                 pass
             
         ### Run Impacts, if desired

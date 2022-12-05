@@ -18,6 +18,7 @@ parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_tru
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
+parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
 
 (opt, args) = parser.parse_args()
 
@@ -96,4 +97,4 @@ if wilson == "":
 else:
     for method in methods:
         #print "hello", path_, wilson, channels, method, opt.runSingleCat, years
-        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years)
+        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile)

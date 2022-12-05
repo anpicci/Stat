@@ -139,7 +139,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
@@ -207,28 +207,18 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
                         #runCombine("combine -M FitDiagnostics "+extraoption+" -n VBS_SSWW_" + modelname +  "_" + cat + " VBS_SSWW_" + modelname + "_"  + cat +".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + cat + ".log")  
         os.chdir("..")
 
-def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years):
+def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile):
     algostring = " --algo=grid  --points "
-    if ":" in models:
-        if not models.startswith("cW:"):
-            if not ":FT" in models:
-                algostring += "1000000 "
-                #algostring += " 50000 "
-            else:
-                algostring +=  " 1000000 "
-                #algostring +=  "  50000 "
-        else:
-            if not ":FT" in models:
-                #algostring +=  "   50000 "
-                algostring += " 1000000 "
-            else:
-                #algostring +=  "   50000 "
-                algostring += " 1000000 "
+    if ":" in models and not profile:
+        algostring += "1000000 "
+        #algostring += "10 "
+        #algostring += " 50000 "
         
     else:
         algostring +=     "  20000 "
+        #algostring +=     "  10 "
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 "#--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
-    if not ":" in models:
+    if not ":" in models or (":" in models and profile):
         optionals += "--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" #--autoBoundsPOIs * --autoRange 3" 
     print "Performing LikelihoodScan for operator ", models
     dirmodel = ""
@@ -319,13 +309,24 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                     labels.append(label)
 
                 os.system("rm higgsCombine" + dirmodel + "*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
                     #cmd += " --autoRange 15 "
                 cmd += " " + optionals 
-                cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
-                print cmd
-                runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
+                if not profile:
+                    cmd += " --redefineSignalPOIs " + modComb + " -n " + dirmodel + " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
+                    print cmd
+                    runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
+                else:
+                    modCombs = modComb.split(",")
+                    print "modCombs:", modCombs, modComb
+                    cmd0 = cmd + " --redefineSignalPOIs " + modCombs[0] + " -n " + dirmodel + "_" + modCombs[0] + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + modCombs[0] + ".*.MultiDimFit.mH125.root" 
+                    cmd1 = cmd + " --redefineSignalPOIs " + modCombs[1] + " -n " + dirmodel + "_" + modCombs[1] + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + modCombs[1] + ".*.MultiDimFit.mH125.root" 
+                    print cmd0
+                    print cmd1
+                    runCombine(cmd0, "ls_k_" + dirmodel + "_" + modCombs[0] + "_" + method + ".log")
+                    runCombine(cmd1, "ls_k_" + dirmodel + "_" + modCombs[1] + "_" + method + ".log")
                 #os.system("pwd")
                 
                 cmd = ""
@@ -340,18 +341,39 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         cmd += year
                         if year != years[-1]:
                             cmd += "," 
+                    print cmd
+                    os.system(cmd)
                 
                 else:
-                    os.chdir(maindir)
-                    cmd = "python mkEFTScan.py " + path + "/higgsCombine" + dirmodel + ".MultiDimFit.mH125.root -p " + namedraw + " -maxNLL 10 -cms -preliminary -lumi 138 -xlabel " + labels[0] 
-                    #if ":" in models:
-                    cmd += " -ylabel " + labels[1]
-                    cmd += " -outdir " + path
-                print cmd
-                os.system(cmd)
+                    if not profile:
+                        os.chdir(maindir)
+                        cmd = "python mkEFTScan.py " + path + "/higgsCombine" + dirmodel + ".MultiDimFit.mH125.root -p " + namedraw + " -maxNLL 10 -cms -preliminary -lumi 138 -xlabel " + labels[0] 
+                        #if ":" in models:
+                        cmd += " -ylabel " + labels[1]
+                        cmd += " -outdir " + path
+                        print cmd
+                        os.system(cmd)
+                    else:
+                        cmd0 = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[0]
+                        cmd1 = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[1]
+                        cmd0 += " --1D"
+                        cmd1 += " --1D"
+                        cmd0 += " --year " 
+                        cmd1 += " --year " 
+                        for year in years:
+                            cmd0 += year
+                            cmd1 += year
+                            if year != years[-1]:
+                                cmd0 += "," 
+                                cmd1 += "," 
+                    print cmd0
+                    os.system(cmd0)
+                    print cmd1
+                    os.system(cmd1)
+                        
                 os.chdir(path)
                 os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")
-
+            '''    
             else:
                 
                 for year in years:
@@ -421,7 +443,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                                 cmd += "," 
                         print cmd
                         os.system(cmd)
-                
+            '''
+        '''
         else:
             for year in years:
                 for cat in categories:
@@ -449,7 +472,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years)
                         print cmd
                         os.system(cmd)
                 
-                    
+           '''         
         os.chdir("..")
 
         
