@@ -1281,7 +1281,9 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
 
         os.system(poststring + " --lastbins")
         os.system(poststring + " --lastbins --scale")
+        os.system(poststring + " --lastbins --linscale")
         os.system(poststring + " --lastbins --scale --linscale")
+
         os.system(poststring)
         os.system(poststring + " --scale")
         os.system(poststring + " --scale --linscale")
