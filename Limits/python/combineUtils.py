@@ -213,7 +213,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         algostring += "1000000 "
         #algostring += "10 "
         #algostring += " 50000 "
-        
+    if ":" in models and profile:
+        algostring +=     "  10000 "
     else:
         algostring +=     "  20000 "
         #algostring +=     "  10 "
