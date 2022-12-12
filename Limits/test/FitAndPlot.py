@@ -29,6 +29,7 @@ parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
+parser.add_option('--vbroad', dest='vbroad', default = False, action='store_true', help='Enable very broad')
 parser.add_option('--noflat', dest='flat', default = True, action='store_false', help='Disable flattening bin')
 #parser.add_option('--flat', dest='flat', default = False, action='store_true', help='Enable flattening bin')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
@@ -55,6 +56,8 @@ if opt.tDMcut:
     tagfolder = "_tDM"
 elif opt.test:
     tagfolder = "_test"
+elif opt.vbroad:
+    tagfolder = "_vbroad"
 if not opt.flat:
     tagfolder += "_noflat"
 #if opt.flat:
