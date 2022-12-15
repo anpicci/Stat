@@ -2,14 +2,16 @@ import os
 import subprocess
 #from Stat.Limits.settings import *
 import copy
+from datetime import datetime
 
-def runCombine(cmdStr, logFile):
+def runCombine(cmdStr, logfile):
     "run combine for a specific case"
     #print os.getcwd()
     #print cmd
     #writer = open(logFile, 'w') 
     #process = subprocess.call(cmd, shell = True, stdout=writer)
-    #print cmd + " 2>&1 | tee " + logFile
+    logFile = logfile.replace(".log", datetime.now().time().strftime("%H%M%S%f") + ".log")
+    print cmdStr + " 2>&1 | tee " + logFile
     os.system(cmdStr + " 2>&1 | tee " + logFile)
     return
 
@@ -47,7 +49,9 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
                 cmd += "> %s_%s.txt" % (modelname, method)
                 print cmd
                 os.system(cmd)
-                runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + method + ".log")
+                #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + method + ".log")
+                #for idhrun in range(11):
+                runCombine("combine -M HybridNew --LHCmode LHC-significance --fullBToys -d " + extraoption+ " "+ modelname + "_" + method + ".txt  -t -1 -T 200 -i 20 -s -1 --fork 8 --cminDefaultMinimizerStrategy 0 -H AsymptoticLimits --saveHybridResult --saveToys --expectSignal=1  -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M Significance "+extraoption+ " "+modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
 

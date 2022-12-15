@@ -725,13 +725,13 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFa
     createdata += " --pdf " + pdftype 
     runcomb += " --pdf " + pdftype
     
-    try:
-        os.system(collhist)
-    except:
-        raise RuntimeError("Problems when collecting histos for the fit")
+    #try:
+        #os.system(collhist)
+    #except:
+        #raise RuntimeError("Problems when collecting histos for the fit")
     
-    print createdata
-    os.system(createdata)
+    #print createdata
+    #os.system(createdata)
     os.system(runcomb)
 
 def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
