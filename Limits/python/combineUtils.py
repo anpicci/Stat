@@ -44,7 +44,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
         os.system(cmd)
 
         if UseHybridNew:
-            runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --saveToys --saveHybridResult --fullBToys " + extraoption + " -T 50 -i 20 -s -1 --fork 8 -H AsymptoticLimits --rMin -4 -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + ".log")
+            runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --saveToys --saveHybridResult --fullBToys " + extraoption + " -T 50 -i 40 -s -1 --fork 10 -H AsymptoticLimits --rMin -4 -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + ".log")
         else:
             runCombine("combine -M Significance " + extraoption + " " + modelname + "_" + method + ".txt -n " + modelname, "significance_" + modelname + "_" + method + ".log")
             #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
