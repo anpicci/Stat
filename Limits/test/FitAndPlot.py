@@ -27,11 +27,14 @@ parser.add_option('--year', dest='year', type='string', default = 'RunII', help 
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
+parser.add_option('--regions', dest='regions', type='string', default = 'SR,CRTT,CROS,CRF', help = 'Regions to fit')
+parser.add_option('--leptons', dest='leptons', type='string', default = 'muon,electron', help = 'Channels to include')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
 parser.add_option('--vbroad', dest='vbroad', default = False, action='store_true', help='Enable very broad')
+parser.add_option('--vvbroad', dest='vvbroad', default = False, action='store_true', help='Enable vvery broad')
+parser.add_option('--vvvbroad', dest='vvvbroad', default = False, action='store_true', help='Enable vvvery broad')
 parser.add_option('--noflat', dest='flat', default = True, action='store_false', help='Disable flattening bin')
-#parser.add_option('--flat', dest='flat', default = False, action='store_true', help='Enable flattening bin')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
@@ -41,10 +44,12 @@ parser.add_option('--noFit', dest='dofit', default = True, action='store_false',
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
-parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+parser.add_option('--flnN', dest='flnN', default = False, action='store_true', help = 'apply lognormal to fakes')
+parser.add_option('--frp', dest='frp', default = False, action='store_true', help = 'apply rateParam to fakes')
 parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
+parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'fit with HybridNew instead of AsymptoticLimits')
 
 (opt, args) = parser.parse_args()
 
@@ -58,10 +63,15 @@ elif opt.test:
     tagfolder = "_test"
 elif opt.vbroad:
     tagfolder = "_vbroad"
+elif opt.vvbroad:
+    tagfolder = "_vvbroad"
+elif opt.vvvbroad:
+    tagfolder = "_vvvbroad"
 if not opt.flat:
     tagfolder += "_noflat"
-#if opt.flat:
-    #tagfolder += "_flat"
+
+regions = opt.regions.split(",")
+leptons = opt.leptons.split(",")
 
 models = []
 if opt.sm and not (opt.vbs or opt.wpwp or opt.wpwpEW):
@@ -94,59 +104,113 @@ DYrp = opt.DYrp
 pdftype = opt.pdf
 
 for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
-    print "\n\nStart fitting with", fitvar, "in SR and", crvar, "in CRs"
+    print "\n\nStart fitting with", fitvar, "in SR and CRs and", crvar, "in Fake CR"
+    print "\tRegions:", opt.regions
+    print "\tChannels:", opt.leptons
     for model in models:
+        fitfolder = "FitResults_" + folder
+        if opt.unblind:
+            fitfolder += "_DF"
+        else:
+            fitfolder += "_TF"
+        fitfolder += "/" + yeartag.replace("2016M,2017,2018", "RunII") + "_" + opt.regions.replace(",", "-") + "_" + opt.leptons.replace(",", "-") + "/"
+        setmod = 'Stat.Limits.settings_' + model + "_" + fitvar + "_" + crvar
+        setitle = "../python/settings_" + model + "_" + fitvar + "_" + crvar
+
+        print "Fitting for model", model
+        ### Write the file with metasettings for settings.py, and load the latter recursively
+        if opt.pdfttdy:
+            if not fitfolder.endswith("/"):
+                fitfolder += "_"
+            fitfolder += "PDFWithTTDY"
+            setmod += "_PDFWithTTDY"
+            setitle += "_PDFWithTTDY"
+        if DYrp:
+            if not fitfolder.endswith("/"):
+                fitfolder += "_"
+            fitfolder += "OSrp"
+            setmod += "_OSrp"
+            setitle += "_OSrp"
+        if opt.flnN:
+            if not fitfolder.endswith("/"):
+                fitfolder += "_"
+            fitfolder += "flnN"
+            setmod += "_flnN"
+            setitle += "_flnN"
+        if opt.frp:
+            if not fitfolder.endswith("/"):
+                fitfolder += "_"
+            fitfolder += "frp"
+            setmod += "_frp"
+            setitle += "_frp"
+        if fitfolder.endswith("/"):
+            fitfolder += "noaddopt"
+        
+        setmod += "_" + pdftype + "_" + opt.regions.replace(",", "-") + "_" + opt.leptons.replace(",", "-")
+        setitle += "_" + pdftype + "_" + opt.regions.replace(",", "-") + "_" + opt.leptons.replace(",", "-") + ".py"
+
+        fitfolder += "/" 
+        
+        if tagfolder == "":
+            fitfolder += "nom"
+        else:
+            fitfolder += tagfolder.replace("_", "")
+        if opt.Lambda8:
+            fitfolder += "_Lambda8"
+
+        postfitfolder = "Post" + fitfolder
+        if not os.path.exists(fitfolder):
+            os.system("mkdir -p " + fitfolder)
+        if not os.path.exists(postfitfolder):
+            os.system("mkdir -p " + postfitfolder)
+    
         if opt.dofit:
-            print "Fitting for model", model
-            ### Write the file with metasettings for settings.py, and load the latter recursively
-            setmod = 'Stat.Limits.settings_' + model + "_" + fitvar + "_" + crvar
-            if opt.wfc:
-                setmod += "_WithFakeCR"
-            if opt.pdfttdy:
-                setmod += "_PDFWithTTDY"
-            if DYrp:
-                setmod += "_DYrp"
-            setmod += "_" + pdftype
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.wfc, opt.pdfttdy, DYrp, pdftype)
-            RecursiveImport(setmod)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle)
+            #RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
-            print "yeartag", yeartag
-            PrepareToRun(model, fitvar, crvar, folder, yeartag, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+            PrepareToRun(folder, yeartag, tagfolder, fitfolder)
             
             ### Run Significance for only-SM models
             if opt.sm:
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+                #RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, opt.HN, setmod, setitle, fitfolder)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, opt.HN, setmod, fitfolder, opt.unblind)
+
+            
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
                 print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, setmod, fitfolder, opt.unblind)
+            
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype, opt.profile)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind)
                 pass
             
         ### Run Impacts, if desired
         if opt.impacts:
             #os.system("reset")
-            DoImpacts(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+            DoImpacts(model, fitvar, crvar, yeartag, opt.user, setmod, fitfolder, opt.unblind)
 
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:
             #os.system("reset")
-            UncBreak(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+            UncBreak(model, fitvar, crvar, yeartag, opt.user, setmod, fitfolder, opt.unblind)
+
         
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, opt.unblind, tagfolder, opt.Lambda8, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.unblind) 
+        
 
-
+'''
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
     for model in models:
         #print "FitAndPlot", opt.varfit, opt.varcr, folder, model, opt.year, tagfolder
-        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.wfc, opt.pdfttdy, DYrp, pdftype)
+        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp)
 
+'''
 ### ordering outputs
 os.system("cd " + cwd)

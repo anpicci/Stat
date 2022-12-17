@@ -11,31 +11,19 @@ parser = optparse.OptionParser(usage)
 parser.add_option('-i', '--input', dest='path', type='string', default= "./histos2017v6/",help='Where can I find input histos?')
 parser.add_option('-m', '--model', dest='model', type='string', default= "./histos2017v6/",help='model')
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
-parser.add_option("-s","--stat",dest="mcstat",action='store_true', default=False)
-parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option("--ls",dest="ls",type="string", default="")
 parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
-parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
-parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
-parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
+parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
+parser.add_option('--settitle"', dest='settitle', type='string', default = 'total', help = 'Specify settitle')
 
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
 
 pdftype = opt.pdf
-DYrp = opt.DYrp
 
-setname = "Stat.Limits.settings_" + opt.model
-if opt.wfc:
-    setname += "_WithFakeCR"
-if opt.pdfttdy:
-    setname += "_PDFWithTTDY"
-if DYrp:
-    setname += "_DYrp"
-setname += "_" + pdftype
+setname = opt.settmod
 
-print setname
 settmod = importlib.import_module(setname)
 bkg = settmod.bkg
 histos = settmod.histos
@@ -49,9 +37,6 @@ print "lssamples:", lssamples_1D
 
 path = opt.path
 ofilename = opt.output
-mcstat = opt.mcstat
-unblind = opt.unblind
-print("ATTENTION UNBLIND OPTION IS " + str(unblind))
 print "From", path
 print "Creating output file", ofilename
 shapedir = ofilename.replace(ofilename.split("/")[-1], "")
@@ -291,8 +276,11 @@ for year in years:
                             else:
                                 sign = +1.
                     
-                    #elif not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
-                    if True: #htemp.Integral()<=0.:
+                    toAdjust = False
+                    if not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
+                        toAdjust = True
+
+                    if toAdjust: #htemp.Integral()<=0.:
                         for ibin in range(htemp.GetNbinsX()):
                             bincont = htemp.GetBinContent(ibin+1)
                             if bincont <= 0.:
@@ -363,14 +351,14 @@ for year in years:
                                     else:
                                         sign = +1.
                     
-                            if True:#huptemp.Integral()<=0.:
+                            if toAdjust:#huptemp.Integral()<=0.:
                                 for ibin in range(huptemp.GetNbinsX()):
                                     bincont = huptemp.GetBinContent(ibin+1)
                                     if bincont <= 0.:
                                         huptemp.SetBinContent(ibin+1, 0.001)
                                         #print ibin, "modified"
 
-                            if True:#hdowntemp.Integral()<=0.:
+                            if toAdjust:#hdowntemp.Integral()<=0.:
                                 for ibin in range(hdowntemp.GetNbinsX()):
                                     bincont = hdowntemp.GetBinContent(ibin+1)
                                     if bincont <= 0.:

@@ -5,7 +5,7 @@ from Stat.Limits.variables import *
 import importlib
 import sys
 import optparse
-
+from collections import OrderedDict
 LineWrite = lambda fname, s : fname.write(s + "\n") 
 
 colors = [
@@ -27,18 +27,21 @@ colors = [
     str(ROOT.kTeal-9),
 ]
 
-Frp = False
+regs = OrderedDict()
+regs['SR'] =  "\t'SR':hist_pre + sr_var + '_SR',"
+regs['CRTT'] =  "\t'CRTT':hist_pre + sr_var + '_ttbar_CR',"
+regs['CROS'] =  "\t'CROS':hist_pre + sr_var + '_OS_CR_bvetoL',"
+regs['CRF'] = "\t'CRF':hist_pre + cr_var + '_fakes_CR',"                                                                                        
+leptags = OrderedDict()
+leptags['electron'] = 'ele'
+leptags['muon'] = 'mu'
 
-
-def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total", shapeN = True):
-    settitle = "../python/settings_" + model + "_" + srvar + "_" + crvar 
-    if WithFakeCR:
-        settitle += "_WithFakeCR"
-    if PDFWithTTDY:
-        settitle += "_PDFWithTTDY"
-    if DYrp:
-        settitle += "_DYrp"
-    settitle += "_" + pdftype + ".py"
+def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, Frp, regions, leptons, settitle, shapeN = True):
+    if 'CRF' in regions:
+        WithFakeCR = True
+    else:
+        WithFakeCR = False
+    leps = leptons
     print("Producing " + settitle)
     settname = open(settitle, "w")
     LineWrite(settname, "import collections")
@@ -53,14 +56,12 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "#*********************************")
     LineWrite(settname, "hist_pre = 'h_'")
     LineWrite(settname, "")
-    LineWrite(settname, "setfile = open('/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/python/metasett_" + model + "_" + srvar + "_" + crvar + ".txt', 'r')")
+    LineWrite(settname, "setfile = open('/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/python/metasett_" + model + "_" + srvar + "_" + crvar + "_" + folder + ".txt', 'r')")
     LineWrite(settname, "setlist = [line.replace('\\n', '') for line in setfile.readlines()]")
     LineWrite(settname, "sr_var, cr_var = setlist[0].split(',')")
     LineWrite(settname, "intfolder = setlist[1]")
     LineWrite(settname, "model = setlist[2]")
     LineWrite(settname, "cut = setlist[4]")
-    LineWrite(settname, "")
-    LineWrite(settname, "print sr_var, cr_var, intfolder, cut")
     LineWrite(settname, "")
     LineWrite(settname, "shapesyst = ''")
     LineWrite(settname, "if model.startswith('c') or model.startswith('F'):")
@@ -80,11 +81,12 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "")
     LineWrite(settname, "### List of histos to include in the root files")
     LineWrite(settname, "histos = {")
-    LineWrite(settname, "\t'SR':hist_pre + sr_var + '_SR',")
-    LineWrite(settname, "\t'CRTT':hist_pre + sr_var + '_ttbar_CR',")
-    LineWrite(settname, "\t'CROS':hist_pre + sr_var + '_OS_CR_bvetoL',")
-    if WithFakeCR:
-        LineWrite(settname, "\t'CRF':hist_pre + cr_var + '_fakes_CR',")                                                                                        
+    for region in regions:
+        LineWrite(settname, regs[region])
+        #LineWrite(settname, "\t'SR':hist_pre + sr_var + '_SR',")
+        #LineWrite(settname, "\t'CRTT':hist_pre + sr_var + '_ttbar_CR',")
+        #LineWrite(settname, "\t'CROS':hist_pre + sr_var + '_OS_CR_bvetoL',")
+
     LineWrite(settname, "}")
     LineWrite(settname, "")
     LineWrite(settname, "if cut != 'not':")
@@ -95,31 +97,29 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "\tcuttag = ''")
     LineWrite(settname, "")
     LineWrite(settname, "### List of regions for which creating the datacards")
+
     LineWrite(settname, "channels = [")
-    LineWrite(settname, "\t'SR_muon',")
-    LineWrite(settname, "\t'CRTT_muon',")
-    LineWrite(settname, "\t'CROS_muon',")
-    if WithFakeCR:
-        LineWrite(settname, "\t'CRF_muon',")
-    LineWrite(settname, "\t'SR_electron',")
-    LineWrite(settname, "\t'CRTT_electron',")
-    LineWrite(settname, "\t'CROS_electron',")
-    if WithFakeCR:
-        LineWrite(settname, "\t'CRF_electron',")
+    for region in regions:
+        for lep in leps:
+            chstring = "\t'" + region + "_" + lep + "',"
+            LineWrite(settname, chstring)
     LineWrite(settname, "]")
+
     LineWrite(settname, "")
     LineWrite(settname, "leptons = [")
-    LineWrite(settname, "\t\'muon\',")
-    LineWrite(settname, "\t\'electron\',")
+    for lep in leps:
+        lepstr = "\t\'" + lep + "\',"
+        LineWrite(settname, lepstr)
     LineWrite(settname, "]")
+
     LineWrite(settname, "")
     LineWrite(settname, "channels_labels = {")
     LineWrite(settname, "\t'SR':'Signal Region',")
     LineWrite(settname, "\t'CROS':'Opposite Sign CR',")
     LineWrite(settname, "\t'CRTT':'t#bar{t} CR',")
-    if WithFakeCR:
-        LineWrite(settname, "\t'CRF':'Fake leptons CR',")
+    LineWrite(settname, "\t'CRF':'Fake leptons CR',")
     LineWrite(settname, "}")
+    
     LineWrite(settname, "")
     LineWrite(settname, "#*********************************")
     LineWrite(settname, "#                                *")
@@ -149,184 +149,131 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "\tpass")
     LineWrite(settname, "rateParams = collections.OrderedDict()")
     LineWrite(settname, "")
-    if WithFakeCR and Frp:
-        LineWrite(settname, "FakeMu_rate_2016M = rateParam()")
-        LineWrite(settname, "FakeMu_rate_2016M.chs = [")
-        LineWrite(settname, "\t'SR_muon',")
-        LineWrite(settname, "\t'CRF_muon',")
-        LineWrite(settname, "\t'CRTT_muon',")
-        LineWrite(settname, "\t'CROS_muon',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "FakeMu_rate_2016M.bkg = 'Fake'")
-        LineWrite(settname, "")
-        LineWrite(settname, "FakeEle_rate_2016M = rateParam()")
-        LineWrite(settname, "FakeEle_rate_2016M.chs = [")
-        LineWrite(settname, "\t'SR_electron',")
-        LineWrite(settname, "\t'CRF_electron',")
-        LineWrite(settname, "\t'CRTT_electron',")
-        LineWrite(settname, "\t'CROS_electron',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "FakeEle_rate_2016M.bkg = 'Fake'")
-        LineWrite(settname, "")
     
-    LineWrite(settname, "TTbarmu_rate_2016M = rateParam()")
-    LineWrite(settname, "TTbarmu_rate_2016M.chs = [")
-    LineWrite(settname, "\t'SR_muon',")
-    LineWrite(settname, "\t'CRTT_muon',")
-    LineWrite(settname, "]")
-    LineWrite(settname, "TTbarmu_rate_2016M.bkg = 'TTTo2L2Nu'")
-    LineWrite(settname, "")
-    LineWrite(settname, "TTbarele_rate_2016M = rateParam()")
-    LineWrite(settname, "TTbarele_rate_2016M.chs = [")
-    LineWrite(settname, "\t'SR_electron',")
-    LineWrite(settname, "\t'CRTT_electron',")
-    LineWrite(settname, "]")
-    LineWrite(settname, "TTbarele_rate_2016M.bkg = 'TTTo2L2Nu'")
-    LineWrite(settname, "")
+    if Frp:
+        for lep in leps:
+            frpname = "Fake" + leptags[lep] + "_rate_2016M"
+            LineWrite(settname, frpname + " = rateParam()")
+            LineWrite(settname, frpname + ".chs = [")
+            for region in regions:
+                systregstring = "\t'" + region + "_" + lep + "',"      
+                LineWrite(settname, systregstring)
+            LineWrite(settname, "]")
+            LineWrite(settname, frpname + ".bkg = 'Fake'")
+            frpkey = "FRest_" + lep + "_2016M"
+            LineWrite(settname, "rateParams['" + frpkey + "'] = " + frpname)
+            LineWrite(settname, "")        
+
+            frpname = "Fake" + leptags[lep] + "_rate_2017"
+            LineWrite(settname, frpname + " = rateParam()")
+            LineWrite(settname, frpname + ".chs = [")
+            for region in regions:
+                systregstring = "\t'" + region + "_" + lep + "',"      
+                LineWrite(settname, systregstring)
+            LineWrite(settname, "]")
+            LineWrite(settname, frpname + ".bkg = 'Fake'")
+            frpkey = "FRest_" + lep + "_2017"
+            LineWrite(settname, "rateParams['" + frpkey + "'] = " + frpname)
+            LineWrite(settname, "")        
+
+            frpname = "Fake" + leptags[lep] + "_rate_2018"
+            LineWrite(settname, frpname + " = rateParam()")
+            LineWrite(settname, frpname + ".chs = [")
+            for region in regions:
+                systregstring = "\t'" + region + "_" + lep + "',"      
+                LineWrite(settname, systregstring)
+            LineWrite(settname, "]")
+            LineWrite(settname, frpname + ".bkg = 'Fake'")
+            frpkey = "FRest_" + lep + "_2018"
+            LineWrite(settname, "rateParams['" + frpkey + "'] = " + frpname)
+            LineWrite(settname, "")        
+
+    for lep in leps:
+        ttrpname = "TTbar" + leptags[lep] + "_rate_2016M"
+        LineWrite(settname, ttrpname + " = rateParam()")
+        LineWrite(settname, ttrpname + ".chs = [")
+        for region in regions:
+            if not (region == "SR" or region == "CRTT"):
+                continue
+            systregstring = "\t'" + region + "_" + lep + "',"      
+            LineWrite(settname, systregstring)
+        LineWrite(settname, "]")
+        LineWrite(settname, ttrpname + ".bkg = 'TTTo2L2Nu'")
+        ttrpkey = "TTest_" + lep + "_2016M"
+        LineWrite(settname, "rateParams['" + ttrpkey + "'] = " + ttrpname)
+        LineWrite(settname, "")        
+
+        ttrpname = "TTbar" + leptags[lep] + "_rate_2017"
+        LineWrite(settname, ttrpname + " = rateParam()")
+        LineWrite(settname, ttrpname + ".chs = [")
+        for region in regions:
+            if not (region == "SR" or region == "CRTT"):
+                continue
+            systregstring = "\t'" + region + "_" + lep + "',"      
+            LineWrite(settname, systregstring)
+        LineWrite(settname, "]")
+        LineWrite(settname, ttrpname + ".bkg = 'TTTo2L2Nu'")
+        ttrpkey = "TTest_" + lep + "_2017"
+        LineWrite(settname, "rateParams['" + ttrpkey + "'] = " + ttrpname)
+        LineWrite(settname, "")        
+
+        ttrpname = "TTbar" + leptags[lep] + "_rate_2018"
+        LineWrite(settname, ttrpname + " = rateParam()")
+        LineWrite(settname, ttrpname + ".chs = [")
+        for region in regions:
+            if not (region == "SR" or region == "CRTT"):
+                continue
+            systregstring = "\t'" + region + "_" + lep + "',"      
+            LineWrite(settname, systregstring)
+        LineWrite(settname, "]")
+        LineWrite(settname, ttrpname + ".bkg = 'TTTo2L2Nu'")
+        ttrpkey = "TTest_" + lep + "_2018"
+        LineWrite(settname, "rateParams['" + ttrpkey + "'] = " + ttrpname)
+        LineWrite(settname, "")        
 
     if DYrp: #not (model == "SM" or model.startswith("WpWp")):
-        LineWrite(settname, "OSmu_rate_2016M = rateParam()")
-        LineWrite(settname, "OSmu_rate_2016M.chs = [")
-        LineWrite(settname, "\t'SR_muon',")
-        LineWrite(settname, "\t'CROS_muon',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "OSmu_rate_2016M.bkg = 'WrongSign'") #= dyjets_sample")
-        LineWrite(settname, "")
-        LineWrite(settname, "OSele_rate_2016M = rateParam()")
-        LineWrite(settname, "OSele_rate_2016M.chs = [")
-        LineWrite(settname, "\t'SR_electron',")
-        LineWrite(settname, "\t'CROS_electron',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "OSele_rate_2016M.bkg = 'WrongSign'") #= dyjets_sample")
-        LineWrite(settname, "")
-    
-    if WithFakeCR and Frp:
-        LineWrite(settname, "FakeMu_rate_2017 = rateParam()")
-        LineWrite(settname, "FakeMu_rate_2017.chs = [")
-        LineWrite(settname, "\t'SR_muon',")
-        LineWrite(settname, "\t'CRF_muon',")
-        LineWrite(settname, "\t'CRTT_muon',")
-        LineWrite(settname, "\t'CROS_muon',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "FakeMu_rate_2017.bkg = 'Fake'")
-        LineWrite(settname, "")
-        LineWrite(settname, "FakeEle_rate_2017 = rateParam()")
-        LineWrite(settname, "FakeEle_rate_2017.chs = [")
-        LineWrite(settname, "\t'SR_electron',")
-        LineWrite(settname, "\t'CRF_electron',")
-        LineWrite(settname, "\t'CRTT_electron',")
-        LineWrite(settname, "\t'CROS_electron',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "FakeEle_rate_2017.bkg = 'Fake'")
-        LineWrite(settname, "")
+        for lep in leps:
+            osrpname = "OS" + leptags[lep] + "_rate_2016M"
+            LineWrite(settname, osrpname + " = rateParam()")
+            LineWrite(settname, osrpname + ".chs = [")
+            for region in regions:
+                if not (region == "SR" or region == "CROS"):
+                    continue
+                systregstring = "\t'" + region + "_" + lep + "',"      
+                LineWrite(settname, systregstring)
+            LineWrite(settname, "]")
+            LineWrite(settname, osrpname + ".bkg = 'WrongSign'")
+            osrpkey = "OSest_" + lep + "_2016M"
+            LineWrite(settname, "rateParams['" + osrpkey + "'] = " + osrpname)
+            LineWrite(settname, "")        
 
-    LineWrite(settname, "TTbarmu_rate_2017 = rateParam()")
-    LineWrite(settname, "TTbarmu_rate_2017.chs = [")
-    LineWrite(settname, "\t'SR_muon',")
-    LineWrite(settname, "\t'CRTT_muon',")
-    LineWrite(settname, "]")
-    LineWrite(settname, "TTbarmu_rate_2017.bkg = 'TTTo2L2Nu'")
-    LineWrite(settname, "")
-    LineWrite(settname, "TTbarele_rate_2017 = rateParam()")
-    LineWrite(settname, "TTbarele_rate_2017.chs = [")
-    LineWrite(settname, "\t'SR_electron',")
-    LineWrite(settname, "\t'CRTT_electron',")
-    LineWrite(settname, "]")
-    LineWrite(settname, "TTbarele_rate_2017.bkg = 'TTTo2L2Nu'")
-    LineWrite(settname, "")
+            osrpname = "OS" + leptags[lep] + "_rate_2017"
+            LineWrite(settname, osrpname + " = rateParam()")
+            LineWrite(settname, osrpname + ".chs = [")
+            for region in regions:
+                if not (region == "SR" or region == "CROS"):
+                    continue
+                systregstring = "\t'" + region + "_" + lep + "',"      
+                LineWrite(settname, systregstring)
+            LineWrite(settname, "]")
+            LineWrite(settname, osrpname + ".bkg = 'WrongSign'")
+            osrpkey = "OSest_" + lep + "_2017"
+            LineWrite(settname, "rateParams['" + osrpkey + "'] = " + osrpname)
+            LineWrite(settname, "")        
 
-    if DYrp: #not (model == "SM" or model.startswith("WpWp")):
-        LineWrite(settname, "OSmu_rate_2017 = rateParam()")
-        LineWrite(settname, "OSmu_rate_2017.chs = [")
-        LineWrite(settname, "\t'SR_muon',")
-        LineWrite(settname, "\t'CROS_muon',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "OSmu_rate_2017.bkg = 'WrongSign'") #= dyjets_sample")
-        LineWrite(settname, "")
-        LineWrite(settname, "OSele_rate_2017 = rateParam()")
-        LineWrite(settname, "OSele_rate_2017.chs = [")
-        LineWrite(settname, "\t'SR_electron',")
-        LineWrite(settname, "\t'CROS_electron',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "OSele_rate_2017.bkg = 'WrongSign'") #= dyjets_sample")
-        LineWrite(settname, "")
-    
-    if WithFakeCR and Frp:
-        LineWrite(settname, "FakeMu_rate_2018 = rateParam()")
-        LineWrite(settname, "FakeMu_rate_2018.chs = [")
-        LineWrite(settname, "\t'SR_muon',")
-        LineWrite(settname, "\t'CRF_muon',")
-        LineWrite(settname, "\t'CRTT_muon',")
-        LineWrite(settname, "\t'CROS_muon',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "FakeMu_rate_2018.bkg = 'Fake'")
-        LineWrite(settname, "")
-        LineWrite(settname, "FakeEle_rate_2018 = rateParam()")
-        LineWrite(settname, "FakeEle_rate_2018.chs = [")
-        LineWrite(settname, "\t'SR_electron',")
-        LineWrite(settname, "\t'CRF_electron',")
-        LineWrite(settname, "\t'CRTT_electron',")
-        LineWrite(settname, "\t'CROS_electron',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "FakeEle_rate_2018.bkg = 'Fake'")
-        LineWrite(settname, "")
-    
-    LineWrite(settname, "TTbarmu_rate_2018 = rateParam()")
-    LineWrite(settname, "TTbarmu_rate_2018.chs = [")
-    LineWrite(settname, "\t'SR_muon',")
-    LineWrite(settname, "\t'CRTT_muon',")
-    LineWrite(settname, "]")
-    LineWrite(settname, "TTbarmu_rate_2018.bkg = 'TTTo2L2Nu'")
-    LineWrite(settname, "")
-    LineWrite(settname, "TTbarele_rate_2018 = rateParam()")
-    LineWrite(settname, "TTbarele_rate_2018.chs = [")
-    LineWrite(settname, "\t'SR_electron',")
-    LineWrite(settname, "\t'CRTT_electron',")
-    LineWrite(settname, "]")
-    LineWrite(settname, "TTbarele_rate_2018.bkg = 'TTTo2L2Nu'")
-    LineWrite(settname, "")
-
-    if DYrp: #not (model == "SM" or model.startswith("WpWp")):
-        LineWrite(settname, "OSmu_rate_2018 = rateParam()")
-        LineWrite(settname, "OSmu_rate_2018.chs = [")
-        LineWrite(settname, "\t'SR_muon',")
-        LineWrite(settname, "\t'CROS_muon',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "OSmu_rate_2018.bkg = 'WrongSign'") #= dyjets_sample")
-        LineWrite(settname, "")
-        LineWrite(settname, "OSele_rate_2018 = rateParam()")
-        LineWrite(settname, "OSele_rate_2018.chs = [")
-        LineWrite(settname, "\t'SR_electron',")
-        LineWrite(settname, "\t'CROS_electron',")
-        LineWrite(settname, "]")
-        LineWrite(settname, "OSele_rate_2018.bkg = 'WrongSign'") #= dyjets_sample")
-        LineWrite(settname, "")
-    
-    if WithFakeCR and Frp:
-        LineWrite(settname, "rateParams['FRest_muon_2016M'] = FakeMu_rate_2016M")
-        LineWrite(settname, "rateParams['FRest_electron_2016M'] = FakeEle_rate_2016M")
-        LineWrite(settname, "rateParams['FRest_muon_2017'] = FakeMu_rate_2017")
-        LineWrite(settname, "rateParams['FRest_electron_2017'] = FakeEle_rate_2017")
-        LineWrite(settname, "rateParams['FRest_muon_2018'] = FakeMu_rate_2018")
-        LineWrite(settname, "rateParams['FRest_electron_2018'] = FakeEle_rate_2018")
-        LineWrite(settname, "")
-        
-    LineWrite(settname, "rateParams['TTest_muon_2016M'] = TTbarmu_rate_2016M")
-    LineWrite(settname, "rateParams['TTest_electron_2016M'] = TTbarele_rate_2016M")
-    LineWrite(settname, "rateParams['TTest_muon_2017'] = TTbarmu_rate_2017")
-    LineWrite(settname, "rateParams['TTest_electron_2017'] = TTbarele_rate_2017")
-    LineWrite(settname, "rateParams['TTest_muon_2018'] = TTbarmu_rate_2018")
-    LineWrite(settname, "rateParams['TTest_electron_2018'] = TTbarele_rate_2018")
-    LineWrite(settname, "")
-
-    if DYrp:#True: #not (model == "SM" or model.startswith("WpWp")):
-        LineWrite(settname, "rateParams['OSest_muon_2016M'] = OSmu_rate_2016M")
-        LineWrite(settname, "rateParams['OSest_electron_2016M'] = OSele_rate_2016M")
-        LineWrite(settname, "rateParams['OSest_muon_2017'] = OSmu_rate_2017")
-        LineWrite(settname, "rateParams['OSest_electron_2017'] = OSele_rate_2017")
-        LineWrite(settname, "rateParams['OSest_muon_2018'] = OSmu_rate_2018")
-        LineWrite(settname, "rateParams['OSest_electron_2018'] = OSele_rate_2018")
-        LineWrite(settname, "")
+            osrpname = "OS" + leptags[lep] + "_rate_2018"
+            LineWrite(settname, osrpname + " = rateParam()")
+            LineWrite(settname, osrpname + ".chs = [")
+            for region in regions:
+                if not (region == "SR" or region == "CROS"):
+                    continue
+                systregstring = "\t'" + region + "_" + lep + "',"      
+                LineWrite(settname, systregstring)
+            LineWrite(settname, "]")
+            LineWrite(settname, osrpname + ".bkg = 'WrongSign'")
+            osrpkey = "OSest_" + lep + "_2018"
+            LineWrite(settname, "rateParams['" + osrpkey + "'] = " + osrpname)
+            LineWrite(settname, "")        
 
     LineWrite(settname, "#*********************************")
     LineWrite(settname, "#                                *")
@@ -339,14 +286,18 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.016]")
-    ##LineWrite(settname, "syst['FR_sys_muon_2016M'] = ['lnN', 'Fake', 1.3]")
-    ##LineWrite(settname, "syst['FR_sys_electron_2016M'] = ['lnN', 'Fake', 1.3]")
-    ##LineWrite(settname, "syst['FR_sys_muon_2017'] = ['lnN', 'Fake', 1.3]")
-    ##LineWrite(settname, "syst['FR_sys_electron_2017'] = ['lnN', 'Fake', 1.3]")
-    ##LineWrite(settname, "syst['FR_sys_muon_2018'] = ['lnN', 'Fake', 1.3]")
-    ##LineWrite(settname, "syst['FR_sys_electron_2018'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_muon'] = ['lnN', 'Fake', 1.3]")
-    #LineWrite(settname, "syst['FR_sys_electron'] = ['lnN', 'Fake', 1.3]")
+    for lep in leps:
+        LineWrite(settname, "syst['mischarge_" + lep + "_2016M'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
+        LineWrite(settname, "syst['mischarge_" + lep + "_2017'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
+        LineWrite(settname, "syst['mischarge_" + lep + "_2018'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
+
+    if flnN:
+        for lep in leps:
+            LineWrite(settname, "syst['FR_sys_" + lep + "_2016M'] = ['lnN', 'Fake', 1.3]")
+            LineWrite(settname, "syst['FR_sys_" + lep + "_2017'] = ['lnN', 'Fake', 1.3]")
+            LineWrite(settname, "syst['FR_sys_" + lep + "_2018'] = ['lnN', 'Fake', 1.3]")
+            #LineWrite(settname, "syst['FR_sys_" + lep + "'] = ['lnN', 'Fake', 1.3]")
+
     LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'Fake', 'sig'), 'uncorr']")
     #LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
     LineWrite(settname, "syst['PF'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
@@ -356,8 +307,9 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "syst['btag'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['mistag'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['tau_vsjet'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
-    LineWrite(settname, "syst['tau_vsele'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
-    LineWrite(settname, "syst['tau_vsmu'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
+    for lep in leps:
+        LineWrite(settname, "syst['tau_vs" + leptags[lep] + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
+
     pdfstr = "pdf_" + pdftype.split("_")[0]
     if pdftype.endswith("sep"):
         LineWrite(settname, "if model != 'WpWpJJ':")
@@ -370,26 +322,14 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
         LineWrite(settname, "syst['" + pdfstr + "_WrongSign'] = [shapesyst, ('WrongSign'), 'corr']")
         LineWrite(settname, "syst['" + pdfstr + "_ZZtoLep'] = [shapesyst, ('ZZtoLep'), 'corr']")
         LineWrite(settname, "syst['" + pdfstr + "_sig'] = [shapesyst, ('sig'), 'corr']")
-        if not DYrp:
-            if PDFWithTTDY:
-                LineWrite(settname, "syst['" + pdfstr + "_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
-            #LineWrite(settname, "syst['" + pdfstr + "_DY'] = [shapesyst, (dyjets_sample), 'corr']")
-        else:
-            if PDFWithTTDY:
-                LineWrite(settname, "syst['" + pdfstr + "_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
-                #LineWrite(settname, "syst['" + pdfstr + "_DY'] = [shapesyst, (dyjets_sample), 'corr']")
+        if PDFWithTTDY:
+            LineWrite(settname, "syst['" + pdfstr + "_TTdilep'] = [shapesyst, ('TTTo2L2Nu'), 'corr']")
             
     else:
-        if not DYrp:
-            if not PDFWithTTDY:
-                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-            else:
-                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+        if not PDFWithTTDY:
+            LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
         else:
-            if PDFWithTTDY:
-                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
-            else:
-                LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
+            LineWrite(settname, "syst['" + pdfstr + "'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
 
     #LineWrite(settname, "syst['QCDScale'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     
@@ -440,7 +380,13 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "systgroups = collections.OrderedDict()")
     LineWrite(settname, "")
     
-    #LineWrite(settname, "systgroups['FRsys group'] = ['FR_sys_muon_2016M', 'FR_sys_electron_2016M', 'FR_sys_muon_2017', 'FR_sys_electron_2017', 'FR_sys_muon_2018', 'FR_sys_electron_2018']")
+    if flnN:
+        LineWrite(settname, "systgroups['FRsys group'] = [")
+        for lep in leps:
+            LineWrite(settname, "\t'FR_sys_" + lep + "_2016M',")
+            LineWrite(settname, "\t'FR_sys_" + lep + "_2017',")
+            LineWrite(settname, "\t'FR_sys_" + lep + "_2018',")
+        LineWrite(settname, "]")
     if not pdftype.endswith("sep"):
         LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
         #LineWrite(settname, "systgroups['theory group'] = ['ISR_sig', 'ISR_VG', 'ISR_TVX', 'ISR_TTdilep', 'ISR_WZ', 'ISR_Triboson', 'ISR_WrongSign', 'ISR_ZZtoLep', 'FSR_sig', 'FSR_VG', 'FSR_TVX', 'FSR_TTdilep', 'FSR_WZ', 'FSR_Triboson', 'FSR_WrongSign', 'FSR_ZZtoLep', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTdilep', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
@@ -501,9 +447,20 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
     LineWrite(settname, "systgroups['VBS group'] = ['VBS']")
     LineWrite(settname, "systgroups['MET group'] = ['metUnclust']")
-    LineWrite(settname, "systgroups['tau group'] = ['TES', 'FES', 'tau_vsjet', 'tau_vsele', 'tau_vsmu']")
+    LineWrite(settname, "systgroups['tau group'] = [")
+    LineWrite(settname, "\t'TES',")
+    LineWrite(settname, "\t'FES',")
+    LineWrite(settname, "\t'tau_vsjet',")
+    for lep in leps:
+        LineWrite(settname, "\t'tau_vs" + leptags[lep] + "',")
+    LineWrite(settname, "]")
     LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
-
+    LineWrite(settname, "systgroups['mischarge group'] = [")
+    for lep in leps:
+        LineWrite(settname, "\t'mischarge_" + lep + "_2016M',")
+        LineWrite(settname, "\t'mischarge_" + lep + "_2017',")
+        LineWrite(settname, "\t'mischarge_" + lep + "_2018',")
+    LineWrite(settname, "]")
     LineWrite(settname, "")
     
     LineWrite(settname, "years = setlist[3].split(',')")
@@ -611,7 +568,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, WithFakeCR, PDFWithTTDY, D
     LineWrite(settname, "sigpoints = [sigs]")
 
 def WriteMeta(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
-    metasett = open("../python/metasett_" + model + "_" + srvar + "_" + crvar + ".txt", "w")
+    metasett = open("../python/metasett_" + model + "_" + srvar + "_" + crvar + "_" + folder + ".txt", "w")
     LineWrite(metasett, srvar + "," + crvar)
     LineWrite(metasett, folder)
     LineWrite(metasett, model)
@@ -622,6 +579,7 @@ def WriteMeta(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
 def RecursiveImport(module):
     if module in sys.modules:
         del sys.modules[module]
+    print "Importing module", module 
     globals()['gensettings'] = importlib.import_module(module)
     
 def AreVarsIncluded(varlist):
@@ -659,182 +617,105 @@ def IterateVars(srvarlist, crvarlist):
 
     return zip(fitvars, crvars)
 
-def PrepareToRun(model, srvar, crvar, fold, year, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"): 
-    yeartag = year.replace("2016M,2017,2018", "RunII")
+def PrepareToRun(fold, year, tagfold, folder): 
+    eosfolder = '/eos/home-a/apiccine/VBS/nosynch/' + fold + "/plot"
+    if tagfold != "":
+        eosfolder += tagfold
+    eosfolder += "/"
 
-    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
-    if not DYrp:
-        folder += 'nodyrp_' 
-    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
-    if WithFakeCR:
-        folder += "_WithFakeCR"
-    if PDFWithTTDY:
-        folder += "_PDFWithTTDY"
-    if tagfold == "":
-        tagfold = "none"
-        folder += "/nom"
-    else:
-        folder += "/" + tagfold.replace("_", "")
-    if addLambda8:
-        folder += "_Lambda8" 
+    subfolders = [dirr for dirr in os.listdir(eosfolder) if not "_" in dirr]
+    new_sf = [odirr.split("_")[0] for odirr in subfolders]
+    yearsss = year.split(",")
 
-    if not os.path.exists(folder):
-        os.system("mkdir -p " + folder)
-    #print "python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " \"" + tagfold + "\""
-    os.system("python PrepareEOSfolder.py " + fold + " " + model + "_" + srvar + "_" + crvar + " " + tagfold)
-    #os.system("rm histo_" + folder + "_" + model + ".root")
+    for i, odir in enumerate(new_sf):
+        ofilelist = []
+        for y in yearsss:
+            ylist = [f for f in os.listdir(eosfolder + odir) if not 'countings' in f and y in f]
+            for yfile in ylist:
+                ofilelist.append(yfile)
 
-def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
-    yeartag = year.replace("2016M,2017,2018", "RunII")
-    filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
-    plotrepo = filerepo + 'plot'
-    plotrepo += tagfold + "/"
-    
-    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
-    if not DYrp:
-        folder += 'nodyrp_'
-    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
+            for of in ofilelist:
+                if not (of.startswith('FakeMu_') or of.startswith('FakeEle_')):
+                    continue
+                    
+                new_dest = eosfolder + new_sf[i] + "/"
+                new_dest += of.replace("Mu", "").replace("Ele", "")
 
-    if WithFakeCR:
-        folder += "_WithFakeCR"
-    if PDFWithTTDY:
-        folder += "_PDFWithTTDY"
-    if tagfold == "":
-        tagfold = "none"
-        folder += "/nom"
-    else:
-        folder +="/" + tagfold.replace("_", "")
-    folderhisto = folder + "/shapes"
+                if (os.path.exists(new_dest) and os.path.getmtime(new_dest) < os.path.getmtime(eosfolder + new_sf[i] + "/" + of)) or not os.path.exists(new_dest):
+                    print "cp " + eosfolder + odir + "/" + of + " " + new_dest
+                    os.system("cp " + eosfolder + odir + "/" + of + " " + new_dest)
 
-    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar
-    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar
-    if WithFakeCR:
-        collhist += " --WithFakeCR"
-        createdata += " --WithFakeCR"
-        runcomb += " --WithFakeCR"
-    if PDFWithTTDY:
-        collhist += " --PDFWithTTDY"
-        createdata += " --PDFWithTTDY"
-        runcomb += " --PDFWithTTDY"
-    if DYrp:
-        collhist += " --DYrp"
-        createdata += " --DYrp"
-        runcomb += " --DYrp"
-    collhist += " --pdf " + pdftype 
-    createdata += " --pdf " + pdftype 
-    runcomb += " --pdf " + pdftype
-    
-    #try:
-        #os.system(collhist)
-    #except:
-        #raise RuntimeError("Problems when collecting histos for the fit")
-    
-    #print createdata
-    #os.system(createdata)
-    os.system(runcomb)
-
-def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, pdftype, UseHybridNew, settmod, folder, unblind):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
-
-    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
-    if not DYrp:
-        folder += 'nodyrp_'
-    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
-
-    if WithFakeCR:
-        folder += "_WithFakeCR"
-    if PDFWithTTDY:
-        folder += "_PDFWithTTDY"
-    if tagfold == "":
-        tagfold = "none"
-        folder += "/nom"
-    else:
-        folder +="/" + tagfold.replace("_", "")
+    
     folderhisto = folder + "/shapes"
 
-    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar
-    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar
-    if WithFakeCR:
-        collhist += " --WithFakeCR"
-        createdata += " --WithFakeCR"
-        runcomb += " --WithFakeCR"
-    if PDFWithTTDY:
-        collhist += " --PDFWithTTDY"
-        createdata += " --PDFWithTTDY"
-        runcomb += " --PDFWithTTDY"
-    if DYrp:
-        collhist += " --DYrp"
-        createdata += " --DYrp"
-        runcomb += " --DYrp"
-    collhist += " --pdf " + pdftype
-    createdata += " --pdf " + pdftype
-    runcomb += " --pdf " + pdftype
-
-    try:
-        os.system(collhist)
-    except:
-        raise RuntimeError("Problems when collecting histos for the fit")
+    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
+    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    if UseHybridNew:
+        runcomb += " --HN"
+    if unblind:
+        runcomb += " -u"
+    print '\n'
+    print collhist
+    os.system(collhist)
+    print '\n'
+    print createdata
     os.system(createdata)
+    print '\n'    
     os.system(runcomb)
+    
 
-def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp, pdftype, profile):
+def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, pdftype, settmod, folder, unblind):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
-    if not DYrp:
-        folder += 'nodyrp_'
-    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
-    if WithFakeCR:
-        folder += "_WithFakeCR"
-    if PDFWithTTDY:
-        folder += "_PDFWithTTDY"
-    if tagfold == "":
-        tagfold = "none"
-        folder += "/nom"
-    else:
-        folder += "/" + tagfold.replace("_", "")
-    if addLambda8:
-        folder += "_Lambda8"
+    folderhisto = folder + "/shapes"
+
+    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
+    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    if unblind:
+        runcomb += " -u"
+
+    print '\n'
+    print collhist
+    os.system(collhist)
+    print '\n'
+    print createdata
+    os.system(createdata)
+    print '\n'
+    print runcomb
+    os.system(runcomb)
+
+def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pdftype, profile, settmod, folder, unblind):
+    yeartag = year.replace("2016M,2017,2018", "RunII")
+    filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
+    plotrepo = filerepo + 'plot'
+    plotrepo += tagfold + "/"
 
     folderhisto = folder + "/shapes"
 
-    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar
-    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --ls " + model+ " --model " + model + "_" + srvar + "_" + crvar
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar
-    if WithFakeCR:
-        collhist += " --WithFakeCR"
-        createdata += " --WithFakeCR"
-        runcomb += " --WithFakeCR"
-    if PDFWithTTDY:
-        collhist += " --PDFWithTTDY"
-        createdata += " --PDFWithTTDY"
-        runcomb += " --PDFWithTTDY"
+    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
+    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --ls " + model+ " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod 
+
     if addLambda8:
         collhist += " --Lambda8"
-    if DYrp:
-        collhist += " --DYrp"
-        createdata += " --DYrp"
-        runcomb += " --DYrp"
     if profile:
         runcomb += " --profile"
-    collhist += " --pdf " + pdftype 
-    createdata += " --pdf " + pdftype 
-    runcomb += " --pdf " + pdftype
+    if unblind:
+        runcomb += " -u"
    
-    try:
-        print "\n"
-        print collhist
-        os.system(collhist)
-    except:
-        raise RuntimeError("Problems when collecting histos for the fit")
+    print "\n"
+    print collhist
+    os.system(collhist)
     
     print "\n"
     print createdata
@@ -844,46 +725,22 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, Wi
     print runcomb
     os.system(runcomb)
     
-def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     #optionals = " --cminDefaultMinimizerStrategy=1 --cminDefaultMinimizerTolerance 0.01 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.001 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" 
     #optionals = "  " 
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
-    settitle = "Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar
-    if WithFakeCR:
-        settitle += "_WithFakeCR"
-    if PDFWithTTDY:
-        settitle += "_PDFWithTTDY"
-    if DYrp:
-        settitle += "_DYrp"
-    settitle += "_" + pdftype
-
+    if not unblind:
+        optionals += " -t -1 "
+    settitle = setmodd
     RecursiveImport(settitle)
     settmod = importlib.import_module(settitle)
     systgroups = settmod.systgroups
     syst = settmod.syst
     ipwd = os.getcwd()
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
-    #folder = 'fittotal_nodyrp_' + fold + '_' + srvar + '_' + crvar + '_' + yeartag
     channels = settmod.channels
     yearsett = settmod.years
     method = "hist"
-
-    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
-    if not DYrp:
-        folder += 'nodyrp_'
-    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
-
-    if WithFakeCR:
-        folder += "_WithFakeCR"
-    if PDFWithTTDY:
-        folder += "_PDFWithTTDY"
-    if tagfold == "":
-        tagfold = "none"
-        folder += "/nom"
-    else:
-        folder += "/" + tagfold.replace("_", "")
-    if addLambda8:
-        folder += "_Lambda8"
 
     folderhisto = folder + "/shapes"
 
@@ -912,8 +769,7 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
 
     os.chdir(dcfold)
     #os.system("pwd")
-    
-    
+        
     cmdmer = "combineCards.py "
     for year in yearsett:
         for cat in channels:
@@ -985,8 +841,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     print cmdt2w
     os.system(cmdt2w)
     
-    cmd0 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t0"
-    cmd1 = "combine -M FitDiagnostics -d " + wscard + " -t -1  -n " + tag + "_t1"
+    cmd0 = "combine -M FitDiagnostics -d " + wscard + "  -n " + tag + "_t0"
+    cmd1 = "combine -M FitDiagnostics -d " + wscard + "  -n " + tag + "_t1"
 
     if isEFT:               
         cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
@@ -998,12 +854,13 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
             cmd1 += "k_" + coeff + "=1"
             cmd0 += "k_" + coeff + "=0"
    
-        cmd0 += " " + optionals
-        cmd1 += " " + optionals
     
     else:
-        cmd0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
-        cmd1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        cmd0 += " --expectSignal 0 --rMin -10"
+        cmd1 += " --expectSignal 1 --rMin -10"
+    
+    cmd0 += " " + optionals
+    cmd1 += " " + optionals
     
     if not ":" in modeltot:
         print cmd0
@@ -1042,8 +899,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
             os.system(cmddN1html)
         
 
-    imp0_0 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50 --autoRange 1 --autoBoundsPOIs r" 
-    imp0_1 = "combineTool.py -M Impacts -d " + wscard + " -t -1  --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50  --autoRange 1 --autoBoundsPOIs r"
+    imp0_0 = "combineTool.py -M Impacts -d " + wscard + "  --doInitialFit --allPars -m 1 -n " + tag + "_t0 --parallel 50 --autoRange 1 --autoBoundsPOIs r" 
+    imp0_1 = "combineTool.py -M Impacts -d " + wscard + "  --doInitialFit --allPars -m 1 -n " + tag + "_t1 --parallel 50  --autoRange 1 --autoBoundsPOIs r"
     if isEFT:
         imp0_0 += "," + modComb
         imp0_1 += "," + modComb
@@ -1055,15 +912,17 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
                 imp0_0 += ","
             imp0_1 += "k_" + coeff + "=1"
             imp0_0 += "k_" + coeff + "=0"
-        imp0_0 += " " + optionals
-        imp0_1 += " " + optionals
     
     else:
-        imp0_0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
-        imp0_1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        imp0_0 += " --expectSignal 0 --rMin -10"
+        imp0_1 += " --expectSignal 1 --rMin -10"
 
-    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t0.json -t -1  --doFits -m 1 -n " + tag + "_t0 --parallel 50 --autoRange 1 --autoBoundsPOIs r"
-    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t1.json -t -1  --doFits -m 1 -n " + tag + "_t1 --parallel 50 --autoRange 1 --autoBoundsPOIs r"
+    imp0_0 += " " + optionals
+    imp0_1 += " " + optionals
+
+
+    imp1_0 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t0.json  --doFits -m 1 -n " + tag + "_t0 --parallel 50 --autoRange 1 --autoBoundsPOIs r"
+    imp1_1 = "combineTool.py -M Impacts -d " + wscard + " -o " + "impacts" + tag + "_t1.json  --doFits -m 1 -n " + tag + "_t1 --parallel 50 --autoRange 1 --autoBoundsPOIs r"
 
     if isEFT:
         imp1_0 += "," + modComb
@@ -1077,12 +936,13 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
                 imp1_0 += ","
             imp1_1 += "k_" + coeff + "=1"
             imp1_0 += "k_" + coeff + "=0"
-        imp1_0 += " " + optionals
-        imp1_1 += " " + optionals
    
     else:
-        imp1_0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
-        imp1_1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        imp1_0 += " --expectSignal 0 --rMin -10"
+        imp1_1 += " --expectSignal 1 --rMin -10"
+
+    imp1_0 += " " + optionals
+    imp1_1 += " " + optionals
     
     ctimp0 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t0 -o " +  "impacts" + tag + "_t0.json --parallel 50 --autoRange 1 --autoBoundsPOIs r"
     ctimp1 = "combineTool.py -M Impacts -d " + wscard + " -m 1 -n " + tag + "_t1 -o " +  "impacts" + tag + "_t1.json --parallel 50 --autoRange 1 --autoBoundsPOIs r"
@@ -1099,12 +959,13 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
                 ctimp0 += ","
             ctimp1 += "k_" + coeff + "=1"
             ctimp0 += "k_" + coeff + "=0"
-        ctimp0 += " " + optionals
-        ctimp1 += " " + optionals
    
     else:
-        ctimp0 += " --expectSignal 0 --rMin -10 --cminDefaultMinimizerStrategy=0"
-        ctimp1 += " --expectSignal 1 --rMin -10 --cminDefaultMinimizerStrategy=0"
+        ctimp0 += " --expectSignal 0 --rMin -10"
+        ctimp1 += " --expectSignal 1 --rMin -10"
+
+    ctimp0 += " " + optionals
+    ctimp1 += " " + optionals
     
     printimp0 = "plotImpacts.py -i " +  "impacts" + tag + "_t0.json -o " +  "impacts" + tag + "_t0"
     printimp1 = "plotImpacts.py -i " +  "impacts" + tag + "_t1.json -o " +  "impacts" + tag + "_t1"
@@ -1146,8 +1007,8 @@ def DoImpacts(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8,
     os.system("rm higgsCombine_paramFit*")
     os.chdir(ipwd)
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, unblind, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp, pdftype):
-    print "WithFakeCR, PDFWithTTDY, DYrp, pdftype:", WithFakeCR, PDFWithTTDY, DYrp, pdftype
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, tagfold, addLambda8, PDFWithTTDY, DYrp, pdftype, flnN, frp, setmodd, setitlee, fitfolderr, folder, regions, leptons, unblind):
+    
     pwd = os.getcwd()
     vartopost = []
     yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
@@ -1155,8 +1016,10 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    print year
-    
+    eospost = filerepo + "postfit_" #+ pdftype + tagfold
+    fparts = fitfolderr.split("/")
+    eospost += fparts[1] + "/" + fparts[2] + "/" + fparts[3]
+
     if plotvars == "all":
         vartopost = variables
     else:
@@ -1166,120 +1029,62 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
 
     for var in vartopost:
         varname = var.name
-
-        folder = 'postfit' + pdftype + "_DYinOS_oneIFSR"
-        if not DYrp:
-            folder += 'nodyrp_'
-        folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
-        
-        if WithFakeCR:
-            folder += "_WithFakeCR"
-        if PDFWithTTDY:
-            folder += "_PDFWithTTDY"
-        if tagfold == "":
-            tagfold = "none"
-            folder += "/nom"
-        else:
-            folder +="/" + tagfold.replace("_", "")
-        if addLambda8:
-            folder += "_Lambda8" 
-
         folderhisto = folder + "/" + varname + "/shapes"
-
+        print folderhisto
+    
         if not os.path.exists(folder):
             os.system("mkdir -p " + folder) 
         if not os.path.exists(folderhisto):
             os.system("mkdir -p " + folderhisto) 
 
-        print varname, folder
+        #print varname, folder
     
+        setitlevn = setitlee.replace(srvar, varname).replace(crvar, varname)
         WriteMeta(varname, varname, fold, model, cut, year)
-        WriteSett(varname, varname, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype, False)
+        WriteSett(varname, varname, fold, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, frp, regions, leptons, setitlevn, False)
 
-        settitle = "Stat.Limits.settings_" + model + "_" + varname + "_" + varname
-        if WithFakeCR:
-            settitle += "_WithFakeCR"
-        if PDFWithTTDY:
-            settitle += "_PDFWithTTDY"
-        if DYrp:
-            settitle += "_DYrp"
-        settitle += "_" + pdftype
-        print "settings to import for control variable:", settitle
-        RecursiveImport(settitle)
+        setmodvn = setmodd.replace(srvar, varname).replace(crvar, varname)
+        print "settings to import for control variable:", setitlevn, setmodvn
+        RecursiveImport(setmodvn)
         #os.system("python PrepareEOSfolder.py " + fold)
-        
+    
         appendix = ""
         
         if not "SM" in model and not model.startswith("WpWp"):
             appendix += " --ls " + model
         
         datafolder = folder + "/" + varname
-        print datafolder
+        #print datafolder
         
         if not os.path.exists(datafolder):
             os.system("mkdir " + datafolder)
 
-        collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + "_" + varname + ".root " + appendix + " --model " + model + "_" + varname + "_" + varname
-        createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + "_" + varname + ".root -d " + datafolder + appendix + " --model " + model + "_" + varname + "_" + varname
-        if WithFakeCR:
-            collhist += " --WithFakeCR"
-            createdata += " --WithFakeCR"
-        if PDFWithTTDY:
-            collhist += " --PDFWithTTDY"
-            createdata += " --PDFWithTTDY"
-        if addLambda8:
-            collhist += " --Lambda8"
-        if DYrp:
-            collhist += " --DYrp"
-            createdata += " --DYrp"
-            
-        collhist += " --pdf " + pdftype
-        createdata += " --pdf " + pdftype
+        collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + "_" + varname + ".root " + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn + " --pdf " + pdftype
+        createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + "_" + varname + ".root -d " + datafolder + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn
 
         os.system(collhist)
         os.system(createdata)
-
-        settitle2 = "Stat.Limits.settings_" + model + "_" + srvar + "_" + crvar
-        if WithFakeCR:
-            settitle2 += "_WithFakeCR"
-        if PDFWithTTDY:
-            settitle2 += "_PDFWithTTDY"        
-        if DYrp:
-            settitle2 += "_DYrp"
-        settitle2 += "_" + pdftype
-
-        print "settings to import for fitting variable:", settitle2
-        WriteMeta(srvar, crvar, fold, model, cut, year)#, WithFakeCR, PDFWithTTDY)
-        WriteSett(srvar, crvar, fold, model, cut, year, WithFakeCR, PDFWithTTDY, DYrp, pdftype, False)
-        RecursiveImport(settitle2)
     
-        createpostfit = "python createPostFit.py --vars " + varname + " --folder " + fold + " --year " + year + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar + " --tagfold " + tagfold
-        if WithFakeCR:
-            createpostfit += " --WithFakeCR"
-        if PDFWithTTDY:
-            createpostfit += " --PDFWithTTDY"
-        if DYrp:
-            createpostfit += " --DYrp"
-        createpostfit += " --pdf " + pdftype
-
+        print "settings to import for fitting variable:", setitlee
+    
+        WriteMeta(srvar, crvar, fold, model, cut, year)
+        WriteSett(srvar, crvar, fold, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, frp, regions, leptons, setitlee, False)
+        RecursiveImport(setmodd)
+    
+        createpostfit = "python createPostFit.py --var " + varname + " --fitfolder " + fitfolderr + " --year " + year + " --model " + model + " --settmod " + setmodd + " --postfolder " + folder
+        if not unblind:
+            createpostfit += " -u "
+        print createpostfit
         os.system(createpostfit)
         
-        poststring = "python plotter/PreFitPostFit_v2.py --era " + yeartag + " --folder " + fold + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --tag " + model + "_" + srvar + "_" + crvar
-        if tagfold != "":
-            poststring += " --tagfolder " + tagfold
+        poststring = "python plotter/PreFitPostFit_v2.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
+    
         if unblind:
             poststring += " -u"
-        if WithFakeCR:
-            poststring += " --WithFakeCR"
-        if PDFWithTTDY:
-            poststring += " --PDFWithTTDY"
-        if DYrp:
-            poststring += " --DYrp"
-        poststring += " --pdf " + pdftype
-        
         print poststring
-
+    
         os.system(poststring + " --lastbins")
+
         os.system(poststring + " --lastbins --scale")
         os.system(poststring + " --lastbins --linscale")
         os.system(poststring + " --lastbins --scale --linscale")
@@ -1288,9 +1093,10 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         os.system(poststring + " --scale")
         os.system(poststring + " --scale --linscale")
         
-        #os.chdir(pwd)
+        os.chdir(pwd)
     
-def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+
+def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, PDFWithTTDY, DYrp = False, pdftype = "total"):
     command = "python ciplots.py --sr " + srvars + " --cr " + crvars + " --folder " + folder + " --op " + eftop + " --era " + era
     if WithFakeCR:
         command += " --WithFakeCR"
@@ -1310,23 +1116,18 @@ def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, WithFakeCR, PDFW
     print command
     os.system(command)
 
-def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, WithFakeCR, PDFWithTTDY, DYrp = False, pdftype = "total"):
+def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
+    if not unblind:
+        optionalss += " -t -1 "
     if not ":" in modeltot:
-        points = "750"#"10000"
+        points = "10"
+        #points = "750"#"10000"
     else:
         points = "20000"
 
-    settitle = "Stat.Limits.settings_" + modeltot + "_" + srvar + "_" + crvar
-    if WithFakeCR:
-        settitle += "_WithFakeCR"
-    if PDFWithTTDY:
-        settitle += "_PDFWithTTDY"
-    if DYrp:
-        settitle += "_DYrp"
-    settitle += "_" + pdftype
+    settitle = setmodd
     RecursiveImport(settitle)
-    #print("../python/settings_" + modeltot + "_" + srvar + "_" + crvar)
     settmod = importlib.import_module(settitle)
     systgroups = settmod.systgroups
     syst = settmod.syst
@@ -1336,24 +1137,6 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     channels = settmod.channels
     yearsett = settmod.years
     method = "hist"
-    
-    folder = 'fit' + pdftype + "_DYinOS_oneIFSR"
-    if not DYrp:
-        folder += 'nodyrp_'
-    folder += fold + '/' + srvar + '_' + crvar + '_' + yeartag
-
-    if WithFakeCR:
-        folder += "_WithFakeCR"
-    if PDFWithTTDY:
-        folder += "_PDFWithTTDY"
-    if tagfold == "":
-        tagfold = "none"
-        folder += "/nom"
-    else:
-        folder += "/" + tagfold.replace("_", "")
-    if addLambda8:
-        folder += "_Lambda8"
-
     folderhisto = folder + "/shapes"
 
     partmodel = modeltot.split(":")
@@ -1474,7 +1257,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
     
-    cmdmd = "combine " + wscard + " -M MultiDimFit -t -1 -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid"
+    cmdmd = "combine " + wscard + " -M MultiDimFit -m 120 --points " + points + " --saveWorkspace -n " + total + " --algo grid"
     cmdmd += " --autoBoundsPOIs r"
     if isEFT:
         cmdmd += "," + modComb
@@ -1495,7 +1278,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
     print cmdmd
     os.system(cmdmd)
     
-    md = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid "
+    md = "combine " + totalfile + " -M MultiDimFit -m 120 --points " + points + " --algo grid "
     md += " --autoBoundsPOIs r"
     if isEFT:
         md += "," + modComb
@@ -1532,7 +1315,7 @@ def UncBreak(modeltot, srvar, crvar, fold, year, username, tagfold, addLambda8, 
      
             plotcomm += "\'" + freezefile + ":Freeze " + groupname + ":" + colors[idsy] + "\' "
 
-    mdfa = "combine " + totalfile + " -M MultiDimFit -t -1 -m 120 --points " + points + " --algo grid "
+    mdfa = "combine " + totalfile + " -M MultiDimFit -m 120 --points " + points + " --algo grid "
     mdfa += " --autoBoundsPOIs r" 
     if isEFT:
         mdfa += "," + modComb

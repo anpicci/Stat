@@ -315,7 +315,7 @@ def draw2D():
     red = array.array('d', [1.00, 0.0, 0.00])
     green = array.array('d', [0.0, 1.00, 0.00])
     blue = array.array('d', [1.00, 0., 1.00])
-    
+
     ROOT.TColor.CreateGradientColorTable(NRGBs, stops, red, green, blue, NCont)
     ROOT.gStyle.SetNumberContours(NCont)
 
@@ -338,6 +338,7 @@ def draw2D():
     xNameVar = xNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
     yNameVar = yNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
 
+    
     #variable = "k_" + str(opt.coeff)
     year = str(opt.year)
 
@@ -353,7 +354,8 @@ def draw2D():
     
     cc = ROOT.TCanvas("cc","",800,600)
     graphScan = ROOT.TGraph2D(n,limit.GetV1(),limit.GetV2(),limit.GetV3())
-
+    #print graphScan
+    
     graphScan.SetTitle("")
     graphScan.SetMarkerStyle(21)
     graphScan.SetMarkerColor(ROOT.kRed)
@@ -369,12 +371,13 @@ def draw2D():
     ##---- 2D likelihood thresholds
     
     contours = array.array('d', [2.30, 5.99]) ###1sigma, 2sigma
-    #graphScan.Draw("colz")
-    graphScan.GetHistogram().GetXaxis().SetTitle(xNameVar)
+    graphScan.Draw("colz")
+    #print graphScan.GetHistogram()
+    #graphScan.GetHistogram().GetXaxis().SetTitle(xNameVar)
+    
     graphScan.GetHistogram().GetYaxis().SetTitle(yNameVar)
     graphScan.GetHistogram().GetZaxis().SetTitle("- 2#Delta logL")
     graphScan.GetHistogram().GetZaxis().SetRangeUser(0,100.0)
-
     
     if True:
         for i in range(graphScan.GetHistogram().GetSize()):
@@ -523,7 +526,7 @@ def draw2D():
     #cc3.SaveAs("prova3.png")
     cc2.SaveAs("LS_" + str(opt.coeff) + ".png")
     cc2.SaveAs("LS_" + str(opt.coeff) + ".pdf")
-
+    
 print opt.oneD, opt.twoD
 if opt.oneD:
     draw1D()

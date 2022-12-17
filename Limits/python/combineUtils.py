@@ -4,18 +4,18 @@ import subprocess
 import copy
 from datetime import datetime
 
-def runCombine(cmdStr, logfile):
+def runCombine(cmdStr, logFile):
     "run combine for a specific case"
     #print os.getcwd()
     #print cmd
     #writer = open(logFile, 'w') 
     #process = subprocess.call(cmd, shell = True, stdout=writer)
-    logFile = logfile.replace(".log", datetime.now().time().strftime("%H%M%S%f") + ".log")
+    #logFile = logfile.replace(".log", datetime.now().time().strftime("%H%M%S%f") + ".log")
     print cmdStr + " 2>&1 | tee " + logFile
     os.system(cmdStr + " 2>&1 | tee " + logFile)
     return
 
-def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years):
+def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years, UseHybridNew, unblind):
     modelname = ""
     for ids, sigp in enumerate(model):
         if not sigp.startswith("WpWp"):
@@ -27,72 +27,36 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 
     print "evaluate limit for model ", model
     path = "" + path_ + "/" + modelname
-    #for ids, sigp in enumerate(model):
-        #path += "VBS_SSWW_" + sigp
-        #if ids < len(model) - 1:
-            #path += "_"
-    #path = ("%s/VBS_SSWW_%s" % (path_, model) )
-    #print "==>path: ", path
-    #print os.path.exists(path)
+    print "categories:", categories
+    
     if(os.path.exists(path)):
-        #print "ok i'm in the directory"
         os.chdir(path)
-        #print "We are in the right folder ",  len(categories)
         
-        extraoption=""
-        if len(categories)>=1:
-            if len(years)>1:
-                cmd = "combineCards.py "
-                for year in years:
-                    for cat in categories:
-                        cmd += cat+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
-                cmd += "> %s_%s.txt" % (modelname, method)
-                print cmd
-                os.system(cmd)
-                #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + method + ".log")
-                #for idhrun in range(11):
-                runCombine("combine -M HybridNew --LHCmode LHC-significance --fullBToys -d " + extraoption+ " "+ modelname + "_" + method + ".txt  -t -1 -T 200 -i 20 -s -1 --fork 8 --cminDefaultMinimizerStrategy 0 -H AsymptoticLimits --saveHybridResult --saveToys --expectSignal=1  -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + ".log")
-                #runCombine("combine -M Significance "+extraoption+ " "+modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
-                #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
+        extraoption = " --cminDefaultMinimizerStrategy 0 --expectSignal 1 "
+        if not unblind:
+            extraoption += " -t -1 "
+        cmd = "combineCards.py "
+        for year in years:
+            for cat in categories:
+                cmd += cat+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
+        cmd += "> %s_%s.txt" % (modelname, method)
+        print cmd
+        os.system(cmd)
 
-            else:
-                for year in years:
-                    cmd = "combineCards.py "
-                    for cat in categories:
-                        cmd += cat+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
-                    cmd += "> %s_%s.txt" % (modelname, method)
-                    print cmd
-                    os.system(cmd)
-                    runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname , "significance_" + modelname + "_" + method + ".log")
-                    #runCombine("combine -M Significance "+extraoption+ " "+ modelname + "_" + method + ".txt -t -1 ", "significance_" + modelname + "_" + method + ".log")
-                    #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + ".log")  
-
-                    if(runSingleCat): 
-                        for cat in categories:
-                            #print "category: " + (cat)
-                            cat = cat+"_"+year+"_"+method
-                            #print ""+ modelname + "_" + cat +".txt"
-                            #print "combine -M Significance "+extraoption + " "+modelname + "_" + cat +".txt", "significance_" + modelname + "_" + cat + ".log"
-                            #print "combine -M FitDiagnostics " + modelname + "_" + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties"
-                            runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname, "significance_" + modelname + "_" + cat + ".log")  
-                            #runCombine("combine -M Significance "+extraoption+" "+modelname + "_"  + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
-                            #runCombine("combine -M FitDiagnostics " + modelname + "_"  + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + cat + ".log")  
-
+        if UseHybridNew:
+            runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --saveToys --saveHybridResult --fullBToys " + extraoption + " -T 50 -i 20 -s -1 --fork 8 -H AsymptoticLimits --rMin -4 -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + ".log")
         else:
-            for year in years:
-                for cat in categories:
-                    #print "category: " + (cat)
-                    cat = cat+"_"+year+"_"+method
-                    if(runSingleCat):
-                        runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1  --cminDefaultMinimizerStrategy 0 --expectSignal=1  -n " + modelname , "significance_" + modelname + "_" + cat + ".log")  
-                        #runCombine("combine -M Significance "+extraoption+ " "+modelname + cat +".txt -t -1 ", "significance_" + modelname + "_" + cat + ".log")  
-                        #runCombine("combine -M FitDiagnostics " + modelname + cat +".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + cat + ".log")  
+            runCombine("combine -M Significance " + extraoption + " " + modelname + "_" + method + ".txt -n " + modelname, "significance_" + modelname + "_" + method + ".log")
+            #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
+    
         os.chdir("..")
-
-def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years):
+    
+def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years, unblind):
     maindir = os.getcwd() + "/"
     modelname = ""
-    optionalsSM = " --algo=grid --points=100000 --cminDefaultMinimizerStrategy=0 "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
+    optionalsSM = " --algo=grid --points=50000 --cminDefaultMinimizerStrategy=0 "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
+    if not unblind:
+        optionalsSM += " -t -1 "
     print "model", model
     modelname = model.replace(":", "_")
     #print "evaluate limit for model ", model
@@ -105,9 +69,8 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
         #print "We are in the right folder ",  len(categories)
         extraoption=""
         
-        if len(categories)>=1:
-            print "hello!"
-            if len(years)>1:
+        if True:
+            if True:
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
@@ -143,7 +106,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " + rootdc + " -M MultiDimFit -m 125 -t -1 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " + rootdc + " -M MultiDimFit -m 125 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
@@ -160,7 +123,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 os.system(cmd)                
                 os.system("rm higgsCombineTest.*.MultiDimFit.mH125.root")
                 
-def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
+def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, unblind):
     print "evaluate limit for VBS_SSWW_" + model
     path = ("%s/VBS_SSWW_%s" % (path_, model) )
     #print "==>path: ", path
@@ -170,8 +133,10 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
         os.chdir(path)
         #print "We are in the right folder ",  len(categories)
         extraoption=""
-        if len(categories)>=1:
-            if len(years)>1:
+        if not unblind:
+            extraoption += " -t -1 "
+        if True:
+            if True:
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
@@ -181,48 +146,25 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years):
                 os.system(cmd)
                 #runCombine("combine -M Significance "+extraoption+" -n VBS_SSWW_" + modelname + "_" + method + " VBS_SSWW_" + modelname + "_" + method + ".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + method + ".log")
                 #runCombine("combine -M FitDiagnostics "+extraoption+" -n VBS_SSWW_" + modelname + "_" + method + " VBS_SSWW_" + modelname + "_" + method + ".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + method + ".log")
-            else:
-                for year in years:
-                    cmd = "combineCards.py "
-                    for cat in categories:
-                        cmd += cat+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
-                    cmd += "> VBS_SSWW_%s_%s.txt" % (model, method)
-                    #print cmd
-                    os.system(cmd)
-                    #runCombine("combine -M Significance "+extraoption+" -n VBS_SSWW_" + modelname + "_" + method + " VBS_SSWW_" + modelname + "_" + method + ".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + method + ".log")
-                    #runCombine("combine -M FitDiagnostics "+extraoption+" -n VBS_SSWW_" + modelname + "_" + method + " VBS_SSWW_" + modelname + "_" + method + ".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + method + ".log")
 
-                    if(runSingleCat): 
-                        for cat in categories:
-                            #print "category: " + (cat)
-                            cat = cat+"_"+year+"_"+method
-                            #print  "WP_M"+mass+"W"+width+"_" + chir + "_" + cat +".txt"
-                            #print "combine -M Asymptotic "+extraoption+" -n VBS_SSWW_" + modelname + "_" + cat + " VBS_SSWW_" + modelname + "_" + cat +".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + cat + ".log"
-                            #runCombine("combine -M Significance "+extraoption+" -n VBS_SSWW_" + modelname +  "_" + cat+ " VBS_SSWW_" + modelname + "_"  + cat +".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + cat + ".log")  
-                            #runCombine("combine -M FitDiagnostics "+extraoption+" -n VBS_SSWW_" + modelname +  "_" + cat+ " VBS_SSWW_" + modelname + "_"  + cat +".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + cat + ".log")  
-
-        else:
-            for year in years:
-                for cat in categories:
-                    #print "category: " + (cat)
-                    cat = cat+"_"+year+"_"+method
-                    if(runSingleCat):
-                        runCombine("combine -M Significance "+extraoption+" -n VBS_SSWW_" + modelname +  "_" + cat + " VBS_SSWW_" + modelname + "_"  + cat +".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + cat + ".log")  
-                        #runCombine("combine -M FitDiagnostics "+extraoption+" -n VBS_SSWW_" + modelname +  "_" + cat + " VBS_SSWW_" + modelname + "_"  + cat +".txt", "asymptotic_VBS_SSWW_" + modelname + "_" + cat + ".log")  
         os.chdir("..")
 
-def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile):
+def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind):
     algostring = " --algo=grid  --points "
     if ":" in models and not profile:
         algostring += "1000000 "
         #algostring += "10 "
         #algostring += " 50000 "
-    if ":" in models and profile:
+    elif ":" in models and profile:
         algostring +=     "  10000 "
+        #algostring +=     "  10 "
     else:
         algostring +=     "  10000 "
         #algostring +=     "  10 "
+
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 "#--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
+    if not unblind:
+        optionals += " -t -1 "
     if not ":" in models or (":" in models and profile):
         optionals += "--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" #--autoBoundsPOIs * --autoRange 3" 
     print "Performing LikelihoodScan for operator ", models
@@ -274,8 +216,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
             opstring += coeff
 
 
-        if len(categories) >= 1:
-            if len(years) >1:
+        if True:#len(categories) >= 1:
+            if True:#len(years) >1:
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
@@ -314,8 +256,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     labels.append(label)
 
                 os.system("rm higgsCombine" + dirmodel + "*root")
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 -t -1 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
                     #cmd += " --autoRange 15 "
                 cmd += " " + optionals 
@@ -371,113 +313,12 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                             if year != years[-1]:
                                 cmd0 += "," 
                                 cmd1 += "," 
-                    print cmd0
-                    os.system(cmd0)
-                    print cmd1
-                    os.system(cmd1)
+                        print cmd0
+                        os.system(cmd0)
+                        print cmd1
+                        os.system(cmd1)
                         
                 os.chdir(path)
                 os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")
-            '''    
-            else:
-                
-                for year in years:
-                    cmd = "combineCards.py "
-                    for cat in categories:
-                        cmd += cat+year+"=%s_%s_%s_%s.txt " %(dirmodel, cat, year, method)
-                    
-                global_dc = str(dirmodel) + "_" + str(method) + ".txt" 
-                cmd += "> " + global_dc #%s_%s.txt" % (model, method)
-                #print cmd
-                os.system(cmd)
 
-                #generating workspace
-                cmd = "text2workspace.py "
-                cmd += global_dc + " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative -o "
-                rootdc = dirmodel + "_" + method + ".root"
-                cmd += rootdc +" --X-allow-no-signal --PO eftOperators=" + opstring
-                #print cmd
-                os.system(cmd)
-
-                #launching Combine
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
-                if not ":" in models:
-                    cmd += " --autoRange 15 "
-                cmd += " " + optionals 
-                cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
-                print cmd
-                
-                runCombine(cmd, "ls_k_" + dirmodel + "_" + method + ".log")
-                cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
-                if not ":" in models:
-                    cmd += " --1D"
-                else:
-                    cmd += " --2D"
-                cmd += " --year " 
-                for year in years:
-                    cmd += year
-                    if year != years[-1]:
-                        cmd += "," 
-                print cmd
-                os.system(cmd)
-                os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")
-
-                if(runSingleCat): 
-                    for cat in categories:
-                        #print "category: " + (cat)
-                        cat = cat+"_"+year+"_"+method
-                        datacat = dirmodel + "_" + cat +".txt"
-                        #print datacat
-                        cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -M MultiDimFit " + algostring + " -m 125 -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel + " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb 
-                        if not ":" in models:
-                            cmd += " --autoRange 15 "
-                        cmd += " " + optionals 
-                        cmd += " ; hadd -f higgsCombine" + dirmodel + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root" 
-                        print cmd
-                        runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")
-                        
-                        cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + drawcoeff
-                        if not ":" in models:
-                            cmd += " --1D"
-                        else:
-                            cmd += " --2D"
-                        cmd += " --year " 
-                        for year in years:
-                            cmd += year
-                            if year != years[-1]:
-                                cmd += "," 
-                        print cmd
-                        os.system(cmd)
-            '''
-        '''
-        else:
-            for year in years:
-                for cat in categories:
-                    #print "category: " + (cat)
-                    cat = cat+"_"+year+"_"+method
-                    datacat = dirmodel + "_" + cat +".txt"
-                    if(runSingleCat): 
-                        #print datacat
-                        cmd = "combine -M MultiDimFit " + datacat + algostring + " -m 125  --cminDefaultMinimizerStrategy 0  -t -1 --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameters r=1    --setParameterRanges " + intervalstr + " -n " + dirmodel
-                        cmd += " " + optionals 
-                        print cmd
-                        runCombine(cmd, "ls_k_" + dirmodel + "_" + cat + ".log")  
-    
-                        cmd = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + ".MultiDimFit.mH125.root --coeff " + dirmodel
-                        cmd += " " + optionals 
-                        if not ":" in models:
-                            cmd += " --1D"
-                        else:
-                            cmd += " --2D"
-                        cmd += " --year " 
-                        for year in years:
-                            cmd += year
-                            if year != years[-1]:
-                                cmd += "," 
-                        print cmd
-                        os.system(cmd)
-                
-           '''         
         os.chdir("..")
-
-        
