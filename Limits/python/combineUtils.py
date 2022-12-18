@@ -32,7 +32,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
     if(os.path.exists(path)):
         os.chdir(path)
         
-        extraoption = " --cminDefaultMinimizerStrategy 0 --expectSignal 1 "
+        extraoption = " --cminDefaultMinimizerStrategy 0 --expectSignal 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "
         if not unblind:
             extraoption += " -t -1 "
         cmd = "combineCards.py "
@@ -54,7 +54,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years, unblind):
     maindir = os.getcwd() + "/"
     modelname = ""
-    optionalsSM = " --algo=grid --points=50000 --cminDefaultMinimizerStrategy=0 "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
+    optionalsSM = " --algo=grid --points=50000 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
     if not unblind:
         optionalsSM += " -t -1 "
     print "model", model
@@ -162,7 +162,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         algostring +=     "  10000 "
         #algostring +=     "  10 "
 
-    optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 "#--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
+    optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT" #--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
     if not unblind:
         optionals += " -t -1 "
     if not ":" in models or (":" in models and profile):

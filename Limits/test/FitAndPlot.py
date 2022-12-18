@@ -157,6 +157,8 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             fitfolder += tagfolder.replace("_", "")
         if opt.Lambda8:
             fitfolder += "_Lambda8"
+        
+        fitfolder += "/" + fitvar + "_" + crvar
 
         postfitfolder = "Post" + fitfolder
         if not os.path.exists(fitfolder):
