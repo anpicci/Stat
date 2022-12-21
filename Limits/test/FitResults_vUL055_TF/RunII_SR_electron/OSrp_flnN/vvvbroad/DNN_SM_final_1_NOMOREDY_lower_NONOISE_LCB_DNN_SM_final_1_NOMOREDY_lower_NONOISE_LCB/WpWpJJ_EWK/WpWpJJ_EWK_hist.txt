@@ -74,3 +74,18 @@ TTest_electron_2016M  rateParam SR_electron2016M TTTo2L2Nu 1
 SR_electron2016M autoMCStats 10 0 1
 SR_electron2017 autoMCStats 10 0 1
 SR_electron2018 autoMCStats 10 0 1
+
+
+FRsys group	= FR_sys_electron_2016M FR_sys_electron_2017 FR_sys_electron_2018
+theory group	= ISR FSR QCDScale_sig QCDScale_VG QCDScale_TVX QCDScale_TTdilep QCDScale_WZ QCDScale_Triboson QCDScale_WrongSign QCDScale_ZZtoLep pdf_Tot QCDScale_WpWpJJ_QCD
+TTnorm group	= TTest_electron_2016M TTest_electron_2017 TTest_electron_2018 OSest_electron_2016M OSest_electron_2017 OSest_electron_2018
+PF group	= PF
+lumi group	= lumi_2016M lumi_2017 lumi_2018
+btag group	= btag mistag
+jet group	= jes_2018 jer_2018
+Pileup group	= pu puID
+VBS group	= VBS_2018
+MET group	= metUnclust
+tau group	= TES FES tau_vsjet_2018 tau_vsele_2018
+lepton group	= lep_2018 PF
+mischarge group	= mischarge_electron_2016M mischarge_electron_2017 mischarge_electron_2018

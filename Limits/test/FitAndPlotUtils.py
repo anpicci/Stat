@@ -1121,8 +1121,8 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     if not unblind:
         optionalss += " -t -1 "
     if not ":" in modeltot:
-        points = "10"
-        #points = "750"#"10000"
+        #points = "10"
+        points = "750"#"10000"
     else:
         points = "20000"
 
