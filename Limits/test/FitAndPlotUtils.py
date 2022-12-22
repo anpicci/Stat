@@ -1072,8 +1072,12 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         RecursiveImport(setmodd)
     
         createpostfit = "python createPostFit.py --var " + varname + " --fitfolder " + fitfolderr + " --year " + year + " --model " + model + " --settmod " + setmodd + " --postfolder " + folder
-        if not unblind:
+        
+        print "\n"
+        print "unblind?", unblind
+        if unblind:
             createpostfit += " -u "
+        
         print createpostfit
         os.system(createpostfit)
         
@@ -1081,10 +1085,10 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
     
         if unblind:
             poststring += " -u"
+        print "\n"
         print poststring
     
         os.system(poststring + " --lastbins")
-
         os.system(poststring + " --lastbins --scale")
         os.system(poststring + " --lastbins --linscale")
         os.system(poststring + " --lastbins --scale --linscale")
