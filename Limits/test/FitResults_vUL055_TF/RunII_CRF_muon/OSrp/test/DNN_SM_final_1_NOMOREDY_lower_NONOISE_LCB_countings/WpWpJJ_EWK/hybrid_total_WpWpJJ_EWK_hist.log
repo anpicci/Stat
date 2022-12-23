@@ -38,19 +38,11 @@ Bin        Contents        Error           Notes
 0          12.000000       3.464102        Unweighted events, alpha=64.156596
   => Total parameter prop_binCRF_muon2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
-Toy toy_asimov not found in merged_HybridNew.root. List follows:
-TFile**		merged_HybridNew.root	
- TFile*		merged_HybridNew.root	
-  TDirectoryFile*		toys	toys
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_986948794;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_1714734877;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_2380603262;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_3993027126;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_1685835721;1	HypoTestCalculator_result
-  KEY: TDirectoryFile	toys;1	toys
-  KEY: TProcessID	ProcessID0;1	
-  KEY: TProcessID	ProcessID1;1	
-  KEY: TProcessID	ProcessID2;1	
-  KEY: TProcessID	ProcessID3;1	
-  KEY: TProcessID	ProcessID4;1	
-  KEY: TTree	limit;1	limit
+SimNLL created with 3 channels, 0 generic constraints, 44 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+
+ -- Hybrid New -- 
+Significance: 0.103345  -0.00418494/+0.00418675
+Null p-value: 0.458844 +/- 0.00166101
+Done in 0.00 min (cpu), 0.00 min (real)
