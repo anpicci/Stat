@@ -1100,23 +1100,8 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         os.chdir(pwd)
     
 
-def ProduceCLPlots(srvars, crvars, folder, eftop, era, tagfold, PDFWithTTDY, DYrp = False, pdftype = "total"):
-    command = "python ciplots.py --sr " + srvars + " --cr " + crvars + " --folder " + folder + " --op " + eftop + " --era " + era
-    if WithFakeCR:
-        command += " --WithFakeCR"
-    if PDFWithTTDY:
-        command += " --PDFWithTTDY"
-    if DYrp:
-        command += " --DYrp"
-    command += " --pdf " + pdftype
-
-    print "tagfold", tagfold
-    if tagfold == "":
-        tagfolder = "nom"
-    else:
-        tagfolder = tagfold.replace("_", "")
-    
-    command += " --tagfolder " + tagfolder
+def ProduceCLPlots(srvar, crvar, eftop, era, folder):
+    command = "python ciplots.py --folder " + folder + " --op " + eftop + " --era " + era + " --srvar " + srvar + " --crvar " + crvar
     print command
     os.system(command)
 

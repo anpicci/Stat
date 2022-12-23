@@ -17,22 +17,14 @@ ROOT.gROOT.SetBatch()
 usage = "python3 FitAndPlot.py"
 parser = optparse.OptionParser(usage)
 
+parser.add_option('--srvar', dest='sr', type=str, default = 'm_o1', help='var in sr')
+parser.add_option('--crvar', dest='cr', type=str, default = 'm_o1', help='var in cr')
 parser.add_option('--npoints', dest='npoints', type='int', default = 1, help = 'Analysis folder')
-parser.add_option('--sr', dest='sr', type='str', default = "m_o1", help = 'SR variables')
-parser.add_option('--cr', dest='cr', type='str', default = "m_o1", help = 'CRs variables')
 parser.add_option('--folder', dest='folder', type='str', default = "vUL025", help = 'Folder to fit')
 parser.add_option('--op', dest='eftop', type='str', default = "cW", help = 'EFT operator')
 parser.add_option('--era', dest='era', type='str', default = "RunII", help = 'era')
-parser.add_option('--WithFakeCR', dest='wfc', default = False, action='store_true', help = 'include Fakes CR')
-parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
-parser.add_option('--tagfolder', dest='tagfold', type='string', default = '', help = 'Variables to postfit')
-parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
-parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 
 (opt, args) = parser.parse_args()
-
-DYrp = opt.DYrp
-pdftype = opt.pdf
 
 varloops = IterateVars(opt.sr, opt.cr)
 print varloops
@@ -238,17 +230,7 @@ for srv, crv in varloops:
         labels.append(srlabel + " + " + crlabel)
     else:
         labels.append(srlabel)
-    lspath = "fit" + pdftype + "_DYinOS_oneIFSR"
-    #lspath = "fit"
-    if not DYrp:
-        lspath += 'nodyrp_'
-    lspath += opt.folder + "/" + srv + "_" + crv + "_" + opt.era
-    if opt.wfc:
-        lspath += "_WithFakeCR"
-    if opt.pdfttdy:
-        lspath += "_PDFWithTTDY"
-    
-    lspath += "/" + opt.tagfold + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
+    lspath = opt.folder + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
     print lspath
 
     lsfile = ROOT.TFile.Open(lspath, "READ")
@@ -266,11 +248,7 @@ for srv, crv in varloops:
 
 y = []
 
-outfolder = "CIplots_preappr_def_" + pdftype + "_" + opt.folder + "/" + opt.tagfold
-if opt.wfc:
-    outfolder += "_WithFakeCR"
-if opt.pdfttdy:
-    outfolder += "_PDFWithTTDY"
+outfolder = "CIplots/" + opt.folder
 if not os.path.exists(outfolder):
     os.system("mkdir -p " + outfolder)
 
@@ -365,5 +343,3 @@ leg.Draw();
 
 c1.SaveAs(plotname+".pdf")
 c1.SaveAs(plotname+".png")
-
-

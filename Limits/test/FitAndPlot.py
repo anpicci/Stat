@@ -207,12 +207,10 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.unblind) 
         
 
-'''
 if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
     for model in models:
         #print "FitAndPlot", opt.varfit, opt.varcr, folder, model, opt.year, tagfolder
-        ProduceCLPlots(opt.varfit, opt.varcr, folder, model, opt.year, tagfolder, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp)
+        ProduceCLPlots(fitvar, crvar, model, opt.year, fitfolder)
 
-'''
 ### ordering outputs
 os.system("cd " + cwd)
