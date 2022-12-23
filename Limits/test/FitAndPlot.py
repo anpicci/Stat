@@ -27,7 +27,7 @@ parser.add_option('--year', dest='year', type='string', default = 'RunII', help 
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 parser.add_option('--cut', dest='cut', type='string', default = 'not', help = 'Specify cut, if needed')
-parser.add_option('--regions', dest='regions', type='string', default = 'SR,CRTT,CROS', help = 'Regions to fit')
+parser.add_option('--regions', dest='regions', type='string', default = 'SR,CRTT,CROS,CRF', help = 'Regions to fit')
 parser.add_option('--leptons', dest='leptons', type='string', default = 'muon,electron', help = 'Channels to include')
 parser.add_option('--tDMcut', dest='tDMcut', default = False, action='store_true', help='Enable tau DecayMode cut')
 parser.add_option('--test', dest='test', default = False, action='store_true', help='Enable test')
