@@ -242,6 +242,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
               #print sysName, sysValue
 
               if(sysValue[0]=="lnN"):
+                     if sysName.startswith("mischarge") and not ch.startswith("SR"):
+                            continue
                      if "lumi" in sysName and "1718_" in sysName:
                             sysName = sysName.replace("APV", "").replace("_2016", "").replace("_2017", "").replace("_2018", "")
                      card += "%-25s%-25s" % (sysName, sysValue[0])
@@ -623,6 +625,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                      continue
 
               if(sysValue[0]=="lnN"): 
+                     if sysName.startswith("mischarge") and not ch.startswith("SR"):
+                            continue
                      card += "%-25s%-25s" % (sysName, sysValue[0])
                      if len(sysValue)>2:
                             if(sysValue[1]=="all"):
