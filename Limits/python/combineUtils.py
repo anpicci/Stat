@@ -45,8 +45,12 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
 
         runCombine("combine -M Significance " + extraoption + " " + modelname + "_" + method + ".txt -n " + modelname, "significance_" + modelname + "_" + method + ".log")
 
+        if not unblind:
+            niter = 20
+        else:
+            niter = 30
         if UseHybridNew:
-            for idhn in range(20):
+            for idhn in range(niter):
                 runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --saveToys --saveHybridResult --fullBToys " + extraoption + " -T 50 -i 50 -s -1 --fork 20 -H AsymptoticLimits --rMin -4 -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + "_" + str(idhn) + ".log")
             os.system("hadd -f merged_HybridNew.root higgsCombineWpWpJJ_EWK_hybrid.HybridNew.mH120*root")
             runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --readHybridResult --toysFile=merged_HybridNew.root " + extraoption + " --rMin -4 -n " + modelname + "_hybrid_total", "hybrid_total_" + modelname + "_" + method + ".log")
