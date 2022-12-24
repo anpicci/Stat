@@ -1,142 +1,34 @@
  <<< Combine >>> 
 unable to write 'random state'
->>> Used OpenSSL to get a really random seed 547016760
->>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
->>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimits
-Channel CRF_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
-============================================================
-Analysing bin errors for: prop_binCRF_muon2016M
-Poisson cut-off: 10
-Processes excluded for sums: WpWpJJ_EWK
-============================================================
-Bin        Contents        Error           Notes                         
-0          500.072462      145.350464      total sum                     
-0          498.591836      145.350462      excluding marked processes    
-0          12.000000       3.464102        Unweighted events, alpha=41.672705
-  => Total parameter prop_binCRF_muon2016M_bin0[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------
-Channel CRF_electron2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
-============================================================
-Analysing bin errors for: prop_binCRF_electron2016M
-Poisson cut-off: 10
-Processes excluded for sums: WpWpJJ_EWK
-============================================================
-Bin        Contents        Error           Notes                         
-0          586.284825      171.874884      total sum                     
-0          585.344220      171.874883      excluding marked processes    
-0          12.000000       3.464102        Unweighted events, alpha=48.857069
-  => Total parameter prop_binCRF_electron2016M_bin0[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------
-Channel CRF_muon2017 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
-============================================================
-Analysing bin errors for: prop_binCRF_muon2017
-Poisson cut-off: 10
-Processes excluded for sums: WpWpJJ_EWK
-============================================================
-Bin        Contents        Error           Notes                         
-0          459.464558      134.574600      total sum                     
-0          457.614847      134.574598      excluding marked processes    
-0          12.000000       3.464102        Unweighted events, alpha=38.288713
-  => Total parameter prop_binCRF_muon2017_bin0[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------
-Channel CRF_electron2017 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
-============================================================
-Analysing bin errors for: prop_binCRF_electron2017
-Poisson cut-off: 10
-Processes excluded for sums: WpWpJJ_EWK
-============================================================
-Bin        Contents        Error           Notes                         
-0          501.044002      146.070287      total sum                     
-0          499.822646      146.070286      excluding marked processes    
-0          12.000000       3.464102        Unweighted events, alpha=41.753667
-  => Total parameter prop_binCRF_electron2017_bin0[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------
-Channel CRF_muon2018 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
-============================================================
-Analysing bin errors for: prop_binCRF_muon2018
-Poisson cut-off: 10
-Processes excluded for sums: WpWpJJ_EWK
-============================================================
-Bin        Contents        Error           Notes                         
-0          769.879147      224.845213      total sum                     
-0          766.992604      224.845210      excluding marked processes    
-0          12.000000       3.464102        Unweighted events, alpha=64.156596
-  => Total parameter prop_binCRF_muon2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------
-Channel CRF_electron2018 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
-============================================================
-Analysing bin errors for: prop_binCRF_electron2018
-Poisson cut-off: 10
-Processes excluded for sums: WpWpJJ_EWK
-============================================================
-Bin        Contents        Error           Notes                         
-0          794.709881      234.387287      total sum                     
-0          792.970278      234.387285      excluding marked processes    
-0          11.000000       3.316625        Unweighted events, alpha=72.246353
-  => Total parameter prop_binCRF_electron2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------
-SimNLL created with 6 channels, 0 generic constraints, 56 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SimNLL created with 6 channels, 0 generic constraints, 56 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+>>> Used OpenSSL to get a really random seed 1692405084
 
- -- AsymptoticLimits ( CLs ) --
-Observed Limit: r < 53.9512
+ *** Break *** bus error
 
-SimNLL created with 6 channels, 0 generic constraints, 56 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-0OXN1J
-/tmp/rstats-hva7eS
-/tmp/rstats-cx9d15
-/tmp/rstats-LfGtEr
-/tmp/rstats-oP24PX
-/tmp/rstats-FgeU7C
-/tmp/rstats-K7fWAs
-/tmp/rstats-ZFxKvq
-/tmp/rstats-Yt439y
-/tmp/rstats-XYl7cR
-/tmp/rstats-eZw2Aj
-/tmp/rstats-JglhLV
-/tmp/rstats-6g4InJ
-/tmp/rstats-5kc72F
-/tmp/rstats-GUPFNN
-/tmp/rstats-rerA13
-/tmp/rstats-6B3Cmu
-/tmp/rstats-36F1a4
-/tmp/rstats-aip9RO
-/tmp/rstats-nFAkHJ
-/tmp/rstats-q6CfVP
-/tmp/rstats-biWfk5
-/tmp/rstats-ezu7nt
-/tmp/rstats-bp2hD1
-/tmp/rstats-2SxujI
-/tmp/rstats-tJ7XNy
-/tmp/rstats-QYfF8x
-/tmp/rstats-DAqjqG
-/tmp/rstats-QNXpeY
-/tmp/rstats-5unV5p
-/tmp/rstats-E5y302
-/tmp/rstats-7VRRgS
-/tmp/rstats-cXWIvS
-/tmp/rstats-Dfs9Z4
-/tmp/rstats-S106Pp
-/tmp/rstats-PcYLcV
-/tmp/rstats-AAsvdA
-/tmp/rstats-3jq9Aq
-/tmp/rstats-i1mNXp
-/tmp/rstats-n8heaB
-/tmp/rstats-4vmC6V
-/tmp/rstats-X5xIAq
-/tmp/rstats-20tXN4
-/tmp/rstats-VE5Z2T
-/tmp/rstats-8UMI9S
-/tmp/rstats-rq0Lg2
-/tmp/rstats-EGglVl
-/tmp/rstats-Tg0BxO
-/tmp/rstats-G6vUSp
-/tmp/rstats-1QxJEa
 
- -- Hybrid New -- 
-Significance: -2.69684  -0.154106/+0.108402
-Null p-value: 0.9965 +/- 0.00132056
-Done in 0.09 min (cpu), 2.50 min (real)
+
+===========================================================
+There was a crash.
+This is the entire stack trace of all threads:
+===========================================================
+#0  0x00002b8526db760c in waitpid () from /lib64/libc.so.6
+#1  0x00002b8526d34f62 in do_system () from /lib64/libc.so.6
+#2  0x00002b85256e9a8b in TUnixSystem::StackTrace() () from /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_2_13/external/slc7_amd64_gcc700/lib/libCore.so
+#3  0x00002b85256ec0cc in TUnixSystem::DispatchSignals(ESignals) () from /cvmfs/cms.cern.ch/slc7_amd64_gcc700/cms/cmssw/CMSSW_10_2_13/external/slc7_amd64_gcc700/lib/libCore.so
+#4  <signal handler called>
+#5  0x00002b85237378a0 in HybridNew::applyOptions(boost::program_options::variables_map const&) () from /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/lib/slc7_amd64_gcc700/libHiggsAnalysisCombinedLimit.so
+#6  0x000000000040fe21 in main ()
+===========================================================
+
+
+The lines below might hint at the cause of the crash.
+You may get help by asking at the ROOT forum http://root.cern.ch/forum.
+Only if you are really convinced it is a bug in ROOT then please submit a
+report at http://root.cern.ch/bugs. Please post the ENTIRE stack trace
+from above as an attachment in addition to anything else
+that might help us fixing this issue.
+===========================================================
+#5  0x00002b85237378a0 in HybridNew::applyOptions(boost::program_options::variables_map const&) () from /afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/lib/slc7_amd64_gcc700/libHiggsAnalysisCombinedLimit.so
+#6  0x000000000040fe21 in main ()
+===========================================================
+
+

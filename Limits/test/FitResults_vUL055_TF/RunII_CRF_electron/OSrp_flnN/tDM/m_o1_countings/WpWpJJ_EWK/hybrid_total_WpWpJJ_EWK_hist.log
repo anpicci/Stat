@@ -2,6 +2,7 @@
 >>> random number generator seed is 123456
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
+Error in <TFile::Init>: file merged_HybridNew.root has no keys
 Channel CRF_electron2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binCRF_electron2016M
@@ -38,19 +39,7 @@ Bin        Contents        Error           Notes
 0          11.000000       3.316625        Unweighted events, alpha=72.246353
   => Total parameter prop_binCRF_electron2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
-Toy toy_asimov not found in merged_HybridNew.root. List follows:
-TFile**		merged_HybridNew.root	
- TFile*		merged_HybridNew.root	
-  TDirectoryFile*		toys	toys
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_3887440624;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_958764210;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_3370681128;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_3000122453;1	HypoTestCalculator_result
-   KEY: RooStats::HypoTestResult	HypoTestResult_mh120_r1_804652579;1	HypoTestCalculator_result
-  KEY: TDirectoryFile	toys;1	toys
-  KEY: TProcessID	ProcessID0;1	
-  KEY: TProcessID	ProcessID1;1	
-  KEY: TProcessID	ProcessID2;1	
-  KEY: TProcessID	ProcessID3;1	
-  KEY: TProcessID	ProcessID4;1	
-  KEY: TTree	limit;1	limit
+SimNLL created with 3 channels, 0 generic constraints, 47 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+Caught exception Cannot use readHypoTestResult: option toysFile not specified, or input file empty

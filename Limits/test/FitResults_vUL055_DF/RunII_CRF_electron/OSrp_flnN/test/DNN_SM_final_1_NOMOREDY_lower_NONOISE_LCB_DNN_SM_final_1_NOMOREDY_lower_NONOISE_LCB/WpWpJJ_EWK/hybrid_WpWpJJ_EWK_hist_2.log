@@ -1,6 +1,6 @@
  <<< Combine >>> 
 unable to write 'random state'
->>> Used OpenSSL to get a really random seed 1522421567
+>>> Used OpenSSL to get a really random seed 123347256
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
 >>> method used to hint where the upper limit is AsymptoticLimits
@@ -437,67 +437,67 @@ Bin        Contents        Error           Notes
 17         0.008000        0.000000        excluding marked processes    
   => Error is zero, ignore      
 ------------------------------------------------------------
-SimNLL created with 3 channels, 19 generic constraints, 103 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SimNLL created with 3 channels, 19 generic constraints, 103 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 3 channels, 19 generic constraints, 100 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 3 channels, 19 generic constraints, 100 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
  -- AsymptoticLimits ( CLs ) --
-Observed Limit: r < 12.9956
+Observed Limit: r < 12.9955
 
-SimNLL created with 3 channels, 19 generic constraints, 103 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 3 channels, 19 generic constraints, 100 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-dwCb4H
-/tmp/rstats-84p7RF
-/tmp/rstats-l1388K
-/tmp/rstats-QCXNdZ
-/tmp/rstats-n24h3l
-/tmp/rstats-Wv4DrQ
-/tmp/rstats-xS9FNs
-/tmp/rstats-WDLD5d
-/tmp/rstats-xXl1U7
-/tmp/rstats-kmy1O8
-/tmp/rstats-bgosBg
-/tmp/rstats-mlPkkx
-/tmp/rstats-rGwvYW
-/tmp/rstats-OX0cHu
-/tmp/rstats-xgobPa
-/tmp/rstats-AkIZ3Z
-/tmp/rstats-JtH3JY
-/tmp/rstats-W6GoV5
-/tmp/rstats-NlAsMk
-/tmp/rstats-YYnAxK
-/tmp/rstats-JQVZrj
-/tmp/rstats-Qhm4R0
-/tmp/rstats-DUF6SP
-/tmp/rstats-m4bdsN
-/tmp/rstats-jz45OS
-/tmp/rstats-YZtKG5
-/tmp/rstats-56KSLq
-/tmp/rstats-OlXqBT
-/tmp/rstats-foUr9t
-/tmp/rstats-EMOeAa
-/tmp/rstats-3OGvhZ
-/tmp/rstats-G6NtVV
-/tmp/rstats-LeSTR0
-/tmp/rstats-sxd6ue
-/tmp/rstats-VyDM8A
-/tmp/rstats-cQaM84
-/tmp/rstats-bAy2DI
-/tmp/rstats-KRs94u
-/tmp/rstats-jrPxbq
-/tmp/rstats-OuQwqs
-/tmp/rstats-X4aniD
-/tmp/rstats-6KkrRX
-/tmp/rstats-1xmNMs
-/tmp/rstats-sb0NP5
-/tmp/rstats-H6z8ZP
-/tmp/rstats-EwdbTJ
-/tmp/rstats-To6o0M
-/tmp/rstats-kafQGZ
-/tmp/rstats-fmLnol
-/tmp/rstats-IlBGTQ
+/tmp/rstats-N4bCoy
+/tmp/rstats-V7jLTq
+/tmp/rstats-XupdEu
+/tmp/rstats-bZSuYI
+/tmp/rstats-vzxeX7
+/tmp/rstats-BTwtlJ
+/tmp/rstats-37IrSw
+/tmp/rstats-XozX8w
+/tmp/rstats-dCHxkJ
+/tmp/rstats-Dqiv08
+/tmp/rstats-nGe5bL
+/tmp/rstats-RBeIkA
+/tmp/rstats-931PPA
+/tmp/rstats-hA87vL
+/tmp/rstats-LIOUk6
+/tmp/rstats-vDSSgA
+/tmp/rstats-1pLAcg
+/tmp/rstats-zxOv25
+/tmp/rstats-TMGmW6
+/tmp/rstats-zHr6yh
+/tmp/rstats-hQxH1D
+/tmp/rstats-3Smmwb
+/tmp/rstats-hMmljS
+/tmp/rstats-5vBizJ
+/tmp/rstats-z2qoIK
+/tmp/rstats-HbkNWW
+/tmp/rstats-TFFFPl
+/tmp/rstats-t5vuNT
+/tmp/rstats-lAinGH
+/tmp/rstats-HtVewI
+/tmp/rstats-riw6sW
+/tmp/rstats-p0GEXn
+/tmp/rstats-PYvxL2
+/tmp/rstats-hoOujS
+/tmp/rstats-BoQb8R
+/tmp/rstats-VjMnn1
+/tmp/rstats-nKgBkm
+/tmp/rstats-7oHtYQ
+/tmp/rstats-Nt3u4x
+/tmp/rstats-VvKben
+/tmp/rstats-vQmcfq
+/tmp/rstats-NP2mmD
+/tmp/rstats-pfSYg3
+/tmp/rstats-3LHcaD
+/tmp/rstats-joZHdo
+/tmp/rstats-RhBKMk
+/tmp/rstats-d6pQgq
+/tmp/rstats-vrLlPI
+/tmp/rstats-F7HkEe
+/tmp/rstats-5GyoGX
 
  -- Hybrid New -- 
-Significance: 2.38671  -0.0806167/+0.0999634
-Null p-value: 0.0085 +/- 0.00205277
-Done in 0.10 min (cpu), 2.16 min (real)
+Significance: 2.19729  -0.0682872/+0.0803933
+Null p-value: 0.014 +/- 0.00262717
+Done in 0.10 min (cpu), 2.93 min (real)
