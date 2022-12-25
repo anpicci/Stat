@@ -1,0 +1,415 @@
+ <<< Combine >>> 
+unable to write 'random state'
+>>> Used OpenSSL to get a really random seed -410818112
+>>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
+>>> method used is HybridNew
+>>> method used to hint where the upper limit is AsymptoticLimits
+Channel SR_electron2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binSR_electron2016M
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ_EWK
+============================================================
+Bin        Contents        Error           Notes                         
+0          53.405496       15.492061       total sum                     
+0          53.231249       15.492059       excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=4.450458
+  => Total parameter prop_binSR_electron2016M_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          13.395001       4.009827        total sum                     
+1          13.216168       4.009820        excluding marked processes    
+1          11.000000       3.316625        Unweighted events, alpha=1.217727
+  => Total parameter prop_binSR_electron2016M_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          12.173915       4.125007        total sum                     
+2          12.006081       4.125002        excluding marked processes    
+2          8.000000        2.828427        Unweighted events, alpha=1.521739
+  => Number of weighted events is below poisson threshold
+    TVX                  0.013039        0.005080                                      
+                         7.000000        2.645751        Unweighted events, alpha=0.001863
+      => Product of prop_binSR_electron2016M_bin2_TVX[7.00,0.07,45.79] and const [0.1429] to be poisson constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.220077        0.084767                                      
+                         7.000000        2.645751        Unweighted events, alpha=0.031440
+      => Product of prop_binSR_electron2016M_bin2_TTTo2L2Nu[7.00,0.07,45.79] and const [0.1429] to be poisson constrained
+  ----------------------------------------------------------
+    Triboson             0.015980        0.003228                                      
+                         25.000000       5.000000        Unweighted events, alpha=0.000639
+      => Parameter prop_binSR_electron2016M_bin2_Triboson[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    VG                   0.100523        0.071122                                      
+                         2.000000        1.414214        Unweighted events, alpha=0.050262
+      => Product of prop_binSR_electron2016M_bin2_VG[2.00,0.00,33.79] and const [0.5000] to be poisson constrained
+  ----------------------------------------------------------
+    ZZtoLep              0.027337        0.017406                                      
+                         2.000000        1.414214        Unweighted events, alpha=0.013669
+      => Product of prop_binSR_electron2016M_bin2_ZZtoLep[2.00,0.00,33.79] and const [0.5000] to be poisson constrained
+  ----------------------------------------------------------
+    WpWpJJ_EWK           0.167835        0.006874                                      
+                         596.000000      24.413111       Unweighted events, alpha=0.000282
+      => Parameter prop_binSR_electron2016M_bin2_WpWpJJ_EWK[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ_QCD           0.027371        0.004682                                      
+                         34.000000       5.830952        Unweighted events, alpha=0.000805
+      => Parameter prop_binSR_electron2016M_bin2_WpWpJJ_QCD[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WrongSign            0.001000        2.241036                                      
+      => Poisson not viable, prop_binSR_electron2016M_bin2_WrongSign[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    Fake                 11.535724       3.460717                                      
+                         11.000000       3.316625        Unweighted events, alpha=1.048702
+      => Parameter prop_binSR_electron2016M_bin2_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WZ                   0.065029        0.065029                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.065029
+      => Product of prop_binSR_electron2016M_bin2_WZ[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+------------------------------------------------------------
+3          7.182386        2.043331        total sum                     
+3          6.991852        2.043318        excluding marked processes    
+3          12.000000       3.464102        Unweighted events, alpha=0.598532
+  => Total parameter prop_binSR_electron2016M_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          2.154619        0.555148        total sum                     
+4          1.960470        0.555100        excluding marked processes    
+4          12.000000       3.464102        Unweighted events, alpha=0.179552
+  => Total parameter prop_binSR_electron2016M_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          3.465848        0.929084        total sum                     
+5          3.275203        0.929056        excluding marked processes    
+5          12.000000       3.464102        Unweighted events, alpha=0.288821
+  => Total parameter prop_binSR_electron2016M_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          4.729253        1.315598        total sum                     
+6          4.530382        1.315578        excluding marked processes    
+6          12.000000       3.464102        Unweighted events, alpha=0.394104
+  => Total parameter prop_binSR_electron2016M_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          4.392267        1.198982        total sum                     
+7          4.176268        1.198958        excluding marked processes    
+7          12.000000       3.464102        Unweighted events, alpha=0.366022
+  => Total parameter prop_binSR_electron2016M_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          1.172539        0.256612        total sum                     
+8          0.959854        0.256504        excluding marked processes    
+8          14.000000       3.741657        Unweighted events, alpha=0.083753
+  => Total parameter prop_binSR_electron2016M_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          1.230911        0.262660        total sum                     
+9          1.016620        0.262555        excluding marked processes    
+9          15.000000       3.872983        Unweighted events, alpha=0.082061
+  => Total parameter prop_binSR_electron2016M_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         2.121618        0.527951        total sum                     
+10         1.911671        0.527901        excluding marked processes    
+10         13.000000       3.605551        Unweighted events, alpha=0.163201
+  => Total parameter prop_binSR_electron2016M_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         1.821659        0.467787        total sum                     
+11         1.606803        0.467730        excluding marked processes    
+11         12.000000       3.464102        Unweighted events, alpha=0.151805
+  => Total parameter prop_binSR_electron2016M_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         0.485200        0.069570        total sum                     
+12         0.252619        0.069158        excluding marked processes    
+12         13.000000       3.605551        Unweighted events, alpha=0.037323
+  => Total parameter prop_binSR_electron2016M_bin12[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+13         0.308797        0.057663        total sum                     
+13         0.058173        0.057127        excluding marked processes    
+13         1.000000        1.000000        Unweighted events, alpha=0.308797
+  => Number of weighted events is below poisson threshold
+    TVX                  0.006836        0.005230                                      
+                         2.000000        1.414214        Unweighted events, alpha=0.003418
+      => Product of prop_binSR_electron2016M_bin13_TVX[2.00,0.00,33.79] and const [0.5000] to be poisson constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    Triboson             0.006008        0.001854                                      
+                         11.000000       3.316625        Unweighted events, alpha=0.000546
+      => Parameter prop_binSR_electron2016M_bin13_Triboson[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    VG                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    ZZtoLep              0.000613        0.000252                                      
+                         6.000000        2.449490        Unweighted events, alpha=0.000102
+      => Product of prop_binSR_electron2016M_bin13_ZZtoLep[6.00,0.03,43.60] and const [0.1667] to be poisson constrained
+  ----------------------------------------------------------
+    WpWpJJ_EWK           0.250624        0.007844                                      
+                         1021.000000     31.953091       Unweighted events, alpha=0.000245
+      => Parameter prop_binSR_electron2016M_bin13_WpWpJJ_EWK[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ_QCD           0.007165        0.002251                                      
+                         10.000000       3.162278        Unweighted events, alpha=0.000717
+      => Product of prop_binSR_electron2016M_bin13_WpWpJJ_QCD[10.00,0.30,52.00] and const [0.1000] to be poisson constrained
+  ----------------------------------------------------------
+    WrongSign            0.000255        0.000127                                      
+                         4.000000        2.000000        Unweighted events, alpha=0.000064
+      => Product of prop_binSR_electron2016M_bin13_WrongSign[4.00,0.00,38.96] and const [0.2500] to be poisson constrained
+  ----------------------------------------------------------
+    Fake                 0.001000        0.045292                                      
+      => Poisson not viable, prop_binSR_electron2016M_bin13_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WZ                   0.034295        0.034295                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.034295
+      => Product of prop_binSR_electron2016M_bin13_WZ[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+------------------------------------------------------------
+Channel SR_electron2017 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binSR_electron2017
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ_EWK
+============================================================
+Bin        Contents        Error           Notes                         
+0          58.548988       16.868251       total sum                     
+0          58.327024       16.868249       excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=4.879082
+  => Total parameter prop_binSR_electron2017_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          20.085380       5.647082        total sum                     
+1          19.864581       5.647075        excluding marked processes    
+1          12.000000       3.464102        Unweighted events, alpha=1.673782
+  => Total parameter prop_binSR_electron2017_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          14.181718       3.896118        total sum                     
+2          13.950256       3.896109        excluding marked processes    
+2          13.000000       3.605551        Unweighted events, alpha=1.090901
+  => Total parameter prop_binSR_electron2017_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          6.973592        1.937185        total sum                     
+3          6.737138        1.937166        excluding marked processes    
+3          12.000000       3.464102        Unweighted events, alpha=0.581133
+  => Total parameter prop_binSR_electron2017_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          3.117630        0.805121        total sum                     
+4          2.879644        0.805075        excluding marked processes    
+4          13.000000       3.605551        Unweighted events, alpha=0.239818
+  => Total parameter prop_binSR_electron2017_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          2.931346        0.784768        total sum                     
+5          2.705825        0.784725        excluding marked processes    
+5          12.000000       3.464102        Unweighted events, alpha=0.244279
+  => Total parameter prop_binSR_electron2017_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          1.034751        0.205097        total sum                     
+6          0.768139        0.204902        excluding marked processes    
+6          14.000000       3.741657        Unweighted events, alpha=0.073911
+  => Total parameter prop_binSR_electron2017_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          2.885797        0.754450        total sum                     
+7          2.645646        0.754403        excluding marked processes    
+7          12.000000       3.464102        Unweighted events, alpha=0.240483
+  => Total parameter prop_binSR_electron2017_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          2.217436        0.531752        total sum                     
+8          1.951997        0.531679        excluding marked processes    
+8          13.000000       3.605551        Unweighted events, alpha=0.170572
+  => Total parameter prop_binSR_electron2017_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          0.881601        0.167359        total sum                     
+9          0.607470        0.167121        excluding marked processes    
+9          13.000000       3.605551        Unweighted events, alpha=0.067815
+  => Total parameter prop_binSR_electron2017_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         0.782862        0.156950        total sum                     
+10         0.507741        0.156703        excluding marked processes    
+10         10.000000       3.162278        Unweighted events, alpha=0.078286
+  => Number of weighted events is below poisson threshold
+    TVX                  0.001000        0.001331                                      
+      => Poisson not viable, prop_binSR_electron2017_bin10_TVX[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.016097        0.016097                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.016097
+      => Product of prop_binSR_electron2017_bin10_TTTo2L2Nu[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    Triboson             0.006766        0.002367                                      
+                         8.000000        2.828427        Unweighted events, alpha=0.000846
+      => Product of prop_binSR_electron2017_bin10_Triboson[8.00,0.12,47.91] and const [0.1250] to be poisson constrained
+  ----------------------------------------------------------
+    VG                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    ZZtoLep              0.014073        0.013408                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.014073
+      => Product of prop_binSR_electron2017_bin10_ZZtoLep[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    WpWpJJ_EWK           0.275121        0.008800                                      
+                         978.000000      31.272992       Unweighted events, alpha=0.000281
+      => Parameter prop_binSR_electron2017_bin10_WpWpJJ_EWK[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ_QCD           0.009874        0.002829                                      
+                         12.000000       3.464102        Unweighted events, alpha=0.000823
+      => Parameter prop_binSR_electron2017_bin10_WpWpJJ_QCD[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WrongSign            0.001718        0.001520                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.001718
+      => Product of prop_binSR_electron2017_bin10_WrongSign[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    Fake                 0.340253        0.102076                                      
+                         11.000000       3.316625        Unweighted events, alpha=0.030932
+      => Parameter prop_binSR_electron2017_bin10_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WZ                   0.116961        0.116961                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.116961
+      => Product of prop_binSR_electron2017_bin10_WZ[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+------------------------------------------------------------
+11         1.000950        0.209489        total sum                     
+11         0.732947        0.209310        excluding marked processes    
+11         12.000000       3.464102        Unweighted events, alpha=0.083412
+  => Total parameter prop_binSR_electron2017_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         1.206278        0.252007        total sum                     
+12         0.918881        0.251850        excluding marked processes    
+12         13.000000       3.605551        Unweighted events, alpha=0.092791
+  => Total parameter prop_binSR_electron2017_bin12[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+13         1.156848        0.245075        total sum                     
+13         0.851010        0.244903        excluding marked processes    
+13         12.000000       3.464102        Unweighted events, alpha=0.096404
+  => Total parameter prop_binSR_electron2017_bin13[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+Channel SR_electron2018 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binSR_electron2018
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ_EWK
+============================================================
+Bin        Contents        Error           Notes                         
+0          94.541048       26.809882       total sum                     
+0          94.227029       26.809879       excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=7.878421
+  => Total parameter prop_binSR_electron2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          32.382020       9.610772        total sum                     
+1          32.044604       9.610764        excluding marked processes    
+1          11.000000       3.316625        Unweighted events, alpha=2.943820
+  => Total parameter prop_binSR_electron2018_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          16.793540       4.715068        total sum                     
+2          16.451378       4.715050        excluding marked processes    
+2          12.000000       3.464102        Unweighted events, alpha=1.399462
+  => Total parameter prop_binSR_electron2018_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          11.387260       3.229446        total sum                     
+3          11.055350       3.229421        excluding marked processes    
+3          12.000000       3.464102        Unweighted events, alpha=0.948938
+  => Total parameter prop_binSR_electron2018_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          10.547377       2.939741        total sum                     
+4          10.207428       2.939713        excluding marked processes    
+4          12.000000       3.464102        Unweighted events, alpha=0.878948
+  => Total parameter prop_binSR_electron2018_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          5.510633        1.473960        total sum                     
+5          5.149428        1.473901        excluding marked processes    
+5          12.000000       3.464102        Unweighted events, alpha=0.459219
+  => Total parameter prop_binSR_electron2018_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          4.087199        1.058246        total sum                     
+6          3.698554        1.058161        excluding marked processes    
+6          12.000000       3.464102        Unweighted events, alpha=0.340600
+  => Total parameter prop_binSR_electron2018_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          3.339557        0.822393        total sum                     
+7          2.961969        0.822290        excluding marked processes    
+7          13.000000       3.605551        Unweighted events, alpha=0.256889
+  => Total parameter prop_binSR_electron2018_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          4.459056        1.198125        total sum                     
+8          4.084204        1.198055        excluding marked processes    
+8          12.000000       3.464102        Unweighted events, alpha=0.371588
+  => Total parameter prop_binSR_electron2018_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          3.262987        0.838454        total sum                     
+9          2.867134        0.838350        excluding marked processes    
+9          12.000000       3.464102        Unweighted events, alpha=0.271916
+  => Total parameter prop_binSR_electron2018_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         2.059457        0.439258        total sum                     
+10         1.667242        0.439064        excluding marked processes    
+10         14.000000       3.741657        Unweighted events, alpha=0.147104
+  => Total parameter prop_binSR_electron2018_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         1.120118        0.177998        total sum                     
+11         0.696391        0.177496        excluding marked processes    
+11         15.000000       3.872983        Unweighted events, alpha=0.074675
+  => Total parameter prop_binSR_electron2018_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         1.276638        0.227670        total sum                     
+12         0.817792        0.227240        excluding marked processes    
+12         13.000000       3.605551        Unweighted events, alpha=0.098203
+  => Total parameter prop_binSR_electron2018_bin12[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+13         0.633013        0.048306        total sum                     
+13         0.195380        0.046359        excluding marked processes    
+13         18.000000       4.242641        Unweighted events, alpha=0.035167
+  => Total parameter prop_binSR_electron2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+SimNLL created with 3 channels, 15 generic constraints, 98 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 3 channels, 15 generic constraints, 98 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 11.0474
+
+SimNLL created with 3 channels, 15 generic constraints, 98 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-wldeTL
+/tmp/rstats-7w3JE3
+/tmp/rstats-Ke7QI4
+/tmp/rstats-RWzs1I
+/tmp/rstats-2uDAZ7
+/tmp/rstats-95sPja
+/tmp/rstats-kpl07V
+/tmp/rstats-b5LkSs
+/tmp/rstats-ulh7cG
+/tmp/rstats-hxds3z
+/tmp/rstats-Y9g4bc
+/tmp/rstats-vHrdNy
+/tmp/rstats-kdicUE
+/tmp/rstats-N7p4Xn
+/tmp/rstats-4bJPZJ
+/tmp/rstats-FGajCJ
+/tmp/rstats-orgTvs
+/tmp/rstats-xJmX8X
+/tmp/rstats-UY1FG0
+/tmp/rstats-TaID8J
+/tmp/rstats-oWWHG6
+/tmp/rstats-Tzq3Bb
+/tmp/rstats-mPaQbS
+/tmp/rstats-nSMHJg
+/tmp/rstats-EEgV7e
+/tmp/rstats-bbnRKT
+/tmp/rstats-aC8o4d
+/tmp/rstats-HiLVXi
+/tmp/rstats-iQ7Ow8
+/tmp/rstats-thZ0UH
+/tmp/rstats-CtrKF1
+/tmp/rstats-Jbf001
+/tmp/rstats-wc54oE
+/tmp/rstats-xiQ4t1
+/tmp/rstats-Sh4RB8
+/tmp/rstats-Re1PpV
+/tmp/rstats-os3D6v
+/tmp/rstats-DKJ6hO
+/tmp/rstats-u2Uq8M
+/tmp/rstats-jzBrmp
+/tmp/rstats-6NIuiG
+/tmp/rstats-V9U3FI
+/tmp/rstats-GIIx5s
+/tmp/rstats-BBgJeT
+/tmp/rstats-ihtDs3
+/tmp/rstats-xA5nEW
+/tmp/rstats-ccldZu
+/tmp/rstats-BEJiXO
+/tmp/rstats-ktOiGM
+/tmp/rstats-bsfAcu
+
+ -- Hybrid New -- 
+Significance: 0.549008  -0.0293812/+0.029863
+Null p-value: 0.2915 +/- 0.0101619
+Done in 0.17 min (cpu), 11.16 min (real)

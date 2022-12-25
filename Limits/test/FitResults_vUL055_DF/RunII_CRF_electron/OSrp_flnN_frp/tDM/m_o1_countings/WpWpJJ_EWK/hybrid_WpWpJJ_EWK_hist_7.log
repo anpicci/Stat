@@ -1,0 +1,106 @@
+ <<< Combine >>> 
+unable to write 'random state'
+>>> Used OpenSSL to get a really random seed 1054049533
+>>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
+>>> method used is HybridNew
+>>> method used to hint where the upper limit is AsymptoticLimits
+Channel CRF_electron2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRF_electron2016M
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ_EWK
+============================================================
+Bin        Contents        Error           Notes                         
+0          586.284825      171.874884      total sum                     
+0          585.344220      171.874883      excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=48.857069
+  => Total parameter prop_binCRF_electron2016M_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+Channel CRF_electron2017 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRF_electron2017
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ_EWK
+============================================================
+Bin        Contents        Error           Notes                         
+0          501.044002      146.070287      total sum                     
+0          499.822646      146.070286      excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=41.753667
+  => Total parameter prop_binCRF_electron2017_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+Channel CRF_electron2018 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRF_electron2018
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ_EWK
+============================================================
+Bin        Contents        Error           Notes                         
+0          794.709881      234.387287      total sum                     
+0          792.970278      234.387285      excluding marked processes    
+0          11.000000       3.316625        Unweighted events, alpha=72.246353
+  => Total parameter prop_binCRF_electron2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+SimNLL created with 3 channels, 0 generic constraints, 47 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 3 channels, 0 generic constraints, 47 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 462.5214
+
+SimNLL created with 3 channels, 0 generic constraints, 47 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-gkmQMA
+/tmp/rstats-KzvIjc
+/tmp/rstats-YuBGa1
+/tmp/rstats-oOrHV0
+/tmp/rstats-Wz3WTd
+/tmp/rstats-uxKgcF
+/tmp/rstats-OWRCMk
+/tmp/rstats-GeiFag
+/tmp/rstats-0OVzdo
+/tmp/rstats-IIZ8MK
+/tmp/rstats-sko0Wi
+/tmp/rstats-oxTYj3
+/tmp/rstats-USk5Z0
+/tmp/rstats-S1bTzb
+/tmp/rstats-SnZcgA
+/tmp/rstats-a2X0Yb
+/tmp/rstats-CtLAC4
+/tmp/rstats-wUJOSf
+/tmp/rstats-yaNZ4C
+/tmp/rstats-MPgIMd
+/tmp/rstats-6owYRZ
+/tmp/rstats-wSZZGZ
+/tmp/rstats-iYztud
+/tmp/rstats-qGmJLF
+/tmp/rstats-AP2Y5n
+/tmp/rstats-inJqXi
+/tmp/rstats-0o3y8o
+/tmp/rstats-IVWzxJ
+/tmp/rstats-GcZIfh
+/tmp/rstats-yJJAH1
+/tmp/rstats-SYIkI0
+/tmp/rstats-0GsoQc
+/tmp/rstats-WoU2hC
+/tmp/rstats-aaTsHf
+/tmp/rstats-KaMeS7
+/tmp/rstats-8DQCHg
+/tmp/rstats-CxW0EF
+/tmp/rstats-GE7YBg
+/tmp/rstats-MiRFc7
+/tmp/rstats-Qh1c0c
+/tmp/rstats-ccPEQx
+/tmp/rstats-U2H7f8
+/tmp/rstats-KwCJv0
+/tmp/rstats-yTUFZ6
+/tmp/rstats-Ir6aMs
+/tmp/rstats-4x5YJ4
+/tmp/rstats-SP1hWW
+/tmp/rstats-4SuHZ5
+/tmp/rstats-2QbwRt
+/tmp/rstats-qLO7V8
+
+ -- Hybrid New -- 
+Significance: -1.05156  -0.0350988/+0.033849
+Null p-value: 0.8535 +/- 0.00790689
+Done in 0.12 min (cpu), 3.67 min (real)

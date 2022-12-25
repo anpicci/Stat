@@ -1,0 +1,510 @@
+ <<< Combine >>> 
+unable to write 'random state'
+>>> Used OpenSSL to get a really random seed 1783551255
+>>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
+>>> method used is HybridNew
+>>> method used to hint where the upper limit is AsymptoticLimits
+Channel CRF_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRF_muon2016M
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ
+============================================================
+Bin        Contents        Error           Notes                         
+0          404.074128      118.806922      total sum                     
+0          403.604535      118.806921      excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=33.672844
+  => Total parameter prop_binCRF_muon2016M_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          39.597005       11.242035       total sum                     
+1          39.408523       11.242032       excluding marked processes    
+1          12.000000       3.464102        Unweighted events, alpha=3.299750
+  => Total parameter prop_binCRF_muon2016M_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          18.409493       5.222185        total sum                     
+2          18.272160       5.222180        excluding marked processes    
+2          12.000000       3.464102        Unweighted events, alpha=1.534124
+  => Total parameter prop_binCRF_muon2016M_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          12.424983       3.634215        total sum                     
+3          12.313407       3.634209        excluding marked processes    
+3          11.000000       3.316625        Unweighted events, alpha=1.129544
+  => Total parameter prop_binCRF_muon2016M_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          6.217117        1.754806        total sum                     
+4          6.126942        1.754798        excluding marked processes    
+4          12.000000       3.464102        Unweighted events, alpha=0.518093
+  => Total parameter prop_binCRF_muon2016M_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          5.139005        1.485071        total sum                     
+5          5.063093        1.485063        excluding marked processes    
+5          12.000000       3.464102        Unweighted events, alpha=0.428250
+  => Total parameter prop_binCRF_muon2016M_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          4.103311        1.175624        total sum                     
+6          4.031849        1.175614        excluding marked processes    
+6          12.000000       3.464102        Unweighted events, alpha=0.341943
+  => Total parameter prop_binCRF_muon2016M_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          0.857557        0.206583        total sum                     
+7          0.786952        0.206530        excluding marked processes    
+7          15.000000       3.872983        Unweighted events, alpha=0.057170
+  => Total parameter prop_binCRF_muon2016M_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          1.372074        0.374725        total sum                     
+8          1.305184        0.374699        excluding marked processes    
+8          12.000000       3.464102        Unweighted events, alpha=0.114339
+  => Total parameter prop_binCRF_muon2016M_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          0.898747        0.233383        total sum                     
+9          0.840953        0.233351        excluding marked processes    
+9          13.000000       3.605551        Unweighted events, alpha=0.069134
+  => Total parameter prop_binCRF_muon2016M_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         2.096248        0.589624        total sum                     
+10         2.046556        0.589613        excluding marked processes    
+10         12.000000       3.464102        Unweighted events, alpha=0.174687
+  => Total parameter prop_binCRF_muon2016M_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         1.050562        0.299787        total sum                     
+11         1.008254        0.299768        excluding marked processes    
+11         11.000000       3.316625        Unweighted events, alpha=0.095506
+  => Total parameter prop_binCRF_muon2016M_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         1.234069        0.348359        total sum                     
+12         1.188660        0.348340        excluding marked processes    
+12         12.000000       3.464102        Unweighted events, alpha=0.102839
+  => Total parameter prop_binCRF_muon2016M_bin12[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+13         1.655382        0.479056        total sum                     
+13         1.612485        0.479044        excluding marked processes    
+13         11.000000       3.316625        Unweighted events, alpha=0.150489
+  => Total parameter prop_binCRF_muon2016M_bin13[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+14         0.058437        0.105263        total sum                     
+14         0.021852        0.105219        excluding marked processes    
+14         0.000000        0.000000        Unweighted events, alpha=inf  
+  => Number of weighted events is below poisson threshold
+    TVX                  0.001525        0.002421                                      
+      => Poisson not viable, prop_binCRF_muon2016M_bin14_TVX[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    Triboson             0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    VG                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    ZZtoLep              0.012601        0.012601                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.012601
+      => Product of prop_binCRF_muon2016M_bin14_ZZtoLep[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    WrongSign            0.002726        0.001998                                      
+                         2.000000        1.414214        Unweighted events, alpha=0.001363
+      => Product of prop_binCRF_muon2016M_bin14_WrongSign[2.00,0.00,33.79] and const [0.5000] to be poisson constrained
+  ----------------------------------------------------------
+    Fake                 0.001000        0.104414                                      
+      => Poisson not viable, prop_binCRF_muon2016M_bin14_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ               0.036585        0.003067                                      
+                         142.000000      11.916375       Unweighted events, alpha=0.000258
+      => Parameter prop_binCRF_muon2016M_bin14_WpWpJJ[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WZ                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+------------------------------------------------------------
+15         0.042672        0.003455        total sum                     
+15         0.009148        0.001954        excluding marked processes    
+15         22.000000       4.690416        Unweighted events, alpha=0.001940
+  => Total parameter prop_binCRF_muon2016M_bin15[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+16         0.139133        0.030667        total sum                     
+16         0.110901        0.030554        excluding marked processes    
+16         13.000000       3.605551        Unweighted events, alpha=0.010703
+  => Total parameter prop_binCRF_muon2016M_bin16[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+17         1.046687        0.295510        total sum                     
+17         1.018318        0.295499        excluding marked processes    
+17         12.000000       3.464102        Unweighted events, alpha=0.087224
+  => Total parameter prop_binCRF_muon2016M_bin17[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+18         0.033874        0.003016        total sum                     
+18         0.008471        0.001779        excluding marked processes    
+18         23.000000       4.795832        Unweighted events, alpha=0.001473
+  => Total parameter prop_binCRF_muon2016M_bin18[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+19         0.021412        0.001866        total sum                     
+19         0.007298        0.000338        excluding marked processes    
+19         467.000000      21.610183       Unweighted events, alpha=0.000046
+  => Total parameter prop_binCRF_muon2016M_bin19[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+20         0.015011        0.001348        total sum                     
+20         0.007280        0.000280        excluding marked processes    
+20         677.000000      26.019224       Unweighted events, alpha=0.000022
+  => Total parameter prop_binCRF_muon2016M_bin20[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+21         0.010433        0.000703        total sum                     
+21         0.008000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+Channel CRF_muon2017 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRF_muon2017
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ
+============================================================
+Bin        Contents        Error           Notes                         
+0          386.057971      113.666026      total sum                     
+0          385.448288      113.666025      excluding marked processes    
+0          11.000000       3.316625        Unweighted events, alpha=35.096179
+  => Total parameter prop_binCRF_muon2017_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          28.333880       8.221290        total sum                     
+1          28.090060       8.221283        excluding marked processes    
+1          12.000000       3.464102        Unweighted events, alpha=2.361157
+  => Total parameter prop_binCRF_muon2017_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          13.615563       3.900480        total sum                     
+2          13.442693       3.900471        excluding marked processes    
+2          12.000000       3.464102        Unweighted events, alpha=1.134630
+  => Total parameter prop_binCRF_muon2017_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          7.715132        2.206739        total sum                     
+3          7.579287        2.206726        excluding marked processes    
+3          12.000000       3.464102        Unweighted events, alpha=0.642928
+  => Total parameter prop_binCRF_muon2017_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          5.338659        1.515850        total sum                     
+4          5.224098        1.515835        excluding marked processes    
+4          12.000000       3.464102        Unweighted events, alpha=0.444888
+  => Total parameter prop_binCRF_muon2017_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          6.453183        1.824585        total sum                     
+5          6.341953        1.824574        excluding marked processes    
+5          12.000000       3.464102        Unweighted events, alpha=0.537765
+  => Total parameter prop_binCRF_muon2017_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          2.639962        0.754972        total sum                     
+6          2.558932        0.754952        excluding marked processes    
+6          11.000000       3.316625        Unweighted events, alpha=0.239997
+  => Total parameter prop_binCRF_muon2017_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          1.989904        0.557547        total sum                     
+7          1.901410        0.557518        excluding marked processes    
+7          12.000000       3.464102        Unweighted events, alpha=0.165825
+  => Total parameter prop_binCRF_muon2017_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          0.938359        0.232532        total sum                     
+8          0.863276        0.232478        excluding marked processes    
+8          14.000000       3.741657        Unweighted events, alpha=0.067026
+  => Total parameter prop_binCRF_muon2017_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          2.171323        0.624155        total sum                     
+9          2.109148        0.624137        excluding marked processes    
+9          11.000000       3.316625        Unweighted events, alpha=0.197393
+  => Total parameter prop_binCRF_muon2017_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         0.207094        0.035802        total sum                     
+10         0.145679        0.035530        excluding marked processes    
+10         17.000000       4.123106        Unweighted events, alpha=0.012182
+  => Total parameter prop_binCRF_muon2017_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         0.784184        0.209428        total sum                     
+11         0.719926        0.209379        excluding marked processes    
+11         12.000000       3.464102        Unweighted events, alpha=0.065349
+  => Total parameter prop_binCRF_muon2017_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         1.034055        0.287948        total sum                     
+12         0.970804        0.287916        excluding marked processes    
+12         11.000000       3.316625        Unweighted events, alpha=0.094005
+  => Total parameter prop_binCRF_muon2017_bin12[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+13         1.139679        0.321629        total sum                     
+13         1.088002        0.321606        excluding marked processes    
+13         11.000000       3.316625        Unweighted events, alpha=0.103607
+  => Total parameter prop_binCRF_muon2017_bin13[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+14         0.056605        0.016484        total sum                     
+14         0.011755        0.016085        excluding marked processes    
+14         1.000000        1.000000        Unweighted events, alpha=0.056605
+  => Number of weighted events is below poisson threshold
+    TVX                  0.002719        0.001435                                      
+                         4.000000        2.000000        Unweighted events, alpha=0.000680
+      => Product of prop_binCRF_muon2017_bin14_TVX[4.00,0.00,38.96] and const [0.2500] to be poisson constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    Triboson             0.000059        0.000059                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.000059
+      => Product of prop_binCRF_muon2017_bin14_Triboson[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    VG                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    ZZtoLep              0.000259        0.000259                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.000259
+      => Product of prop_binCRF_muon2017_bin14_ZZtoLep[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    WrongSign            0.004719        0.002755                                      
+                         3.000000        1.732051        Unweighted events, alpha=0.001573
+      => Product of prop_binCRF_muon2017_bin14_WrongSign[3.00,0.00,36.46] and const [0.3333] to be poisson constrained
+  ----------------------------------------------------------
+    Fake                 0.001000        0.015780                                      
+      => Poisson not viable, prop_binCRF_muon2017_bin14_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ               0.044849        0.003605                                      
+                         155.000000      12.449900       Unweighted events, alpha=0.000289
+      => Parameter prop_binCRF_muon2017_bin14_WpWpJJ[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WZ                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+------------------------------------------------------------
+15         0.124343        0.083169        total sum                     
+15         0.083462        0.083097        excluding marked processes    
+15         1.000000        1.000000        Unweighted events, alpha=0.124343
+  => Number of weighted events is below poisson threshold
+    TVX                  0.002902        0.001271                                      
+                         5.000000        2.236068        Unweighted events, alpha=0.000580
+      => Product of prop_binCRF_muon2017_bin15_TVX[5.00,0.01,41.33] and const [0.2000] to be poisson constrained
+  ----------------------------------------------------------
+    TTTo2L2Nu            0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    Triboson             0.000419        0.000298                                      
+                         2.000000        1.414214        Unweighted events, alpha=0.000210
+      => Product of prop_binCRF_muon2017_bin15_Triboson[2.00,0.00,33.79] and const [0.5000] to be poisson constrained
+  ----------------------------------------------------------
+    VG                   0.001000        0.000000                                      
+      => Error is zero, ignore      
+  ----------------------------------------------------------
+    ZZtoLep              0.000164        0.000164                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.000164
+      => Product of prop_binCRF_muon2017_bin15_ZZtoLep[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+    WrongSign            0.001000        0.001973                                      
+      => Poisson not viable, prop_binCRF_muon2017_bin15_WrongSign[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    Fake                 0.001000        0.033572                                      
+      => Poisson not viable, prop_binCRF_muon2017_bin15_Fake[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WpWpJJ               0.040881        0.003440                                      
+                         141.000000      11.874342       Unweighted events, alpha=0.000290
+      => Parameter prop_binCRF_muon2017_bin15_WpWpJJ[0.00,-7.00,7.00] to be gaussian constrained
+  ----------------------------------------------------------
+    WZ                   0.075977        0.075977                                      
+                         1.000000        1.000000        Unweighted events, alpha=0.075977
+      => Product of prop_binCRF_muon2017_bin15_WZ[1.00,0.00,30.85] and const [1.0000] to be poisson constrained
+  ----------------------------------------------------------
+------------------------------------------------------------
+16         0.043305        0.003493        total sum                     
+16         0.007775        0.001548        excluding marked processes    
+16         25.000000       5.000000        Unweighted events, alpha=0.001732
+  => Total parameter prop_binCRF_muon2017_bin16[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+17         0.041396        0.003304        total sum                     
+17         0.007271        0.001337        excluding marked processes    
+17         30.000000       5.477226        Unweighted events, alpha=0.001380
+  => Total parameter prop_binCRF_muon2017_bin17[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+18         0.974714        0.283312        total sum                     
+18         0.950769        0.283299        excluding marked processes    
+18         11.000000       3.316625        Unweighted events, alpha=0.088610
+  => Total parameter prop_binCRF_muon2017_bin18[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+19         0.027348        0.002737        total sum                     
+19         0.008649        0.001649        excluding marked processes    
+19         28.000000       5.291503        Unweighted events, alpha=0.000977
+  => Total parameter prop_binCRF_muon2017_bin19[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+20         0.014678        0.001230        total sum                     
+20         0.008000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+21         0.010946        0.000865        total sum                     
+21         0.008000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+Channel CRF_muon2018 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+============================================================
+Analysing bin errors for: prop_binCRF_muon2018
+Poisson cut-off: 10
+Processes excluded for sums: WpWpJJ
+============================================================
+Bin        Contents        Error           Notes                         
+0          616.898573      180.697303      total sum                     
+0          616.037140      180.697302      excluding marked processes    
+0          12.000000       3.464102        Unweighted events, alpha=51.408214
+  => Total parameter prop_binCRF_muon2018_bin0[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+1          55.974109       16.308955       total sum                     
+1          55.620595       16.308949       excluding marked processes    
+1          12.000000       3.464102        Unweighted events, alpha=4.664509
+  => Total parameter prop_binCRF_muon2018_bin1[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+2          30.445285       8.752327        total sum                     
+2          30.178813       8.752318        excluding marked processes    
+2          12.000000       3.464102        Unweighted events, alpha=2.537107
+  => Total parameter prop_binCRF_muon2018_bin2[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+3          21.992999       6.447293        total sum                     
+3          21.790392       6.447284        excluding marked processes    
+3          11.000000       3.316625        Unweighted events, alpha=1.999364
+  => Total parameter prop_binCRF_muon2018_bin3[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+4          9.790562        2.814198        total sum                     
+4          9.614302        2.814181        excluding marked processes    
+4          12.000000       3.464102        Unweighted events, alpha=0.815880
+  => Total parameter prop_binCRF_muon2018_bin4[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+5          6.506765        1.865161        total sum                     
+5          6.348293        1.865139        excluding marked processes    
+5          12.000000       3.464102        Unweighted events, alpha=0.542230
+  => Total parameter prop_binCRF_muon2018_bin5[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+6          5.975233        1.708210        total sum                     
+6          5.836103        1.708190        excluding marked processes    
+6          12.000000       3.464102        Unweighted events, alpha=0.497936
+  => Total parameter prop_binCRF_muon2018_bin6[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+7          6.409718        1.857073        total sum                     
+7          6.283404        1.857056        excluding marked processes    
+7          11.000000       3.316625        Unweighted events, alpha=0.582702
+  => Total parameter prop_binCRF_muon2018_bin7[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+8          3.705794        1.059118        total sum                     
+8          3.579909        1.059088        excluding marked processes    
+8          11.000000       3.316625        Unweighted events, alpha=0.336890
+  => Total parameter prop_binCRF_muon2018_bin8[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+9          1.862403        0.506353        total sum                     
+9          1.763012        0.506305        excluding marked processes    
+9          12.000000       3.464102        Unweighted events, alpha=0.155200
+  => Total parameter prop_binCRF_muon2018_bin9[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+10         0.767846        0.187894        total sum                     
+10         0.667356        0.187767        excluding marked processes    
+10         13.000000       3.605551        Unweighted events, alpha=0.059065
+  => Total parameter prop_binCRF_muon2018_bin10[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+11         1.109983        0.299077        total sum                     
+11         1.029922        0.299016        excluding marked processes    
+11         12.000000       3.464102        Unweighted events, alpha=0.092499
+  => Total parameter prop_binCRF_muon2018_bin11[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+12         0.869546        0.223960        total sum                     
+12         0.781242        0.223869        excluding marked processes    
+12         12.000000       3.464102        Unweighted events, alpha=0.072462
+  => Total parameter prop_binCRF_muon2018_bin12[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+13         2.372290        0.686522        total sum                     
+13         2.298880        0.686496        excluding marked processes    
+13         11.000000       3.316625        Unweighted events, alpha=0.215663
+  => Total parameter prop_binCRF_muon2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+14         1.665360        0.472430        total sum                     
+14         1.593084        0.472397        excluding marked processes    
+14         11.000000       3.316625        Unweighted events, alpha=0.151396
+  => Total parameter prop_binCRF_muon2018_bin14[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+15         0.605129        0.152222        total sum                     
+15         0.533354        0.152122        excluding marked processes    
+15         12.000000       3.464102        Unweighted events, alpha=0.050427
+  => Total parameter prop_binCRF_muon2018_bin15[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+16         0.701540        0.188101        total sum                     
+16         0.644093        0.188039        excluding marked processes    
+16         12.000000       3.464102        Unweighted events, alpha=0.058462
+  => Total parameter prop_binCRF_muon2018_bin16[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+17         1.048005        0.297110        total sum                     
+17         0.997972        0.297077        excluding marked processes    
+17         11.000000       3.316625        Unweighted events, alpha=0.095273
+  => Total parameter prop_binCRF_muon2018_bin17[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+18         1.204435        0.347505        total sum                     
+18         1.164622        0.347482        excluding marked processes    
+18         11.000000       3.316625        Unweighted events, alpha=0.109494
+  => Total parameter prop_binCRF_muon2018_bin18[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+19         0.043646        0.003892        total sum                     
+19         0.007392        0.000781        excluding marked processes    
+19         90.000000       9.486833        Unweighted events, alpha=0.000485
+  => Total parameter prop_binCRF_muon2018_bin19[0.00,-7.00,7.00] to be gaussian constrained
+------------------------------------------------------------
+20         0.024038        0.002455        total sum                     
+20         0.008000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+21         0.010263        0.000923        total sum                     
+21         0.008000        0.000000        excluding marked processes    
+  => Error is zero, ignore      
+------------------------------------------------------------
+SimNLL created with 3 channels, 10 generic constraints, 106 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 3 channels, 10 generic constraints, 106 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 6.6416
+
+SimNLL created with 3 channels, 10 generic constraints, 106 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-Qlnz0u
+/tmp/rstats-QCbC5t
+/tmp/rstats-QoSTxB
+/tmp/rstats-68lnET
+/tmp/rstats-IKBfwn
+/tmp/rstats-GJgjU0
+/tmp/rstats-0gsx9M
+/tmp/rstats-4B4c7I
+/tmp/rstats-UrLvlO
+/tmp/rstats-2fcFQ3
+/tmp/rstats-sL6vvt
+/tmp/rstats-i1SqK4
+/tmp/rstats-ArbdpP
+/tmp/rstats-I76sGJ
+/tmp/rstats-yMzdtO
+/tmp/rstats-0X8A30
+/tmp/rstats-eeKYpp
+/tmp/rstats-AMWArZ
+/tmp/rstats-AHaw4K
+/tmp/rstats-YxIUaH
+/tmp/rstats-M2hBIO
+/tmp/rstats-WJM3o9
+/tmp/rstats-AiUN2D
+/tmp/rstats-Mxc9Bh
+/tmp/rstats-emC9a5
+/tmp/rstats-4uRm32
+/tmp/rstats-SrvjOb
+/tmp/rstats-KYyztv
+/tmp/rstats-eryQIZ
+/tmp/rstats-OY9DAF
+/tmp/rstats-WMifWw
+/tmp/rstats-oeQDHx
+/tmp/rstats-wy6QAJ
+/tmp/rstats-kvWEt5
+/tmp/rstats-oOvHaz
+/tmp/rstats-KCmFke
+/tmp/rstats-kX5B64
+/tmp/rstats-k5zMo8
+/tmp/rstats-UE6PLl
+/tmp/rstats-IEueCH
+/tmp/rstats-U2T5te
+/tmp/rstats-iIxc3X
+/tmp/rstats-sww3ZS
+/tmp/rstats-YAs59Y
+/tmp/rstats-A9GGPd
+/tmp/rstats-yzjZRC
+/tmp/rstats-Yvxewa
+/tmp/rstats-2NJ9jW
+/tmp/rstats-wE1A4V
+/tmp/rstats-yOjCM8
+
+ -- Hybrid New -- 
+Significance: 2.34553  -0.0776776/+0.0950944
+Null p-value: 0.0095 +/- 0.00216907
+Done in 0.09 min (cpu), 2.71 min (real)
