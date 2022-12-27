@@ -1,9 +1,8 @@
  <<< Combine >>> 
-unable to write 'random state'
->>> Used OpenSSL to get a really random seed -1300760169
+>>> random number generator seed is 123456
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimits
+Error in <TFile::Init>: file merged_HybridNew.root has no keys
 Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
@@ -1760,66 +1759,6 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCRF_electron2018_bin9[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 SimNLL created with 24 channels, 39 generic constraints, 319 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SimNLL created with 24 channels, 39 generic constraints, 319 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-
- -- AsymptoticLimits ( CLs ) --
-Observed Limit: r < 2.8439
-
-SimNLL created with 24 channels, 39 generic constraints, 319 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-UNzRWh
-/tmp/rstats-4dknpB
-/tmp/rstats-oGxc2S
-/tmp/rstats-Sp0YcW
-/tmp/rstats-WbN14G
-/tmp/rstats-ynGHTh
-/tmp/rstats-IsmqNH
-/tmp/rstats-uwbLq6
-/tmp/rstats-gEVUOM
-/tmp/rstats-4Zyk6d
-/tmp/rstats-GsnkYJ
-/tmp/rstats-gVdFWR
-/tmp/rstats-w3FaQ6
-/tmp/rstats-WzbedG
-/tmp/rstats-KmSm9g
-/tmp/rstats-STliEV
-/tmp/rstats-YCJ1ZD
-/tmp/rstats-SFW5Ut
-/tmp/rstats-4CJzor
-/tmp/rstats-sQH8Wg
-/tmp/rstats-sSR4D3
-/tmp/rstats-wv6jdT
-/tmp/rstats-U0J2QL
-/tmp/rstats-mXDr8V
-/tmp/rstats-4hqxxV
-/tmp/rstats-8TMWpM
-/tmp/rstats-0oUIsr
-/tmp/rstats-ub09qx
-/tmp/rstats-Iamo1o
-/tmp/rstats-MKKhZT
-/tmp/rstats-iH3deb
-/tmp/rstats-Az36gf
-/tmp/rstats-sf3v07
-/tmp/rstats-MqkltE
-/tmp/rstats-WooBCa
-/tmp/rstats-mmcAyA
-/tmp/rstats-8Dwxly
-/tmp/rstats-k7cN0O
-/tmp/rstats-ksRLD6
-/tmp/rstats-m1nqei
-/tmp/rstats-Gzqsds
-/tmp/rstats-oMqQlb
-/tmp/rstats-C0oiZi
-/tmp/rstats-GnO023
-/tmp/rstats-EsKI1s
-/tmp/rstats-sQrV4r
-/tmp/rstats-MvfzDQ
-/tmp/rstats-avENnV
-/tmp/rstats-CvYOQk
-/tmp/rstats-IzCAjs
-
- -- Hybrid New -- 
-Significance: 2.61205  -0.099711/+0.135358
-Null p-value: 0.0045 +/- 0.00149662
-Done in 0.45 min (cpu), 60.76 min (real)
+Caught exception Cannot use readHypoTestResult: option toysFile not specified, or input file empty
