@@ -483,7 +483,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "\tfor setpiec in setpiecs:")
     LineWrite(settname, "\t\tcombo = combo.replace(setpiec, \"\")")
     LineWrite(settname, "\tsigs = [")
-    LineWrite(settname, "\t\t'SM',")
+    #LineWrite(settname, "\t\t'SM',")
+    LineWrite(settname, "\t\tops[0]+'_0',")
     LineWrite(settname, "\t]")
     LineWrite(settname, "\tfor op in ops:")
     LineWrite(settname, "\t\tsigs.append(op + '_SM')")
@@ -492,7 +493,8 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "\tlssamples_1D = {")
     LineWrite(settname, "\t\tcombo:collections.OrderedDict([])")
     LineWrite(settname, "\t}")
-    LineWrite(settname, "\tlssamples_1D[combo]['sm'] = 'VBS_SSWW_SM'")
+    #LineWrite(settname, "\tlssamples_1D[combo]['sm'] = 'VBS_SSWW_SM'")
+    LineWrite(settname, "\tlssamples_1D[combo]['sm'] = 'VBS_SSWW_' + sigs[0]")
     LineWrite(settname, "\tfor idop, op in enumerate(ops):")
     LineWrite(settname, "\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] = 'VBS_SSWW_' + sigs[1+idop*2]")
     LineWrite(settname, "\t\tif op.startswith('F'):")
@@ -564,7 +566,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "else:")
     LineWrite(settname, "\traise RuntimeError('Warning! Please insert valid model!')")
     LineWrite(settname, "")
-
+    LineWrite(settname, "print 'lssamples in settings:', lssamples_1D")
     LineWrite(settname, "sigpoints = [sigs]")
 
 def WriteMeta(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
