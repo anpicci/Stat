@@ -217,9 +217,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
             elif coeff.startswith("cW"):
                 intervals.append("-5,5")
             elif coeff.startswith("cll_1"):
-                intervals.append("-300,300")
-            elif coeff.startswith("cqq11") or coeff.startswith("cqq3_"):
+                intervals.append("-400,400")
+            elif coeff.startswith("cqq11"):
                 intervals.append("-0.1,0.1")
+            elif coeff == "cqq3_1":
+                intervals.append("-0.15,0.15")
             elif coeff.startswith("cqq31"):
                 intervals.append("-0.3,0.3")
             else:
