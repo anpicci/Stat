@@ -163,10 +163,10 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
-        algostring +=     "  10000 "
+        algostring +=     "  7500 "
         #algostring +=     "  10 "
     else:
-        algostring +=     "  10000 "
+        algostring +=     "  7500 "
         #algostring +=     "  10 "
 
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT" #--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
@@ -219,11 +219,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
             elif coeff.startswith("cll_1"):
                 intervals.append("-400,400")
             elif coeff.startswith("cqq11"):
-                intervals.append("-0.1,0.1")
+                intervals.append("-1.0,1.0")
             elif coeff == "cqq3_1":
-                intervals.append("-0.15,0.15")
+                intervals.append("-1.0,1.0")
             elif coeff.startswith("cqq31"):
-                intervals.append("-0.3,0.3")
+                intervals.append("-1.0,1.0")
             else:
                 intervals.append("-100,100")
             if idc > 0:
