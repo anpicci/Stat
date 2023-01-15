@@ -185,12 +185,16 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
 
     dirmodel = copy.deepcopy(models)
     drawcoeff = copy.deepcopy(models)
-    setpiecs.sort(reverse=True)
+    print setpiecs
+    setpiecs.reverse()
+    print setpiecs
+    dirmodel = models
+    drawcoeff = models
     for setpiec in setpiecs:
-        if dirmodel.startswith("F") or ":F" in dirmodel:
-            dirmodel = models.replace(setpiec, "")
-        drawcoeff = models.replace(setpiec, "")
-            
+        #if dirmodel.startswith("F") or ":F" in dirmodel:
+        dirmodel = dirmodel.replace(setpiec, "")
+        drawcoeff = drawcoeff.replace(setpiec, "")
+    print dirmodel
     path = ("%s/%s" % (path_, dirmodel) ) 
     print "==>path: ", path
     print os.path.exists(path)

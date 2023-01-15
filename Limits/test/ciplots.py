@@ -229,9 +229,12 @@ for srv, crv in varloops:
     lsfile = ROOT.TFile.Open(lspath, "READ")
     gr = lsfile.Get("Graph")
     func = ROOT.TF1("func", myfunc, -1000, 1000, 0)
-    #min1 = func.GetMinimumX(-100,+100)
+    
+    #min1 = func.GetMinimumX(-50,50)#+100)
     #x1 = func.GetX(y1, -100, min1)
-    #x2 = func.GetX(y1, min1, +100)
+    #maxxx = func.GetMaximumX(min1, 100)
+    #print "maxxx", maxxx
+    #x2 = func.GetX(y1, min1, 4)
     #print x1, min1, x2
     #min2 = func.GetMinimumX(x2,+100)
     #print min2
@@ -240,28 +243,27 @@ for srv, crv in varloops:
     #x3 = func.GetX(y1, intmax, min2)
     #x4 = func.GetX(y1, min2, +100)
     #print x3, x4
-    #x = -100.
-    #for ix in range(100):
-        #x = func.GetX(y1, x+0.01, +100, 0.01)
-        #print ix, x
 
-    #func.SetNpx(500)
+    #print "\n"
     StopIter = False
     ix = 0
     while not StopIter:
         #print s1down, s1up
         #print "iter", ix
         if ix == 0:
-            ext1 = -100.
-            ext2 = +100.
+            ext1 = -150.
+            ext2 = +160.
         else:
             ext1 = ss1up[ix-1]
-            ext2 = +100.
-        Min = round(func.GetMinimumX(ext1, ext2), 3)
-        #print ext1, ext2, Min
-        if round(Min, 3) == ext1:
+            ext2 = +150.
+        if ext1 < 50:
+            Min = round(func.GetMinimumX(ext1, 50), 3)
+        else:
+            Min = round(func.GetMinimumX(50, ext1), 3)
+        #print "ext1, ext2, Min", ext1, ext2, Min
+        if (ext1 < 50 and round(Min, 3) == ext1) or (ext1 > 50 and round(Min, 3) == 50):
             StopIter = True
-            #print "bye"
+            print "bye"
             continue
         if ix != 0:
             ext3 = func.GetMaximumX(ss1up[ix-1], Min)
@@ -270,7 +272,16 @@ for srv, crv in varloops:
 
         #print ext1, ext2, ext3
         x1down = func.GetX(y1, ext3, Min)
-        x1up = func.GetX(y1, Min, ext2)#, 10**(-10), 1000)
+        x1up = func.GetX(y1, Min, ext2)
+        distdown = abs(x1down - Min)
+        distup = abs(x1up - Min)
+        #print distdown, distup
+        while distup > 2*distdown:
+            newext = Min + distup/2
+            x1up = func.GetX(y1, Min, newext)
+            distup = abs(x1up - Min)
+        #print "hello!"
+        #, 10**(-10), 1000)
         #x1up = func.GetX(y1, min1, ext2)
         x2down = func.GetX(y2, ext3, Min)
         if x2down == ext3:
@@ -283,12 +294,14 @@ for srv, crv in varloops:
         ss2down.append(round(x2down, 3))
         ss2up.append(round(x2up, 3))
         smins.append(round(Min, 3))
-        #break    
-    #print "ss2down", ss2down
-    #print "ss1down", ss1down
-    #print "smins", smins
-    #print "ss1up", ss1up
-    #print "ss2up", ss2up
+        
+        #print "ss2down", ss2down
+        #print "ss1down", ss1down
+        #print "smins", smins
+        #print "ss1up", ss1up
+        #print "ss2up", ss2up
+        #if ix > 1:
+            #break
     s1down.append(ss1down)
     s1up.append(ss1up)
     s2down.append(ss2down)
@@ -300,7 +313,7 @@ for srv, crv in varloops:
     totpairs += 1
     
 y = []
-print "\n\n"
+#print "\n\n"
 print "s2down", s2down
 print "s1down", s1down
 print "mins", mins
