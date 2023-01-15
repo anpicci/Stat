@@ -136,6 +136,7 @@ for year in years:
             for op in ops:
                 if len(op.split("_")) > 1:
                     setpiecs.append(("_")+op.split("_")[-1])
+            setpiecs.sort(reverse=True)
             combo = copy.deepcopy(opt.ls)
             for setpiec in setpiecs:
                 combo = combo.replace(setpiec, "")

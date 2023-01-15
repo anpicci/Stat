@@ -185,7 +185,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
 
     dirmodel = copy.deepcopy(models)
     drawcoeff = copy.deepcopy(models)
-
+    setpiecs.sort(reverse=True)
     for setpiec in setpiecs:
         if dirmodel.startswith("F") or ":F" in dirmodel:
             dirmodel = models.replace(setpiec, "")
@@ -193,7 +193,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
             
     path = ("%s/%s" % (path_, dirmodel) ) 
     print "==>path: ", path
-    #print os.path.exists(path)
+    print os.path.exists(path)
     maindir = os.getcwd() + "/"
     if(os.path.exists(path)):
         print "ok i'm in the directory", path

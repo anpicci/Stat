@@ -418,9 +418,10 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
               os.system('mkdir -p ' + carddir)
        #else:
               #os.system("rm " + carddir + "/*")
-
+       #print carddir
        outname = "" + carddir
        for sigp in sig:
+              print sigp
               outname += sigp + "_"
        outname += ch + "_" + mode + ".txt"
        #outname =  "%s%s_%s_%s.txt" % (carddir, sig, ch, mode)
@@ -448,6 +449,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
               if len(op.split("_")) > 1:
                      setpiecs.append(("_")+op.split("_")[-1])
        coeff = copy.deepcopy(incoeff)
+       setpiecs.sort(reverse=True)
        if incoeff.startswith("F") or ":F" in incoeff:
               for setpiec in setpiecs:
                      coeff = coeff.replace(setpiec, "")
@@ -796,7 +798,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
               os.system('mkdir ' +outdir + "/" + dircoeff)
        #else:
               #os.system('rm ' +outdir + "/" + dircoeff + "/*")
-
+       print "carddir:", carddir
        outname =  "%s%s_%s_%s.txt" % (carddir, coeff, ch, mode)
        print 'outname:', outname
        cardfile = open(outname, 'w')

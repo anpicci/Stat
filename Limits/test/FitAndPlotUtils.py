@@ -480,6 +480,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "\t\tif len(op.split('_')) > 1:")
     LineWrite(settname, "\t\t\tsetpiecs.append(('_')+op.split('_')[-1])")
     LineWrite(settname, "\tcombo = copy.deepcopy(model)")
+    LineWrite(settname, "\tsetpiecs.sort(reverse=True)")
     LineWrite(settname, "\tfor setpiec in setpiecs:")
     LineWrite(settname, "\t\tcombo = combo.replace(setpiec, \"\")")
     LineWrite(settname, "\tif ops[0].startswith('c') and not '_' in ops[0]:")
