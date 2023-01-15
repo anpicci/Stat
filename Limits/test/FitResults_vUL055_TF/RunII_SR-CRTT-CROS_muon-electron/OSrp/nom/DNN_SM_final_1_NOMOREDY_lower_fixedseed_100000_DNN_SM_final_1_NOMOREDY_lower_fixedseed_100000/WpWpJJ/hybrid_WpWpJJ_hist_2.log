@@ -1,9 +1,10 @@
  <<< Combine >>> 
 unable to write 'random state'
->>> Used OpenSSL to get a really random seed 842318098
+>>> Used OpenSSL to get a really random seed 682754046
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimitsCChannel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+>>> method used to hint where the upper limit is AsymptoticLimits
+Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
 Poisson cut-off: 10
@@ -58,7 +59,7 @@ Bin        Contents        Error           Notes
 9          2.328404        0.594542        total sum                     
 9          1.998012        0.594464        excluding marked processes    
 9          11.000000       3.316625        Unweighted events, alpha=0.211673
-  => Total parameter prop_binSR_muon2016M_bin9[0.00,-7.00,7.00] to be gussian constrained
+  => Total parameter prop_binSR_muon2016M_bin9[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 10         0.390168        0.041510        total sum                     
 10         0.064153        0.040398        excluding marked processes    
@@ -216,7 +217,7 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 12         0.471700        0.068128        total sum                     
 12         0.228126        0.067638        excluding marked processes    
-12         11.000000       3.316625        Unweighted events, alpha=0.0422882
+12         11.000000       3.316625        Unweighted events, alpha=0.042882
   => Total parameter prop_binSR_electron2016M_bin12[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 13         0.306598        0.057659        total sum                     
@@ -378,7 +379,7 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 7          66.634244       7.095227        total sum                     
 7          66.633978       7.095227        excluding marked processes    
-7          88.000000       9.380832        Unweighted events,aalpha=0.757207
+7          88.000000       9.380832        Unweighted events, alpha=0.757207
   => Total parameter prop_binCRTT_electron2016M_bin7[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 8          46.793480       3.750169        total sum                     
@@ -484,7 +485,7 @@ Bin        Contents        Error           Notes
       => Parameter prop_binCROS_muon2016M_bin7_Fake[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
     WpWpJJ               0.001250        0.000569                                      
-                         5.000000       2.236068        Unweighted events, alpha=0.000250
+                         5.000000        2.236068        Unweighted events, alpha=0.000250
       => Product of prop_binCROS_muon2016M_bin7_WpWpJJ[5.00,0.01,41.33] and const [0.2000] to be poisson constrained
   ----------------------------------------------------------
     WZ                   0.001000        0.000000                                      
@@ -1934,7 +1935,7 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 11         5.319164        0.844227        total sum                     
 11         5.316839        0.844226        excluding marked processes    
-11         40.000000       6.3324555        Unweighted events, alpha=0.132979
+11         40.000000       6.324555        Unweighted events, alpha=0.132979
   => Total parameter prop_binCROS_electron2018_bin11[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 12         4.071490        0.742887        total sum                     
@@ -1946,27 +1947,68 @@ Bin        Contents        Error           Notes
 13         1.518779        0.372314        excluding marked processes    
 13         17.000000       4.123106        Unweighted events, alpha=0.089503
   => Total parameter prop_binCROS_electron2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------SSimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, SSimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+------------------------------------------------------------
+SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
  -- AsymptoticLimits ( CLs ) --
 Observed Limit: r < 1.8635
 
-SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, [[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-CBf88w//tmp/rstats-nsHvIM//tmp/rstats-wteM6D//tmp/rstats-vqbwVT//tmp/rstats-IdYqU3//tmp/rstats-J2q6EF//tmp/rstats-MDcVXI//tmp/rstats-DrxYqh//tmp/rstats-CnlcFl//tmp/rstats-vxqYiN//tmp/rstats-AIl8Kt//tmp/rstats-brsy2x//tmp/rstats-8LZWwb//tmp/rstats-fyN7OA//tmp/rstats-IbUezH//tmp/rstats-PDVwtC//tmp/rstats-EhJwm4//tmp/rstats-bkyLV3//tmp/rstats-YHhHkL//tmp/rstats-bynB2Z//tmp/rstats-I1QY0D//tmp/rstats-l180iP//tmp/rstats-QFxkeh//tmp/rstats-p3F9Cw//tmp/rstats-Sv19v6//tmp/rstats-xjgXxj//tmp/rstats-2uLpL4//tmp/rstats-FLZQdm//tmp/rstats-e0pF7g//tmp/rstats-F8efoX//tmp/rstats-QC83rA//tmp/rstats-vUju7B//tmp/rstats-kzV9lu
-/tmp/rstats-9E0GgX//tmp/rstats-82xfm2
-/tmp/rstats-nl7SH7
-/tmp/rstats-YtNcQE
-/tmp/rstats-dQzjlG
-/tmp/rstats-88CoTp
-/tmp/rstats-7xPauo
-/tmp/rstats-wibNnx
-/tmp/rstats-TTDMYi
-/tmp/rstats-IwFAbP
-/tmp/rstats-rWDXa4
-/tmp/rstats-WGqSU3//tmp/rstats-VZ6Nbw//tmp/rstats-aSlGo7//tmp/rstats-jn8MsS//tmp/rstats-0FQVgz//tmp/rstats-Bh6xDm
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-xeEKD0
+/tmp/rstats-wbnsSJ
+/tmp/rstats-nAwqh0
+/tmp/rstats-4pinlz
+/tmp/rstats-FX44oF
+/tmp/rstats-aJmQNb
+/tmp/rstats-lqZV3Y
+/tmp/rstats-CpVSEp
+/tmp/rstats-9VnYfi
+/tmp/rstats-ue1qMZ
+/tmp/rstats-JF0Mf9
+/tmp/rstats-IMTv20
+/tmp/rstats-3fHDqc
+/tmp/rstats-iNQUka
+/tmp/rstats-rKDFUA
+/tmp/rstats-mdOfAb
+/tmp/rstats-XsOPPX
+/tmp/rstats-YnzdZD
+/tmp/rstats-5gJofO
+/tmp/rstats-sFZmvu
+/tmp/rstats-D3yoUR
+/tmp/rstats-s2SYba
+/tmp/rstats-lOooJY
+/tmp/rstats-GJ3FNg
+/tmp/rstats-TbNUE7
+/tmp/rstats-wh6Hyt
+/tmp/rstats-15VwKc
+/tmp/rstats-2n3aEv
+/tmp/rstats-XvmSIp
+/tmp/rstats-45muYZ
+/tmp/rstats-l0jT09
+/tmp/rstats-AaiDbX
+/tmp/rstats-VnOmYp
+/tmp/rstats-wr5S4A
+/tmp/rstats-51UQJn
+/tmp/rstats-G8WisS
+/tmp/rstats-XYofV3
+/tmp/rstats-2t9WY1
+/tmp/rstats-5NX7ru
+/tmp/rstats-0MzfWv
+/tmp/rstats-38RYCb
+/tmp/rstats-m4Gbcl
+/tmp/rstats-14n754
+/tmp/rstats-s6axz8
+/tmp/rstats-1ev2dR
+/tmp/rstats-sc8Mke
+/tmp/rstats-dZq369
+/tmp/rstats-mObH6R
+/tmp/rstats-byFsTa
+/tmp/rstats-06yKMp
 
  -- Hybrid New -- 
-Significance: 2.57583  -0.0962667/+0.128432
-Null p-value: 0.005 +/- 0.00157718
-Done in 0.30 min (cpu), 43.76 min (real)
+Significance: 2.61205  -0.099711/+0.135358
+Null p-value: 0.0045 +/- 0.00149662
+Done in 0.22 min (cpu), 24.85 min (real)

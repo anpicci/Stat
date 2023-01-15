@@ -1,9 +1,10 @@
  <<< Combine >>> 
 unable to write 'random state'
->>> Used OpenSSL to get a really random seed -1735566502
+>>> Used OpenSSL to get a really random seed -1804487201
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimitsCChannel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+>>> method used to hint where the upper limit is AsymptoticLimits
+Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
 Poisson cut-off: 10
@@ -1934,7 +1935,7 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCROS_electron2018_bin4[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 5          25.131005       5.722487        total sum                     
-5          25.199709       5.722487        excluding marked processes    
+5          25.129709       5.722487        excluding marked processes    
 5          19.000000       4.358899        Unweighted events, alpha=1.322684
   => Total parameter prop_binCROS_electron2018_bin5[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
@@ -1977,52 +1978,68 @@ Bin        Contents        Error           Notes
 13         1.559652        0.369718        excluding marked processes    
 13         18.000000       4.242641        Unweighted events, alpha=0.086781
   => Total parameter prop_binCROS_electron2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
-------------------------------------------------------------SSimNLL created with 18 channels, 63 generic constraints, 339 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+------------------------------------------------------------
+SimNLL created with 18 channels, 63 generic constraints, 339 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 SimNLL created with 18 channels, 63 generic constraints, 339 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
  -- AsymptoticLimits ( CLs ) --
 Observed Limit: r < 1.8462
 
-SimNLL created with 18 channels, 63 generic constraints, 339 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, [[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+SimNLL created with 18 channels, 63 generic constraints, 339 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-lS3d1h/tmp/rstats-Zlcjca
-//tmp/rstats-pWHOY1//tmp/rstats-484gZH/tmp/rstats-1dCuBi
-/tmp/rstats-3ijPqr
-/tmp/rstats-J0wM9m
-/tmp/rstats-BMyNZ5
-/tmp/rstats-PYsbXs
-/tmp/rstats-Jwqh4i
-/tmp/rstats-f7SZoS
-/tmp/rstats-3KopSX
-/tmp/rstats-JQuuvR
-/tmp/rstats-3wcYOE
-//tmp/rstats-JiaNx8//tmp/rstats-Ep63ly//tmp/rstats-J705jA/tmp/rstats-jd9UpD
-/tmp/rstats-dyS3Ct
-//tmp/rstats-4lhnOB/tmp/rstats-fnN5WT
-//tmp/rstats-KEtk2w//tmp/rstats-5Ievhh/tmp/rstats-BJgMMh
-/tmp/rstats-1BRrEs
-/tmp/rstats-Hk05j9
-/tmp/rstats-7DBJOG
-/tmp/rstats-NhrHTR
-/tmp/rstats-DNoh4q
-/tmp/rstats-JRLby5
-/tmp/rstats-Vy6bew
-/tmp/rstats-LkAWAs
-/tmp/rstats-dDNtOe
-/tmp/rstats-NPYqaF
-/tmp/rstats-9EwUyX
-/tmp/rstats-rnRApM
-/tmp/rstats-rAALgd
-/tmp/rstats-1oaJfM
-/tmp/rstats-fhKQy6
-/tmp/rstats-Paz2cH
-/tmp/rstats-9DtQrM
-/tmp/rstats-VOsJ9z
-//tmp/rstats-3hipS1//tmp/rstats-etygeC//tmp/rstats-nOHLqi/tmp/rstats-dmeBkJ
-//tmp/rstats-pDGiEP/tmp/rstats-7P3IGM
-//tmp/rstats-nZeOkr//tmp/rstats-4tqIiE
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-Ug8ZqM
+/tmp/rstats-NnY3RD
+/tmp/rstats-wyNzGD
+/tmp/rstats-bJxMu1
+/tmp/rstats-q29LQJ
+/tmp/rstats-xoupwX
+/tmp/rstats-Ma5e0Q
+/tmp/rstats-1xhrne
+/tmp/rstats-qpcJmT
+/tmp/rstats-1ofWkj
+/tmp/rstats-YnVcNl
+/tmp/rstats-ZBqht2
+/tmp/rstats-eVRChg
+/tmp/rstats-FEmNXO
+/tmp/rstats-U3XCNM
+/tmp/rstats-XZViDh
+/tmp/rstats-S3Lq9y
+/tmp/rstats-veKw2l
+/tmp/rstats-cNr8bI
+/tmp/rstats-Ln1WpI
+/tmp/rstats-GitpQ7
+/tmp/rstats-TywUo0
+/tmp/rstats-Q2l8EG
+/tmp/rstats-7b7WyS
+/tmp/rstats-i02yOO
+/tmp/rstats-rZvqPR
+/tmp/rstats-UyZhTp
+/tmp/rstats-zuNWLX
+/tmp/rstats-Ek5Mii
+/tmp/rstats-hoGwKc
+/tmp/rstats-Celjry
+/tmp/rstats-nJRWnJ
+/tmp/rstats-eyAVIL
+/tmp/rstats-NsVTdg
+/tmp/rstats-mCx7gk
+/tmp/rstats-ZNeHCX
+/tmp/rstats-SlCLTZ
+/tmp/rstats-BVoeYz
+/tmp/rstats-YClw9A
+/tmp/rstats-pzETh6
+/tmp/rstats-uogDye
+/tmp/rstats-LGbrgW
+/tmp/rstats-qrJJOj
+/tmp/rstats-XaWGDc
+/tmp/rstats-KDlx3X
+/tmp/rstats-VDZPVB
+/tmp/rstats-oVwFWy
+/tmp/rstats-zdLqvq
+/tmp/rstats-00U2l1
+/tmp/rstats-1mphfc
+
  -- Hybrid New -- 
-Significance: 2.65207  -0.1037/+0.143724
-Null p-value: 0.004 +/- 0.00141138
-Done in 0.34 min (cpu), 80.67 min (real)
-al)
+Significance: 2.74778  -0.114074/+0.167455
+Null p-value: 0.003 +/- 0.00122291
+Done in 0.29 min (cpu), 41.95 min (real)

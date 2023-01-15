@@ -2,7 +2,6 @@
 >>> random number generator seed is 123456
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
-Error in <TFile::Init>: file merged_HybridNew.root has no keys
 Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
@@ -1991,4 +1990,8 @@ Bin        Contents        Error           Notes
 SimNLL created with 18 channels, 68 generic constraints, 343 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-Caught exception Cannot use readHypoTestResult: option toysFile not specified, or input file empty
+
+ -- Hybrid New -- 
+Significance: 2.39106  -0.0113597/+0.0116769
+Null p-value: 0.0084 +/- 0.000263462
+Done in 0.03 min (cpu), 0.03 min (real)

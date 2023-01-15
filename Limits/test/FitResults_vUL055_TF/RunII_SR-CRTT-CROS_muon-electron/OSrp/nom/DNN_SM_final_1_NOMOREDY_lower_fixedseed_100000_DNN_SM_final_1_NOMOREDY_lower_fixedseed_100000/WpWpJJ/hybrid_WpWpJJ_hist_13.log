@@ -1,10 +1,10 @@
  <<< Combine >>> 
 unable to write 'random state'
->>> Used OpenSSL to get a really random seed -945811171
+>>> Used OpenSSL to get a really random seed -1105625776
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
 >>> method used to hint where the upper limit is AsymptoticLimits
-CChannel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
+Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
 Poisson cut-off: 10
@@ -59,7 +59,7 @@ Bin        Contents        Error           Notes
 9          2.328404        0.594542        total sum                     
 9          1.998012        0.594464        excluding marked processes    
 9          11.000000       3.316625        Unweighted events, alpha=0.211673
-  => Total parameter prop_binSR_muon2016M_bin9[0.00,-7.00,7.00] to be gussian constrained
+  => Total parameter prop_binSR_muon2016M_bin9[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 10         0.390168        0.041510        total sum                     
 10         0.064153        0.040398        excluding marked processes    
@@ -113,7 +113,7 @@ Bin        Contents        Error           Notes
 13         12.000000       3.464102        Unweighted events, alpha=0.059635
   => Total parameter prop_binSR_muon2016M_bin13[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
-Channel SR_electron2016M will use autoMCStats withh settings: event-threshold=10, include-signal=0, hist-mode=1
+Channel SR_electron2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_electron2016M
 Poisson cut-off: 10
@@ -217,7 +217,7 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 12         0.471700        0.068128        total sum                     
 12         0.228126        0.067638        excluding marked processes    
-12         11.000000       3.316625        Unweighted events, alpha=0.022882
+12         11.000000       3.316625        Unweighted events, alpha=0.042882
   => Total parameter prop_binSR_electron2016M_bin12[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 13         0.306598        0.057659        total sum                     
@@ -324,7 +324,7 @@ Bin        Contents        Error           Notes
 11         36.184849       1.996740        excluding marked processes    
 11         328.000000      18.110770       Unweighted events, alpha=0.110321
   => Total parameter prop_binCRTT_muon2016M_bin11[0.00,-7.00,7.00] to be gaussian constrained
------------------------------------------------------------
+------------------------------------------------------------
 12         34.883221       3.253922        total sum                     
 12         34.882737       3.253922        excluding marked processes    
 12         115.000000      10.723805       Unweighted events, alpha=0.303332
@@ -379,7 +379,7 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 7          66.634244       7.095227        total sum                     
 7          66.633978       7.095227        excluding marked processes    
-7          88.000000       9.380832        Unweighted events, aalpha=0.757207
+7          88.000000       9.380832        Unweighted events, alpha=0.757207
   => Total parameter prop_binCRTT_electron2016M_bin7[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 8          46.793480       3.750169        total sum                     
@@ -641,7 +641,7 @@ Bin        Contents        Error           Notes
 8          9.133058        2.158277        excluding marked processes    
 8          18.000000       4.242641        Unweighted events, alpha=0.507455
   => Total parameter prop_binCROS_electron2016M_bin8[0.00,-7.00,7.00] to be gaussian constrained
------------------------------------------------------------
+------------------------------------------------------------
 9          6.813907        1.760367        total sum                     
 9          6.811967        1.760367        excluding marked processes    
 9          15.000000       3.872983        Unweighted events, alpha=0.454260
@@ -1335,7 +1335,7 @@ Bin        Contents        Error           Notes
                          52.000000       7.211103        Unweighted events, alpha=0.025987
       => Parameter prop_binCROS_muon2017_bin10_TTTo2L2Nu[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
-    Triboson             0.015481         0.004568                                      
+    Triboson             0.015481        0.004568                                      
                          11.000000       3.316625        Unweighted events, alpha=0.001407
       => Parameter prop_binCROS_muon2017_bin10_Triboson[0.00,-7.00,7.00] to be gaussian constrained
   ----------------------------------------------------------
@@ -1715,7 +1715,7 @@ Bin        Contents        Error           Notes
 13         35.078675       2.565898        total sum                     
 13         35.078520       2.565898        excluding marked processes    
 13         187.000000      13.674794       Unweighted events, alpha=0.187586
-  => Total parameter prop_binCRTT_muon2088_bin13[0.00,-7.00,7.00] to be gaussian constrained
+  => Total parameter prop_binCRTT_muon2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 Channel CRTT_electron2018 will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
@@ -1770,7 +1770,7 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCRTT_electron2018_bin8[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 9          96.298243       7.658806        total sum                     
-9          96.296873       7.658806        excluding aarked processes    
+9          96.296873       7.658806        excluding marked processes    
 9          158.000000      12.569805       Unweighted events, alpha=0.609483
   => Total parameter prop_binCRTT_electron2018_bin9[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
@@ -1826,7 +1826,7 @@ Bin        Contents        Error           Notes
 4          16.000000       4.000000        Unweighted events, alpha=2.001439
   => Total parameter prop_binCROS_muon2018_bin4[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
-5         224.945942       5.518347        total sum                     
+5          24.945942       5.518347        total sum                     
 5          24.942724       5.518347        excluding marked processes    
 5          20.000000       4.472136        Unweighted events, alpha=1.247297
   => Total parameter prop_binCROS_muon2018_bin5[0.00,-7.00,7.00] to be gaussian constrained
@@ -1935,7 +1935,7 @@ Bin        Contents        Error           Notes
 ------------------------------------------------------------
 11         5.319164        0.844227        total sum                     
 11         5.316839        0.844226        excluding marked processes    
-11         40.000000       6324555        Unweighted events, alpha=0.132979
+11         40.000000       6.324555        Unweighted events, alpha=0.132979
   => Total parameter prop_binCROS_electron2018_bin11[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 12         4.071490        0.742887        total sum                     
@@ -1949,27 +1949,66 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCROS_electron2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SSimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
  -- AsymptoticLimits ( CLs ) --
 Observed Limit: r < 1.8635
-SSimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, [[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+
+SimNLL created with 18 channels, 60 generic constraints, 338 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-7ngb6S//tmp/rstats-AfeXUT//tmp/rstats-TZmBPF//tmp/rstats-Uh3Fpn/tmp/rstats-f01iQy
-/tmp/rstats-NeDBdL
-/tmp/rstats-rXBB6S
-//tmp/rstats-43Lj1V/tmp/rstats-7U7qv3
-/tmp/rstats-x8NerJ
-/tmp/rstats-17CXIu
-//tmp/rstats-EImUsh//tmp/rstats-5Bp1NC//tmp/rstats-8FQr0D//tmp/rstats-ty1E6h//tmp/rstats-edEu9J//tmp/rstats-5goBzQ//tmp/rstats-UVk3Ti//tmp/rstats-PkTk8G//tmp/rstats-MQHmXS//tmp/rstats-npVYsW//tmp/rstats-oF8YoL//tmp/rstats-R1l5Be//tmp/rstats-07hGHM//tmp/rstats-XS4orx//tmp/rstats-ypveLJ//tmp/rstats-pX4WmD//tmp/rstats-S3zUwm//tmp/rstats-BeKERc//tmp/rstats-UtGdIV//tmp/rstats-BsuGlc//tmp/rstats-85GgYo//tmp/rstats-l7YlYq//tmp/rstats-Qzvlgt
-/tmp/rstats-jp8vmt
-/tmp/rstats-WyYrsq
-/tmp/rstats-btOQRI//tmp/rstats-4BpYQ2//tmp/rstats-Fszlsn
-/tmp/rstats-4bLEhH
-/tmp/rstats-tjym6l//tmp/rstats-Ubq6TR//tmp/rstats-Zaete8//tmp/rstats-AB7ybd//tmp/rstats-3CKrAa//tmp/rstats-I1Zlo4//tmp/rstats-HaGcL8
-/tmp/rstats-iQJlzx//tmp/rstats-1AMJIS//tmp/rstats-Y10cZW
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-spYGQE
+/tmp/rstats-MSEoWq
+/tmp/rstats-Uwn8YS
+/tmp/rstats-8l5BET
+/tmp/rstats-iboUGj
+/tmp/rstats-4rOcmb
+/tmp/rstats-4gOsqI
+/tmp/rstats-qL5aBG
+/tmp/rstats-GJWli8
+/tmp/rstats-eKFfy9
+/tmp/rstats-cKCu9r
+/tmp/rstats-gFiFcq
+/tmp/rstats-6MqgHK
+/tmp/rstats-wquIBn
+/tmp/rstats-69ruuX
+/tmp/rstats-EBGRQg
+/tmp/rstats-kAvQH9
+/tmp/rstats-sW0LoB
+/tmp/rstats-Gu2Oau
+/tmp/rstats-AIwmID
+/tmp/rstats-ep9QG9
+/tmp/rstats-qx3Ex2
+/tmp/rstats-yIjNyx
+/tmp/rstats-kM7ZJB
+/tmp/rstats-EPbTo5
+/tmp/rstats-qn4yq3
+/tmp/rstats-CjViRE
+/tmp/rstats-MgGfKL
+/tmp/rstats-oXut8l
+/tmp/rstats-m4PgWq
+/tmp/rstats-Sw5Zx1
+/tmp/rstats-ISVwOd
+/tmp/rstats-UkIW7W
+/tmp/rstats-SSszxt
+/tmp/rstats-chN3TE
+/tmp/rstats-U2jnLj
+/tmp/rstats-mVuAjj
+/tmp/rstats-mwVHoV
+/tmp/rstats-SkysPV
+/tmp/rstats-QKYKmM
+/tmp/rstats-itWCyk
+/tmp/rstats-KfSXas
+/tmp/rstats-oz5KG9
+/tmp/rstats-cFyEao
+/tmp/rstats-SfSd3E
+/tmp/rstats-cFniuf
+/tmp/rstats-qdwfyr
+/tmp/rstats-WD3L7q
+/tmp/rstats-cz5eJX
+/tmp/rstats-ql5TA9
 
  -- Hybrid New -- 
 Significance: 2.57583  -0.0962667/+0.128432
 Null p-value: 0.005 +/- 0.00157718
-Done in 0.29 min (cpu), 45.40 min (real)
+Done in 0.25 min (cpu), 25.93 min (real)
