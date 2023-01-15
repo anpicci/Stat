@@ -6,6 +6,7 @@ import importlib
 import sys
 import optparse
 from FitAndPlotUtils import *
+import copy
 
 os.system("reset")
 
@@ -103,11 +104,15 @@ yeartag = opt.year.replace("RunII", "2016M,2017,2018")
 DYrp = opt.DYrp
 pdftype = opt.pdf
 
-for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
-    print "\n\nStart fitting with", fitvar, "in SR and CRs and", crvar, "in Fake CR"
-    print "\tRegions:", opt.regions
-    print "\tChannels:", opt.leptons
-    for model in models:
+for model in models:
+    sfitfolder = ""
+#for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
+    for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
+    #for model in models:
+        print "\n\nStart fitting with", fitvar, "in SR and CRs and", crvar, "in Fake CR"
+        print "\tRegions:", opt.regions
+        print "\tChannels:", opt.leptons
+    
         fitfolder = "FitResults_" + folder
         if opt.unblind:
             fitfolder += "_DF"
@@ -158,6 +163,7 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
         if opt.Lambda8:
             fitfolder += "_Lambda8"
         
+        sfitfolder = copy.deepcopy(fitfolder)
         fitfolder += "/" + fitvar + "_" + crvar
 
         postfitfolder = "Post" + fitfolder
@@ -207,7 +213,10 @@ for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
             PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.unblind) 
         
 
-if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
-    for model in models:
-        #print "FitAndPlot", opt.varfit, opt.varcr, folder, model, opt.year, tagfolder
-        ProduceCLPlots(fitvar, crvar, model, opt.year, fitfolder)
+    #if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
+    #for model in models:
+    #print "model in FitAndPlot", model 
+    #print "FitAndPlot", opt.varfit, opt.varcr, folder, model, opt.year, tagfolder
+    if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
+        #ProduceCLPlots(fitvar, crvar, model, opt.year, fitfolder)
+        ProduceCLPlots(opt.varfit, opt.varcr, model, opt.year, sfitfolder)

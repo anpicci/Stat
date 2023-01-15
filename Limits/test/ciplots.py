@@ -38,6 +38,11 @@ lumi = {'2016M': 36.3, '2017': 41.48, '2018':59.83, "RunII":138}
 
 eftop = opt.eftop.split("_")[0]
 
+if not (opt.eftop.startswith("c") and opt.eftop.endswith("1")):
+    efold = opt.eftop.split("_")[0]
+else:
+    efold = opt.eftop
+
 ROOT.gStyle.SetPalette(1)
 ROOT.gStyle.SetCanvasColor(0)
 ROOT.gStyle.SetFrameBorderMode(0)
@@ -172,27 +177,6 @@ for idb in range(0, nbins+1):
         ide += 1
     edges.append(round(edge,1))
 
-Yup = ROOT.TH1F("yellow_up", "", nbins, array('d', edges))
-Gup = ROOT.TH1F("green_up", "", nbins, array('d', edges))
-Ydown = ROOT.TH1F("yellow_down", "", nbins, array('d', edges))
-Gdown = ROOT.TH1F("green_down", "", nbins, array('d', edges))
-
-Yup.SetLineColor(ROOT.kYellow)
-Yup.SetFillStyle(1001)
-Yup.SetFillColor(ROOT.kYellow)
-
-Ydown.SetLineColor(ROOT.kYellow)
-Ydown.SetFillStyle(1001)
-Ydown.SetFillColor(ROOT.kYellow)
-
-Gup.SetLineColor(ROOT.kGreen)
-Gup.SetFillStyle(1001)
-Gup.SetFillColor(ROOT.kGreen)
-
-Gdown.SetLineColor(ROOT.kGreen)
-Gdown.SetFillStyle(1001)
-Gdown.SetFillColor(ROOT.kGreen)
-
 y2 = 3.84
 y1 = 1.0
 
@@ -209,6 +193,13 @@ totpairs = 0
 varstring = ""
 
 for srv, crv in varloops:
+    print "\n"
+    print srv, crv
+    ss1up = []
+    ss2up = []
+    ss1down = []
+    ss2down = []
+    smins = []
     varstring += "_" + str(srv)
     if crv != srv:
         varstring += "_" + str(crv)
@@ -230,23 +221,91 @@ for srv, crv in varloops:
         labels.append(srlabel + " + " + crlabel)
     else:
         labels.append(srlabel)
-    lspath = opt.folder + "/" + eftop + "/LS_objects_k_" + eftop + ".root"
-    print lspath
+    
+    lspath = opt.folder + "/" + srv + "_" + crv 
+    lspath += "/" + efold + "/LS_objects_k_" + eftop + ".root"
+    #print opt.folder, lspath
 
     lsfile = ROOT.TFile.Open(lspath, "READ")
     gr = lsfile.Get("Graph")
     func = ROOT.TF1("func", myfunc, -1000, 1000, 0)
+    #min1 = func.GetMinimumX(-100,+100)
+    #x1 = func.GetX(y1, -100, min1)
+    #x2 = func.GetX(y1, min1, +100)
+    #print x1, min1, x2
+    #min2 = func.GetMinimumX(x2,+100)
+    #print min2
+    #intmax = func.GetMaximumX(x2,min2)
+    #print intmax
+    #x3 = func.GetX(y1, intmax, min2)
+    #x4 = func.GetX(y1, min2, +100)
+    #print x3, x4
+    #x = -100.
+    #for ix in range(100):
+        #x = func.GetX(y1, x+0.01, +100, 0.01)
+        #print ix, x
 
-    s1down.append(round(func.GetX(y1, -100, 0), 3))
-    s1up.append(round(func.GetX(y1, 0, 100), 3))
-    s2down.append(round(func.GetX(y2, -100, 0), 3))
-    s2up.append(round(func.GetX(y2, 0, 100), 3))
-    mins.append(round(func.GetMinimumX(-0.5, 0.5), 3))
+    #func.SetNpx(500)
+    StopIter = False
+    ix = 0
+    while not StopIter:
+        #print s1down, s1up
+        #print "iter", ix
+        if ix == 0:
+            ext1 = -100.
+            ext2 = +100.
+        else:
+            ext1 = ss1up[ix-1]
+            ext2 = +100.
+        Min = round(func.GetMinimumX(ext1, ext2), 3)
+        #print ext1, ext2, Min
+        if round(Min, 3) == ext1:
+            StopIter = True
+            #print "bye"
+            continue
+        if ix != 0:
+            ext3 = func.GetMaximumX(ss1up[ix-1], Min)
+        else:
+            ext3 = ext1
+
+        #print ext1, ext2, ext3
+        x1down = func.GetX(y1, ext3, Min)
+        x1up = func.GetX(y1, Min, ext2)#, 10**(-10), 1000)
+        #x1up = func.GetX(y1, min1, ext2)
+        x2down = func.GetX(y2, ext3, Min)
+        if x2down == ext3:
+            x2down = ss2down[ix-1]
+        x2up = func.GetX(y2, Min, ext2)
+        #print x1down, Min, x1up
+        ix += 1
+        ss1down.append(round(x1down, 3))
+        ss1up.append(round(x1up, 3))
+        ss2down.append(round(x2down, 3))
+        ss2up.append(round(x2up, 3))
+        smins.append(round(Min, 3))
+        #break    
+    #print "ss2down", ss2down
+    #print "ss1down", ss1down
+    #print "smins", smins
+    #print "ss1up", ss1up
+    #print "ss2up", ss2up
+    s1down.append(ss1down)
+    s1up.append(ss1up)
+    s2down.append(ss2down)
+    s2up.append(ss2up)
+    mins.append(smins)
+
     gr.Clear()
     lsfile.Close()
     totpairs += 1
-
+    
 y = []
+print "\n\n"
+print "s2down", s2down
+print "s1down", s1down
+print "mins", mins
+print "s1up", s1up
+print "s2up", s2up
 
 outfolder = "CIplots/" + opt.folder
 if not os.path.exists(outfolder):
@@ -255,16 +314,56 @@ if not os.path.exists(outfolder):
 plotname = outfolder + "/CI_" + eftop + varstring
 limitstxt = open(plotname + ".txt", "w")
 
+Yup = ROOT.TH1F("yellow_up", "", nbins, array('d', edges))
+Gup = ROOT.TH1F("green_up", "", nbins, array('d', edges))
+Ydown = ROOT.TH1F("yellow_down", "", nbins, array('d', edges))
+Gdown = ROOT.TH1F("green_down", "", nbins, array('d', edges))
+
+Yup.SetLineColor(ROOT.kYellow)
+Yup.SetFillStyle(1001)
+Yup.SetFillColor(ROOT.kYellow)
+
+Ydown.SetLineColor(ROOT.kYellow)
+Ydown.SetFillStyle(1001)
+Ydown.SetFillColor(ROOT.kYellow)
+
+Gup.SetLineColor(ROOT.kGreen)
+Gup.SetFillStyle(1001)
+Gup.SetFillColor(ROOT.kGreen)
+
+Gdown.SetLineColor(ROOT.kGreen)
+Gdown.SetFillStyle(1001)
+Gdown.SetFillColor(ROOT.kGreen)
+
+
 for idp in range(0, totpairs):
     idbin = int(2*(idp+1))
-    limitstxt.write(labels[idp] + "\t1sigma = [" + str(s1down[idp]) + ", " + str(s1up[idp]) + "]\t2sigma = [" + str(s2down[idp]) + ", " + str(s2up[idp]) + "]\n") 
-    Gdown.SetBinContent(idbin, s1down[idp])
-    Gup.SetBinContent(idbin, s1up[idp])
-    Ydown.SetBinContent(idbin, s2down[idp])
-    Yup.SetBinContent(idbin, s2up[idp])
+    ss1down = s1down[idp]
+    ss2down = s2down[idp]
+    ss1up = s1up[idp]
+    ss2up = s2up[idp]
+
+    sigma1str = ""
+    sigma2str = ""
+    for idsig in range(len(ss1down)):
+        if sigma1str != "":
+            sigma1str += " \cup "
+        if sigma2str != "":
+            sigma2str += " \cup "
+        sigma1str += "["
+        sigma2str += "["
+        sigma1str += str(ss1down[idsig]) + ", " + str(ss1up[idsig]) + "]" 
+        sigma2str += str(ss2down[idsig]) + ", " + str(ss2up[idsig]) + "]"
+    fstr = labels[idp] + ":\t1sigma = " + sigma1str + "\t2sigma = " + sigma2str + "\n"
+    limitstxt.write(fstr)
+
+    Gdown.SetBinContent(idbin, ss1down[0])
+    Gup.SetBinContent(idbin, ss1up[0])
+    Ydown.SetBinContent(idbin, ss2down[0])
+    Yup.SetBinContent(idbin, ss2up[0])
     Yup.GetXaxis().SetBinLabel(idbin, labels[idp])    
-    y.append(mins[idp])
-    
+    y.append(mins[idp][0])
+
 limitstxt.close()
 
 x = [n+1 for n in range(0, totpairs)]
@@ -287,8 +386,8 @@ c1_1.SetBottomMargin(0.15)
 c1_1.SetRightMargin(0.00455)#0.0045                                                                                            
 c1_1.SetLeftMargin(0.15)
 
-maxy = max(s2up)
-miny = min(s2down)
+maxy = max([max(ss2up) for ss2up in s2up])
+miny = min([min(ss2down) for ss2down in s2down])
 maxx = round(max(abs(maxy), abs(miny)), 1)
 b = maxx + 0.5
 a = -b
