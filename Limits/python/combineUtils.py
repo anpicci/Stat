@@ -159,7 +159,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, 
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind):
     algostring = " --algo=grid  --points "
     if ":" in models and not profile:
-        algostring += "1000000 "
+        algostring += "200000 "
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
@@ -214,22 +214,25 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 intervals.append("-60,50")
             elif coeff.startswith("cT"):
                 intervals.append("-60,50")
-            elif coeff == ("cHW") or coeff == ("cHW_1"):
-                intervals.append("-30,30")
-            elif coeff.startswith("cHWB"):
-                intervals.append("-200,200")
-            elif coeff.startswith("cW"):
-                intervals.append("-5,5")
-            elif coeff.startswith("cll_1"):
-                intervals.append("-400,400")
-            elif coeff.startswith("cqq11"):
-                intervals.append("-10.0,10.0")
-            elif coeff == "cqq3_1":
-                intervals.append("-50.0,50.0")
-            elif coeff.startswith("cqq31"):
-                intervals.append("-1.0,1.0")
-            else:
-                intervals.append("-100,100")
+            elif not ":" in models:
+                if coeff == ("cHW") or coeff == ("cHW_1"):
+                    intervals.append("-30,30")
+                elif coeff.startswith("cHWB"):
+                    intervals.append("-200,200")
+                elif coeff.startswith("cW"):
+                    intervals.append("-5,5")
+                elif coeff.startswith("cll_1"):
+                    intervals.append("-400,400")
+                elif coeff.startswith("cqq11"):
+                    intervals.append("-10.0,10.0")
+                elif coeff == "cqq3_1":
+                    intervals.append("-50.0,50.0")
+                elif coeff.startswith("cqq31"):
+                    intervals.append("-1.0,1.0")
+                else:
+                    intervals.append("-100,100")
+            elif ":" in models and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM")):
+                intervals.append("-500,500")
             if idc > 0:
                 modComb += ","
                 opstring += ","
