@@ -191,8 +191,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
     dirmodel = models
     drawcoeff = models
     for setpiec in setpiecs:
-        #if dirmodel.startswith("F") or ":F" in dirmodel:
-        dirmodel = dirmodel.replace(setpiec, "")
+        if dirmodel.startswith("F") or ":" in dirmodel:
+            dirmodel = dirmodel.replace(setpiec, "")
         drawcoeff = drawcoeff.replace(setpiec, "")
     print dirmodel
     path = ("%s/%s" % (path_, dirmodel) ) 
