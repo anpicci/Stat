@@ -449,8 +449,9 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
               if len(op.split("_")) > 1:
                      setpiecs.append(("_")+op.split("_")[-1])
        coeff = copy.deepcopy(incoeff)
-       setpiecs.sort(reverse=True)
-       if incoeff.startswith("F") or ":F" in incoeff:
+       setpiecs.reverse()
+       print "setpiecs:", setpiecs
+       if ":" in incoeff:#incoeff.startswith("F") or ":F" in incoeff:
               for setpiec in setpiecs:
                      coeff = coeff.replace(setpiec, "")
 
@@ -458,7 +459,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
        for name, coll in lssamples_1D.items():
               for nout, nin in coll.items():
                      lssamp.append(nout)
-
+       print "coeff:", coeff
        ##print lssamp
 
        ##print "processes:", processes

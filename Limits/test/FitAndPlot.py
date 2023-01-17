@@ -114,7 +114,7 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         #fitfolder = "FitResults_" + folder
-        fitfolder = "FITResults_" + folder
+        fitfolder = "FITRESULTS_" + folder
         if opt.unblind:
             fitfolder += "_DF"
         else:
