@@ -246,9 +246,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     #print "HELLO\n"
                     lower = -5
                     upper = 5
-                elif ("cqq3_" in models or "cqq31_" in models or "cqq11_" in models) and not coeff.startswith("cqq"):
-                    lower = -700
-                    upper = 700
+                #elif ("cqq3_" in models or "cqq31_" in models or "cqq11_" in models) and not coeff.startswith("cqq"):
+                    #lower = -700
+                    #upper = 700
                 else:
                     if coeff == "cHbox":
                         lower = -50
