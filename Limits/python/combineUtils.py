@@ -241,12 +241,12 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     lower = -100
                     upper = 100
             elif ":" in models:# and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM"))
-                print "\n", (models.startswith("cqq") and ":cqq" in models)
+                #print "\n", (models.startswith("cqq") and ":cqq" in models)
                 if (models.startswith("cqq") and ":cqq" in models):
-                    print "HELLO\n"
+                    #print "HELLO\n"
                     lower = -5
                     upper = 5
-                elif "cqq3_" in models or "cqq31_" in models or "cqq11_" in models:
+                elif ("cqq3_" in models or "cqq31_" in models or "cqq11_" in models) and not coeff.startswith("cqq"):
                     lower = -700
                     upper = 700
                 else:
@@ -280,6 +280,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     elif coeff == "cHq1":
                         lower = -700
                         upper = 700
+                    elif coeff == "cqq1":
+                        lower = -5
+                        upper = 5
                     elif coeff == "cqq3":
                         lower = -50
                         upper = 50
