@@ -159,7 +159,8 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, 
 def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind):
     algostring = " --algo=grid  --points "
     if ":" in models and not profile:
-        algostring += "200000 "
+        #algostring += "200000 "
+        algostring += "400000 "
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
@@ -207,32 +208,100 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         intervals = []
         modComb = ""
         opstring = ""
+        print "coeffs:", coeffs
         for idc, coeff in enumerate(coeffs):
-            if coeff.startswith("cS"):
-                intervals.append("-60,50")
-            elif coeff.startswith("cM"):
-                intervals.append("-60,50")
-            elif coeff.startswith("cT"):
-                intervals.append("-60,50")
-            elif not ":" in models:
-                if coeff == ("cHW") or coeff == ("cHW_1"):
-                    intervals.append("-30,30")
-                elif coeff.startswith("cHWB"):
-                    intervals.append("-200,200")
-                elif coeff.startswith("cW"):
-                    intervals.append("-5,5")
-                elif coeff.startswith("cll_1"):
-                    intervals.append("-400,400")
-                elif coeff.startswith("cqq11"):
-                    intervals.append("-10.0,10.0")
-                elif coeff == "cqq3_1":
-                    intervals.append("-50.0,50.0")
-                elif coeff.startswith("cqq31"):
-                    intervals.append("-1.0,1.0")
+            lower = 0
+            upper = 0
+            if not ":" in models:
+                if coeff == "cHW":
+                    lower = -30
+                    upper = 30
+                elif coeff == "cHWB":
+                    lower = -200
+                    upper = 200
+                elif coeff == "cW":
+                    lower = -5
+                    upper = 5
+                elif coeff == "cll":
+                    lower = -400
+                    upper = 400
+                elif coeff == "cqq11":
+                    lower = -10
+                    upper = 10
+                elif coeff == "cqq3":
+                    lower = -50
+                    upper = 50
+                elif coeff == "cqq31":
+                    lower = -1
+                    upper = 1
+                elif coeff.startswith("cS") or coeff.startswith("cM") or coeff.startswith("cT"):
+                    lower = -60
+                    upper = 50
                 else:
-                    intervals.append("-100,100")
-            elif ":" in models and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM")):
-                intervals.append("-500,500")
+                    lower = -100
+                    upper = 100
+            elif ":" in models:# and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM"))
+                print "\n", (models.startswith("cqq") and ":cqq" in models)
+                if (models.startswith("cqq") and ":cqq" in models):
+                    print "HELLO\n"
+                    lower = -5
+                    upper = 5
+                elif "cqq3_" in models or "cqq31_" in models or "cqq11_" in models:
+                    lower = -700
+                    upper = 700
+                else:
+                    if coeff == "cHbox":
+                        lower = -50
+                        upper = 50
+                    elif coeff == "cHDD":
+                        lower = -100
+                        upper = 100
+                    elif coeff == "cHl1":
+                        lower = -170
+                        upper = 170
+                    elif coeff == "cHl3":
+                        lower = -25
+                        upper = 25
+                    elif coeff == "cHq1":
+                        lower = -15
+                        upper = 15
+                    elif coeff == "cHq3":
+                        lower = -10
+                        upper = 10
+                    elif coeff == "cHWB":
+                        lower = -350
+                        upper = 350
+                    elif coeff == "cHW":
+                        lower = -20
+                        upper = 20
+                    elif coeff == "cll1":
+                        lower = -20
+                        upper = 20
+                    elif coeff == "cHq1":
+                        lower = -700
+                        upper = 700
+                    elif coeff == "cqq3":
+                        lower = -50
+                        upper = 50
+                    elif coeff == "cqq11":
+                        lower = -50
+                        upper = 50
+                    elif coeff == "cqq31":
+                        lower = -50
+                        upper = 50
+                    elif coeff == "cW":
+                        lower = -10
+                        upper = 10
+                    elif coeff.startswith("cT") or coeff.startswith("cM") or coeff.startswith("cS"):
+                        lower = -10
+                        upper = 10
+            
+            if "cll_" in models:
+                lower *= 2
+                upper *= 2
+
+            intervals.append(str(lower) + "," + str(upper))
+
             if idc > 0:
                 modComb += ","
                 opstring += ","
