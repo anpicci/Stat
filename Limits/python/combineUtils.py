@@ -55,7 +55,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
             os.system("hadd -f merged_HybridNew.root higgsCombine" + modelname + "_hybrid.HybridNew.mH120*root")
             runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --readHybridResult --toysFile=merged_HybridNew.root " + extraoption + " --rMin -4 -n " + modelname + "_hybrid_total", "hybrid_total_" + modelname + "_" + method + ".log")
         #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
-    
+        runCombine("python ../../../../../../../../../CombineHarvester/CombineTools/scripts/ValidateDatacards.py " + modelname + "_" + method + ".txt", "validation.out")
         os.chdir("..")
     
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years, unblind):
@@ -246,9 +246,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     #print "HELLO\n"
                     lower = -5
                     upper = 5
-                #elif ("cqq3_" in models or "cqq31_" in models or "cqq11_" in models) and not coeff.startswith("cqq"):
-                    #lower = -700
-                    #upper = 700
+                elif ("cqq3_" in models or "cqq31_" in models or "cqq11_" in models) and not coeff.startswith("cqq"):
+                    lower = -700
+                    upper = 700
                 else:
                     if coeff == "cHbox":
                         lower = -50
