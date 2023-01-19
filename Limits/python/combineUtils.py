@@ -160,7 +160,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
     algostring = " --algo=grid  --points "
     if ":" in models and not profile:
         #algostring += "200000 "
-        algostring += "400000 "
+        algostring += "450000 "
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
@@ -246,9 +246,32 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     #print "HELLO\n"
                     lower = -5
                     upper = 5
-                elif ("cqq3_" in models or "cqq31_" in models or "cqq11_" in models) and not coeff.startswith("cqq"):
-                    lower = -700
-                    upper = 700
+                elif "cqq3_" in models and not coeff.startswith("cqq"):
+                    lower = -500
+                    upper = 500
+                elif "cqq31_" in models and not coeff.startswith("cqq"):
+                    if coeff == "cHq3" or coeff == "cHl3":
+                        lower = -50
+                        upper = 50
+                    elif coeff == "cHq1":
+                        lower = -100
+                        upper = 100
+                    else:
+                        lower = -800
+                        upper = 800                      
+                elif "cqq11_" in models and not coeff.startswith("cqq"):
+                    if coeff == "cHq3":
+                        lower = -30
+                        upper = 30
+                    elif coeff == "cHl3":
+                        lower = -300
+                        upper = 300
+                    elif coeff == "cHq1":
+                        lower = -200
+                        upper = 200
+                    else:
+                        lower = -800
+                        upper = 800                      
                 else:
                     if coeff == "cHbox":
                         lower = -50
@@ -275,11 +298,11 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         lower = -20
                         upper = 20
                     elif coeff == "cll1":
-                        lower = -20
+                        lower = -30
                         upper = 20
-                    elif coeff == "cHq1":
-                        lower = -700
-                        upper = 700
+                    elif coeff == "cll":
+                        lower = -600
+                        upper = 600
                     elif coeff == "cqq1":
                         lower = -5
                         upper = 5
@@ -302,7 +325,17 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
             if "cll_" in models:
                 lower *= 2
                 upper *= 2
-
+            elif "cHWB_" in models and not coeff == "cHWB":
+                lower *= 1.5
+                upper *= 1.5
+            elif "cHDD_" in models and "cHbox_" in models:
+                lower *= 5
+                upper *= 5
+            elif "cHl3_" in models and "cll1_" in models:
+                lower *= 5
+                upper *= 5
+            
+                
             intervals.append(str(lower) + "," + str(upper))
 
             if idc > 0:
