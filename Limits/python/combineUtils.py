@@ -326,8 +326,12 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 lower *= 2
                 upper *= 2
             elif "cHWB_" in models and not coeff == "cHWB":
-                lower *= 1.5
-                upper *= 1.5
+                if coeff.startswith("cT") or coeff.startswith("cS") or coeff.startswith("cM"):
+                    lower *= 1.5
+                    upper *= 2.2
+                else:
+                    lower *= 1.5
+                    upper *= 1.5
             elif "cHDD_" in models and "cHbox_" in models:
                 lower *= 5
                 upper *= 5
