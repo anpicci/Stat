@@ -2,8 +2,8 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS
+shapes   *      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               SR_muon_2018
 observation       245
@@ -11,7 +11,7 @@ observation       245
 bin                                               SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             SR_muon_2018             
 process                                           sm                       sm_lin_quad_cW           quad_cW                  sm_lin_quad_cHW          quad_cHW                 quad_mixed_cHW_cW        WpWpJJ_QCD               ZZtoLep                  Triboson                 TVX                      VG                       WZ                       WrongSign                TTTo2L2Nu                Fake                     
 process                                           -5                       -4                       -3                       -2                       -1                       0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        
-rate                                              7.362601                 17.471718                10.084099                7.561449                 0.121292                 9.801684                 0.617850                 0.483443                 0.520252                 0.346216                 0.081708                 0.926089                 4.672670                 0.907034                 266.114732               
+rate                                              3.473012                 7.196512                 3.653070                 3.582086                 0.039349                 3.633213                 0.617850                 0.483443                 0.520252                 0.346216                 0.081708                 0.926089                 2.757803                 0.907034                 266.114732               
 -----------------------------------------------------------------------------------
 lumi_2018                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
 mischarge_muon_2018      lnN                      -                        -                        -                        -                        -                        -                        -                        -                        -                        -                        -                        -                        1.15                     1.15                     -                        

@@ -2,8 +2,8 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS
+shapes   *      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               CROS_electron_2017
 observation       1302
@@ -11,7 +11,7 @@ observation       1302
 bin                                               CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       CROS_electron_2017       
 process                                           sm                       sm_lin_quad_cW           quad_cW                  sm_lin_quad_cHW          quad_cHW                 quad_mixed_cHW_cW        WpWpJJ_QCD               ZZtoLep                  Triboson                 TVX                      VG                       WZ                       WrongSign                TTTo2L2Nu                Fake                     
 process                                           -5                       -4                       -3                       -2                       -1                       0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        
-rate                                              0.012899                 0.035557                 0.022669                 0.013415                 0.000307                 0.022028                 0.000813                 0.881235                 0.969075                 0.578174                 2.440552                 2.499731                 343.220930               73.999892                715.192119               
+rate                                              0.001914                 0.010534                 0.009422                 0.002429                 0.000227                 0.010820                 0.000813                 0.881235                 0.969075                 0.578174                 2.440552                 2.499731                 247.456084               73.999892                715.192119               
 -----------------------------------------------------------------------------------
 lumi_2017                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
 CROS_electron_2017       autoMCStats              10                       0                        

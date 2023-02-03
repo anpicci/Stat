@@ -248,8 +248,10 @@ for srv, crv in varloops:
     StopIter = False
     ix = 0
     while not StopIter:
-        #print s1down, s1up
-        #print "iter", ix
+        print "iter", ix
+        print "ss1down, ss1up"
+        print ss1down, ss1up
+
         if ix == 0:
             ext1 = -150.
             ext2 = +160.
@@ -260,7 +262,7 @@ for srv, crv in varloops:
             Min = round(func.GetMinimumX(ext1, 50), 3)
         else:
             Min = round(func.GetMinimumX(50, ext1), 3)
-        #print "ext1, ext2, Min", ext1, ext2, Min
+        print "ext1, ext2, Min", ext1, ext2, Min
         if (ext1 < 50 and round(Min, 3) == ext1) or (ext1 > 50 and round(Min, 3) == 50):
             StopIter = True
             print "bye"
@@ -270,12 +272,13 @@ for srv, crv in varloops:
         else:
             ext3 = ext1
 
-        #print ext1, ext2, ext3
+        print "ext1, ext2, ext3"
+        print ext1, ext2, ext3
         x1down = func.GetX(y1, ext3, Min)
         x1up = func.GetX(y1, Min, ext2)
         distdown = abs(x1down - Min)
         distup = abs(x1up - Min)
-        #print distdown, distup
+        print "distdown", distdown, "distup", distup
         while distup > 2*distdown:
             newext = Min + distup/2
             x1up = func.GetX(y1, Min, newext)
@@ -287,7 +290,7 @@ for srv, crv in varloops:
         if x2down == ext3:
             x2down = ss2down[ix-1]
         x2up = func.GetX(y2, Min, ext2)
-        #print x1down, Min, x1up
+        print "x1down", x1down, "Min", Min, "x1up", x1up
         ix += 1
         ss1down.append(round(x1down, 3))
         ss1up.append(round(x1up, 3))
@@ -295,11 +298,11 @@ for srv, crv in varloops:
         ss2up.append(round(x2up, 3))
         smins.append(round(Min, 3))
         
-        #print "ss2down", ss2down
-        #print "ss1down", ss1down
-        #print "smins", smins
-        #print "ss1up", ss1up
-        #print "ss2up", ss2up
+        print "ss2down", ss2down
+        print "ss1down", ss1down
+        print "smins", smins
+        print "ss1up", ss1up
+        print "ss2up", ss2up
         #if ix > 1:
             #break
     s1down.append(ss1down)
@@ -311,7 +314,7 @@ for srv, crv in varloops:
     gr.Clear()
     lsfile.Close()
     totpairs += 1
-    
+
 y = []
 #print "\n\n"
 print "s2down", s2down
@@ -355,20 +358,28 @@ for idp in range(0, totpairs):
     ss2down = s2down[idp]
     ss1up = s1up[idp]
     ss2up = s2up[idp]
+    smins = mins[idp]
 
     sigma1str = ""
     sigma2str = ""
+    minstr = ""
     for idsig in range(len(ss1down)):
         if sigma1str != "":
             sigma1str += " \cup "
         if sigma2str != "":
             sigma2str += " \cup "
+        if minstr != "":
+            minstr += ", "
+        
         sigma1str += "["
         sigma2str += "["
         sigma1str += str(ss1down[idsig]) + ", " + str(ss1up[idsig]) + "]" 
         sigma2str += str(ss2down[idsig]) + ", " + str(ss2up[idsig]) + "]"
+        minstr += str(smins[idsig])
     fstr = labels[idp] + ":\t1sigma = " + sigma1str + "\t2sigma = " + sigma2str + "\n"
     limitstxt.write(fstr)
+    sstr = labels[idp] + ":\tminima = " + minstr + "\n"
+    limitstxt.write(sstr)
 
     Gdown.SetBinContent(idbin, ss1down[0])
     Gup.SetBinContent(idbin, ss1up[0])

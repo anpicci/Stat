@@ -2,8 +2,8 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS
+shapes   *      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               CRTT_electron_2016M
 observation       1993
@@ -11,7 +11,7 @@ observation       1993
 bin                                               CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      CRTT_electron_2016M      
 process                                           sm                       sm_lin_quad_cW           quad_cW                  sm_lin_quad_cHW          quad_cHW                 quad_mixed_cHW_cW        WpWpJJ_QCD               ZZtoLep                  Triboson                 TVX                      VG                       WZ                       WrongSign                TTTo2L2Nu                Fake                     
 process                                           -5                       -4                       -3                       -2                       -1                       0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        
-rate                                              0.004788                 0.036587                 0.031753                 0.004988                 0.000165                 0.031577                 0.004434                 0.077992                 0.271983                 7.704748                 0.274869                 0.332923                 153.429715               1297.354849              764.941525               
+rate                                              0.003546                 0.027493                 0.026480                 0.003641                 0.000118                 0.025868                 0.004434                 0.077992                 0.271983                 7.704748                 0.274869                 0.332923                 153.429715               1297.354849              764.941525               
 -----------------------------------------------------------------------------------
 lumi_2016M               lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
 CRTT_electron_2016M      autoMCStats              10                       0                        

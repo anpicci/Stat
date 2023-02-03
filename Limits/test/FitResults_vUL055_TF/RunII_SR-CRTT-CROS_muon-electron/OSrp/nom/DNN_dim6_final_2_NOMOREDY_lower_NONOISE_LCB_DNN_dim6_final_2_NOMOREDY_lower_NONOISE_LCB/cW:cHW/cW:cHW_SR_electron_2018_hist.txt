@@ -2,8 +2,8 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS
+shapes   *      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               SR_electron_2018
 observation       196
@@ -11,7 +11,7 @@ observation       196
 bin                                               SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         SR_electron_2018         
 process                                           sm                       sm_lin_quad_cW           quad_cW                  sm_lin_quad_cHW          quad_cHW                 quad_mixed_cHW_cW        WpWpJJ_QCD               ZZtoLep                  Triboson                 TVX                      VG                       WZ                       WrongSign                TTTo2L2Nu                Fake                     
 process                                           -5                       -4                       -3                       -2                       -1                       0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        
-rate                                              4.628038                 12.168970                7.521714                 4.772793                 0.091586                 7.304691                 0.398492                 0.616098                 0.397785                 0.188890                 0.753080                 0.372408                 3.106016                 1.350626                 177.608752               
+rate                                              2.221410                 4.895925                 2.693468                 2.306256                 0.036965                 2.693882                 0.398492                 0.616098                 0.397785                 0.188890                 0.753080                 0.372408                 0.980280                 1.350626                 177.608752               
 -----------------------------------------------------------------------------------
 lumi_2018                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
 mischarge_electron_2018  lnN                      -                        -                        -                        -                        -                        -                        -                        -                        -                        -                        -                        -                        1.15                     1.15                     -                        

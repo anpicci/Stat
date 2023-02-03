@@ -36,7 +36,7 @@ leptags = OrderedDict()
 leptags['electron'] = 'ele'
 leptags['muon'] = 'mu'
 
-def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, Frp, regions, leptons, settitle, shapeN = True):
+def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, Frp, regions, leptons, settitle, ApplyFStats, shapeN = True):
     if 'CRF' in regions:
         WithFakeCR = True
     else:
@@ -298,8 +298,10 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
             LineWrite(settname, "syst['FR_sys_" + lep + "_2018'] = ['lnN', 'Fake', 1.3]")
             #LineWrite(settname, "syst['FR_sys_" + lep + "'] = ['lnN', 'Fake', 1.3]")
 
-    LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'Fake', 'sig'), 'uncorr']")
-    #LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
+    if ApplyFStats:
+        LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'Fake', 'sig'), 'uncorr']")
+    else:
+        LineWrite(settname, "syst['autoMCstat'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'uncorr']")
     LineWrite(settname, "syst['PF'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['pu'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")
     LineWrite(settname, "syst['puID'] = [shapesyst, ('WpWpJJ_QCD', 'VG', 'TVX', 'TTTo2L2Nu', 'WZ', triboson_sample, 'WrongSign', 'ZZtoLep', 'sig'), 'corr']")

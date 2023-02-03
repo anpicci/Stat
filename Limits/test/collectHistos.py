@@ -205,18 +205,24 @@ for year in years:
 
         histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
 
-        for k_, h_ in histos.iteritems():
+        for k_, h__ in histos.iteritems():
          
         
             if lep=='emu' and not k_.startswith("CRTT"):
                 continue
 
             for flist in sampFiles[year+lep]:
-                
+                samp = flist[1]
                 #print "\nflist", flist
 
+                #print samp, samp.startswith("VBS_SSWW_F"), h__
+                if ("_FM" in samp or "_FS" in samp or "_FT" in samp):
+                    h_ = h__.replace("DNN_dim6_final_2_NOMOREDY_lower_NONOISE_LCB", "DNN_dim8_final_3_NOMOREDY_lower_NONOISE_LCB_again_2")
+                else:
+                    h_ = copy.deepcopy(h__)
                 h = None
 
+                
                 hsyst = collections.OrderedDict()
                 for sysnam, systype in syst.items():
                     if not systype[0].startswith("shape") or sysnam == "autoMCstat":
@@ -237,7 +243,6 @@ for year in years:
             
                     hsyst[syskey] = [None, None]
                 
-                samp = flist[1]
                 #print "\nsamp", samp#, flist[0]
                 #for k, v in hsyst.items():
                     #print k, v 
@@ -250,10 +255,10 @@ for year in years:
                         print "Cannot open ", f, + "\n"
                     else:
                         pass
-                        #print "Opening file ",  path_ + f
+                        print "Opening file ",  path_ + f
                     ifile.cd()
     
-                    #print "We are looking for object ", h_
+                    print "We are looking for object ", h_
                     try:
                         htemp = copy.deepcopy(ifile.Get(h_).Clone())
                     except:

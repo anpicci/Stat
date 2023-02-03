@@ -2,8 +2,8 @@ imax 1 number of channels
 jmax * number of backgrounds 
 kmax * number of nuisance parameters
 -----------------------------------------------------------------------------------
-shapes   *      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
-shapes   data_obs      *   ../shapes/histo_cW:cHW.root    $CHANNEL/$PROCESS
+shapes   *      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS    $CHANNEL/$PROCESS_$SYSTEMATIC
+shapes   data_obs      *   ../shapes/histo_cW_1:cHW_1.root    $CHANNEL/$PROCESS
 -----------------------------------------------------------------------------------
 bin               CROS_muon_2017
 observation       1546
@@ -11,7 +11,7 @@ observation       1546
 bin                                               CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           CROS_muon_2017           
 process                                           sm                       sm_lin_quad_cW           quad_cW                  sm_lin_quad_cHW          quad_cHW                 quad_mixed_cHW_cW        WpWpJJ_QCD               ZZtoLep                  Triboson                 TVX                      VG                       WZ                       WrongSign                TTTo2L2Nu                Fake                     
 process                                           -5                       -4                       -3                       -2                       -1                       0                        1                        2                        3                        4                        5                        6                        7                        8                        9                        
-rate                                              0.008436                 0.025748                 0.017061                 0.008597                 0.000159                 0.016187                 0.000000                 0.891228                 1.196274                 0.638958                 4.713115                 2.788211                 595.692472               125.590019               816.497585               
+rate                                              0.003672                 0.011528                 0.009854                 0.004249                 0.000304                 0.010183                 0.000000                 0.891228                 1.196274                 0.638958                 4.713115                 2.788211                 418.576583               125.590019               816.497585               
 -----------------------------------------------------------------------------------
 lumi_2017                lnN                      1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    1.016                    
 CROS_muon_2017           autoMCStats              10                       0                        

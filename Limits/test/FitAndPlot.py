@@ -10,7 +10,7 @@ import copy
 
 os.system("reset")
 
-usage = "python3 FitAndPlot_dev.py"
+usage = "python3 FitAndPlot.py"
 parser = optparse.OptionParser(usage)
 
 cwd = os.getcwd()
@@ -49,6 +49,7 @@ parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='stor
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
 parser.add_option('--flnN', dest='flnN', default = False, action='store_true', help = 'apply lognormal to fakes')
 parser.add_option('--frp', dest='frp', default = False, action='store_true', help = 'apply rateParam to fakes')
+parser.add_option('--noFakeStats', dest='nofs', default = False, action='store_true', help = 'do not apply mcstats to fakes')
 parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
 parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'fit with HybridNew instead of AsymptoticLimits')
 
@@ -114,6 +115,7 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         fitfolder = "FitResults_" + folder
+        #fitfolder = "FitProb_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_" + folder
         if opt.unblind:
@@ -150,6 +152,12 @@ for model in models:
             fitfolder += "frp"
             setmod += "_frp"
             setitle += "_frp"
+        if opt.nofs:
+            if not fitfolder.endswith("/"):
+                fitfolder += "_"
+            fitfolder += "noFakeStats"
+            setmod += "_noFakeStats"
+            setitle += "_noFakeStats"
         if fitfolder.endswith("/"):
             fitfolder += "noaddopt"
         
@@ -176,7 +184,7 @@ for model in models:
     
         if opt.dofit:
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, not opt.nofs)
             #RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits

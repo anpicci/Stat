@@ -72,7 +72,7 @@ for idv, postvar in enumerate(postvars):
         cards[postvar][c] = [card for card in os.listdir(cardfolder) if c in card and not "RunII" in card]
 
     #print cards
-'''
+
     string = "combineCards.py"
     postfold = 'postfit_' + inf + '/' + sr_var + '_' + cr_var + '_' + yeardir
     if tagfolder == "none":
@@ -168,4 +168,3 @@ else:
 os.system("mv histo_*" + tag + "*root histos_" + opt.model)
 
 os.system("mv higgsCombine*" + tag + "* " + fitdiagdir)
-'''
