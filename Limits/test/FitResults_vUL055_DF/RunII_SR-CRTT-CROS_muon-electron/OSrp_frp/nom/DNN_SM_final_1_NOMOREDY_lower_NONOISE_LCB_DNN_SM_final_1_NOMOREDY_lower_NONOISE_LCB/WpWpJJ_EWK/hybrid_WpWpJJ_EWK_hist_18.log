@@ -1,6 +1,9 @@
  <<< Combine >>> 
->>> random number generator seed is 123456
->>> method used is Significance
+unable to write 'random state'
+>>> Used OpenSSL to get a really random seed -1127853368
+>>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
+>>> method used is HybridNew
+>>> method used to hint where the upper limit is AsymptoticLimits
 Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
@@ -1962,7 +1965,35 @@ Bin        Contents        Error           Notes
 13         17.000000       4.123106        Unweighted events, alpha=0.089114
   => Total parameter prop_binCROS_electron2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
+SimNLL created with 18 channels, 65 generic constraints, 343 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 18 channels, 65 generic constraints, 343 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
- -- Significance -- 
-Significance: 2.50263
-Done in 0.02 min (cpu), 0.02 min (real)
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 2.6430
+
+SimNLL created with 18 channels, 65 generic constraints, 343 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-NnonXq
+/tmp/rstats-2Aq5mB
+/tmp/rstats-fLM7o6
+/tmp/rstats-2T5EkM
+/tmp/rstats-la0FxH
+/tmp/rstats-MR8FhS
+/tmp/rstats-3CJbtj
+/tmp/rstats-E1xUAY
+/tmp/rstats-DuEJUU
+/tmp/rstats-qlJi5B
+/tmp/rstats-bbPfNv
+/tmp/rstats-SpW2hC
+/tmp/rstats-5rQG4Y
+/tmp/rstats-iPK3C1
+/tmp/rstats-5G5t5a
+/tmp/rstats-Cd0RMI
+/tmp/rstats-1DWFKA
+/tmp/rstats-m67aPU
+/tmp/rstats-ndmr0M
+/tmp/rstats-sW1MVS
+/tmp/rstats-7uZeaj
+/tmp/rstats-ahnOJ2
+/tmp/rstats-1M3JJb

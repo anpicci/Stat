@@ -1,9 +1,7 @@
  <<< Combine >>> 
-unable to write 'random state'
->>> Used OpenSSL to get a really random seed -1757039022
+>>> random number generator seed is 123456
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimits
 Channel SR_muon2016M will use autoMCStats with settings: event-threshold=10, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon2016M
@@ -1213,46 +1211,10 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCROS_electron2018_bin9[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 SimNLL created with 18 channels, 19 generic constraints, 246 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SimNLL created with 18 channels, 19 generic constraints, 246 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-
- -- AsymptoticLimits ( CLs ) --
-Observed Limit: r < 1.9308
-
-SimNLL created with 18 channels, 19 generic constraints, 246 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-40mC7H
-/tmp/rstats-fFCpQ5
-/tmp/rstats-wnnc4m
-/tmp/rstats-h1hKrn
-/tmp/rstats-QhnvCo
-/tmp/rstats-FxyEsf
-/tmp/rstats-UoLu5s
-/tmp/rstats-peyBKf
-/tmp/rstats-c3eTCD
-/tmp/rstats-TcOarq
-/tmp/rstats-0f2z4z
-/tmp/rstats-j2wUIp
-/tmp/rstats-C41dBQ
-/tmp/rstats-54GAzS
-/tmp/rstats-mV15bg
-/tmp/rstats-1ea8R9
-/tmp/rstats-Yp6tlv
-/tmp/rstats-xp8mPm
-/tmp/rstats-u4Z4Xj
-/tmp/rstats-TnxuTn
-/tmp/rstats-Mon06U
-/tmp/rstats-nNiLGf
-/tmp/rstats-4Scizd
-/tmp/rstats-RiKoiD
-/tmp/rstats-8jE7ew
-/tmp/rstats-v3yaaS
-/tmp/rstats-UNQTmn
-/tmp/rstats-BEuH4A
-/tmp/rstats-oEwVzg
-/tmp/rstats-JHDC9B
-/tmp/rstats-OTPfal
-/tmp/rstats-znWDXm
-/tmp/rstats-SCiJGT
-/tmp/rstats-jo9bNZ
-/tmp/rstats-4UTcEL
+
+ -- Hybrid New -- 
+Significance: 2.40101  -0.0196819/+0.0206584
+Null p-value: 0.008175 +/- 0.000450227
+Done in 0.03 min (cpu), 0.03 min (real)

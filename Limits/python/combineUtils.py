@@ -46,9 +46,9 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
         runCombine("combine -M Significance " + extraoption + " " + modelname + "_" + method + ".txt -n " + modelname, "significance_" + modelname + "_" + method + ".log")
 
         if not unblind:
-            niter = 20
+            niter = 10
         else:
-            niter = 30
+            niter = 10
         if UseHybridNew:
             for idhn in range(niter):
                 runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --saveToys --saveHybridResult --fullBToys " + extraoption + " -T 50 -i 50 -s -1 --fork 20 -H AsymptoticLimits --rMin -4 -n " + modelname + "_hybrid", "hybrid_" + modelname + "_" + method + "_" + str(idhn) + ".log")
