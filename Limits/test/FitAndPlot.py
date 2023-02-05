@@ -47,6 +47,7 @@ parser.add_option('--notCI', dest='doCI', default = True, action='store_false', 
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
+parser.add_option('--noQCDScale', dest='noQCDScale', default = False, action='store_true', help = 'apply rateParam to dy')
 parser.add_option('--flnN', dest='flnN', default = False, action='store_true', help = 'apply lognormal to fakes')
 parser.add_option('--frp', dest='frp', default = False, action='store_true', help = 'apply rateParam to fakes')
 parser.add_option('--noFakeStats', dest='nofs', default = False, action='store_true', help = 'do not apply mcstats to fakes')
@@ -152,6 +153,12 @@ for model in models:
             fitfolder += "frp"
             setmod += "_frp"
             setitle += "_frp"
+        if opt.noQCDScale:
+            if not fitfolder.endswith("/"):
+                fitfolder += "_"
+            fitfolder += "noQCDS"
+            setmod += "_noQCDS"
+            setitle += "_noQCDS"
         if opt.nofs:
             if not fitfolder.endswith("/"):
                 fitfolder += "_"
@@ -184,7 +191,7 @@ for model in models:
     
         if opt.dofit:
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, not opt.nofs)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, not opt.nofs, opt.noQCDScale)
             #RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
@@ -220,7 +227,7 @@ for model in models:
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.unblind) 
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, opt.noQCDScale, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.unblind) 
         
 
     #if opt.eft != "none" and not ":" in opt.eft and opt.doCI:
