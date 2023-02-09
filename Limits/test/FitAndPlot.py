@@ -115,9 +115,9 @@ for model in models:
         print "\tRegions:", opt.regions
         print "\tChannels:", opt.leptons
     
-        fitfolder = "FitResults_" + folder
+        #fitfolder = "FitResults_" + folder
         #fitfolder = "FitProb_" + folder
-        #fitfolder = "FITRESULTS_" + folder
+        fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_" + folder
         if opt.unblind:
             fitfolder += "_DF"

@@ -1043,7 +1043,8 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
-    eospost = filerepo + "postfit_" #+ pdftype + tagfold
+    #eospost = filerepo + "postfit_" #+ pdftype + tagfold
+    eospost = filerepo + "POSTFIT_" #+ pdftype + tagfold
     fparts = fitfolderr.split("/")
     eospost += fparts[1] + "/" + fparts[2] + "/" + fparts[3]
 
