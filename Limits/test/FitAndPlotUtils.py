@@ -1050,7 +1050,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
 
     eospost += "_" + fparts[1] + "/" + fparts[2] + "/" + fparts[3]
     print "eospost:", eospost
-    raise ValueError("bye!")
+    #raise ValueError("bye!")
 
     if plotvars == "all":
         vartopost = variables
