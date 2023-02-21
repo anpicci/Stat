@@ -117,7 +117,7 @@ for model in models:
     
         #fitfolder = "FitResults_" + folder
         #fitfolder = "FITRESULTS_" + folder
-        fitfolder = "FITRESULTS_fstats_" + folder
+        fitfolder = "FITRESULTS_cons_" + folder
         #fitfolder = "FIT_" + folder
         if opt.unblind:
             fitfolder += "_DF"
@@ -191,7 +191,7 @@ for model in models:
     
         if opt.dofit:
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, not opt.nofs, opt.noQCDScale)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, opt.noQCDScale)
             #RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
