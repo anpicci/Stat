@@ -801,14 +801,14 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     for year in yearsett:
         for cat in channels:
             if not isEFT and not "WpWp" in model:
-                cmdmer += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
+                cmdmer += cat+"_"+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
             else:
-                cmdmer += cat+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
+                cmdmer += cat+"_"+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
     if not isEFT and not "WpWp" in model:
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    #print cmdmer
+    print cmdmer
     os.system(cmdmer)
     os.chdir(ipwd)
 
@@ -1121,13 +1121,13 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print poststring
     
         os.system(poststring + " --lastbins")
-        #os.system(poststring + " --lastbins --scale")
+        ##os.system(poststring + " --lastbins --scale")
         os.system(poststring + " --lastbins --linscale")
-        #os.system(poststring + " --lastbins --scale --linscale")
+        ##os.system(poststring + " --lastbins --scale --linscale")
 
         os.system(poststring)
         os.system(poststring + " --linscale")
-        #os.system(poststring + " --scale --linscale")
+        ##os.system(poststring + " --scale --linscale")
         
         os.chdir(pwd)
     
@@ -1190,14 +1190,15 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     for year in yearsett:
         for cat in channels:
             if not isEFT and not "WpWp" in model:
-                cmdmer += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
+                cmdmer += cat+"_"+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
             else:
-                cmdmer += cat+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
+                cmdmer += cat+"_"+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
     if not isEFT and not "WpWp" in model:
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    #print cmdmer
+    print cmdmer
+    
     os.system(cmdmer)
     os.chdir(upwd)
         

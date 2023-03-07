@@ -38,7 +38,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
         cmd = "combineCards.py "
         for year in years:
             for cat in categories:
-                cmd += cat+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
+                cmd += cat+"_"+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
         cmd += "> %s_%s.txt" % (modelname, method)
         print cmd
         os.system(cmd)
@@ -56,6 +56,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
             runCombine("combine -M HybridNew " + modelname + "_" + method + ".txt --LHCmode LHC-significance --readHybridResult --toysFile=merged_HybridNew.root " + extraoption + " --rMin -4 -n " + modelname + "_hybrid_total", "hybrid_total_" + modelname + "_" + method + ".log")
         #runCombine("combine -M FitDiagnostics "+ modelname + "_" + method + ".txt --expectSignal=1 --plots --saveShapes --saveWithUncertainties", "fitDiag_VBS_SSWW_" + modelname + "_" + method + ".log")
         #runCombine("python ../../../../../../../../../CombineHarvester/CombineTools/scripts/ValidateDatacards.py " + modelname + "_" + method + ".txt", "validation.out")
+
         os.chdir("..")
     
 def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, years, unblind):
@@ -81,7 +82,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
-                        cmd += cat+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
+                        cmd += cat+"_"+year+"=%s_%s_%s_%s.txt " %(modelname, cat, year, method)
                 cmd += "> %s_%s.txt" % (modelname, method)
                 #print cmd    
                 os.system(cmd)
@@ -147,7 +148,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, 
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
-                        cmd += cat+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
+                        cmd += cat+"_"+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
                 cmd += "> VBS_SSWW_%s_%s.txt" % (model, method)
                 #print cmd
                 os.system(cmd)
@@ -387,7 +388,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 cmd = "combineCards.py "
                 for year in years:
                     for cat in categories:
-                        cmd += cat+year+"=%s_%s_%s_%s.txt " %(dirmodel, cat, year, method)
+                        cmd += cat+"_"+year+"=%s_%s_%s_%s.txt " %(dirmodel, cat, year, method)
                 global_dc = str(dirmodel) + "_" + str(method) + ".txt" 
                 cmd += " > " + global_dc #%s_%s.txt" % (model, method)
                 #print cmd
