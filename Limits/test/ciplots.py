@@ -38,10 +38,10 @@ lumi = {'2016M': 36.3, '2017': 41.48, '2018':59.83, "RunII":138}
 
 eftop = opt.eftop.split("_")[0]
 
-if not (opt.eftop.startswith("c") and opt.eftop.endswith("1")):
-    efold = opt.eftop.split("_")[0]
-else:
-    efold = opt.eftop
+#if not (opt.eftop.startswith("c") and opt.eftop.endswith("1")):
+    #efold = opt.eftop.split("_")[0]
+#else:
+efold = opt.eftop
 
 ROOT.gStyle.SetPalette(1)
 ROOT.gStyle.SetCanvasColor(0)
