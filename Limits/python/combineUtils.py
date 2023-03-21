@@ -161,7 +161,10 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
     algostring = " --algo=grid  --points "
     if ":" in models and not profile:
         #algostring += "200000 "
-        algostring += "300000 "
+        if not "cqq" in models:
+            algostring += "300000 "
+        else:
+            algostring += "500000 "
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
