@@ -219,9 +219,9 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
        for sysname, sysValue in syst.iteritems():
               sysName = ""
               #### insert year in sysName if sys in uncorr, o
-              if sysValue[0].startswith("shape"):
+              if sysValue[0].startswith("shape") or sysValue[0] == 'lnN':
                      ##print syst[sysname]
-                     if sysValue[2] == "uncorr":
+                     if sysValue[-1] == "uncorr":
                             sysName = sysname + "_" + str(year)
                      else:
                             sysName = sysname
@@ -242,12 +242,13 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
               #print sysName, sysValue
 
               if(sysValue[0]=="lnN"):
+                     #print "\n\nhello\t", sysName, sysValue
                      if sysName.startswith("mischarge") and not ch.startswith("SR"):
                             continue
                      if "lumi" in sysName and "1718_" in sysName:
                             sysName = sysName.replace("APV", "").replace("_2016", "").replace("_2017", "").replace("_2018", "")
                      card += "%-25s%-25s" % (sysName, sysValue[0])
-                     if len(sysValue)>2:
+                     if sysValue[2] != 0.: #len(sysValue)>2:
                             if(sysValue[1]=="all" and len(sysValue)>2):
                                    card += "%-25s" % (sysValue[2]) * (len(processes) + len(sig))
                             elif(sysValue[1]=="QCD" and len(sysValue)>2):
@@ -269,37 +270,115 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
                                           #print "%-25s" % ("-") * (idx_p_tot) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - (idx_p + 1)) 
 
                      else:
+                            #print "\n\n\nHELLO!\t" + sysName 
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
-                                   for sigp in sig:
-                                          sysValue[1].append(sigp)
+                                   sysValue[1].append(sig)
+
                             hsysName =  "_" + sysname  
                             hsysNameUp = "_" + sysname + "Up"  
                             hsysNameDown = "_" + sysname + "Down" 
-                            #hsysName =  "_" + sysName  
-                            #hsysNameUp = "_" + sysName + "Up"  
-                            #hsysNameDown = "_" + sysName + "Down" 
-                            ##print hsysName, hsysNameUp, hsysNameDown
                             ##print "Applying syst on ", sysValue[1]
-                            if("sig" in sysValue[1]):
+                            if ("sig" in sysValue[1]):
                                    for sigp in sig:
-                                          if(getRate(ch, sigp, ifile) != 0.):
-                                                 sigSys = abs((getRate(ch, sigp+hsysNameUp, ifile) - getRate(ch, sigp+hsysNameDown, ifile))/ (2* getRate(ch, sigp, ifile)))
-                                          else:
-                                                 sigSys = 1
-                                          if(sigSys<1.and sigSys >0.):
-                                                 sigSys = sigSys + 1
-                                          card += "%-25s" % (sigSys)
-                            else: 
-                                   card += "%-25s" % ("-")
+                                       sigplab = ""
+                                       if sigp.startswith("quad_") or sigp.startswith("sm_lin_"):
+                                           sigplab = sigp.replace("_F", "_c")
+                                           torem = "_" + sigp.split("_")[-1]
+                                           if "_F" in sigp and not ":" in opt.ls:
+                                               sigplab = sigplab.replace(torem, "")
+                                       else:
+                                           sigplab = sigp
+                     
+                                       histoIntegral =  getRate(ch, sigplab, ifile)
+                                       #print "histoUp:", ch, (sigplab + "_" + sysName + "Up")
+                                       histoUpIntegral =  getRate(ch, sigplab + "_" + sysName + "Up", ifile)
+                                       histoDownIntegral =  getRate(ch, sigplab + "_" + sysName + "Down", ifile)
+                     
+                                       #print "histoIntegral", histoIntegral
+                                       #print "histoIntegralUp", histoUpIntegral
+                                       #print "histoIntegralDown", histoDownIntegral
+                                       if histoIntegral > 0. and histoUpIntegral > 0.:
+                                           diffUp = (histoUpIntegral - histoIntegral)/histoIntegral
+                                       else: 
+                                           diffUp = 0.
+
+                                       if histoIntegral > 0. and histoDownIntegral > 0.:
+                                           diffDo = (histoDownIntegral - histoIntegral)/histoIntegral
+                                       else:
+                                           diffDo = 0.
+
+                                       #print "diffUp:", diffUp
+                                       #print "diffDo:", diffDo
+
+                                       lnNUp = 1. + diffUp
+                                       lnNDo = 1. + diffDo
+
+                                       if lnNUp == 0:
+                                           lnNUp = 1.
+                                       if lnNDo==0:
+                                            lnNDo = 1.
+
+
+                                       if abs(lnNUp - 1.) < 5.e-4:
+                                           lnNUp = 1.
+
+                                       if abs(lnNDo - 1.) < 5.e-4:
+                                           lnNDo = 1.
+
+                                       #print "lnNUp:", lnNUp
+                                       #print "lnNDo:", lnNDo
+
+                                       if abs(lnNUp - 1.) < 5.e-4 and abs(lnNDo - 1.) < 5.e-4:
+                                           card += "%-25s" % ( "-")
+                                           print ("%-25s" % ( "-"))
+                                       else:
+                                           card += "%-25s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4)))
+                                           print ("%-25s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4))))
+
+                            else:  
+                                card += "%-25s" % ("-") * (len(sig))
 
                             for p in processes:
                                    if (p in sysValue[1]):
-                                          if (getRate(ch, p, ifile) != 0.): bkgSys = abs((getRate(ch, p+hsysNameUp, ifile) - getRate(ch, p+hsysNameDown, ifile))/ (2* getRate(ch, p, ifile)) )
-                                          else: bkgSys = 1
-                                          if(bkgSys<1.and bkgSys >0.): bkgSys = bkgSys + 1
-                                          card += "%-25s" % (bkgSys)
-                                   else:  card += "%-25s" % ("-")
+                                       histoIntegral =  getRate(ch, p, ifile)
+                                       histoUpIntegral =  getRate(ch, p + "_" + sysName + "Up", ifile)
+                                       histoDownIntegral =  getRate(ch, p + "_" + sysName + "Down", ifile)
+                     
+                                       if histoIntegral > 0. and histoUpIntegral > 0.:
+                                           diffUp = (histoUpIntegral - histoIntegral)/histoIntegral
+                                       else: 
+                                           diffUp = 0.
+
+                                       if histoIntegral > 0. and histoDownIntegral > 0.:
+                                           diffDo = (histoDownIntegral - histoIntegral)/histoIntegral
+                                       else:
+                                           diffDo = 0.
+
+                                       lnNUp = 1. + diffUp
+                                       lnNDo = 1. + diffDo
+
+                                       if lnNUp == 0:
+                                           lnNUp = 1.
+                                       if lnNDo==0:
+                                            lnNDo = 1.
+
+                                       if abs(lnNUp - 1.) < 5.e-4:
+                                           lnNUp = 1.
+
+                                       if abs(lnNDo - 1.) < 5.e-4:
+                                           lnNDo = 1.
+
+
+                                       if abs(lnNUp - 1.) < 5.e-4 and abs(lnNDo - 1.) < 5.e-4:
+                                           card += "%-25s" % ( "-")
+                                       else:
+                                           card += "%-25s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4)))
+
+
+                                   else:  
+                                          card += "%-25s" % ("-")
+
               elif(sysValue[0].startswith("shape")):
                      #print "sys shape named ", sysName, sysValue
                      if("mcstat" not in sysName and 'autoMCstat' not in sysName):
@@ -607,7 +686,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
               #### insert year in sysName if sys in uncorr, o
               if sysValue[0].startswith("shape"):
                      ##print syst[sysname]
-                     if sysValue[2] == "uncorr":
+                     if sysValue[-1] == "uncorr":
                             sysName = sysname + "_" + str(year)
                      else:
                             sysName = sysname
@@ -628,10 +707,12 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                      continue
 
               if(sysValue[0]=="lnN"): 
+                     #print "\n\n\nhello!\t" + sysName, sysValue 
                      if sysName.startswith("mischarge") and not ch.startswith("SR"):
                             continue
+                     
                      card += "%-25s%-25s" % (sysName, sysValue[0])
-                     if len(sysValue)>2:
+                     if sysValue[2] != 0.: #len(sysValue)>2:
                             if(sysValue[1]=="all"):
                                    card += "%-25s" % (sysValue[2]) * (len(lssamp) + len(processes))# + 1)
                             elif(sysValue[1]=="QCD" and len(sysValue)>2):
@@ -652,6 +733,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                                    card += strsys#"%-25s" % ("-") * (idx_p_tot) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - (idx_p + 1)) 
                                           #print "%-25s" % ("-") * (idx_p_tot) + "%-25s" % (sysValue[2]) + "%-25s" % ("-") * (len(processes) - (idx_p + 1)) 
                      else:
+                            #print "\n\n\nHELLO!\t" + sysName 
                             if (sysValue[1]=="all"):
                                    sysValue[1] = copy.deepcopy(processes)
                                    sysValue[1].append(sig)
@@ -660,27 +742,98 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                             hsysNameUp = "_" + sysname + "Up"  
                             hsysNameDown = "_" + sysname + "Down" 
                             ##print "Applying syst on ", sysValue[1]
-                            if("sig" in sysValue[1]):
+                            if ("sig" in sysValue[1]):
                                    for sigp in sig:
-                                          if(getRate(ch, sig, ifile) != 0.):
-                                                 sigSys = abs((getRate(ch, sig+hsysNameUp, ifile) - getRate(ch, sig+hsysNameDown, ifile))/ (2* getRate(ch, sig, ifile)))
-                                          else: 
-                                                 sigSys = 1  
-                                          if(sigSys<1.and sigSys >0.):
-                                                 sigSys = sigSys + 1
-                                          card += "%-25s" % (sigSys)
+                                       sigplab = ""
+                                       if sigp.startswith("quad_") or sigp.startswith("sm_lin_"):
+                                           sigplab = sigp.replace("_F", "_c")
+                                           torem = "_" + sigp.split("_")[-1]
+                                           if "_F" in sigp and not ":" in opt.ls:
+                                               sigplab = sigplab.replace(torem, "")
+                                       else:
+                                           sigplab = sigp
+                     
+                                       histoIntegral =  getRate(ch, sigplab, ifile)
+                                       histoUpIntegral =  getRate(ch, sigplab + "_" + sysName + "Up", ifile)
+                                       histoDownIntegral =  getRate(ch, sigplab + "_" + sysName + "Down", ifile)
+                     
+                                       #print "histoIntegral", histoIntegral
+                                       #print "histoIntegralUp", histoIntegralUp
+                                       #print "histoIntegralDown", histoIntegralDown
+                                       if histoIntegral > 0. and histoUpIntegral > 0.:
+                                           diffUp = (histoUpIntegral - histoIntegral)/histoIntegral
+                                       else: 
+                                           diffUp = 0.
+
+                                       if histoIntegral > 0. and histoDownIntegral > 0.:
+                                           diffDo = (histoDownIntegral - histoIntegral)/histoIntegral
+                                       else:
+                                           diffDo = 0.
+
+                                       #print "diffUp:", diffUp
+                                       #print "diffDo:", diffDo
+
+                                       lnNUp = 1. + diffUp
+                                       lnNDo = 1. + diffDo
+
+                                       if lnNUp == 0:
+                                           lnNUp = 1.
+                                       if lnNDo==0:
+                                            lnNDo = 1.
+
+                                       #print "lnNUp:", lnNUp
+                                       #print "lnNDo:", lnNDo
+
+                                       if abs(lnNUp - 1.) < 5.e-4:
+                                           lnNUp = 1.
+
+                                       if abs(lnNDo - 1.) < 5.e-4:
+                                           lnNDo = 1.
+
+                                       if abs(lnNUp - 1.) < 5.e-4 and abs(lnNDo - 1.) < 5.e-4:
+                                           card += "%-25s" % ( "-")
+                                       else:
+                                           card += "%-25s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4)))
+
                             else:  
-                                   card += "%-25s" % ("-")
+                                card += "%-25s" % ("-") * (len(sig))
 
                             for p in processes:
                                    if (p in sysValue[1]):
-                                          if (getRate(ch, p, ifile) != 0.):
-                                                 bkgSys = abs((getRate(ch, p+hsysNameUp, ifile) - getRate(ch, p+hsysNameDown, ifile))/ (2* getRate(ch, p, ifile)) )
-                                          else:
-                                                 bkgSys = 1
-                                          if(bkgSys<1.and bkgSys >0.):
-                                                 bkgSys = bkgSys + 1
-                                          card += "%-25s" % (bkgSys)
+                                       histoIntegral =  getRate(ch, p, ifile)
+                                       histoUpIntegral =  getRate(ch, p + "_" + sysName + "Up", ifile)
+                                       histoDownIntegral =  getRate(ch, p + "_" + sysName + "Down", ifile)
+                     
+                                       if histoIntegral > 0. and histoUpIntegral > 0.:
+                                           diffUp = (histoUpIntegral - histoIntegral)/histoIntegral
+                                       else: 
+                                           diffUp = 0.
+
+                                       if histoIntegral > 0. and histoDownIntegral > 0.:
+                                           diffDo = (histoDownIntegral - histoIntegral)/histoIntegral
+                                       else:
+                                           diffDo = 0.
+
+                                       lnNUp = 1. + diffUp
+                                       lnNDo = 1. + diffDo
+
+                                       if lnNUp == 0:
+                                           lnNUp = 1.
+                                       if lnNDo==0:
+                                            lnNDo = 1.
+
+                                       if abs(lnNUp - 1.) < 5.e-4:
+                                           lnNUp = 1.
+
+                                       if abs(lnNDo - 1.) < 5.e-4:
+                                           lnNDo = 1.
+
+                                       if abs(lnNUp - 1.) < 5.e-4 and abs(lnNDo - 1.) < 5.e-4:
+                                           card += "%-25s" % ( "-")
+                                       else:
+                                           card += "%-25s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4)))
+
+
                                    else:  
                                           card += "%-25s" % ("-")
               elif(sysValue[0].startswith("shape")):

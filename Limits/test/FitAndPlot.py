@@ -118,7 +118,7 @@ for model in models:
         #fitfolder = "FitResults_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_cons_" + folder
-        fitfolder = "FIT_fstats_" + folder
+        fitfolder = "FIT_fstats_jes_" + folder
         #fitfolder = "FIT_" + folder
         #fitfolder = "FITPROVA_" + folder
         if opt.unblind:

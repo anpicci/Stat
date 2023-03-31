@@ -164,7 +164,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         if not "cqq" in models:
             algostring += "300000 "
         else:
-            algostring += "500000 "
+            algostring += "300000 "
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
@@ -261,8 +261,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     #if coeff == "cHq3":
                         #lower = -100
                         #lower = 100
-                    lower = -4
-                    upper = 6
+                    lower = -2.5
+                    upper = 3.5
                     #else:
                         #lower = -4000
                         #upper = 4000
@@ -303,8 +303,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         #upper = 4000                      
                 else:
                     if coeff == "cHbox":
-                        lower = -50
-                        upper = 50
+                        lower = -40
+                        upper = 40
                     elif coeff == "cHDD":
                         lower = -100
                         upper = 100
@@ -313,7 +313,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         upper = 170
                     elif coeff == "cHl3":
                         lower = -25
-                        upper = 25
+                        upper = 30
                     elif coeff == "cHq1":
                         lower = -15
                         upper = 15
@@ -360,8 +360,12 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         upper = 10
             
             if "cll_" in models and not coeff.startswith("cqq"):
-                lower *= 4
-                upper *= 4
+                if coeff.startswith("cT") or coeff.startswith("cS") or coeff.startswith("cM"):
+                    lower = -20
+                    upper = 20                    
+                else:
+                    lower *= 4
+                    upper *= 4
             elif "cHWB_" in models and not coeff == "cHWB":
                 if coeff.startswith("cT") or coeff.startswith("cS") or coeff.startswith("cM"):
                     lower *= 2.5

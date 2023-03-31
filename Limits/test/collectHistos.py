@@ -225,7 +225,8 @@ for year in years:
                 
                 hsyst = collections.OrderedDict()
                 for sysnam, systype in syst.items():
-                    if not systype[0].startswith("shape") or sysnam == "autoMCstat":
+                    if not (systype[0].startswith("shape") or (systype[0] == 'lnN' and systype[2] == 0.) ) or sysnam == "autoMCstat":
+                    #if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                         continue
                     syskey = copy.deepcopy(sysnam)
                     if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR"):
@@ -236,17 +237,13 @@ for year in years:
                         #sysname = sysnam.split("_")[0]
                     #else:
                         #sysname = sysname
-                    if systype[0].startswith("shape"):
-                        if systype[2] == "uncorr":
+                    if systype[0].startswith("shape") or systype[0] == 'lnN':
+                        if systype[-1] == "uncorr":
                             syskey += "_" + year
 
             
                     hsyst[syskey] = [None, None]
                 
-                #print "\nsamp", samp#, flist[0]
-                #for k, v in hsyst.items():
-                    #print k, v 
-
                 Error = False
                 for f in flist[0]:
                     try:
@@ -312,7 +309,7 @@ for year in years:
 
                     for sysnam, systype in syst.items():
                         sysname = None
-                        if not systype[0].startswith("shape") or sysnam == "autoMCstat":
+                        if not (systype[0].startswith("shape") or (systype[0] == 'lnN' and systype[2] == 0.) ) or sysnam == "autoMCstat":
                             continue
 
                         if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR"):
@@ -334,8 +331,8 @@ for year in years:
                             #print ifile
                             #print hup_, hdown_
 
-                            if systype[0].startswith("shape"):
-                                if systype[2] == "uncorr":
+                            if systype[0].startswith("shape") or systype[0] == 'lnN':
+                                if systype[-1] == "uncorr":
                                     sysName += "_" + year
                                     
                             #print "Taking " + hup_ + " " + hdown_ 
@@ -389,8 +386,10 @@ for year in years:
                             else:
                                 hsyst[sysName][1].Add(hdowntemp, 1)
                     
+                #print "\nsamp", samp#, flist[0]
                 #for k, v in hsyst.items():
                     #print k, v 
+               
                    
                 #if "_F" in samp and not "DY" in samp:
                     ##print "h", h, h.Integral()
@@ -426,7 +425,7 @@ for year in years:
                         samplab = samp
                 else:
                     samplab = samp
-                #print "samplab", samplab
+                #print "\n\samplab", samplab
 
                 #print "2after h:", h.GetName(), h.Integral()
                 #print "h", h, h.Integral()
@@ -443,7 +442,7 @@ for year in years:
                 for sname, shists in hsyst.items():
                     if None in shists:
                         continue
-                    ##print "systematic:", sname, shists[0].GetName(), shists[1].GetName()
+                    #print "\nsystematic:", sname, shists[0].GetName(), shists[1].GetName()
                     for i, var in enumerate(shists):
                         samplab = ""
                         if samp.startswith("quad_") or samp.startswith("sm_lin_"):
@@ -464,10 +463,12 @@ for year in years:
                         elif i == 1:
                             sampsyst += "Down"
                         
-            
+                        #print sampsyst, shists[i]
                         shists[i].Write(sampsyst, ROOT.TObject.kWriteDelete) 
-                        
-            
+
+                #print "\nls"
+                #ofile.ls()
+                #continue #raise ValueError("bye")
                 
                 #nBinsX = h.GetNbinsX()
 
