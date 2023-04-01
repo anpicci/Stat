@@ -1,6 +1,9 @@
  <<< Combine >>> 
->>> random number generator seed is 123456
->>> method used is Significance
+unable to write 'random state'
+>>> Used OpenSSL to get a really random seed -121733218
+>>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
+>>> method used is HybridNew
+>>> method used to hint where the upper limit is AsymptoticLimits
 Channel SR_muon_2016M will use autoMCStats with settings: event-threshold=1, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon_2016M
@@ -1758,7 +1761,42 @@ Bin        Contents        Error           Notes
 13         17.000000       4.123106        Unweighted events, alpha=0.089114
   => Total parameter prop_binCROS_electron_2018_bin13[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
+SimNLL created with 18 channels, 18 generic constraints, 356 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 18 channels, 18 generic constraints, 356 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
- -- Significance -- 
-Significance: 2.35555
-Done in 0.04 min (cpu), 0.06 min (real)
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 1.9673
+
+SimNLL created with 18 channels, 18 generic constraints, 356 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-xi3cgB
+/tmp/rstats-dR7sHX
+/tmp/rstats-NpHx7m
+/tmp/rstats-lmP7NU
+/tmp/rstats-zk2tEe
+/tmp/rstats-1ZCCP7
+/tmp/rstats-hndjRU
+/tmp/rstats-Js9xLm
+/tmp/rstats-h1iaIq
+/tmp/rstats-XDhOqg
+/tmp/rstats-RVnkZo
+/tmp/rstats-FQFRTi
+/tmp/rstats-PBDum1
+/tmp/rstats-VTFgKc
+/tmp/rstats-xOtB04
+/tmp/rstats-dPGjVo
+/tmp/rstats-vsyufc
+/tmp/rstats-dYAngD
+/tmp/rstats-JeQ3Mt
+/tmp/rstats-pdT3uM
+/tmp/rstats-7V4QHt
+/tmp/rstats-jpFELt
+/tmp/rstats-n0ed2R
+/tmp/rstats-ZNbKeP
+/tmp/rstats-DJh655
+/tmp/rstats-rbLJMF
+/tmp/rstats-bHbGuN
+/tmp/rstats-RddK7g
+/tmp/rstats-7XrUzd
+/tmp/rstats-Zekusx
