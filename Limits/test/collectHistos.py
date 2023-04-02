@@ -229,7 +229,7 @@ for year in years:
                     #if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                         continue
                     syskey = copy.deepcopy(sysnam)
-                    if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR"):
+                    if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR") or sysnam.startswith("jes"):
                         sysname = sysnam.replace("WpWpJJ_", "").replace("_" + sysnam.split("_")[-1], "")
                     else:
                         sysname = sysnam
@@ -312,11 +312,12 @@ for year in years:
                         if not (systype[0].startswith("shape") or (systype[0] == 'lnN' and systype[2] == 0.) ) or sysnam == "autoMCstat":
                             continue
 
-                        if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR"):
+                        if sysnam.startswith("QCDScale") or (sysnam.startswith("pdf_") and pdftype.endswith("sep")) or sysnam.startswith("ISR") or sysnam.startswith("FSR") or sysnam.startswith("jes"):
                             sysname = sysnam.replace("WpWpJJ_", "").replace("_" + sysnam.split("_")[-1], "")
                         else:
                             sysname = sysnam
 
+                        #print sysnam, sysnam.split("_"), sysnam.replace("_" + sysnam.split("_")[-1], ""), sysname
                         ##print "systype[1]", systype[1]
                         ifile.cd()
                         
