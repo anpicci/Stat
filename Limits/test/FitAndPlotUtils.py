@@ -189,6 +189,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
             LineWrite(settname, "")        
 
     for lep in leps:
+        '''
         ttrpname = "TTbar" + leptags[lep] + "_rate_2016M"
         LineWrite(settname, ttrpname + " = rateParam()")
         LineWrite(settname, ttrpname + ".chs = [")
@@ -230,7 +231,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
         ttrpkey = "TTest_" + lep + "_2018"
         LineWrite(settname, "rateParams['" + ttrpkey + "'] = " + ttrpname)
         LineWrite(settname, "")        
-
+        '''
     if DYrp: #not (model == "SM" or model.startswith("WpWp")):
         for lep in leps:
             osrpname = "OS" + leptags[lep] + "_rate_2016M"
