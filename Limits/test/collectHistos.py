@@ -328,6 +328,9 @@ for year in years:
                             hdown_ = h_ + "_" + sysname
                             hup_ += "Up"
                             hdown_ += "Down"
+                            if sysnam.startswith("jes"):
+                                hup_ = hup_.replace("muon_", "").replace("electron_", "")
+                                hdown_ = hdown_.replace("muon_", "").replace("electron_", "")
                             sysName = sysnam
                             #print ifile
                             #print hup_, hdown_

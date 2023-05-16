@@ -287,10 +287,11 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.016]")
     LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.016]")
-    for lep in leps:
-        LineWrite(settname, "syst['mischarge_" + lep + "_2016M'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
-        LineWrite(settname, "syst['mischarge_" + lep + "_2017'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
-        LineWrite(settname, "syst['mischarge_" + lep + "_2018'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
+    if "CROS" in regions:
+        for lep in leps:
+            LineWrite(settname, "syst['mischarge_" + lep + "_2016M'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
+            LineWrite(settname, "syst['mischarge_" + lep + "_2017'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
+            LineWrite(settname, "syst['mischarge_" + lep + "_2018'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
 
     if flnN:
         for lep in leps:
@@ -488,12 +489,13 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
         LineWrite(settname, "\t'tau_vs" + leptags[lep] + "',")
     LineWrite(settname, "]")
     LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
-    LineWrite(settname, "systgroups['mischarge group'] = [")
-    for lep in leps:
-        LineWrite(settname, "\t'mischarge_" + lep + "_2016M',")
-        LineWrite(settname, "\t'mischarge_" + lep + "_2017',")
-        LineWrite(settname, "\t'mischarge_" + lep + "_2018',")
-    LineWrite(settname, "]")
+    if "CROS" in regions:
+        LineWrite(settname, "systgroups['mischarge group'] = [")
+        for lep in leps:
+            LineWrite(settname, "\t'mischarge_" + lep + "_2016M',")
+            LineWrite(settname, "\t'mischarge_" + lep + "_2017',")
+            LineWrite(settname, "\t'mischarge_" + lep + "_2018',")
+        LineWrite(settname, "]")
     LineWrite(settname, "")
     
     LineWrite(settname, "years = setlist[3].split(',')")
