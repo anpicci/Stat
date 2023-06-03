@@ -189,7 +189,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
             LineWrite(settname, "")        
 
     for lep in leps:
-        '''
+        
         ttrpname = "TTbar" + leptags[lep] + "_rate_2016M"
         LineWrite(settname, ttrpname + " = rateParam()")
         LineWrite(settname, ttrpname + ".chs = [")
@@ -231,7 +231,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
         ttrpkey = "TTest_" + lep + "_2018"
         LineWrite(settname, "rateParams['" + ttrpkey + "'] = " + ttrpname)
         LineWrite(settname, "")        
-        '''
+        
     if DYrp: #not (model == "SM" or model.startswith("WpWp")):
         for lep in leps:
             osrpname = "OS" + leptags[lep] + "_rate_2016M"
@@ -284,9 +284,17 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "")
     LineWrite(settname, "syst = collections.OrderedDict()")
     LineWrite(settname, "")
-    LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.016]")
-    LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.016]")
-    LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.016]")
+    #LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.016]")
+    #LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.023]")
+    #LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.025]")
+    LineWrite(settname, "syst['lumi_2016M'] = ['lnN', 'all', 1.010]")
+    LineWrite(settname, "syst['lumi_2017'] = ['lnN', 'all', 1.020]")
+    LineWrite(settname, "syst['lumi_2018'] = ['lnN', 'all', 1.015]")
+    LineWrite(settname, "syst['lumi_161718_2016M'] = ['lnN', 'all', 1.006]")
+    LineWrite(settname, "syst['lumi_161718_2017'] = ['lnN', 'all', 1.009]")
+    LineWrite(settname, "syst['lumi_161718_2018'] = ['lnN', 'all', 1.020]")
+    LineWrite(settname, "syst['lumi_1718_2017'] = ['lnN', 'all', 1.006]")
+    LineWrite(settname, "syst['lumi_1718_2018'] = ['lnN', 'all', 1.002]")
     if "CROS" in regions:
         for lep in leps:
             LineWrite(settname, "syst['mischarge_" + lep + "_2016M'] = ['lnN', ('WrongSign', 'TTTo2L2Nu'), 1.15]")
