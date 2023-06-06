@@ -195,7 +195,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
         LineWrite(settname, ttrpname + " = rateParam()")
         LineWrite(settname, ttrpname + ".chs = [")
         for region in regions:
-            if not (region == "SR" or region == "CRTT"):
+            if not (region == "SR" or region.startswith("CRTT")):
                 continue
             systregstring = "\t'" + region + "_" + lep + "',"      
             LineWrite(settname, systregstring)
@@ -209,7 +209,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
         LineWrite(settname, ttrpname + " = rateParam()")
         LineWrite(settname, ttrpname + ".chs = [")
         for region in regions:
-            if not (region == "SR" or region == "CRTT"):
+            if not (region == "SR" or region.startswith("CRTT")):
                 continue
             systregstring = "\t'" + region + "_" + lep + "',"      
             LineWrite(settname, systregstring)
@@ -223,7 +223,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
         LineWrite(settname, ttrpname + " = rateParam()")
         LineWrite(settname, ttrpname + ".chs = [")
         for region in regions:
-            if not (region == "SR" or region == "CRTT"):
+            if not (region == "SR" or region.startswith("CRTT")):
                 continue
             systregstring = "\t'" + region + "_" + lep + "',"      
             LineWrite(settname, systregstring)
