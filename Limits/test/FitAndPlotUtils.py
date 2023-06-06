@@ -30,6 +30,7 @@ colors = [
 regs = OrderedDict()
 regs['SR'] =  "\t'SR':hist_pre + sr_var + '_SR',"
 regs['CRTT'] =  "\t'CRTT':hist_pre + sr_var + '_ttbar_CR',"
+regs['CRTTL'] =  "\t'CRTTL':hist_pre + sr_var + '_ttbarL_CR',"
 regs['CROS'] =  "\t'CROS':hist_pre + sr_var + '_OS_CR_bvetoL',"
 regs['CRF'] = "\t'CRF':hist_pre + cr_var + '_fakes_CR',"                                                                                        
 leptags = OrderedDict()
