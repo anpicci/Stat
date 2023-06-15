@@ -685,7 +685,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
        for sysname,sysValue  in syst.iteritems():
               sysName = ""
               #### insert year in sysName if sys in uncorr, o
-              if sysValue[0].startswith("shape"):
+              if sysValue[0].startswith("shape") or sysValue[0] == 'lnN':
                      ##print syst[sysname]
                      if sysValue[-1] == "uncorr":
                             sysName = sysname + "_" + str(year)
@@ -711,7 +711,9 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                      #print "\n\n\nhello!\t" + sysName, sysValue 
                      if sysName.startswith("mischarge") and not ch.startswith("SR"):
                             continue
-                     
+                     if "lumi" in sysName and "1718_" in sysName:
+                            #sysName = sysName.replace("APV", "").replace("_2016", "").replace("_2017", "").replace("_2018", "")                                                                                                                                      
+                            sysName = sysName.replace("_2016M", "").replace("_2017", "").replace("_2018", "")
                      card += "%-25s%-25s" % (sysName, sysValue[0])
                      if sysValue[2] != 0.: #len(sysValue)>2:
                             if(sysValue[1]=="all"):
@@ -754,6 +756,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                                        else:
                                            sigplab = sigp
                      
+                                       #print ch, sysName, "histoUpIntegral:", (sigplab + "_" + sysName + "Up"), ifile
                                        histoIntegral =  getRate(ch, sigplab, ifile)
                                        histoUpIntegral =  getRate(ch, sigplab + "_" + sysName + "Up", ifile)
                                        histoDownIntegral =  getRate(ch, sigplab + "_" + sysName + "Down", ifile)
