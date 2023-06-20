@@ -43,6 +43,7 @@ parser.add_option('--wpwpEW', dest='wpwpEW', default = False, action='store_true
 parser.add_option('--EWvsQCD', dest='ewvsqcd', default = False, action='store_true', help = 'Default does not run EW vs QCD fit')
 parser.add_option('--noFit', dest='dofit', default = True, action='store_false', help = 'Default does not run SM significance')
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
+parser.add_option('--doGoF', dest='gof', default = False, action='store_true', help = 'Default does not GoF test')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
@@ -116,10 +117,11 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         #fitfolder = "FitResults_" + folder
+        fitfolder = "FitResults_S1_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_cons_" + folder
         #fitfolder = "FIT_fstats_jes_sep_cat_" + folder
-        fitfolder = "FIT_fstats_jes_sep_lumicorr_" + folder
+        #fitfolder = "FIT_fstats_jes_sep_lumicorr_" + folder
         #fitfolder = "FIT_" + folder
         #fitfolder = "FITPROVA_" + folder
         if opt.unblind:
@@ -220,6 +222,11 @@ for model in models:
         if opt.impacts:
             #os.system("reset")
             DoImpacts(model, fitvar, crvar, yeartag, opt.user, setmod, fitfolder, opt.unblind)
+
+        ### Run GoF, if desired
+        if opt.gof:
+            #os.system("reset")
+            DoGoF(model, fitvar, crvar, yeartag, opt.user, setmod, fitfolder, opt.unblind)
 
         ### Run uncertainties breaking, if desired
         if opt.uncbreak:

@@ -1059,6 +1059,166 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     
     os.system("rm higgsCombine_paramFit*")
     os.chdir(ipwd)
+
+def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
+    #optionals = "  " 
+    algo = "saturated"
+    ntoys = "10"
+    seed = "12345"
+    optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
+    #if not unblind:
+    #toysop = " -t -1 "
+    settitle = setmodd
+    RecursiveImport(settitle)
+    settmod = importlib.import_module(settitle)
+    systgroups = settmod.systgroups
+    syst = settmod.syst
+    ipwd = os.getcwd()
+    yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
+    channels = settmod.channels
+    yearsett = settmod.years
+    method = "hist"
+
+    folderhisto = folder + "/shapes"
+
+    partmodel = modeltot.split(":")
+
+    isEFT = False
+    if modeltot.startswith("c") or modeltot.startswith("F") or ":" in modeltot:
+        isEFT = True 
+
+    model = ""
+    for idmt, mod in enumerate(partmodel):
+        if idmt > 0:
+            model += ":"
+        if isEFT and mod.startswith("F"):
+            model += mod.split("_")[0]
+        else:
+            model += mod
+    
+    if modeltot == "SM":
+        dcname = "VBS_SSWW_SM_hist"
+        dcfold = ipwd + "/" + folder + "/VBS_SSWW_SM/"
+    else:
+        dcname = model + "_hist"
+        dcfold = ipwd + "/" + folder + "/" + model + "/"
+    dcpath = dcfold + dcname + ".txt"
+
+    os.chdir(dcfold)
+    #os.system("pwd")
+        
+    cmdmer = "combineCards.py "
+    for year in yearsett:
+        for cat in channels:
+            if not isEFT and not "WpWp" in model:
+                cmdmer += cat+"_"+year+"=VBS_SSWW_%s_%s_%s_%s.txt " %(model, cat, year, method)
+            else:
+                cmdmer += cat+"_"+year+"=%s_%s_%s_%s.txt " %(model, cat, year, method)
+    if not isEFT and not "WpWp" in model:
+        cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
+    else:
+        cmdmer += "> %s_%s.txt" % (model, method)
+    print cmdmer
+    os.system(cmdmer)
+    os.chdir(ipwd)
+
+    if isEFT:
+        coeffs = modeltot.split(":")
+        setpiecs = []
+        for idc, coeff in enumerate(coeffs):
+            if len(coeff.split("_")) > 1:
+                setpiecs.append(("_")+coeff.split("_")[-1])
+            coeffs[idc] = coeff.split("_")[0].replace("F", "c")
+
+        extraoption = ""
+        intervals = []
+        modComb = ""
+        opstring = ""
+        for idc, coeff in enumerate(coeffs):
+            if coeff.startswith("cS") or coeff.startswith("cM"):
+                intervals.append("-80,80")
+            elif coeff.startswith("cT"):
+                intervals.append("-10,10")
+            elif coeff.startswith("cHW"):
+                intervals.append("-30,30")
+            elif coeff.startswith("cW"):
+                intervals.append("-5,5")
+            else:
+                intervals.append("-100,100")
+
+            if idc > 0:
+                modComb += ","
+                opstring += ","
+            modComb += "k_" + coeff
+            opstring += coeff
+
+        intervalstr = ""
+        for idc, coeff in enumerate(coeffs):
+            if idc > 0:
+                intervalstr += ":"
+            intervalstr += "k_" + coeff + "=" + intervals[idc]
+   
+    goffolder = folder + "/Checks_" + model + "/"
+    #print goffolder
+    if not os.path.exists(goffolder):
+        os.system("mkdir " + goffolder)
+    else:
+        os.system("rm " + goffolder + "/higgsCombineTest*GoodnessOfFit*")
+        os.system("rm " + goffolder + "/gof*")
+    wscard = dcname + ".root"
+    tag = model + "_" + srvar + "_" + crvar
+    os.system("pwd")
+    print "cd " + goffolder
+    os.chdir(goffolder)
+    
+    cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
+    if isEFT:
+        cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
+    
+    print cmdt2w
+    os.system(cmdt2w)
+    
+    tagdata = "_data"
+    tagtoys = "_toys"
+
+    cmd0 = "combine -M GoodnessOfFit " + wscard + " --algo=saturated -n " + tagdata
+    cmd1 = "combine -M GoodnessOfFit " + wscard + " --algo=saturated -t " + ntoys + " -s " + seed + " --toysFreq -n " + tagtoys
+
+    if isEFT:               
+        cmd0 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
+        cmd1 += " --redefineSignalPOIs " + modComb + " --freezeParameters r  --setParameterRanges " + intervalstr + " --setParameters r=1,"
+        for idc, coeff in enumerate(coeffs):
+            if idc > 0:
+                cmd1 += ","
+                cmd0 += ","
+            cmd1 += "k_" + coeff + "=1"
+            cmd0 += "k_" + coeff + "=0"
+    else:
+        pass
+        #cmd0 += " --expectSignal 0 --rMin -10"
+        #cmd1 += " --expectSignal 1 --rMin -10"
+    
+    cmd0 += " " + optionals
+    cmd1 += " " + optionals
+    
+    #if not ":" in modeltot:
+    print cmd0
+    os.system(cmd0)
+    print cmd1
+    os.system(cmd1)
+
+    dataroot = "higgsCombineprova" + tagdata + ".GoodnessOfFit.mH120.root"
+    toysroot = "higgsCombineprova" + tagtoys + ".GoodnessOfFit.mH120." + seed + ".root"
+    gofjson = "combineTool.py -M CollectGoodnessOfFit --input " + dataroot + " " + toysroot + " -m 120.0 -o gof.json"
+    gofprint = "plotGof.py gof.json --statistic saturated --mass 120.0 -o gof_plot --title-right=\"GoF saturated test\""
+
+    print gofjson
+    os.system(gofjson)
+    print gofprint
+    os.system(gofprint)
+
+    os.chdir(ipwd)
+
     
 def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, tagfold, addLambda8, PDFWithTTDY, DYrp, noQCDscale, pdftype, flnN, frp, setmodd, setitlee, fitfolderr, folder, regions, leptons, unblind):
     
@@ -1146,10 +1306,11 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print "\n"
         print poststring
     
-        os.system(poststring + " --lastbins")
-        ##os.system(poststring + " --lastbins --scale")
-        os.system(poststring + " --lastbins --linscale")
-        ##os.system(poststring + " --lastbins --scale --linscale")
+        if varname.startswith("DNN_"):
+            os.system(poststring + " --lastbins")
+            ##os.system(poststring + " --lastbins --scale")
+            os.system(poststring + " --lastbins --linscale")
+            ##os.system(poststring + " --lastbins --scale --linscale")
 
         os.system(poststring)
         os.system(poststring + " --linscale")

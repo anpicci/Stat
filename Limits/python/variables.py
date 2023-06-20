@@ -153,8 +153,6 @@ bin_mjj = array("d", [0., 300., 500., 700., 1000., 1500., 2000.])
 nbin_mjj = len(bin_mjj) - 1 
 variables.append(variabile('m_jj', 'invariant mass j_{1} j_{2} [GeV]', True, nbin_mjj, bin_mjj))
 
-'''
-######### without systematics ###########
 
 #variables.append(variabile('lepton_eta', 'lepton  #eta', True, 12, -3., 3.))
 ##variables.append(variabile('lepton_phi', 'lepton  #phi', False, 14, -3.50, 3.50))
@@ -181,14 +179,14 @@ variables.append(variabile('tau_mass', '#tau mass [GeV]', True, nbin_taum, bin_t
 variables.append(variabile('tau_eta','#tau #eta', True, 10, -2.5, 2.5))
 ##variables.append(variabile('tau_Zeppenfeld_over_deltaEta_jj', 'z_{#tau}', False, 12, -1.5, 1.5))
 
-variables.append(variabile('tau_phi','#tau #Phi', True,  7, -3.50, 3.50))
+#variables.append(variabile('tau_phi','#tau #Phi', True,  7, -3.50, 3.50))
 ##variables.append(variabile('tau_DecayMode', '#tau decay mode', False, 12, -0.5, 11.5))
     
 variables.append(variabile('tauleadTk_ptOverTau',  '#tau LeadTk relative p_{T}', True, 10, 0, 1))
 ##variables.append(variabile('tauleadTk_deltaPhi',  '#tau LeadTk relative #Delta#phi', False, 8, -0.2, 0.4))
 ##variables.append(variabile('tauleadTk_deltaEta',  '#tau LeadTk relative #Delta#eta', False, 8, -0.4, 0.4))
 variables.append(variabile('tauleadTk_Gamma',  '#tau LeadTk #Upsilon', True, 12, -1., 1.2))
-variables.append(variabile('tau_DecayMode', '#tau Decay Mode', True, 12, -0.5, 11.5))
+#variables.append(variabile('tau_DecayMode', '#tau Decay Mode', True, 12, -0.5, 11.5))
 
 #bintaujetrelpt = array("d", [0.85, 0.9, 0.92, 0.94, 0.96, 0.98, 1.])
 #nbin_taujetrelpt = len(bin_taujetrelpt) - 1
@@ -206,8 +204,8 @@ variables.append(variabile('tau_DecayMode', '#tau Decay Mode', True, 12, -0.5, 1
 ##variables.append(variabile('taujet_EmGamma',  '#tau jet em. #Gamma', False, 8, -1., 1.))
 ##variables.append(variabile('taujet_HEGamma',  '#tau jet had.+em. #Gamma', False, 8, -1., 1.))
 
-variables.append(variabile('tau_DeepTauVsEle_raw', '#tau DeepTauVsEle raw', True,  10, 0.35, 1.35))
-variables.append(variabile('tau_DeepTauVsMu_raw', '#tau DeepTauVsMu raw', True,  10, 0.2, 1.2))
+#variables.append(variabile('tau_DeepTauVsEle_raw', '#tau DeepTauVsEle raw', True,  10, 0.35, 1.35))
+#variables.append(variabile('tau_DeepTauVsMu_raw', '#tau DeepTauVsMu raw', True,  10, 0.2, 1.2))
 ##variables.append(variabile('tau_DeepTauVsJet_raw', '#tau DeepTauVsJet raw', False,  10, 0., 1.))
 
 ###variables.append(variabile('tau_DeepTauVsEle_WP', '#tau DeepTauVsEle WP', False,  11, -0.5, 10.5))
@@ -217,8 +215,8 @@ variables.append(variabile('tau_DeepTauVsMu_raw', '#tau DeepTauVsMu raw', True, 
 binleadjet_pt = array("d", [0., 50., 100., 150., 250., 400.])
 nbin_leadjet_pt = len(binleadjet_pt)-1
 variables.append(variabile('leadjet_pt',  'Lead jet p_{T} [GeV]', True, nbin_leadjet_pt, binleadjet_pt))
-variables.append(variabile('leadjet_eta', 'Lead jet #eta', True, 10, -5., 5.))
-variables.append(variabile('leadjet_phi', 'Lead jet #Phi', True,  7, -3.50, 3.50))
+#variables.append(variabile('leadjet_eta', 'Lead jet #eta', True, 10, -5., 5.))
+#variables.append(variabile('leadjet_phi', 'Lead jet #Phi', True,  7, -3.50, 3.50))
 
 ##variables.append(variabile('leadjet_qgl', 'Lead jet QGL', False,  8, 0., 1.))
 ##variables.append(variabile('subleadjet_qgl', 'Sublead jet QGL', False,  8, 0., 1.))
@@ -230,31 +228,31 @@ variables.append(variabile('leadjet_mass',  'Lead jet mass [GeV]', True, nbin_le
 binsubleadjet_pt = array("d", [0., 50., 100., 200.])
 nbin_subleadjet_pt = len(binsubleadjet_pt) - 1
 variables.append(variabile('subleadjet_pt', 'Sublead jet p_{T} [GeV]', True, nbin_subleadjet_pt, binsubleadjet_pt))
-variables.append(variabile('subleadjet_eta', 'Sublead jet #eta', True, 10, -5., 5.))
-variables.append(variabile('subleadjet_phi', 'Sublead jet #Phi', True,  7, -3.50, 3.50))
+#variables.append(variabile('subleadjet_eta', 'Sublead jet #eta', True, 10, -5., 5.))
+#variables.append(variabile('subleadjet_phi', 'Sublead jet #Phi', True,  7, -3.50, 3.50))
 
-variables.append(variabile('nJets', 'n jets', True,  11, -0.5, 10.5))
-variables.append(variabile('nBJets', 'n bjets (DeepJet M)', True,  6, -0.5, 5.5))
+#variables.append(variabile('nJets', 'n jets', True,  11, -0.5, 10.5))
+#variables.append(variabile('nBJets', 'n bjets (DeepJet M)', True,  6, -0.5, 5.5))
 
-binmetpt = array("d", [0., 20., 50., 100., 150., 200., 300., 500.])
-nbin_metpt = len(binmetpt) - 1
-variables.append(variabile('MET_pt', 'p_{T}^{miss} [GeV]', True, nbin_metpt, binmetpt))
+#binmetpt = array("d", [0., 20., 50., 100., 150., 200., 300., 500.])
+#nbin_metpt = len(binmetpt) - 1
+#variables.append(variabile('MET_pt', 'p_{T}^{miss} [GeV]', True, nbin_metpt, binmetpt))
 
-bin_invm = array("d", [0., 150., 300., 450., 600., 750., 900., 1200., 1400., 1600., 1800., 2000., 2500.])
-nbin_invm = len(bin_invm) - 1 
-variables.append(variabile('m_jjtau', 'invariant mass j_{1} j_{2} tau [GeV]', True, nbin_invm, bin_invm))
+#bin_invm = array("d", [0., 150., 300., 450., 600., 750., 900., 1200., 1400., 1600., 1800., 2000., 2500.])
+#nbin_invm = len(bin_invm) - 1 
+#variables.append(variabile('m_jjtau', 'invariant mass j_{1} j_{2} tau [GeV]', True, nbin_invm, bin_invm))
 
 #variables.append(variabile('m_jjtaulep', 'invariant mass j_{1} j_{2} #tau l [GeV]', True, nbin_invm, bin_invm))
 ##variables.append(variabile('m_jjleps', 'invariant mass j_{1} j_{2} #tau l [GeV]', False, nbin_invm, bin_invm))
 
-bin_invmtl = array("d", [0., 50., 100., 150., 200., 300.])
-nbin_invmtl = len(bin_invmtl) - 1 
-variables.append(variabile('m_taulep', 'invariant mass #tau l [GeV]', True, nbin_invmtl, bin_invmtl))
+#bin_invmtl = array("d", [0., 50., 100., 150., 200., 300.])
+#nbin_invmtl = len(bin_invmtl) - 1 
+#variables.append(variabile('m_taulep', 'invariant mass #tau l [GeV]', True, nbin_invmtl, bin_invmtl))
 
 bin_mTs = array("d", [0., 50., 100., 150., 300.])
 nbin_mTs = len(bin_mTs) - 1
 variables.append(variabile('mT_lep_MET', 'M_{T}(' + 'lepton , MET) [GeV]', True, nbin_mTs, bin_mTs))
-variables.append(variabile('mT_tau_MET', 'M_{T}( tau, MET) [GeV]', True, nbin_mTs, bin_mTs))
+#variables.append(variabile('mT_tau_MET', 'M_{T}( tau, MET) [GeV]', True, nbin_mTs, bin_mTs))
 variables.append(variabile('mT_leptau_MET', 'M_{T}(l,  tau, MET) [GeV]', True, nbin_mTs, bin_mTs))
 
 bin_deltaeta_jj = array("d", [-8., -6., -5., -4.5, -4., -3.5, -3., -2.5, 2.5, 3., 3.5, 4., 4.5, 5., 6., 8.])
@@ -268,10 +266,9 @@ variables.append(variabile('deltaPhi_tau' + 'j2', '#Delta #phi_{tau j_{2}}', Tru
 variables.append(variabile('deltaPhi_lepj1', '#Delta #phi_{' + 'lepton  j_{1}}', True, 14, -3.5, 3.5))
 variables.append(variabile('deltaPhi_lepj2', '#Delta #phi_{' + 'lepton  j_{2}}', True, 14, -3.5, 3.5))
 
-bindeltaeta_ll = array("d", [-6., -3., -2., -1.5, -1., -0.5, 0., 0.5, 1., 1.5, 2., 3., 6.])
-nbin_deltaeta_ll = len(bindeltaeta_ll) - 1
-
-variables.append(variabile('deltaEta_taulep', '#Delta #eta_{#tau l}', True,  nbin_deltaeta_ll, bindeltaeta_ll))
+#bindeltaeta_ll = array("d", [-6., -3., -2., -1.5, -1., -0.5, 0., 0.5, 1., 1.5, 2., 3., 6.])
+#nbin_deltaeta_ll = len(bindeltaeta_ll) - 1
+#variables.append(variabile('deltaEta_taulep', '#Delta #eta_{#tau l}', True,  nbin_deltaeta_ll, bindeltaeta_ll))
 
 #bindeltaeta_lj = array("d", [-6., -4., -3., -2., -1., 0., 1., 2., 3., 4., 6.])
 #nbin_deltaeta_lj = len(bin_deltaeta_lj) - 1
@@ -280,9 +277,9 @@ variables.append(variabile('deltaEta_taulep', '#Delta #eta_{#tau l}', True,  nbi
 ##variables.append(variabile('deltaEta_lepj1', '#Delta #eta_{' + 'lepton  j_{1}}', False, nbin_deltaeta_lj, bin_deltaeta_lj))
 ##variables.append(variabile('deltaEta_lepj2', '#Delta #eta_{' + 'lepton  j_{2}}', False, nbin_deltaeta_lj, bin_deltaeta_lj))
 
-bin_deltatheta_jj = array("d", [-1., -0.8, -0.4, 0.4, 0.8, 1.])
-nbin_deltatheta_jj = len(bin_deltatheta_jj) - 1
-variables.append(variabile('deltaTheta_taulep', 'cos(#Delta#theta_{#tau lep})', True,  nbin_deltatheta_jj, bin_deltatheta_jj))
+#bin_deltatheta_jj = array("d", [-1., -0.8, -0.4, 0.4, 0.8, 1.])
+#nbin_deltatheta_jj = len(bin_deltatheta_jj) - 1
+#variables.append(variabile('deltaTheta_taulep', 'cos(#Delta#theta_{#tau lep})', True,  nbin_deltatheta_jj, bin_deltatheta_jj))
 
 bin_ptRel = array("d", [0., 25., 50., 75., 100., 150., 200.])
 bin_ptRel_2 = array("d", [0., 25., 50., 100., 150., 250.])
@@ -295,8 +292,7 @@ variables.append(variabile('ptRel_tau' + 'j2', 'relative p_{T} tau j_{2}', True,
 variables.append(variabile('ptRel_lepj1', 'relative p_{T} ' + 'lepton  j_{1}', True, nbin_ptRel, bin_ptRel))
 variables.append(variabile('ptRel_lepj2', 'relative p_{T} ' + 'lepton  j_{2}', True, nbin_ptRel, bin_ptRel))
 
-variables.append(variabile('event_RT', 'R_{T}', True, 15, 0., 3.))
+#variables.append(variabile('event_RT', 'R_{T}', True, 15, 0., 3.))
 
-variables.append(variabile('leadjet_DeepFlv_b', 'leading jet DeepFlavour b raw', True, 5, 0., 1.))
-variables.append(variabile('subleadjet_DeepFlv_b', 'subleading jet DeepFlavour b raw', True, 5, 0., 1.))
-'''
+#variables.append(variabile('leadjet_DeepFlv_b', 'leading jet DeepFlavour b raw', True, 5, 0., 1.))
+#variables.append(variabile('subleadjet_DeepFlv_b', 'subleading jet DeepFlavour b raw', True, 5, 0., 1.))
