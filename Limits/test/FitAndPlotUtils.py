@@ -784,6 +784,9 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
     if not unblind:
         optionals += " -t -1 "
+    else:
+        pass
+
     settitle = setmodd
     RecursiveImport(settitle)
     settmod = importlib.import_module(settitle)
@@ -1023,6 +1026,9 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     printimp0 = "plotImpacts.py -i " +  "impacts" + tag + "_t0.json -o " +  "impacts" + tag + "_t0"
     printimp1 = "plotImpacts.py -i " +  "impacts" + tag + "_t1.json -o " +  "impacts" + tag + "_t1"
 
+    printimp0 += " --blind "
+    printimp1 += " --blind "
+
     if isEFT:
         printimp0 += " --POI "
         printimp1 += " --POI "
@@ -1063,7 +1069,7 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
 def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     #optionals = "  " 
     algo = "saturated"
-    ntoys = "10"
+    ntoys = "1000"
     seed = "12345"
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
     #if not unblind:
