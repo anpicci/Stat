@@ -1213,8 +1213,8 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     print cmd1
     os.system(cmd1)
 
-    dataroot = "higgsCombineprova" + tagdata + ".GoodnessOfFit.mH120.root"
-    toysroot = "higgsCombineprova" + tagtoys + ".GoodnessOfFit.mH120." + seed + ".root"
+    dataroot = "higgsCombine" + tagdata + ".GoodnessOfFit.mH120.root"
+    toysroot = "higgsCombine" + tagtoys + ".GoodnessOfFit.mH120." + seed + ".root"
     gofjson = "combineTool.py -M CollectGoodnessOfFit --input " + dataroot + " " + toysroot + " -m 120.0 -o gof.json"
     gofprint = "plotGof.py gof.json --statistic saturated --mass 120.0 -o gof_plot --title-right=\"GoF saturated test\""
 
