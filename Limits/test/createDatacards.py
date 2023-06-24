@@ -88,9 +88,9 @@ for tor in toremove:
 #*******************************************************#
 def getRate(ch, process, ifile):
        hName = ch + "/"+ process
-       #print process
-       #print "Getting histogram from ", ifile.GetName() 
-       #print "Histogram name: ", hName
+       print process
+       print "Getting histogram from ", ifile.GetName() 
+       print "Histogram name: ", hName
        ##print ifile.Get(hName)
        h = ifile.Get(hName)
        ##print h.GetName()

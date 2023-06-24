@@ -837,7 +837,7 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    print cmdmer
+    print "\n", cmdmer
     os.system(cmdmer)
     os.chdir(ipwd)
 
@@ -879,7 +879,7 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
    
     impactfolder = ipwd + "/" + folder + "/Checks_" + model + "/"
     impactfolder = folder + "/Checks_" + model + "/"
-    print impactfolder
+    print "\n", impactfolder
     if not os.path.exists(impactfolder):
         os.system("mkdir " + impactfolder)
     else:
@@ -887,14 +887,14 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
     os.system("pwd")
-    print "cd " + impactfolder
+    print "\n", "cd " + impactfolder
     os.chdir(impactfolder)
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
     
-    print cmdt2w
+    print "\n", cmdt2w
     os.system(cmdt2w)
     
     cmd0 = "combine -M FitDiagnostics -d " + wscard + "  -n " + tag + "_t0"
@@ -919,10 +919,10 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmd1 += " " + optionals
     
     if not ":" in modeltot:
-        print cmd0
+        print "\n", cmd0
         os.system(cmd0)
         if not isEFT:
-            print cmd1
+            print "\n", cmd1
             os.system(cmd1)
 
     cmddN0 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root "
@@ -944,14 +944,14 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmddN1html = cmddN1 + " --format html >> " + "fitResults" + tag + "_t1.html"
 
     if not ":" in modeltot:
-        print cmddN0
+        print "\n", cmddN0
         os.system(cmddN0)
-        print cmddN0html
+        print "\n", cmddN0html
         os.system(cmddN0html)
         if not isEFT:
-            print cmddN1
+            print "\n", cmddN1
             os.system(cmddN1)
-            print cmddN1html
+            print "\n", cmddN1html
             os.system(cmddN1html)
         
 
@@ -1039,28 +1039,28 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
             printimp0 += "k_" + coeff
             printimp1 += "k_" + coeff
 
-    print imp0_0
+    print "\n", imp0_0
     os.system(imp0_0)
     if not isEFT:
-        print imp0_1
+        print "\n", imp0_1
         os.system(imp0_1)
     
-    print imp1_0
+    print "\n", imp1_0
     os.system(imp1_0)
     if not isEFT:
-        print imp1_1
+        print "\n", imp1_1
         os.system(imp1_1)
     
-    print ctimp0
+    print "\n", ctimp0
     os.system(ctimp0)
     if not isEFT:
-        print ctimp1
+        print "\n", ctimp1
         os.system(ctimp1)
     
-    print printimp0
+    print "\n", printimp0
     os.system(printimp0)
     if not isEFT:
-        print printimp1
+        print "\n", printimp1
         os.system(printimp1)
     
     os.system("rm higgsCombine_paramFit*")
@@ -1124,7 +1124,7 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    print cmdmer
+    print "\n", cmdmer
     os.system(cmdmer)
     os.chdir(ipwd)
 
@@ -1165,7 +1165,7 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
             intervalstr += "k_" + coeff + "=" + intervals[idc]
    
     goffolder = folder + "/Checks_" + model + "/"
-    #print goffolder
+    #print "\n", "\n", goffolder
     if not os.path.exists(goffolder):
         os.system("mkdir " + goffolder)
     else:
@@ -1174,14 +1174,14 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
     os.system("pwd")
-    print "cd " + goffolder
+    print "\n", "cd " + goffolder
     os.chdir(goffolder)
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
     
-    print cmdt2w
+    print "\n", cmdt2w
     os.system(cmdt2w)
     
     tagdata = "_data"
@@ -1208,9 +1208,9 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmd1 += " " + optionals
     
     #if not ":" in modeltot:
-    print cmd0
+    print "\n", cmd0
     os.system(cmd0)
-    print cmd1
+    print "\n", cmd1
     os.system(cmd1)
 
     dataroot = "higgsCombine" + tagdata + ".GoodnessOfFit.mH120.root"
@@ -1218,9 +1218,9 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     gofjson = "combineTool.py -M CollectGoodnessOfFit --input " + dataroot + " " + toysroot + " -m 120.0 -o gof.json"
     gofprint = "plotGof.py gof.json --statistic saturated --mass 120.0 -o gof_plot --title-right=\"GoF saturated test\""
 
-    print gofjson
+    print "\n", gofjson
     os.system(gofjson)
-    print gofprint
+    print "\n", gofprint
     os.system(gofprint)
 
     os.chdir(ipwd)
