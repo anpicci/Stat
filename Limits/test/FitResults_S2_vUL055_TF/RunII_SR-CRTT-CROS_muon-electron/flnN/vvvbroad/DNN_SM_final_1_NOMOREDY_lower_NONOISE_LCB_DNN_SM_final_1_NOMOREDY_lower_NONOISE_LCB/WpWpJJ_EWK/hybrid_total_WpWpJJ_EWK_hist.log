@@ -1,9 +1,7 @@
  <<< Combine >>> 
-unable to write 'random state'
->>> Used OpenSSL to get a really random seed -2129113526
+>>> random number generator seed is 123456
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimits
 Channel SR_muon_2016M will use autoMCStats with settings: event-threshold=1, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon_2016M
@@ -998,66 +996,10 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCROS_electron_2018_bin7[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 SimNLL created with 18 channels, 10 generic constraints, 243 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SimNLL created with 18 channels, 10 generic constraints, 243 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-
- -- AsymptoticLimits ( CLs ) --
-Observed Limit: r < 1.9973
-
-SimNLL created with 18 channels, 10 generic constraints, 243 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-TfEC8u
-/tmp/rstats-zqbJKx
-/tmp/rstats-JBJf9A
-/tmp/rstats-P2v2oH
-/tmp/rstats-hVLJyM
-/tmp/rstats-74RnEW
-/tmp/rstats-XbjDx9
-/tmp/rstats-Jahalk
-/tmp/rstats-HCZjYw
-/tmp/rstats-hK4osK
-/tmp/rstats-ZKkzmW
-/tmp/rstats-5TH4Ia
-/tmp/rstats-vOwDzi
-/tmp/rstats-nkwnDi
-/tmp/rstats-j3UNIe
-/tmp/rstats-V1vYlb
-/tmp/rstats-B2Mbe7
-/tmp/rstats-ZyBnNZ
-/tmp/rstats-FhZAeU
-/tmp/rstats-XnP78H
-/tmp/rstats-9jTttu
-/tmp/rstats-HmXjmf
-/tmp/rstats-1jbnqW
-/tmp/rstats-bMT11C
-/tmp/rstats-vQc1Lg
-/tmp/rstats-Hlp4FR
-/tmp/rstats-XWIXhu
-/tmp/rstats-TVDYz6
-/tmp/rstats-diFbEH
-/tmp/rstats-pGhY6l
-/tmp/rstats-fKTvf1
-/tmp/rstats-5zPi1I
-/tmp/rstats-pA5dat
-/tmp/rstats-3eVFFh
-/tmp/rstats-rSpeW9
-/tmp/rstats-vE4bk4
-/tmp/rstats-F1eyb4
-/tmp/rstats-NF2a52
-/tmp/rstats-XI7gC3
-/tmp/rstats-jx6jW9
-/tmp/rstats-jFTxoe
-/tmp/rstats-bDgTei
-/tmp/rstats-tuNafo
-/tmp/rstats-VMn55u
-/tmp/rstats-lNE6PR
-/tmp/rstats-ppduec
-/tmp/rstats-ZQBd1w
-/tmp/rstats-P7h4qY
-/tmp/rstats-NjyK2r
-/tmp/rstats-p12Vs0
 
  -- Hybrid New -- 
-Significance: 1.94313  -0.0558096/+0.0626131
-Null p-value: 0.026 +/- 0.00355837
-Done in 0.17 min (cpu), 16.08 min (real)
+Significance: 2.00186  -0.0191866/+0.0199531
+Null p-value: 0.02265 +/- 0.00105207
+Done in 0.02 min (cpu), 0.02 min (real)
