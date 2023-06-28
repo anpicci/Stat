@@ -1,6 +1,9 @@
  <<< Combine >>> 
->>> random number generator seed is 123456
->>> method used is Significance
+unable to write 'random state'
+>>> Used OpenSSL to get a really random seed 732468817
+>>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
+>>> method used is HybridNew
+>>> method used to hint where the upper limit is AsymptoticLimits
 Channel SR_muon_2016M will use autoMCStats with settings: event-threshold=1, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon_2016M
@@ -1465,7 +1468,67 @@ Bin        Contents        Error           Notes
 11         8.000000        2.828427        Unweighted events, alpha=0.417177
   => Total parameter prop_binCROS_electron_2018_bin11[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
+SimNLL created with 18 channels, 13 generic constraints, 330 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+SimNLL created with 18 channels, 13 generic constraints, 330 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 
- -- Significance -- 
-Significance: 4.58051
-Done in 0.04 min (cpu), 0.04 min (real)
+ -- AsymptoticLimits ( CLs ) --
+Observed Limit: r < 2.6038
+
+SimNLL created with 18 channels, 13 generic constraints, 330 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+[#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
+/tmp/rstats-3P5Kui
+/tmp/rstats-mCAjfL
+/tmp/rstats-G3EB1q
+/tmp/rstats-BF9kwv
+/tmp/rstats-ShUSCO
+/tmp/rstats-zsLjRl
+/tmp/rstats-TotJYa
+/tmp/rstats-w8UIVf
+/tmp/rstats-PQwdNv
+/tmp/rstats-Ld2zLX
+/tmp/rstats-D3TIgJ
+/tmp/rstats-vdlDYR
+/tmp/rstats-Cvcfid
+/tmp/rstats-EhKcpN
+/tmp/rstats-W9JmCC
+/tmp/rstats-v2B1fK
+/tmp/rstats-Vt0dH2
+/tmp/rstats-puFERy
+/tmp/rstats-D5b9vk
+/tmp/rstats-kRUKyl
+/tmp/rstats-KDtCMw
+/tmp/rstats-ASo0J3
+/tmp/rstats-lZXapU
+/tmp/rstats-2erBpZ
+/tmp/rstats-pHVjNl
+/tmp/rstats-38OnmZ
+/tmp/rstats-nWGwPR
+/tmp/rstats-LDF0C4
+/tmp/rstats-crQ1FC
+/tmp/rstats-FYNIIu
+/tmp/rstats-jkJISG
+/tmp/rstats-zxvzpb
+/tmp/rstats-cf9vv1
+/tmp/rstats-d1lula
+/tmp/rstats-3esLgL
+/tmp/rstats-copJyz
+/tmp/rstats-awpmIE
+/tmp/rstats-xcT3a0
+/tmp/rstats-wTvtzB
+/tmp/rstats-Iguwqm
+/tmp/rstats-Y6M6Yj
+/tmp/rstats-Du16bt
+/tmp/rstats-lQjkeO
+/tmp/rstats-lniAot
+/tmp/rstats-yrIg2u
+/tmp/rstats-aA4tKM
+/tmp/rstats-ASzcwf
+/tmp/rstats-Mi9DqS
+/tmp/rstats-eXvw3D
+/tmp/rstats-shZDEA
+
+ -- Hybrid New -- 
+Significance: 2.69684  -0.108402/+0.154106
+Null p-value: 0.0035 +/- 0.00132056
+Done in 0.34 min (cpu), 27.33 min (real)
