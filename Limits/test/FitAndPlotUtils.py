@@ -1026,8 +1026,8 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     printimp0 = "plotImpacts.py -i " +  "impacts" + tag + "_t0.json -o " +  "impacts" + tag + "_t0"
     printimp1 = "plotImpacts.py -i " +  "impacts" + tag + "_t1.json -o " +  "impacts" + tag + "_t1"
 
-    printimp0 += " --blind "
-    printimp1 += " --blind "
+    #printimp0 += " --blind "
+    #printimp1 += " --blind "
 
     if isEFT:
         printimp0 += " --POI "
