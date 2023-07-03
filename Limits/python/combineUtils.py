@@ -440,7 +440,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 else:
                     #pass
                     #cmd += " --freezeParameters r --setParameters r=1.5 "
-                    cmd += " --setParameters r=1.5 "
+                    cmd += " --setParameters r=1.5 --rMin 1 --rMax 2"
                 cmd += " --setParameterRanges " + intervalstr  
                 #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
