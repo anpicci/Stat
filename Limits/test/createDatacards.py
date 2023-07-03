@@ -88,11 +88,16 @@ for tor in toremove:
 #*******************************************************#
 def getRate(ch, process, ifile):
        hName = ch + "/"+ process
-       print process
-       print "Getting histogram from ", ifile.GetName() 
-       print "Histogram name: ", hName
+       #print process
+       #print "Getting histogram from ", ifile.GetName() 
+       #print "Histogram name: ", hName
        ##print ifile.Get(hName)
-       h = ifile.Get(hName)
+       try:
+           h = ifile.Get(hName)
+       except:
+           raise RuntimeError("Problems when getting rates from histogram " + hName + " from ", ifile.GetName())
+       else:
+           pass
        ##print h.GetName()
        return h.Integral()
 
@@ -101,7 +106,12 @@ def getHist(ch, process, ifile):
        ##print "Getting histogram from ", ifile.GetName() 
        ##print "Histogram name: ", hName
        ##print "Histo Name ", hName
-       h = ifile.Get(hName)
+       try:
+           h = ifile.Get(hName)
+       except:
+           raise RuntimeError("Problems when getting histogram " + hName + " from ", ifile.GetName())
+       else:
+           pass
        return h
 
 #*******************************************************#
@@ -501,7 +511,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
        #print carddir
        outname = "" + carddir
        for sigp in sig:
-              print sigp
+              #print sigp
               outname += sigp + "_"
        outname += ch + "_" + mode + ".txt"
        #outname =  "%s%s_%s_%s.txt" % (carddir, sig, ch, mode)
@@ -530,7 +540,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                      setpiecs.append(("_")+op.split("_")[-1])
        coeff = copy.deepcopy(incoeff)
        setpiecs.reverse()
-       print "setpiecs:", setpiecs
+       #print "setpiecs:", setpiecs
        if ":" in incoeff or incoeff.startswith("F"):# or ":F" in incoeff:
               for setpiec in setpiecs:
                      coeff = coeff.replace(setpiec, "")
@@ -956,9 +966,9 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
               os.system('mkdir ' +outdir + "/" + dircoeff)
        #else:
               #os.system('rm ' +outdir + "/" + dircoeff + "/*")
-       print "carddir:", carddir
+       #print "carddir:", carddir
        outname =  "%s%s_%s_%s.txt" % (carddir, coeff, ch, mode)
-       print 'outname:', outname
+       #print 'outname:', outname
        cardfile = open(outname, 'w')
        cardfile.write(card)
        cardfile.close()

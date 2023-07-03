@@ -252,10 +252,10 @@ for year in years:
                         print "Cannot open ", f, + "\n"
                     else:
                         pass
-                        print "Opening file ",  path_ + f
+                        #print "Opening file ",  path_ + f
                     ifile.cd()
     
-                    print "We are looking for object ", h_
+                    #print "We are looking for object ", h_
                     try:
                         htemp = copy.deepcopy(ifile.Get(h_).Clone())
                     except:
