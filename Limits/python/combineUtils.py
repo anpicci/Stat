@@ -114,7 +114,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " + rootdc + " -M MultiDimFit -m 125 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr# + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " + rootdc + " -M MultiDimFit -m 125 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
@@ -438,8 +438,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 if not unblind:
                     cmd += " --freezeParameters r --setParameters r=1 "
                 else:
-                    pass
-                    #cmd += " --freezeParameters r --setParameters r=1.5 "
+                    #pass
+                    cmd += " --freezeParameters r --setParameters r=1.5 "
                 cmd += " --setParameterRanges " + intervalstr  
                 #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
