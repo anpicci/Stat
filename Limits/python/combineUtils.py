@@ -453,12 +453,16 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 else:
                     modCombs = modComb.split(",")
                     print "modCombs:", modCombs, modComb
-                    cmd0 = cmd + " --redefineSignalPOIs " + modCombs[0] + " -n " + dirmodel + "_" + modCombs[0] + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + modCombs[0] + ".*.MultiDimFit.mH125.root" 
-                    cmd1 = cmd + " --redefineSignalPOIs " + modCombs[1] + " -n " + dirmodel + "_" + modCombs[1] + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + modCombs[1] + ".*.MultiDimFit.mH125.root" 
-                    print cmd0
-                    print cmd1
-                    runCombine(cmd0, "ls_k_" + dirmodel + "_" + modCombs[0] + "_" + method + ".log")
-                    runCombine(cmd1, "ls_k_" + dirmodel + "_" + modCombs[1] + "_" + method + ".log")
+                    #cmd0 = cmd + " --redefineSignalPOIs " + modCombs[0] + " -n " + dirmodel + "_" + modCombs[0] + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + modCombs[0] + ".*.MultiDimFit.mH125.root" 
+                    #cmd1 = cmd + " --redefineSignalPOIs " + modCombs[1] + " -n " + dirmodel + "_" + modCombs[1] + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + modCombs[1] + ".*.MultiDimFit.mH125.root" 
+                    #print cmd0
+                    #print cmd1
+                    #runCombine(cmd0, "ls_k_" + dirmodel + "_" + modCombs[0] + "_" + method + ".log")
+                    #runCombine(cmd1, "ls_k_" + dirmodel + "_" + modCombs[1] + "_" + method + ".log")
+                    for elComb in modCombs:
+                        cmdel = cmd + " --redefineSignalPOIs " + elComb + " -n " + dirmodel + "_" + elComb + " --floatOtherPOI=1 ; hadd -f higgsCombine" + dirmodel + "_" + elComb + ".MultiDimFit.mH125.root higgsCombine" + dirmodel + "_" + elComb + ".*.MultiDimFit.mH125.root" 
+                        print cmdel
+                        runCombine(cmdel, "ls_k_" + dirmodel + "_" + elComb + "_" + method + ".log")
                 #os.system("pwd")
                 
                 cmd = ""
@@ -486,22 +490,27 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         print cmd
                         os.system(cmd)
                     else:
-                        cmd0 = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + modCombs[0] + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[0]
-                        cmd1 = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[1]
-                        cmd0 += " --1D"
-                        cmd1 += " --1D"
-                        cmd0 += " --year " 
-                        cmd1 += " --year " 
+                        #cmd1 = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[1]
+                        #cmd1 += " --1D"
+                        #cmd1 += " --year " 
+                        #for year in years:
+                            #cmd1 += year
+                            #if year != years[-1]:
+                                #cmd1 += "," 
+                        #print cmd1
+                        #os.system(cmd1)
+
+                        for elComb in modCombs:
+                            cmdell = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + elComb + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + elComb + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[0]
+                            cmdell += " --1D"
+                            cmdell += " --year " 
                         for year in years:
-                            cmd0 += year
-                            cmd1 += year
+                            cmdell += year
                             if year != years[-1]:
-                                cmd0 += "," 
-                                cmd1 += "," 
-                        print cmd0
-                        os.system(cmd0)
-                        print cmd1
-                        os.system(cmd1)
+                                cmdell += "," 
+
+                        print cmdell
+                        os.system(cmdell)
                         
                 os.chdir(path)
                 os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")
