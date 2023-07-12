@@ -15,6 +15,7 @@ parser.add_option('--year', dest='year', type='string', default = '2016M,2017,20
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables to postfit')
 parser.add_option('--tag', dest='tag', type='string', default = '', help = 'Variables to postfit')
 parser.add_option('--tagfold', dest='tagfold', type='string', default = '', help = 'Variables to postfit')
+parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 
 (opt, args) = parser.parse_args()
 
@@ -106,9 +107,13 @@ if not os.path.exists(fitdiagdir):
 else:
     os.system("rm " + fitdiagdir + "/*")
 
+fdcommand = "combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir 
+if not opt.unblind:
+    fdcommand += " -t -1 "
+fdcommand += " --expectSignal=1 --toysFreq --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 ")
 print "Creating FitDiagnostics for fitting datacard..."
-print "combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --expectSignal=1 --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 "
-os.system("combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --expectSignal=1 --toysFreq --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 ")
+print fdcommand #"combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --toysFreq --expectSignal=1 --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 "
+os.system(fdcommand)#"combine -M FitDiagnostics " + fitroot + " --out " + fitdiagdir + " -t -1 --expectSignal=1 --toysFreq --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 -n _" + tag + " --robustFit=1 ")
 
 for idv, postvar in enumerate(postvars):
     if opt.model == "SM":
