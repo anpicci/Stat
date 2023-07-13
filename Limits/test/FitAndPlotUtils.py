@@ -1305,7 +1305,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print createpostfit
         os.system(createpostfit)
         
-        poststring = "python plotter/PreFitPostFit_v2.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
+        poststring = "python plotter/PreFitPostFit_v3.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
     
         if unblind:
             poststring += " -u"
