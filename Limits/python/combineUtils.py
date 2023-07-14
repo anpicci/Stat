@@ -32,9 +32,9 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
     if(os.path.exists(path)):
         os.chdir(path)
         
-        extraoption = " --cminDefaultMinimizerStrategy 0 --expectSignal 1 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "
+        extraoption = " --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT --expectSignal 1 " #--cminDefaultMinimizerStrategy 0 
         if not unblind:
-            extraoption += " -t -1 "
+            extraoption += " -t -1 " 
         cmd = "combineCards.py "
         for year in years:
             for cat in categories:
