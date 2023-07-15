@@ -5,6 +5,7 @@ from Stat.Limits.variables import *
 import importlib
 import sys
 import optparse
+import copy
 from collections import OrderedDict
 LineWrite = lambda fname, s : fname.write(s + "\n") 
 
@@ -783,7 +784,7 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     #optionals = "  " 
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
     if not unblind:
-        optionals += " -t -1 "
+        optionals += " -t -1 --toysFreq "
     else:
         pass
 
@@ -1073,7 +1074,7 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     seed = "12345"
     optionals = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --cminDefaultMinimizerTolerance 0.01" --stepSize=0.001"# --robustFit=1"
     #if not unblind:
-    #toysop = " -t -1 "
+    #toysop = " -t -1 --toysFreq "
     settitle = setmodd
     RecursiveImport(settitle)
     settmod = importlib.import_module(settitle)
@@ -1330,10 +1331,65 @@ def ProduceCLPlots(srvar, crvar, eftop, era, folder):
     print command
     os.system(command)
 
+def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
+    if eftop.startswith("c"):
+        modfolder = folder + "/" + eftop
+    else:
+        modfolder = folder + "/" + eftop.split("_")[0]
+    if "_DF" in modfolder:
+        obsfolder = copy.deepcopy(modfolder)
+        expfolder = modfolder.replace("_DF", "_TF")
+    elif "_TF" in modfolder:
+        obsfolder = modfolder.replace("_TF", "_DF")
+        expfolder = copy.deepcopy(modfolder)
+    else:
+        raise ValueError("path not valid!")
+
+    obsroot = None
+    exproot = None
+
+    obsfiles = [f for f in os.listdir(obsfolder) if f.startswith("higgs")]
+    expfiles = [f for f in os.listdir(expfolder) if f.startswith("higgs")]
+
+    if len(obsfiles) != 0:
+        obsroot = obsfolder + "/" + obsfiles[0]
+    if len(expfiles) != 0:
+        exproot = expfolder + "/" + expfiles[0]        
+    
+    print obsroot, exproot
+    
+    maincolor = ""
+    plotcommand = "python plot1DEFTScan.py "
+    if obsroot != None:
+        maincolor = "1"
+        plotcommand += obsroot + " --main-label \'Observed\' "
+        if exproot != None:
+            plotcommand += " --others \'" + exproot + ":Expected:2\' "
+    else:
+        maincolor = "2"
+        if exproot != None:
+            plotcommand += exproot + " --main-label \'Expected\' "
+        else:
+            return "Not runned"
+    
+    plotcommand += " -o " 
+    if obsroot != None:
+        plotcommand += obsfolder + "/FinalLS "
+    elif exproot != None:
+        plotcommand += expfolder + "/FinalLS "
+    else:
+        return "Not runned"
+        
+    plotcommand += "--y-max 20 --y-cut 15 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
+    
+    print plotcommand
+    os.system(plotcommand)
+    
+
 def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
     if not unblind:
-        optionalss += " -t -1 "
+        optionalss += " -t -1 --toysFreq "
     if not ":" in modeltot:
         #points = "10"
         points = "750"#"10000"

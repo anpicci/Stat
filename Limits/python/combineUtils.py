@@ -34,7 +34,7 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
         
         extraoption = " --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT --expectSignal 1 " #--cminDefaultMinimizerStrategy 0 
         if not unblind:
-            extraoption += " -t -1 " 
+            extraoption += " -t -1 --toysFreq " 
         cmd = "combineCards.py "
         for year in years:
             for cat in categories:
@@ -64,7 +64,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
     modelname = ""
     optionalsSM = " --algo=grid --points=50000 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
     if not unblind:
-        optionalsSM += " -t -1 "
+        optionalsSM += " -t -1 --toysFreq "
     print "model", model
     modelname = model.replace(":", "_")
     #print "evaluate limit for model ", model
@@ -114,7 +114,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 print cmd
                 os.system(cmd)
                 os.system("rm higgsCombineTest*root")
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 20 " + rootdc + " -M MultiDimFit -m 125 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr + " --freezeParameters r --setParameters r=1"
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " + rootdc + " -M MultiDimFit -m 125 --redefineSignalPOIs " + modComb + " --setParameterRanges " + intervalstr + " --autoBoundsPOIs " + modComb + " " + optionalsSM + " --setParameters " + valuestr + " --freezeParameters r --setParameters r=1"
                 cmd += " ; hadd -f higgsCombineTest.MultiDimFit.mH125.root higgsCombineTest.*.MultiDimFit.mH125.root"
             
                 print cmd
@@ -142,7 +142,7 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, 
         #print "We are in the right folder ",  len(categories)
         extraoption=""
         if not unblind:
-            extraoption += " -t -1 "
+            extraoption += " -t -1 --toysFreq "
         if True:
             if True:
                 cmd = "combineCards.py "
@@ -168,15 +168,15 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
-        algostring +=     "  5000 "
+        algostring +=     "  100000 "
         #algostring +=     "  25 "
     else:
         #algostring +=     "  5000 "
-        algostring +=     "  1000 "
+        algostring +=     "  100000 "
 
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT" #--fastScan" #--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
     if not unblind:
-        optionals += " -t -1 "
+        optionals += " -t -1 --toysFreq "
     if not ":" in models or (":" in models and profile):
         optionals += " " #" --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "#--fastScan" #--autoBoundsPOIs * --autoRange 3" 
     print "Performing LikelihoodScan for operator ", models
@@ -431,10 +431,10 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     labels.append(label)
 
                 os.system("rm higgsCombine" + dirmodel + "*root")
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 20 -M MultiDimFit " + algostring + " -m 125 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 20 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr 
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr 
                 #cmd = "combine "
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 20 " 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " 
                 cmd += rootdc + " -M MultiDimFit " + algostring + " -m 125 "
                 if not unblind:
                     cmd += " --freezeParameters r --setParameters r=1 "
@@ -442,7 +442,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     cmd += " --freezeParameters r --setParameters r=1.5 "
                 
                 cmd += " --setParameterRanges " + intervalstr  
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 20 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
                     #cmd += " --autoRange 15 "
                 cmd += " " + optionals 
