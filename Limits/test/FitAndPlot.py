@@ -45,7 +45,7 @@ parser.add_option('--noFit', dest='dofit', default = True, action='store_false',
 parser.add_option('--doPost', dest='postfit', default = False, action='store_true', help = 'Default does not run postfit plots')
 parser.add_option('--doGoF', dest='gof', default = False, action='store_true', help = 'Default does not GoF test')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
-parser.add_option('--EFTscan', dest='EFTscan', default = True, action='store_true', help = 'Print combined EFT likelihoods')
+parser.add_option('--EFTscan', dest='EFTscan', default = False, action='store_true', help = 'Print combined EFT likelihoods')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
