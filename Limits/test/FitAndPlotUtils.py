@@ -1442,9 +1442,9 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         optionalss += " -t -1 --toysFreq "
     if not ":" in modeltot:
         #points = "10"
-        points = "750"
+        points = "10000"
     else:
-        #points = "20000"
+        points = "10000"
         #points = "100"
 
     settitle = setmodd
@@ -1499,7 +1499,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> %s_%s.txt" % (model, method)
     print cmdmer
     
-    #os.system(cmdmer)
+    os.system(cmdmer)
     os.chdir(upwd)
         
     years = yearsett#.split(",")
@@ -1588,7 +1588,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
     print cmdt2w
-    #os.system(cmdt2w)
+    os.system(cmdt2w)
     
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
@@ -1612,7 +1612,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmdmd += " " + optionalss
 
     print cmdmd
-    #os.system(cmdmd)
+    os.system(cmdmd)
     
     md = "combine " + totalfile + " -M MultiDimFit -m 120 --points " + points + " --algo grid "
     md += " --autoBoundsPOIs r"
@@ -1647,7 +1647,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
             freezename = dcname + ".freeze_" + groupname + "_" + model
             freezefile = "higgsCombine" + freezename + ".MultiDimFit.mH120.root"
             freezecommand = freeze + " -n " + freezename
-            #os.system(freezecommand)
+            os.system(freezecommand)
      
             plotcomm += "\'" + freezefile + ":Freeze " + groupname + ":" + colors[idsy] + "\' "
 
@@ -1675,7 +1675,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     freezeallfile = "higgsCombine" + freezeallname + ".MultiDimFit.mH120.root"
     freezeall += " " + freezeallname
     print(freezeall)
-    #os.system(freezeall)
+    os.system(freezeall)
     
     plotcomm += "\'" + freezeallfile + ":Freeze all:" + colors[len(systgroup)] + "\' "
     bdstr += ",MCstat,Stat\""
@@ -1687,5 +1687,5 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     if not ":" in modeltot:
         os.system(plotcomm)
     
-    ##os.system("rm higgsCombineWpWpJJ_hist.freeze*")
+    #os.system("rm higgsCombineWpWpJJ_hist.freeze*")
     os.chdir(upwd)
