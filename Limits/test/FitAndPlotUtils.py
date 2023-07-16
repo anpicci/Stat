@@ -1380,7 +1380,7 @@ def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
     else:
         return "Not runned"
         
-    plotcommand += "--y-max 20 --y-cut 15 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
+    plotcommand += "--y-max 40 --y-cut 35 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
     
     print plotcommand
     os.system(plotcommand)
