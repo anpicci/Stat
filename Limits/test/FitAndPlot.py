@@ -46,6 +46,7 @@ parser.add_option('--doPost', dest='postfit', default = False, action='store_tru
 parser.add_option('--doGoF', dest='gof', default = False, action='store_true', help = 'Default does not GoF test')
 parser.add_option('--notCI', dest='doCI', default = True, action='store_false', help = 'Default does not run postfit plots')
 parser.add_option('--EFTscan', dest='EFTscan', default = False, action='store_true', help = 'Print combined EFT likelihoods')
+parser.add_option('--SMscan', dest='smscan', default = False, action='store_true', help = 'Print SM likelihoods')
 parser.add_option('-u', '--unblind', dest = 'unblind', default = False, action = 'store_true', help = 'unblinding SR, default not')
 parser.add_option('--PDFWithTTDY', dest='pdfttdy', default = False, action='store_true', help = 'apply pdf to ttbar and dy')
 parser.add_option('--DYrp', dest='DYrp', default = False, action='store_true', help = 'apply rateParam to dy')
@@ -119,6 +120,7 @@ for model in models:
     
         #fitfolder = "FitResults_" + folder
         fitfolder = "FitResults_UBEFTandSM_" + folder
+        #fitfolder = "FitResults_S3_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_cons_" + folder
         #fitfolder = "FIT_fstats_jes_sep_cat_" + folder
@@ -207,7 +209,6 @@ for model in models:
             if opt.sm:
                 #RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, opt.HN, setmod, setitle, fitfolder)
                 RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, opt.HN, setmod, fitfolder, opt.unblind)
-
             
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
@@ -218,6 +219,11 @@ for model in models:
             else:
                 RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind)
                 pass
+
+        ### Print SM Likelihood Scan
+        if opt.sm and opt.smscan:
+            SMScan(fitvar, crvar, model, opt.year, fitfolder)
+
             
         ### Run Impacts, if desired
         if opt.impacts:
@@ -251,3 +257,4 @@ for model in models:
             ProduceCLPlots(opt.varfit, opt.varcr, model, opt.year, sfitfolder)
         if opt.EFTscan:
             EFTScanAndLimits(opt.varfit, opt.varcr, model, opt.year, fitfolder)
+

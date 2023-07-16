@@ -1384,6 +1384,56 @@ def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
     
     print plotcommand
     os.system(plotcommand)
+
+def SMScan(srvar, crvar, signal, era, folder):
+    modfolder = folder + "/Checks_" + signal
+
+    if "_DF" in modfolder:
+        obsfolder = copy.deepcopy(modfolder)
+        expfolder = modfolder.replace("_DF", "_TF")
+    elif "_TF" in modfolder:
+        obsfolder = modfolder.replace("_TF", "_DF")
+        expfolder = copy.deepcopy(modfolder)
+    else:
+        raise ValueError("path not valid!")
+
+    obsroot = None
+    exproot = None
+
+    obsfiles = [f for f in os.listdir(obsfolder) if f.startswith("higgs") and ".total." in f]
+    expfiles = [f for f in os.listdir(expfolder) if f.startswith("higgs") and ".total." in f]
+
+    if len(obsfiles) != 0:
+        obsroot = obsfolder + "/" + obsfiles[0]
+    if len(expfiles) != 0:
+        exproot = expfolder + "/" + expfiles[0]        
+    
+    maincolor = ""
+    plotcommand = "python plotSMScan.py "
+    if obsroot != None:
+        maincolor = "1"
+        plotcommand += obsroot + " --main-label \'Observed\' "
+        if exproot != None:
+            plotcommand += " --others \'" + exproot + ":Expected:2\' "
+    else:
+        maincolor = "2"
+        if exproot != None:
+            plotcommand += exproot + " --main-label \'Expected\' "
+        else:
+            return "Not runned"
+    
+    plotcommand += " -o " 
+    if obsroot != None:
+        plotcommand += obsfolder + "/SMscan "
+    elif exproot != None:
+        plotcommand += expfolder + "/SMscan "
+    else:
+        return "Not runned"
+        
+    plotcommand += "--y-max 55 --y-cut 50 --main-color " + maincolor 
+    
+    print plotcommand
+    os.system(plotcommand)
     
 
 def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
@@ -1392,9 +1442,10 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         optionalss += " -t -1 --toysFreq "
     if not ":" in modeltot:
         #points = "10"
-        points = "750"#"10000"
+        points = "750"
     else:
-        points = "20000"
+        #points = "20000"
+        #points = "100"
 
     settitle = setmodd
     RecursiveImport(settitle)
@@ -1448,7 +1499,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> %s_%s.txt" % (model, method)
     print cmdmer
     
-    os.system(cmdmer)
+    #os.system(cmdmer)
     os.chdir(upwd)
         
     years = yearsett#.split(",")
@@ -1537,7 +1588,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
     print cmdt2w
-    os.system(cmdt2w)
+    #os.system(cmdt2w)
     
     total = dcname + "_" + model + ".total"
     totalfile = "higgsCombine" + total + ".MultiDimFit.mH120.root"
@@ -1561,7 +1612,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmdmd += " " + optionalss
 
     print cmdmd
-    os.system(cmdmd)
+    #os.system(cmdmd)
     
     md = "combine " + totalfile + " -M MultiDimFit -m 120 --points " + points + " --algo grid "
     md += " --autoBoundsPOIs r"
@@ -1596,7 +1647,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
             freezename = dcname + ".freeze_" + groupname + "_" + model
             freezefile = "higgsCombine" + freezename + ".MultiDimFit.mH120.root"
             freezecommand = freeze + " -n " + freezename
-            os.system(freezecommand)
+            #os.system(freezecommand)
      
             plotcomm += "\'" + freezefile + ":Freeze " + groupname + ":" + colors[idsy] + "\' "
 
@@ -1624,7 +1675,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     freezeallfile = "higgsCombine" + freezeallname + ".MultiDimFit.mH120.root"
     freezeall += " " + freezeallname
     print(freezeall)
-    os.system(freezeall)
+    #os.system(freezeall)
     
     plotcomm += "\'" + freezeallfile + ":Freeze all:" + colors[len(systgroup)] + "\' "
     bdstr += ",MCstat,Stat\""
@@ -1636,5 +1687,5 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     if not ":" in modeltot:
         os.system(plotcomm)
     
-    os.system("rm higgsCombineWpWpJJ_hist.freeze*")
+    ##os.system("rm higgsCombineWpWpJJ_hist.freeze*")
     os.chdir(upwd)
