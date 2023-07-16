@@ -1374,13 +1374,13 @@ def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
     
     plotcommand += " -o " 
     if obsroot != None:
-        plotcommand += obsfolder + "/FinalLS "
+        plotcommand += obsfolder + "/FinalLS_" + eftop + " "
     elif exproot != None:
-        plotcommand += expfolder + "/FinalLS "
+        plotcommand += expfolder + "/FinalLS_" + eftop + " "
     else:
         return "Not runned"
         
-    plotcommand += "--y-max 40 --y-cut 35 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
+    plotcommand += "--y-max 50 --y-cut 45 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
     
     print plotcommand
     os.system(plotcommand)
