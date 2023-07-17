@@ -1430,7 +1430,8 @@ def SMScan(srvar, crvar, signal, era, folder):
     else:
         return "Not runned"
         
-    plotcommand += "--y-max 55 --y-cut 50 --main-color " + maincolor 
+    plotcommand += "--y-max 17 --y-cut 10 --main-color " + maincolor 
+    #plotcommand += " --main-color " + maincolor 
     
     print plotcommand
     os.system(plotcommand)
