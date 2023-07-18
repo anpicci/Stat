@@ -174,8 +174,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         algostring +=     "  10000 "
         #algostring +=     "  10000 "
 
-    optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "
-    #optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT " # " --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND --fastScan" #--autoBoundsPOIs * --autoRange 3" 
+    optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 "
+    
     if not unblind:
         optionals += " -t -1 --toysFreq "
     if not ":" in models or (":" in models and profile):
@@ -243,8 +243,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     lower = -60
                     upper = 50
                 else:
-                    lower = -100
-                    upper = 100
+                    lower = -200
+                    upper = 200
             elif ":" in models:# and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM"))
                 #print "\n", (models.startswith("cqq") and ":cqq" in models)
                 if (models.startswith("cqq") and ":cqq" in models):

@@ -119,7 +119,7 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         #fitfolder = "FitResults_" + folder
-        fitfolder = "FitResults_UBEFTandSM_" + folder
+        fitfolder = "FitResults_UltraEFT_" + folder
         #fitfolder = "FitResults_S3_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_cons_" + folder
