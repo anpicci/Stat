@@ -147,6 +147,11 @@ variables.append(variabile('BDT_aQGC_UL035_v2', 'aQGC BDT output', True, 5, 0., 
 #variables.append(variabile('DNN_pol_UL030', 'LL vs TX VBS DNN output', True, 5, 0., 1., smtitle = "pol DNN"))
 #variables.append(variabile('BDT_pol_UL030', 'LL vs TX VBS BDT output', True, 5, 0., 1., smtitle = "pol BDT"))
 
+bin_soverb = array("d", [-1.0, -0.8, 0.6, -0.4, -0.2, 0., 0.2, 0.4, 0.6])
+nbin_soverb = len(bin_soverb) - 1 
+variables.append(variabile('SoverB', 'log_{10}(S/B)', True, nbin_soverb, bin_soverb))
+
+
 bin_m1 = array("d", [0., 100., 150., 200., 300., 500.])
 nbin_m1 = len(bin_m1) - 1 
 variables.append(variabile('m_1T', 'M_{1T} [GeV]', True, nbin_m1, bin_m1))
