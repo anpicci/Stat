@@ -408,13 +408,6 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "systgroups = collections.OrderedDict()")
     LineWrite(settname, "")
     
-    if flnN:
-        LineWrite(settname, "systgroups['FRsys group'] = [")
-        for lep in leps:
-            LineWrite(settname, "\t'FR_sys_" + lep + "_2016M',")
-            LineWrite(settname, "\t'FR_sys_" + lep + "_2017',")
-            LineWrite(settname, "\t'FR_sys_" + lep + "_2018',")
-        LineWrite(settname, "]")
     if not pdftype.endswith("sep"):
         if not noQCDScale:
             LineWrite(settname, "systgroups['theory group'] = ['ISR', 'FSR', 'QCDScale_sig', 'QCDScale_VG', 'QCDScale_TVX', 'QCDScale_TTTo2L2Nu', 'QCDScale_WZ', 'QCDScale_Triboson', 'QCDScale_WrongSign', 'QCDScale_ZZtoLep', '" + pdfstr + "']")
@@ -474,6 +467,17 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
                 #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
                 #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
 
+    if flnN:
+        LineWrite(settname, "systgroups['FRsys group'] = [")
+        for lep in leps:
+            LineWrite(settname, "\t'FR_sys_" + lep + "_2016M',")
+            LineWrite(settname, "\t'FR_sys_" + lep + "_2017',")
+            LineWrite(settname, "\t'FR_sys_" + lep + "_2018',")
+        LineWrite(settname, "]")
+
+    LineWrite(settname, "systgroups['PF group'] = ['PF']")
+    LineWrite(settname, "systgroups['jet group'] = ['jes_sig', 'jes_VG', 'jes_TVX', 'jes_TTTo2L2Nu', 'jes_WZ', 'jes_Triboson', 'jes_WrongSign', 'jes_ZZtoLep', 'jer']")
+
     LineWrite(settname, "rpname=''")
     LineWrite(settname, "for idk, krp in enumerate(rateParams.keys()):")
     LineWrite(settname, "\tif idk%6 == 0:")
@@ -484,13 +488,9 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "\t\tsystgroups[rpname].append(krp)")
     LineWrite(settname, "")
 
-    LineWrite(settname, "systgroups['PF group'] = ['PF']")
-    LineWrite(settname, "systgroups['lumi group'] = ['lumi_2016M', 'lumi_2017', 'lumi_2018']")
-    LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
-    LineWrite(settname, "systgroups['jet group'] = ['jes_sig', 'jes_VG', 'jes_TVX', 'jes_TTTo2L2Nu', 'jes_WZ', 'jes_Triboson', 'jes_WrongSign', 'jes_ZZtoLep', 'jer']")
     LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
-    LineWrite(settname, "systgroups['VBS group'] = ['VBS']")
     LineWrite(settname, "systgroups['MET group'] = ['metUnclust']")
+
     LineWrite(settname, "systgroups['tau group'] = [")
     LineWrite(settname, "\t'TES',")
     LineWrite(settname, "\t'FES',")
@@ -498,6 +498,10 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     for lep in leps:
         LineWrite(settname, "\t'tau_vs" + leptags[lep] + "',")
     LineWrite(settname, "]")
+
+    LineWrite(settname, "systgroups['lumi group'] = ['lumi_2016M', 'lumi_2017', 'lumi_2018']")
+    LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
+    LineWrite(settname, "systgroups['VBS group'] = ['VBS']")
     LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
     if "CROS" in regions:
         LineWrite(settname, "systgroups['mischarge group'] = [")
@@ -1306,7 +1310,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         print createpostfit
         os.system(createpostfit)
         
-        poststring = "python plotter/PreFitPostFit_v3.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
+        poststring = "python plotter/PreFitPostFit_v4.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
     
         if unblind:
             poststring += " -u"
@@ -1438,14 +1442,14 @@ def SMScan(srvar, crvar, signal, era, folder):
     
 
 def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
-    optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT"# --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND"# --fastScan"
+    optionalss = " --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "# --fastScan"
     if not unblind:
         optionalss += " -t -1 --toysFreq "
     if not ":" in modeltot:
         #points = "10"
-        points = "10000"
+        points = "3000"
     else:
-        points = "10000"
+        points = "3000"
         #points = "100"
 
     settitle = setmodd
