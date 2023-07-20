@@ -18,6 +18,7 @@ parser.add_option('--profile', dest='profile', default = False, action='store_tr
 parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
 parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'Use HybridNew')
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
+parser.add_option('--rint', dest='rint', type='string', default = '50', help = 'r interval for EFT')
 
 (opt, args) = parser.parse_args()
 
@@ -86,5 +87,5 @@ if wilson == "":
 else:
     for method in methods:
         #print "hello", path_, wilson, channels, method, opt.runSingleCat, years
-        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile, opt.unblind)
+        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile, opt.unblind, opt.rint)
 

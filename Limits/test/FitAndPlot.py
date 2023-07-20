@@ -56,6 +56,7 @@ parser.add_option('--frp', dest='frp', default = False, action='store_true', hel
 parser.add_option('--noFakeStats', dest='nofs', default = False, action='store_true', help = 'do not apply mcstats to fakes')
 parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
 parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'fit with HybridNew instead of AsymptoticLimits')
+parser.add_option('--rint', dest='rint', type='string', default = '50', help = 'r interval for EFT')
 
 (opt, args) = parser.parse_args()
 
@@ -119,7 +120,7 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         #fitfolder = "FitResults_" + folder
-        fitfolder = "FitResults_UltraEFT_" + folder
+        fitfolder = "FitResults_testfloatingSM_" + opt.rint + "_" + folder
         #fitfolder = "FitResults_S3_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_cons_" + folder
@@ -217,7 +218,7 @@ for model in models:
             
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind, opt.rint)
                 pass
 
         ### Print SM Likelihood Scan

@@ -157,22 +157,22 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, 
 
         os.chdir("..")
 
-def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind):
+def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind, rint=50):
     algostring = " --algo=grid  --points "
     if ":" in models and not profile:
         #algostring += "200000 "
         if not "cqq" in models:
-            algostring += "200000 "
+            algostring += "75000 "
         else:
-            algostring += "100000 "
+            algostring += "75000 "
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
-        algostring +=     "  100000 "
+        algostring +=     "  75000 "
         #algostring +=     "  25 "
     else:
-        algostring +=     "  10000 "
-        #algostring +=     "  10000 "
+        algostring +=     "  7500 "
+        #algostring +=     "  7500 "
 
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 "
     
@@ -440,8 +440,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 if not unblind:
                     cmd += " --freezeParameters r --setParameters r=1 "
                 else:
-                    cmd += " --freezeParameters r --setParameters r=1.5 "
-                
+                    #cmd += " --freezeParameters r --setParameters r=1.5 "
+                    cmd += " --rMin -" + rint + " --rMax " + rint + " "
                 cmd += " --setParameterRanges " + intervalstr  
                 #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
