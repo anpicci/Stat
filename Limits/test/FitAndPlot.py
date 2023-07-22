@@ -56,7 +56,8 @@ parser.add_option('--frp', dest='frp', default = False, action='store_true', hel
 parser.add_option('--noFakeStats', dest='nofs', default = False, action='store_true', help = 'do not apply mcstats to fakes')
 parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
 parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'fit with HybridNew instead of AsymptoticLimits')
-parser.add_option('--rint', dest='rint', type='string', default = '50', help = 'r interval for EFT')
+parser.add_option('--rint', dest='rint', type='string', default = 'None', help = 'r interval for EFT')
+parser.add_option('--rfix', dest='rfix', type='string', default = 'None', help = 'r interval for EFT')
 
 (opt, args) = parser.parse_args()
 
@@ -110,6 +111,17 @@ yeartag = opt.year.replace("RunII", "2016M,2017,2018")
 DYrp = opt.DYrp
 pdftype = opt.pdf
 
+if opt.rint == 'None':
+    rint = None
+else:
+    rint = opt.rint
+
+if opt.rfix == 'None':
+    rfix = None
+else:
+    rfix = opt.rfix
+
+
 for model in models:
     sfitfolder = ""
 #for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
@@ -120,7 +132,13 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         #fitfolder = "FitResults_" + folder
-        fitfolder = "FitResults_testfloatingSM_" + opt.rint + "_" + folder
+        fitfolder = "FitResults_testfloatingSM" 
+        if rint is not None:
+            fitfolder += "_" + opt.rint.replace(".", "p")
+        if rfix is not None:
+            fitfolder += "_" + opt.rfix.replace(".", "p")
+
+        fitfolder += "_" + folder
         #fitfolder = "FitResults_S3_" + folder
         #fitfolder = "FITRESULTS_" + folder
         #fitfolder = "FIT_cons_" + folder
@@ -198,6 +216,7 @@ for model in models:
         if not os.path.exists(postfitfolder):
             os.system("mkdir -p " + postfitfolder)
     
+        print "doFit?", opt.dofit
         if opt.dofit:
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
             WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, opt.noQCDScale)
@@ -218,7 +237,7 @@ for model in models:
             
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind, opt.rint)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind, rint, rfix)
                 pass
 
         ### Print SM Likelihood Scan
@@ -241,6 +260,8 @@ for model in models:
             #os.system("reset")
             UncBreak(model, fitvar, crvar, yeartag, opt.user, setmod, fitfolder, opt.unblind)
 
+        if opt.EFTscan:
+            EFTScanAndLimits(opt.varfit, opt.varcr, model, opt.year, fitfolder)
         
         ### Run PostFit plots, if desiderd
         if opt.postfit:
@@ -256,6 +277,4 @@ for model in models:
         if opt.doCI:
             #ProduceCLPlots(fitvar, crvar, model, opt.year, fitfolder)
             ProduceCLPlots(opt.varfit, opt.varcr, model, opt.year, sfitfolder)
-        if opt.EFTscan:
-            EFTScanAndLimits(opt.varfit, opt.varcr, model, opt.year, fitfolder)
 

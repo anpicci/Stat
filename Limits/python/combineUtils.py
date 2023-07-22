@@ -157,21 +157,26 @@ def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, 
 
         os.chdir("..")
 
-def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind, rint=50):
+def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years, profile, unblind, rint=None, rfix=None):
     algostring = " --algo=grid  --points "
+    jobs = ""
     if ":" in models and not profile:
         #algostring += "200000 "
         if not "cqq" in models:
             algostring += "7500 "
+            jobs = "50"
         else:
             algostring += "10000 "
+            jobs = "50"
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
         algostring +=     "  7500 "
+        jobs = "50"
         #algostring +=     "  25 "
     else:
-        algostring +=     "  10000 "
+        algostring +=     "  2000 "
+        jobs = "20"
         #algostring +=     "  7500 "
 
     optionals = " --alignEdges=1 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT --setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance=0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND "    
@@ -217,6 +222,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         for idc, coeff in enumerate(coeffs):
             lower = 0
             upper = 0
+            '''
             if not ":" in models:
                 if coeff == "cHW":
                     lower = -30
@@ -231,11 +237,14 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     lower = -400
                     upper = 400
                 elif coeff == "cqq11":
-                    lower = -10
-                    upper = 10
+                    lower = -2
+                    upper = 2
+                elif coeff == "cqq11":
+                    lower = -2
+                    upper = 2
                 elif coeff == "cqq3":
-                    lower = -50
-                    upper = 50
+                    lower = -2
+                    upper = 2
                 elif coeff == "cqq31":
                     lower = -1
                     upper = 1
@@ -245,7 +254,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                 else:
                     lower = -200
                     upper = 200
-            elif ":" in models:# and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM"))
+            '''
+            if True: #" in models:# and not (coeff.startswith("cS") or coeff.startswith("cT") or coeff.startswith("cM"))
                 #print "\n", (models.startswith("cqq") and ":cqq" in models)
                 if (models.startswith("cqq") and ":cqq" in models):
                     #print "HELLO\n"
@@ -264,44 +274,6 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         #lower = 100
                     lower = -2.5
                     upper = 3.5
-                    #else:
-                        #lower = -4000
-                        #upper = 4000
-                #elif "cqq31_" in models and not coeff.startswith("cqq"):
-                    #if coeff == "cHq3" or coeff == "cHl3":
-                        #lower = -50
-                        #upper = 50
-                    #elif coeff == "cW":
-                        #lower = -4
-                        #upper = 6
-                    #elif coeff == "cHW":
-                        #lower = -400
-                        #upper = 400
-                    #elif coeff == "cll1":
-                        #lower = -550
-                        #upper = 550
-                    #elif coeff == "cHq1":
-                        #lower = -200
-                        #upper = 200
-                    #else:
-                        #lower = -4000
-                        #upper = 4000                      
-                #elif "cqq11_" in models and not coeff.startswith("cqq"):
-                    #if coeff == "cHq3":
-                        #lower = -30
-                        #upper = 30
-                    #elif coeff == "cHl3":
-                        #lower = -300
-                        #upper = 300
-                    #elif coeff == "cHq1":
-                        #lower = -200
-                        #upper = 200
-                    #elif coeff == "cW":
-                        #lower = -4
-                        #upper = 6
-                    #else:
-                        #lower = -4000
-                        #upper = 4000                      
                 else:
                     if coeff == "cHbox":
                         lower = -40
@@ -356,9 +328,12 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     elif coeff == "cW":
                         lower = -15
                         upper = 15
-                    elif coeff.startswith("cT") or coeff.startswith("cM") or coeff.startswith("cS"):
+                    elif coeff.startswith("cT"):# or coeff.startswith("cM") or coeff.startswith("cS"):
                         lower = -10
                         upper = 10
+                    elif coeff.startswith("cS") or coeff.startswith("cM"):# or coeff.startswith("cT"):
+                        lower = -50
+                        upper = 50
             
             if "cll_" in models and not coeff.startswith("cqq"):
                 if coeff.startswith("cT") or coeff.startswith("cS") or coeff.startswith("cM"):
@@ -432,18 +407,24 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     labels.append(label)
 
                 os.system("rm higgsCombine" + dirmodel + "*root")
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr 
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j " + jobs + "  -M MultiDimFit " + algostring + " -m 125 --redefineSignalPOIs " + modComb + " --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr + " -n " + dirmodel #+ " --autoMaxPOIs r," + modComb + " --squareDistPoiStep --autoBoundsPOIs r," + modComb #### precedente 
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j " + jobs + "  -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr 
                 #cmd = "combine "
-                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j 100 " 
+                cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py -j " + jobs + "  " 
                 cmd += rootdc + " -M MultiDimFit " + algostring + " -m 125 "
                 if not unblind:
                     cmd += " --freezeParameters r --setParameters r=1 "
                 else:
                     #cmd += " --freezeParameters r --setParameters r=1.5 "
-                    cmd += " --rMin -" + rint + " --rMax " + rint + " "
-                cmd += " --setParameterRanges " + intervalstr  
-                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j 100 -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
+                    print "\n\n rfix", rfix, "rint", rint, "rfix - rint", float(rfix) - float(rint), "rfix + rint", float(rfix) + float(rint), "\n\n"
+                    if rfix != None:
+                        cmd += " --setParameters r=" + rfix + ",k_" + coeff + "=0 "
+                    if rint != None:
+                        rmin = str( round(float(rfix) - float(rint) , 2) )
+                        rmax = str( round(float(rfix) + float(rint) , 2) )
+                        cmd += " --rMin " + rmin + " --rMax " + rmax + " "
+                cmd += " --setParameterRanges " + intervalstr
+                #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j " + jobs + "  -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
                     #cmd += " --autoRange 15 "
                 cmd += " " + optionals 

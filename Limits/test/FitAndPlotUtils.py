@@ -752,7 +752,7 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, pdftype, sett
     print runcomb
     os.system(runcomb)
 
-def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pdftype, profile, settmod, folder, unblind, rintt):
+def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pdftype, profile, settmod, folder, unblind, rintt, rfixx):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -762,7 +762,11 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pd
 
     collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
     createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --ls " + model+ " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --rint " + rintt
+    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod 
+    if rintt != None:
+        runcomb += " --rint " + rintt
+    if rfixx != None:
+        runcomb += " --rfix " + rfixx
 
     if addLambda8:
         collhist += " --Lambda8"
@@ -1384,7 +1388,7 @@ def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
     else:
         return "Not runned"
         
-    plotcommand += "--y-max 50 --y-cut 45 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
+    plotcommand += "--y-max 16 --y-cut 10 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
     
     print plotcommand
     os.system(plotcommand)
