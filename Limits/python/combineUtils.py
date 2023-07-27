@@ -171,7 +171,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
-        algostring +=     "  7500 "
+        algostring +=     "  4000 "
         jobs = "50"
         #algostring +=     "  25 "
     else:
@@ -276,14 +276,14 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     upper = 3.5
                 else:
                     if coeff == "cHbox":
-                        lower = -40
-                        upper = 40
+                        lower = -150
+                        upper = 150
                     elif coeff == "cHDD":
-                        lower = -100
-                        upper = 100
+                        lower = -300
+                        upper = 300
                     elif coeff == "cHl1":
-                        lower = -170
-                        upper = 170
+                        lower = -400
+                        upper = 400
                     elif coeff == "cHl3":
                         lower = -25
                         upper = 30
@@ -303,8 +303,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         lower = -30
                         upper = 20
                     elif coeff == "cll":
-                        lower = -150
-                        upper = 150
+                        lower = -500
+                        upper = 500
                     elif coeff == "cqq1":
                         lower = -5
                         upper = 5
@@ -331,7 +331,14 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     elif coeff.startswith("cT"):# or coeff.startswith("cM") or coeff.startswith("cS"):
                         lower = -10
                         upper = 10
-                    elif coeff.startswith("cS") or coeff.startswith("cM"):# or coeff.startswith("cT"):
+                    elif coeff.startswith("cS"):
+                        if coeff.startswith("cS0"):
+                            lower = -50
+                            upper = 50
+                        else:
+                            lower = -250
+                            upper = 250
+                    elif coeff.startswith("cM"):# or coeff.startswith("cT"):
                         lower = -50
                         upper = 50
             
@@ -416,13 +423,15 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     cmd += " --freezeParameters r --setParameters r=1 "
                 else:
                     #cmd += " --freezeParameters r --setParameters r=1.5 "
-                    print "\n\n rfix", rfix, "rint", rint, "rfix - rint", float(rfix) - float(rint), "rfix + rint", float(rfix) + float(rint), "\n\n"
+                    print "\n\n rfix", rfix, "rint", rint #, "rfix - rint", float(rfix) - float(rint), "rfix + rint", float(rfix) + float(rint), "\n\n"
                     if rfix != None:
                         cmd += " --setParameters r=" + rfix + ",k_" + coeff + "=0 "
                     if rint != None:
                         rmin = str( round(float(rfix) - float(rint) , 2) )
                         rmax = str( round(float(rfix) + float(rint) , 2) )
                         cmd += " --rMin " + rmin + " --rMax " + rmax + " "
+                    else:
+                        cmd += " --freezeParameters r "
                 cmd += " --setParameterRanges " + intervalstr
                 #cmd = "$CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/parallelScan.py " + rootdc + " -j " + jobs + "  -M MultiDimFit " + algostring + " -m 125 --freezeParameters r --setParameters r=1 --setParameterRanges " + intervalstr  
                 #if not ":" in models:
@@ -472,6 +481,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         print cmd
                         os.system(cmd)
                     else:
+                        modCombs = modComb.split(",")
                         #cmd1 = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + modCombs[1] + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[1]
                         #cmd1 += " --1D"
                         #cmd1 += " --year " 
@@ -482,8 +492,8 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                         #print cmd1
                         #os.system(cmd1)
 
-                        for elComb in modCombs:
-                            cmdell = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + elComb + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + elComb + ".MultiDimFit.mH125.root --coeff " + drawcoeff.split(":")[0]
+                        for ellComb in modCombs:
+                            cmdell = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + ellComb + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + ellComb + ".MultiDimFit.mH125.root --coeff " + ellComb.split("_")[-1]
                             cmdell += " --1D"
                             cmdell += " --year " 
                         for year in years:

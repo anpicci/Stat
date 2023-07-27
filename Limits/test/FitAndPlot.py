@@ -219,7 +219,7 @@ for model in models:
         print "doFit?", opt.dofit
         if opt.dofit:
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, opt.noQCDScale)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, opt.noQCDScale) #, False)
             #RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
