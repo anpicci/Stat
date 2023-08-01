@@ -1,9 +1,7 @@
  <<< Combine >>> 
->>> Used OpenSSL to get a really random seed -407232499
-unable to write 'random state'
+>>> random number generator seed is 123456
 >>> using the Profile Likelihood test statistics modified for upper limits (Q_LHC)
 >>> method used is HybridNew
->>> method used to hint where the upper limit is AsymptoticLimits
 Channel SR_muon_2016M will use autoMCStats with settings: event-threshold=1, include-signal=0, hist-mode=1
 ============================================================
 Analysing bin errors for: prop_binSR_muon_2016M
@@ -1358,66 +1356,10 @@ Bin        Contents        Error           Notes
   => Total parameter prop_binCROS_electron_2018_bin11[0.00,-7.00,7.00] to be gaussian constrained
 ------------------------------------------------------------
 SimNLL created with 18 channels, 8 generic constraints, 315 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-SimNLL created with 18 channels, 8 generic constraints, 315 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
-
- -- AsymptoticLimits ( CLs ) --
-Observed Limit: r < 2.5144
-
-SimNLL created with 18 channels, 8 generic constraints, 315 fast gaussian constraints, 0 fast poisson constraints, 0 fast group constraints, 
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
 [#0] WARNING:Eval -- RooStatsUtils::MakeNuisancePdf - no constraints found on nuisance parameters in the input model
-/tmp/rstats-AgiecD
-/tmp/rstats-VT4NCH
-/tmp/rstats-wjYRbx
-/tmp/rstats-b9mIaa
-/tmp/rstats-kJ7ykS
-/tmp/rstats-JOc45T
-/tmp/rstats-21OeFI
-/tmp/rstats-BOf53T
-/tmp/rstats-i3HIbA
-/tmp/rstats-VWaCpO
-/tmp/rstats-s8ASQC
-/tmp/rstats-BEG1QV
-/tmp/rstats-s9Q8cH
-/tmp/rstats-npxZW0
-/tmp/rstats-GrxkRH
-/tmp/rstats-hCsjPQ
-/tmp/rstats-KtolxF
-/tmp/rstats-Bn05o9
-/tmp/rstats-WgjNA9
-/tmp/rstats-j9pnOC
-/tmp/rstats-avqLLD
-/tmp/rstats-1Yvywu
-/tmp/rstats-2jIMAw
-/tmp/rstats-fWPjJL
-/tmp/rstats-qoJnll
-/tmp/rstats-jhc2Tp
-/tmp/rstats-8xwqOf
-/tmp/rstats-367EIO
-/tmp/rstats-cayJ2O
-/tmp/rstats-J8fR5p
-/tmp/rstats-oc5PXx
-/tmp/rstats-hcinS0
-/tmp/rstats-o8Ni0U
-/tmp/rstats-7gMgbm
-/tmp/rstats-mNRQM9
-/tmp/rstats-nqRq1r
-/tmp/rstats-SYVKH8
-/tmp/rstats-lQryDl
-/tmp/rstats-QcTP2T
-/tmp/rstats-ryD0N7
-/tmp/rstats-IJHNZv
-/tmp/rstats-VoSBmb
-/tmp/rstats-O14amk
-/tmp/rstats-LY8zYH
-/tmp/rstats-Y9vNYj
-/tmp/rstats-Ladhxr
-/tmp/rstats-imjQWd
-/tmp/rstats-LHIrv8
-/tmp/rstats-mbxJOe
-/tmp/rstats-7XoRNj
 
  -- Hybrid New -- 
-Significance: 2.5427  -0.0932497/+0.122578
-Null p-value: 0.0055 +/- 0.00165375
-Done in 0.78 min (cpu), 77.37 min (real)
+Significance: 2.70163  -0.0379578/+0.0423017
+Null p-value: 0.00345 +/- 0.000414614
+Done in 0.09 min (cpu), 0.09 min (real)
