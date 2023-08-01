@@ -58,6 +58,7 @@ parser.add_option('--profile', dest='profile', default = False, action='store_tr
 parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'fit with HybridNew instead of AsymptoticLimits')
 parser.add_option('--rint', dest='rint', type='string', default = 'None', help = 'r interval for EFT')
 parser.add_option('--rfix', dest='rfix', type='string', default = 'None', help = 'r interval for EFT')
+parser.add_option('--merge', dest='merge', type='string', default = '0', help='Default no merging bins')
 
 (opt, args) = parser.parse_args()
 
@@ -77,6 +78,8 @@ elif opt.vvvbroad:
     tagfolder = "_vvvbroad"
 if not opt.flat:
     tagfolder += "_noflat"
+if opt.merge != "0":
+    tagfolder += "_merge" + str(opt.merge)
 
 regions = opt.regions.split(",")
 leptons = opt.leptons.split(",")
@@ -134,9 +137,9 @@ for model in models:
         #fitfolder = "FitResults_" + folder
         fitfolder = "FitResults_testfloatingSM" 
         if rint is not None:
-            fitfolder += "_" + opt.rint.replace(".", "p")
+            fitfolder += "_rint" + opt.rint.replace(".", "p")
         if rfix is not None:
-            fitfolder += "_" + opt.rfix.replace(".", "p")
+            fitfolder += "_rfix" + opt.rfix.replace(".", "p")
 
         fitfolder += "_" + folder
         #fitfolder = "FitResults_S3_" + folder

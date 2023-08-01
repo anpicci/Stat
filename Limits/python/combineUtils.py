@@ -171,7 +171,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
         #algostring += "10 "
         #algostring += " 50000 "
     elif ":" in models and profile:
-        algostring +=     "  4000 "
+        algostring +=     "  2000 "
         jobs = "50"
         #algostring +=     "  25 "
     else:
@@ -362,8 +362,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
             elif "cHl3_" in models and "cll1_" in models:
                 lower *= 5
                 upper *= 5
-            #lower *= 5
-            #upper *= 5
+            if ":" in models and profile:
+                lower *= 5
+                upper *= 5
                 
             intervals.append(str(lower) + "," + str(upper))
 
@@ -425,10 +426,23 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                     #cmd += " --freezeParameters r --setParameters r=1.5 "
                     print "\n\n rfix", rfix, "rint", rint #, "rfix - rint", float(rfix) - float(rint), "rfix + rint", float(rfix) + float(rint), "\n\n"
                     if rfix != None:
-                        cmd += " --setParameters r=" + rfix + ",k_" + coeff + "=0 "
+                        cmd += " --setParameters r=" + rfix 
+                        for coeff in coeffs:
+                            cmd += ",k_" + coeff + "=0"
+                    else:
+                        cmd += " --setParameters "
+                        for coeff in coeffs:
+                            if cmd.endswith("0"):
+                                cmd += ","
+                            cmd += "k_" + coeff + "=0"
+
                     if rint != None:
-                        rmin = str( round(float(rfix) - float(rint) , 2) )
-                        rmax = str( round(float(rfix) + float(rint) , 2) )
+                        if rfix == None:
+                            rfixx = 0
+                        else:
+                            rfixx = rfix
+                        rmin = str( round(float(rfixx) - float(rint) , 2) )
+                        rmax = str( round(float(rfixx) + float(rint) , 2) )
                         cmd += " --rMin " + rmin + " --rMax " + rmax + " "
                     else:
                         cmd += " --freezeParameters r "
@@ -496,13 +510,13 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
                             cmdell = "python " + maindir + "drawLS.py --in0 higgsCombine" + dirmodel + "_" + ellComb + ".MultiDimFit.mH125.root --in1 higgsCombine" + dirmodel + "_" + ellComb + ".MultiDimFit.mH125.root --coeff " + ellComb.split("_")[-1]
                             cmdell += " --1D"
                             cmdell += " --year " 
-                        for year in years:
-                            cmdell += year
-                            if year != years[-1]:
-                                cmdell += "," 
+                            for year in years:
+                                cmdell += year
+                                if year != years[-1]:
+                                    cmdell += "," 
 
-                        print cmdell
-                        os.system(cmdell)
+                            print cmdell
+                            os.system(cmdell)
                         
                 os.chdir(path)
                 os.system("rm higgsCombine" + dirmodel + ".*.MultiDimFit.mH125.root")

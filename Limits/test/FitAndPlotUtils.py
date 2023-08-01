@@ -1451,9 +1451,9 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         optionalss += " -t -1 --toysFreq "
     if not ":" in modeltot:
         #points = "10"
-        points = "3000"
+        points = "500"
     else:
-        points = "3000"
+        points = "500"
         #points = "100"
 
     settitle = setmodd
