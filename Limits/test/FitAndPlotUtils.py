@@ -467,6 +467,33 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
                 #LineWrite(settname, "\tsystgroups['theory group'].append('ISR_WpWpJJ_QCD')")
                 #LineWrite(settname, "\tsystgroups['theory group'].append('FSR_WpWpJJ_QCD')")
 
+
+    LineWrite(settname, "systgroups['tau group'] = [")
+    LineWrite(settname, "\t'TES',")
+    LineWrite(settname, "\t'FES',")
+    LineWrite(settname, "\t'tau_vsjet',")
+    for lep in leps:
+        LineWrite(settname, "\t'tau_vs" + leptags[lep] + "',")
+    LineWrite(settname, "]")
+
+    LineWrite(settname, "systgroups['lumi group'] = ['lumi_2016M', 'lumi_2017', 'lumi_2018']")
+    LineWrite(settname, "systgroups['VBS group'] = ['VBS']")
+    LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
+    if "CROS" in regions:
+        LineWrite(settname, "systgroups['mischarge group'] = [")
+        for lep in leps:
+            LineWrite(settname, "\t'mischarge_" + lep + "_2016M',")
+            LineWrite(settname, "\t'mischarge_" + lep + "_2017',")
+            LineWrite(settname, "\t'mischarge_" + lep + "_2018',")
+        LineWrite(settname, "]")
+    LineWrite(settname, "")
+
+    LineWrite(settname, "systgroups['PF group'] = ['PF']")
+    LineWrite(settname, "systgroups['jet group'] = ['jes_sig', 'jes_VG', 'jes_TVX', 'jes_TTTo2L2Nu', 'jes_WZ', 'jes_Triboson', 'jes_WrongSign', 'jes_ZZtoLep', 'jer']")
+    LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
+    LineWrite(settname, "systgroups['MET group'] = ['metUnclust']")
+    LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
+
     if flnN:
         LineWrite(settname, "systgroups['FRsys group'] = [")
         for lep in leps:
@@ -474,9 +501,6 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
             LineWrite(settname, "\t'FR_sys_" + lep + "_2017',")
             LineWrite(settname, "\t'FR_sys_" + lep + "_2018',")
         LineWrite(settname, "]")
-
-    LineWrite(settname, "systgroups['PF group'] = ['PF']")
-    LineWrite(settname, "systgroups['jet group'] = ['jes_sig', 'jes_VG', 'jes_TVX', 'jes_TTTo2L2Nu', 'jes_WZ', 'jes_Triboson', 'jes_WrongSign', 'jes_ZZtoLep', 'jer']")
 
     LineWrite(settname, "rpname=''")
     LineWrite(settname, "for idk, krp in enumerate(rateParams.keys()):")
@@ -488,29 +512,6 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "\t\tsystgroups[rpname].append(krp)")
     LineWrite(settname, "")
 
-    LineWrite(settname, "systgroups['Pileup group'] = ['pu', 'puID']")
-    LineWrite(settname, "systgroups['MET group'] = ['metUnclust']")
-
-    LineWrite(settname, "systgroups['tau group'] = [")
-    LineWrite(settname, "\t'TES',")
-    LineWrite(settname, "\t'FES',")
-    LineWrite(settname, "\t'tau_vsjet',")
-    for lep in leps:
-        LineWrite(settname, "\t'tau_vs" + leptags[lep] + "',")
-    LineWrite(settname, "]")
-
-    LineWrite(settname, "systgroups['lumi group'] = ['lumi_2016M', 'lumi_2017', 'lumi_2018']")
-    LineWrite(settname, "systgroups['btag group'] = ['btag', 'mistag']")
-    LineWrite(settname, "systgroups['VBS group'] = ['VBS']")
-    LineWrite(settname, "systgroups['lepton group'] = ['lep', 'PF']")
-    if "CROS" in regions:
-        LineWrite(settname, "systgroups['mischarge group'] = [")
-        for lep in leps:
-            LineWrite(settname, "\t'mischarge_" + lep + "_2016M',")
-            LineWrite(settname, "\t'mischarge_" + lep + "_2017',")
-            LineWrite(settname, "\t'mischarge_" + lep + "_2018',")
-        LineWrite(settname, "]")
-    LineWrite(settname, "")
     
     LineWrite(settname, "years = setlist[3].split(',')")
     LineWrite(settname, "")
@@ -1451,9 +1452,9 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         optionalss += " -t -1 --toysFreq "
     if not ":" in modeltot:
         #points = "10"
-        points = "200"
+        points = "500"
     else:
-        points = "200"
+        points = "500"
         #points = "100"
 
     settitle = setmodd
