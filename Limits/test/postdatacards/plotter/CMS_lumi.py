@@ -14,7 +14,8 @@ cmsTextFont   = 61
 writeExtraText = True
 #extraText   = "Experiment"
 #extraText   = ""
-extraText   = "Work in progress"
+#extraText   = "Work in progress"
+extraText   = "Preliminary"
 extraTextFont = 52 
 
 #lumiTextSize     = 0.6
