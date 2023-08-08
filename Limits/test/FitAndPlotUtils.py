@@ -1280,7 +1280,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         setmodvn = setmodd.replace(srvar, varname).replace(crvar, varname)
         print "settings to import for control variable:", setitlevn, setmodvn
         RecursiveImport(setmodvn)
-        #os.system("python PrepareEOSfolder.py " + fold)
+        ##os.system("python PrepareEOSfolder.py " + fold)
     
         appendix = ""
         
@@ -1296,8 +1296,8 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + "_" + varname + ".root " + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn + " --pdf " + pdftype
         createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + "_" + varname + ".root -d " + datafolder + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn
 
-        os.system(collhist)
-        os.system(createdata)
+        #os.system(collhist)
+        #os.system(createdata)
     
         print "settings to import for fitting variable:", setitlee
     
@@ -1313,7 +1313,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             createpostfit += " -u "
         
         print createpostfit
-        os.system(createpostfit)
+        #os.system(createpostfit)
         
         poststring = "python plotter/PreFitPostFit_v3.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
     
@@ -1327,6 +1327,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
             ##os.system(poststring + " --lastbins --scale")
             os.system(poststring + " --lastbins --linscale")
             ##os.system(poststring + " --lastbins --scale --linscale")
+            pass
 
         os.system(poststring)
         os.system(poststring + " --linscale")
