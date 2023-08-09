@@ -1643,7 +1643,9 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     
     md += optionalss 
     plotcomm = "plot1DScan.py " + totalfile + " --main-label \"Total uncert.\" --others "
+    syststat = "plot1DScan.py " + totalfile + " --main-label \"Total uncert.\" --others "
     bdstr = " -o freeze_ALL_st_" + model + " --breakdown \""
+    syststatstr = " -o freeze_SystStat_" + model + " --breakdown \""
     freeze = md + " --freezeNuisanceGroups "
 
     for idsy, systgroup in enumerate(systgroups.keys()):
@@ -1689,14 +1691,23 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     os.system(freezeall)
     
     plotcomm += "\'" + freezeallfile + ":Freeze all:" + colors[len(systgroup)] + "\' "
+    syststat += "\'" + freezeallfile + ":Freeze all:" + colors[len(systgroup)] + "\' "
     bdstr += ",MCstat,Stat\""
-
+    syststatstr += "syst,stat\""
     plotcomm += bdstr
+    syststat += syststatstr
+
     if isEFT:
         plotcomm += " --POI " + modComb
+        syststat += " --POI " + modComb
+
     print(plotcomm)
     if not ":" in modeltot:
         os.system(plotcomm)
+
+    print(syststat)
+    if not ":" in modeltot:
+        os.system(syststat)
     
     #os.system("rm higgsCombineWpWpJJ_hist.freeze*")
     os.chdir(upwd)
