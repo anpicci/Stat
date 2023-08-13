@@ -1282,7 +1282,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         setmodvn = setmodd.replace(srvar, varname).replace(crvar, varname)
         print "settings to import for control variable:", setitlevn, setmodvn
         RecursiveImport(setmodvn)
-        #os.system("python PrepareEOSfolder.py " + fold)
+        os.system("python PrepareEOSfolder.py " + fold)
     
         appendix = ""
         
