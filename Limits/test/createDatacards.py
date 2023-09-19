@@ -468,9 +468,9 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
                                           card += "\n"        
               if('autoMCstat' in sysName):
                   if len(sig) > 1:
-                      card += "%-25s%-25s%-25d%-25d " % (ch, "autoMCStats", 1, 0)
+                      card += "%-25s%-25s%-25d%-25d " % (ch, "autoMCStats", 10, 0)
                   else:
-                      card += "%-25s%-25s%-25d%-25d " % (ch, "autoMCStats", 1, 0)
+                      card += "%-25s%-25s%-25d%-25d " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
        card += "\n"

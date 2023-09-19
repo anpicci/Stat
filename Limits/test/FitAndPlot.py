@@ -135,7 +135,7 @@ for model in models:
         print "\tChannels:", opt.leptons
     
         #fitfolder = "FitResults_" + folder
-        fitfolder = "FitResults_testfloatingSM" 
+        fitfolder = "FitResults_mcStat10_SM" 
         if rint is not None:
             fitfolder += "_rint" + opt.rint.replace(".", "p")
         if rfix is not None:
