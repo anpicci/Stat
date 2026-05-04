@@ -4,6 +4,7 @@ import copy
 import optparse
 import array
 import os
+import numpy as np
 from operator import itemgetter
 #os.system("reset")
 
@@ -38,6 +39,124 @@ if opt.twoD:
 ROOT.gROOT.LoadMacro("/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/test/tdrstyle.C")
 ROOT.gROOT.ProcessLine("setTDRStyle();")
 
+import ctypes
+
+def print_graph_points(graph, label):
+    n_points = graph.GetN()
+    print(label, "number of points:", n_points)
+    for i in range(n_points):
+        x = ctypes.c_double(0)
+        y = ctypes.c_double(0)
+        graph.GetPoint(i, x, y)
+        print("Point", i, ":", x.value, y.value)
+
+import ctypes
+
+def print_intercepts(graph, label):
+    n_points = graph.GetN()
+    points = []
+    for i in range(n_points):
+        x_val = ctypes.c_double(0)
+        y_val = ctypes.c_double(0)
+        graph.GetPoint(i, x_val, y_val)
+        points.append((x_val.value, y_val.value))
+    
+    # For points where x is positive and negative, find the one with y closest to 0
+    points_xpos = [pt for pt in points if pt[0] > 0]
+    points_xneg = [pt for pt in points if pt[0] < 0]
+    
+    best_xpos = min(points_xpos, key=lambda p: abs(p[1])) if points_xpos else None
+    best_xneg = min(points_xneg, key=lambda p: abs(p[1])) if points_xneg else None
+
+    # For points where y is positive and negative, find the one with x closest to 0
+    points_ypos = [pt for pt in points if pt[1] > 0]
+    points_yneg = [pt for pt in points if pt[1] < 0]
+    
+    best_ypos = min(points_ypos, key=lambda p: abs(p[0])) if points_ypos else None
+    best_yneg = min(points_yneg, key=lambda p: abs(p[0])) if points_yneg else None
+
+    # Print the results:
+    if best_xpos:
+        print(label, "for x > 0: point with y closest to 0 =", best_xpos)
+    else:
+        print(label, "for x > 0: no points found.")
+
+    if best_xneg:
+        print(label, "for x < 0: point with y closest to 0 =", best_xneg)
+    else:
+        print(label, "for x < 0: no points found.")
+
+    if best_ypos:
+        print(label, "for y > 0: point with x closest to 0 =", best_ypos)
+    else:
+        print(label, "for y > 0: no points found.")
+
+    if best_yneg:
+        print(label, "for y < 0: point with x closest to 0 =", best_yneg)
+    else:
+        print(label, "for y < 0: no points found.")
+
+'''
+def print_intercepts(graph, label):
+    n_points = graph.GetN()
+    x_vals = []
+    y_vals = []
+    for i in range(n_points):
+        x = ctypes.c_double(0)
+        y = ctypes.c_double(0)
+        graph.GetPoint(i, x, y)
+        x_vals.append(x.value)
+        y_vals.append(y.value)
+    
+    # Find the point with y closest to 0 (gives corresponding x)
+    min_y_idx = min(range(n_points), key=lambda i: abs(y_vals[i]))
+    closest_x = x_vals[min_y_idx]
+    closest_y = y_vals[min_y_idx]
+    
+    # Find the point with x closest to 0 (gives corresponding y)
+    min_x_idx = min(range(n_points), key=lambda i: abs(x_vals[i]))
+    closest_y2 = y_vals[min_x_idx]
+    closest_x2 = x_vals[min_x_idx]
+    
+    print(label, "-> Closest to y=0: x =", closest_x, " (at y =", closest_y, ")")
+    print(label, "-> Closest to x=0: y =", closest_y2, " (at x =", closest_x2, ")")
+'''
+
+'''
+def print_intercepts(graph, label, tol=1e-5):
+    n_points = graph.GetN()
+    x_vals = []
+    y_vals = []
+    for i in range(n_points):
+        x = ctypes.c_double(0)
+        y = ctypes.c_double(0)
+        # Use ctypes.pointer instead of ctypes.byref
+        graph.GetPoint(i, ctypes.pointer(x), ctypes.pointer(y))
+        x_vals.append(x.value)
+        y_vals.append(y.value)
+    
+    # Find the x-value where y crosses zero (y=0 intercept)
+    x_at_y0 = []
+    for i in range(n_points - 1):
+        if (y_vals[i] * y_vals[i+1] < 0) or (abs(y_vals[i]) < tol):
+            if abs(y_vals[i+1] - y_vals[i]) > tol:
+                t = -y_vals[i] / (y_vals[i+1] - y_vals[i])
+                x_interp = x_vals[i] + t * (x_vals[i+1] - x_vals[i])
+                x_at_y0.append(x_interp)
+    
+    # Find the y-value where x crosses zero (x=0 intercept)
+    y_at_x0 = []
+    for i in range(n_points - 1):
+        if (x_vals[i] * x_vals[i+1] < 0) or (abs(x_vals[i]) < tol):
+            if abs(x_vals[i+1] - x_vals[i]) > tol:
+                t = -x_vals[i] / (x_vals[i+1] - x_vals[i])
+                y_interp = y_vals[i] + t * (y_vals[i+1] - y_vals[i])
+                y_at_x0.append(y_interp)
+    
+    print(label, "-> y=0 crossing (x values):", x_at_y0)
+    print(label, "-> x=0 crossing (y values):", y_at_x0)
+'''
+
 def draw1D():
     _file0 = ROOT.TFile.Open(opt.in0, "READ")
     _file1 = ROOT.TFile.Open(opt.in1, "READ")
@@ -50,21 +169,21 @@ def draw1D():
 
     cc = ROOT.TCanvas("cc","", 800, 600);
 
-    print " expected = ", _file0.GetName()
+    print(" expected = ", _file0.GetName())
 
     #n = limit.Draw("2*deltaNLL:r","deltaNLL<10 && deltaNLL>-30","l");
   
     toDraw = ROOT.TString(ROOT.Form("2*deltaNLL:"+variable))
   
-    n = limit.Draw( toDraw.Data(), "deltaNLL<5 && deltaNLL>-5", "l")
+    n = limit.Draw( toDraw.Data(), "deltaNLL<10 && deltaNLL>-10", "l")
     graphScan = ROOT.TGraph(n,limit.GetV2(),limit.GetV1())
     graphScan.RemovePoint(0)
   
     graphScanData = ROOT.TGraph()
     limitData = _file1.Get("limit")  
-    print " observed = ", _file1.GetName(), "\n"
+    print(" observed = ", _file1.GetName(), "\n")
     #     n_data = limitData.Draw("2*deltaNLL:r","deltaNLL<40 && deltaNLL>-30","l")
-    n_data = limitData.Draw(  toDraw.Data() , "deltaNLL<5 && deltaNLL>-5", "l")
+    n_data = limitData.Draw(  toDraw.Data() , "deltaNLL<10 && deltaNLL>-10", "l")
     graphScanData = ROOT.TGraph(n_data,limitData.GetV2(),limitData.GetV1())
     graphScanData.RemovePoint(0)
     graphScanData.SetTitle("")
@@ -184,6 +303,7 @@ def draw1D():
 
     ip = 0
 
+
     while ip < graphScanData.GetN():#
         graphScanData.GetPoint (ip, x_value, y_value)
         #     print " x_value = ", x_value, "\n"
@@ -281,9 +401,9 @@ def draw1D():
   
     leg.SetFillColor(0)
     leg.Draw()
-  
-    print " (expected) MC   at minimum:   ",   mc_min_x, "\n"
-    print " (observed) data at minimum:   ", data_min_x, "\n"
+    
+    print(" (expected) MC   at minimum:   ",   mc_min_x, "\n")
+    print(" (observed) data at minimum:   ", data_min_x, "\n")
   
   
     #   print " data at 0:   ", graphScanData.Eval(0), "\n"
@@ -310,7 +430,7 @@ def draw1D():
     
 def draw2D():
     NRGBs = 3
-    NCont = 255
+    NCont = 200
     stops = array.array('d', [0.00, 0.5, 1.00])
     red = array.array('d', [1.00, 0.0, 0.00])
     green = array.array('d', [0.0, 1.00, 0.00])
@@ -335,13 +455,27 @@ def draw2D():
         
     xName, yName = variables.replace("k_", "").split(":")
     xNameVar, yNameVar = opt.coeff.split(":")
-    xNameVar = xNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
-    yNameVar = yNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
-
-    
+    if not ("EW" in xNameVar or "QCD" in xNameVar):
+        xNameVar = str(xNameVar.replace(xNameVar[0], xNameVar[0] + "_{") + "}").replace("F", "f")
+    else:
+        xNameVar = xNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}")
+    if not ("EW" in yNameVar or "QCD" in yNameVar):
+        yNameVar = str(yNameVar.replace(yNameVar[0], yNameVar[0] + "_{") + "}").replace("F", "f")
+    else:
+        yNameVar = yNameVar.replace("EWK", "#mu_{EW}").replace("QCD", "#mu_{QCD}").replace(xNameVar[0], xNameVar[0] + "_{")
     #variable = "k_" + str(opt.coeff)
     year = str(opt.year)
 
+    lambdas = {
+        "c": "/#Lambda^{2}",
+        "f": "/#Lambda^{4}",
+    }
+
+    for cinit, lambpow in list(lambdas.items()): 
+        if xNameVar.startswith(cinit):
+            xNameVar += lambpow
+        if yNameVar.startswith(cinit):
+            yNameVar += lambpow
     #nvariable = variable.replace("cS", "fS").replace("cM", "fM").replace("cT", "fT")
 
     limit = _file0.Get("limit")
@@ -349,98 +483,193 @@ def draw2D():
 
     
     whatToDraw = variables +":2*deltaNLL"
-    cutToDraw = "(deltaNLL<10) && (" + opt.cut + ")"
-    n = limit.Draw(whatToDraw, cutToDraw, "colz")
+    if ":F" in opt.coeff:
+        cutToDraw = "(deltaNLL<20 && deltaNLL>-20)" # && (" + opt.cut + ")"
+    else:
+        cutToDraw = "(deltaNLL<40 && deltaNLL>-40)" # && (" + opt.cut + ")"
+    #cutToDraw = "(deltaNLL<5) && deltaNLL>-5" # && (" + opt.cut + ")"
+    n = limit.Draw(whatToDraw, cutToDraw, "colz") #"colz")
+    nData = limitData.Draw(whatToDraw, cutToDraw, "colz") #"colz")
     
-    cc = ROOT.TCanvas("cc","",800,600)
-    graphScan = ROOT.TGraph2D(n,limit.GetV1(),limit.GetV2(),limit.GetV3())
-    #print graphScan
-    
-    graphScan.SetTitle("")
-    graphScan.SetMarkerStyle(21)
-    graphScan.SetMarkerColor(ROOT.kRed)
-    graphScan.SetLineColor(ROOT.kRed)
-    
-    #graphScan.Draw("colz")
-    
-    graphScan.GetXaxis().SetTitle(xNameVar)
-    graphScan.GetYaxis().SetTitle(yNameVar)
-    graphScan.GetZaxis().SetTitle("- 2#Delta logL")
-    graphScan.GetZaxis().SetRangeUser(0,100.0)
-    
+    x = np.ndarray((n), 'd', limit.GetV1())
+    y = np.ndarray((n), 'd', limit.GetV2())
+    z_ = np.ndarray((n), 'd', limit.GetV3())
+    z = np.array([i-min(z_) for i in z_]) #shifting likelihood toward 0                                                        
+    graphScan = ROOT.TGraph2D(n,x,y,z)
+
+    xData = np.ndarray((nData), 'd', limitData.GetV1())
+    yData = np.ndarray((nData), 'd', limitData.GetV2())
+    zData_ = np.ndarray((nData), 'd', limitData.GetV3())
+    zData = np.array([i-min(zData_) for i in zData_]) #shifting likelihood toward 0                                            
+    graphScanData = ROOT.TGraph2D(nData,xData,yData,zData)
+
+    #n_points = graphScanData.GetN()
+    #for i in range(n_points):
+    #    x = graphScanData.GetX()[i]
+    #    y = graphScanData.GetY()[i]
+    #    z = graphScanData.GetZ()[i]
+    #    if z == 0:
+    #        graphScanData.SetPoint(i, x, y, 100)  # Set the z-value to 100 if it's originally 0
+
+
     ##---- 2D likelihood thresholds
     
-    contours = array.array('d', [2.30, 5.99]) ###1sigma, 2sigma
-    graphScan.Draw("colz")
-    #print graphScan.GetHistogram()
-    #graphScan.GetHistogram().GetXaxis().SetTitle(xNameVar)
+    contours = array.array('d', np.array([2.30, 5.99])) ###1sigma, 2sigma
     
-    graphScan.GetHistogram().GetYaxis().SetTitle(yNameVar)
-    graphScan.GetHistogram().GetZaxis().SetTitle("- 2#Delta logL")
-    graphScan.GetHistogram().GetZaxis().SetRangeUser(0,100.0)
+    cc2 = ROOT.TCanvas("cc2","",1000,1200)
     
-    if True:
-        for i in range(graphScan.GetHistogram().GetSize()):
-            if (graphScan.GetHistogram().GetBinContent(i+1) == 0):
-                graphScan.GetHistogram().SetBinContent(i+1, 100)
-            #print " [ " + str(i) + " ] = " + str(graphScan.GetHistogram().GetBinContent(i+1))
- 
-    #graphScan.Draw("colz")
+    # Draw contours from the TGraph2D for contLevel 1 of graphScanData
+    cont2_observed = graphScanData.GetContourList(contours[1])
+    print("cont2_observed", cont2_observed, cont2_observed.GetSize())
+    graph2_observed = None #ROOT.TMultiGraph()
+    for i in range(cont2_observed.GetSize()):
+        if i != cont2_observed.GetSize()-1:
+            continue
+            #graph2_observed = cont2_observed.At(i)
+        #else:
+        temp2_observed = cont2_observed.At(i)
+        temp2_observed.SetLineColor(ROOT.kBlack)
+        temp2_observed.SetLineStyle(2)  # Dash-dot line style                                                                                                                                                                                 
+        temp2_observed.SetLineWidth(3)
+        temp2_observed.GetXaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        temp2_observed.GetYaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        graph2_observed = temp2_observed #.Add(cont2_observed.At(i))
+        temp2_observed.Draw("AL")
+        if graph2_observed:
+            print_intercepts(graph2_observed, "Observed (95%)")
+            #print_graph_points(graph2_observed, "Observed (95%)")
+            
+        # Set line style and color for the second contour of graphScanData
     
-    cc2 = ROOT.TCanvas("cc2","",800,600)
-    #cc2.SetRightMargin(0.19)
+    #graph2_observed.SetLineColor(ROOT.kBlack)
+    #graph2_observed.SetLineStyle(1)  # Dash-dot line style
+    #graph2_observed.SetLineWidth(3) 
+    #graph2_observed.GetXaxis().SetLabelSize(0.05) #SetLabelSize(0.03) 
+    #graph2_observed.GetYaxis().SetLabelSize(0.05) #SetLabelSize(0.03) 
+    
+    # Draw the second contour line of graphScanData
+    #if i == 0:
+    #graph2_observed.Draw("AL")  # Draw as a line plot
+    #graph2_observed.Draw("L SAME")  # Draw as a line plot
+    
 
-    #graphScan.Draw("contz")
-    #graphScan.Draw("colz")
-    
-    HistStreamFn_ph2 = graphScan.GetHistogram().Clone("testhisto_ph2")
-    HistStreamFn_ph2.SetContour(2, contours)
-    HistStreamFn_ph2.SetLineWidth(2)
-    HistStreamFn_ph2.SetLineStyle(2)
-    
-    HistStreamFn_ph2.GetZaxis().SetRangeUser(0,100.0)
-    HistStreamFn_ph2.Draw("CONT1 LIST SAME")
+    #else:
+    #graph2_observed.Draw("L SAME")  # Draw as a line plot
+        
+    # Draw contours from the TGraph2D for contLevel 0 of graphScanData
+    cont1_observed = graphScanData.GetContourList(contours[0])
+    print("cont1_observed", cont1_observed, cont1_observed.GetSize())
+    graph1_observed = None
+    for i in range(cont1_observed.GetSize()):
+        #if i != 0:
+        #    continue
+        graph1_observed = cont1_observed.At(i)
+        # Set line style and color for the first contour of graphScanData
+        graph1_observed.SetLineColor(ROOT.kBlack)
+        graph1_observed.SetLineStyle(1)
+        graph1_observed.SetLineWidth(3) 
+        graph1_observed.GetXaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        graph1_observed.GetYaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        # Draw the first contour line of graphScanData
+        graph1_observed.Draw("L SAME")  # Draw as a line plot, on top of the second contour
+        if graph1_observed:
+            print_intercepts(graph1_observed, "Observed (68%)")
+            #print_graph_points(graph1_observed, "Observed (68%)")
+            
+    # Draw contours from the TGraph2D for contLevel 1 of graphScan
+    #print("hi", graphScan.GetContourList(2.3))
+    #return 
+    cont2_expected = graphScan.GetContourList(contours[1])
+    print("cont2_expected", cont2_expected, cont2_expected.GetSize())
+    graph2_expected = None
+    for i in range(cont2_expected.GetSize()):
+        graph2_expected = cont2_expected.At(i)
+        # Set line style and color for the second contour of graphScan
+        graph2_expected.SetLineColor(ROOT.kRed)
+        graph2_expected.SetLineStyle(2)
+        graph2_expected.SetLineWidth(3)
+        graph2_expected.GetXaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        graph2_expected.GetYaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        # Draw the second contour line of graphScan
+        graph2_expected.Draw("L SAME")  # Draw as a line plot, on top of the first contour
+        if graph2_expected:
+            print_intercepts(graph2_expected, "Expected (95%)")
+            #print_graph_points(graph2_expected, "Expected (95%)")
+            
+    # Draw contours from the TGraph2D for contLevel 0 of graphScan
+    cont1_expected = graphScan.GetContourList(contours[0])
+    print("cont1_expected", cont1_expected, cont1_expected.GetSize())
+    graph1_expected = None
+    for i in range(cont1_expected.GetSize()):
+        graph1_expected = cont1_expected.At(i)
+        # Set line style and color for the first contour of graphScan
+        graph1_expected.SetLineColor(ROOT.kRed)
+        graph1_expected.SetLineStyle(1)
+        graph1_expected.SetLineWidth(3) 
+        graph1_expected.GetXaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        graph1_expected.GetYaxis().SetLabelSize(0.05) #SetLabelSize(0.03)
+        # Draw the first contour line of graphScan
+        graph1_expected.Draw("L SAME")  # Draw as a line plot, on top of the second contour
+        if graph1_expected:
+            print_intercepts(graph1_expected, "Expected (68%)")
+            #print_graph_points(graph1_expected, "Expected (68%)")
+            
+    # Set axis titles
+    cc2.SetLeftMargin(0.1)  # Adjust margin to make room for axis titles
+    cc2.SetRightMargin(0.05)
+    cc2.SetBottomMargin(0.11)
+    cc2.SetTopMargin(0.16)#0.055)
+    cc2.SetGrid()
+    ROOT.gStyle.SetGridWidth(1)
+    ROOT.gStyle.SetGridStyle(2)
+    ROOT.gStyle.SetGridColor(ROOT.kGray)
+    cc2.Modified()
     cc2.Update()
-    cc.cd()
-    HistStreamFn_ph2.Draw("CONT Z LIST")
-    cc.Update()
+
+    # Create and draw axis titles
+    xAxisTitle = ROOT.TLatex()
+    xAxisTitle.SetTextFont(42)
+    xAxisTitle.SetTextSize(0.05)
+    xAxisTitle.SetTextAlign(22)
+    xAxisTitle.DrawLatexNDC(0.9, 0.03, xNameVar)
+
+    yAxisTitle = ROOT.TLatex()
+    yAxisTitle.SetTextFont(42)
+    yAxisTitle.SetTextSize(0.05)
+    yAxisTitle.SetTextAlign(22)
+    yAxisTitle.SetTextAngle(90)
+    yAxisTitle.DrawLatexNDC(0.031, 0.9, yNameVar)
+
+    zAxisTitle = ROOT.TLatex()
+    zAxisTitle.SetTextFont(42)
+    zAxisTitle.SetTextSize(0.055)
+    zAxisTitle.SetTextAlign(22)
+    zAxisTitle.SetTextAngle(90)
+    #zAxisTitle.DrawLatexNDC(0.9, 0.5, "- 2#Delta logL")
+    #graphScan.GetZaxis().SetRangeUser(0,100.0)
     
-    conts = ROOT.gROOT.GetListOfSpecials().FindObject("contours")
-    print " conts = " + str(conts.GetSize())
+    # Create a legend
+    legend = ROOT.TLegend(0.095, 0.85, 0.955, 0.94)  # Define legend position
+    legend.SetBorderSize(0)
+    legend.SetFillStyle(0)
+
+    #legend.SetNColumns(legend.GetNRows())
+    # Draw the legend on the canvas
+    #legend.Draw()
     
-    gr_1sigma = conts.At(0)
-    gr_2sigma = conts.At(1)
-    #print gr_1sigma, gr_1sigma.GetSize()
-    #print gr_2sigma, gr_2sigma.GetSize()
-
-    cc2.cd()
-
-    for obj in gr_1sigma:
-        obj.SetLineWidth(3)
-        #obj.SetLineStyle(1)
-        obj.SetLineColor(ROOT.kGreen)
-        #obj.SetFillColor(ROOT.kGreen)
-        obj.Draw("C")
-
+    cc2.Update()
     
-    for obj in gr_2sigma:
-        obj.SetLineWidth(3)
-        #obj.SetLineStyle(7)
-        obj.SetLineColor(ROOT.kBlue)
-        #obj.SetFillColor(ROOT.kBlue)
-        obj.Draw("C")
-
     cross11 = ROOT.TGraph()
     if opt.coeff.startswith("c") or opt.coeff.startswith("F"):
         cross11.SetPoint(0,0,0)
     else:
         cross11.SetPoint(0,1,1)
-    cross11.SetMarkerStyle(22)
+    cross11.SetMarkerStyle(34)
     cross11.SetMarkerSize(2)
-    cross11.SetMarkerColor(ROOT.kBlack)
-    cross11.SetLineColor(ROOT.kBlack)
-    cross11.Draw("P")
+    cross11.SetMarkerColor(ROOT.kBlue)
+    cross11.SetLineColor(ROOT.kBlue)
 
+    
     #xmin = array.array('d', [0.])
     #ymin = array.array('d', [0.])
 
@@ -448,26 +677,71 @@ def draw2D():
     #limit.SetBranchAddress("k_" + yName, ymin)
     #print limit.GetEntry(0)
     limit.GetEntry(0)
-    xmin = array.array('d', [getattr(limit, 'k_' + xName)])
-    ymin = array.array('d', [getattr(limit, 'k_' + yName)])
-    print xmin, ymin
+    #xmin = array.array('d', [getattr(limit, 'k_' + xName)])
+    #ymin = array.array('d', [getattr(limit, 'k_' + yName)])
+    #print xmin, ymin
+
+    limitData.GetEntry(0)
+    #xminData = array.array('d', [getattr(limitData, 'k_' + xName)])
+    #yminData = array.array('d', [getattr(limitData, 'k_' + yName)])
+
+    # Convert TGraph points to numpy arrays
+    x_values = np.array(graphScan.GetX())
+    y_values = np.array(graphScan.GetY())
+    z_values = np.array(graphScan.GetZ())
+    x_values_data = np.array(graphScanData.GetX())
+    y_values_data = np.array(graphScanData.GetY())
+    z_values_data = np.array(graphScanData.GetZ())
+    
+    # Find the index of the minimum z value in graphScan
+    min_z_index = np.argmin(z_values)
+    # Find the index of the minimum z value in graphScanData
+    min_zData_index = np.argmin(z_values_data)
+    
+    # Get the corresponding x, y pairs for the minimum z values
+    xmin_at_min_z = x_values[min_z_index]
+    ymin_at_min_z = y_values[min_z_index]
+    xminData_at_min_zData = x_values_data[min_zData_index]
+    yminData_at_min_zData = y_values_data[min_zData_index]
 
     crossMin = ROOT.TGraph()
-    crossMin.SetPoint(0, xmin[0], ymin[0])
+    crossMin.SetPoint(0, xmin_at_min_z, ymin_at_min_z)
     crossMin.SetMarkerStyle(20)
-    crossMin.SetMarkerSize(1)
+    crossMin.SetMarkerSize(1.5)
     crossMin.SetMarkerColor(ROOT.kRed)
     crossMin.SetLineColor(ROOT.kRed)
     crossMin.SetLineWidth(3)
-    crossMin.Draw("P")
 
-    leg = ROOT.TLegend(0.85,0.80,0.96,0.95)
-    leg.SetBorderSize(1)
-    leg.AddEntry(gr_1sigma[-1],"1 #sigma","l")
-    leg.AddEntry(gr_2sigma[-1],"2 #sigma","l")
-    leg.AddEntry(crossMin,"Best fit","P")
-    leg.AddEntry(cross11,"SM","P")
-    leg.Draw()
+
+    crossMinData = ROOT.TGraph()
+    crossMinData.SetPoint(0, xminData_at_min_zData, yminData_at_min_zData)
+    crossMinData.SetMarkerStyle(20)
+    crossMinData.SetMarkerSize(1.5)
+    crossMinData.SetMarkerColor(ROOT.kBlack)
+    crossMinData.SetLineColor(ROOT.kBlack)
+    crossMinData.SetLineWidth(3)
+
+    #crossMin.Draw("P")
+    #crossMinData.Draw("P")
+    cross11.Draw("P")
+
+
+    #leg = ROOT.TLegend(0.25,0.095,0.75,0.145)
+    #leg.SetBorderSize(0)
+    #legend.AddEntry(crossMin,"Expected Best fit","P")
+    #legend.AddEntry(crossMinData,"Observed Best fit","P")
+    # Add entries for each contour line
+    legend.AddEntry(graph1_expected, "Expected (68%)", "l")  # "l" for line
+    legend.AddEntry(graph2_expected, "Expected (95%)", "l")
+    legend.AddEntry("", "", "")
+    legend.AddEntry(graph1_observed, "Observed (68%)", "l")
+    legend.AddEntry(graph2_observed, "Observed (95%)", "l")
+    legend.AddEntry(cross11,"SM","P")
+    legend.SetNColumns(3) #legend.GetNRows())
+    legend.SetTextSize(0.035)
+    legend.Draw()
+
+    cc2.Update()
 
     cc2.SetTicks()
     #   cc2.SetFillColor(0)
@@ -475,14 +749,11 @@ def draw2D():
     #   cc2.SetBorderSize(2)
     #   cc2.SetTickx(1)
     #   cc2.SetTicky(1)
-    #   cc2.SetRightMargin(0.05)
-    #     cc2.SetBottomMargin(0.12)
     #   cc2.SetFrameBorderMode(0)
-    cc2.SetTopMargin(0.12)
-    cc2.SetBottomMargin(0.14)
 
+    
     #tex = ROOT.TLatex(0.94,0.92,"13 TeV")
-    tex = ROOT.TLatex(0.80,0.92,"13 TeV")
+    tex = ROOT.TLatex(0.80,0.955,"13 TeV")
     tex.SetNDC()
     tex.SetTextAlign(31)
     tex.SetTextFont(42)
@@ -490,44 +761,47 @@ def draw2D():
     tex.SetLineWidth(2)
      
     #tex2 = ROOT.TLatex(0.14,0.92,"CMS Preliminary")
-    tex2 = ROOT.TLatex(0.16,0.92,"CMS")
+    tex2 = ROOT.TLatex(0.1,0.955,"CMS")
     tex2.SetNDC()
     tex2.SetTextFont(61)
-    tex2.SetTextSize(0.04)
+    tex2.SetTextSize(0.05)
     tex2.SetLineWidth(2)
      
-    texPre = ROOT.TLatex(0.23,0.92,"Preliminary")
+    texPre = ROOT.TLatex(0.19,0.955,"Preliminary")
     texPre.SetNDC()
     texPre.SetTextFont(52)
-    texPre.SetTextSize(0.035)
+    texPre.SetTextSize(0.04)
     texPre.SetLineWidth(2)
      
     #   tex3 = ROOT.TLatex(0.236,0.92,"L = 12.9 fb^{-1}  Preliminary")
     #   tex3 = ROOT.TLatex(0.236,0.92,"L = 15.2 fb^{-1}")
     #   tex3 = ROOT.TLatex(0.55,0.92,"L = 15.2 fb^{-1}   (13 TeV)")
     #   float lumi = 15.2
-    nameLabel = "L = " + str(lumi[year]) + " fb^{-1}   (13 TeV)"
-    tex3 = ROOT.TLatex(0.55, 0.92, nameLabel)
+    nameLabel = "L = " + str(lumi[year]) + " fb^{-1} (13 TeV)"
+    tex3 = ROOT.TLatex(0.62, 0.955, nameLabel)
     #   tex3 = ROOT.TLatex(0.55,0.92,"L = 2.3 fb^{-1}   (13 TeV)")
     #     tex3 = ROOT.TLatex(0.55,0.92,"L = 12.9 fb^{-1}   (13 TeV)")
     tex3.SetNDC()
-    tex3.SetTextFont(52)
-    tex3.SetTextSize(0.035)
+    tex3.SetTextFont(42)
+    tex3.SetTextSize(0.04)
     tex3.SetLineWidth(2)
     
     #   tex.Draw("same")
     tex2.Draw("same")
-    texPre.Draw("same")
+    #texPre.Draw("same")
     tex3.Draw("same")
     #--- fix Z-axis (begin)
     cc2.Update()
     
+    
     #cc.SaveAs("prova.png")
     #cc3.SaveAs("prova3.png")
-    cc2.SaveAs("LS_" + str(opt.coeff) + ".png")
-    cc2.SaveAs("LS_" + str(opt.coeff) + ".pdf")
+    cc2.SaveAs(os.path.dirname(opt.in1) + "/LSprov_" + str(opt.coeff) + ".png")
+    cc2.SaveAs(os.path.dirname(opt.in1) + "/LSprov_" + str(opt.coeff) + ".pdf")
+    cc2.SaveAs(os.path.dirname(opt.in1) + "/LSprov_" + str(opt.coeff) + ".root")
     
-print opt.oneD, opt.twoD
+
+print(opt.oneD, opt.twoD)
 if opt.oneD:
     draw1D()
 elif opt.twoD:

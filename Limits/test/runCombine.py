@@ -20,6 +20,7 @@ parser.add_option('--HN', dest='HN', default = False, action='store_true', help 
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option('--rint', dest='rint', type='string', default = 'None', help = 'r interval for EFT')
 parser.add_option('--rfix', dest='rfix', type='string', default = 'None', help = 'r interval for EFT')
+parser.add_option('--onlyLin', dest='onlyLin', default = False, action='store_true', help='add dim8 quad in 2D fits')
 
 (opt, args) = parser.parse_args()
 
@@ -53,7 +54,7 @@ else:
 
 path_ = os.path.abspath(os.getcwd()) + '/' 
 path_ += opt.dir
-print path_
+print(path_)
 
 if opt.years != "all": 
     y_clean = opt.years.replace(" ", "")
@@ -69,15 +70,15 @@ if opt.method != "all":
     meth_clean = opt.method.replace(" ", "")
     methods = meth_clean.split(",")
 
-print "Combinining the following categories: "
+print("Combinining the following categories: ")
 for channel in channels:
-    print channel
+    print(channel)
 
 if wilson == "":
     if not ":" in opt.model:
         for point in sigpoints:
             model = point
-            print "EFT fit with", model
+            print("EFT fit with", model)
             #width = point[1]
             #chir = point[2]
             for method in methods:
@@ -85,7 +86,7 @@ if wilson == "":
             
     else:
         for method in methods:
-            print "Doing 2D SM fit"
+            print("Doing 2D SM fit")
             modelewqcd = ""
             for sigps in sigpoints:
                 for idp, point in enumerate(sigps):
@@ -97,6 +98,6 @@ if wilson == "":
             
 else:
     for method in methods:
-        #print "hello", path_, wilson, channels, method, opt.runSingleCat, years
-        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile, opt.unblind, rintt, rfixx)
+        print("hello", path_, wilson, channels, method, opt.runSingleCat, years)
+        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile, opt.unblind, rintt, rfixx, opt.onlyLin)
 

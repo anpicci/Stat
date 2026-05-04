@@ -21,15 +21,15 @@ from collections import OrderedDict
 #*******************************************************#
 def getRate(ch, process, ifile):
        hName = ch + "/"+ process
-       print "Getting histogram from ", ifile.GetName() 
-       print "Histogram name: ", hName
+       print("Getting histogram from ", ifile.GetName()) 
+       print("Histogram name: ", hName)
        h = ifile.Get(hName)
        return h.Integral()
 
 def getHist(ch, process, ifile):
        hName = ch + "/"+ process
-       print "Getting histogram from ", ifile.GetName() 
-       print "Histogram name: ", hName
+       print("Getting histogram from ", ifile.GetName()) 
+       print("Histogram name: ", hName)
        #print "Histo Name ", hName
        h = ifile.Get(hName)
        return h
@@ -58,16 +58,16 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 
               processes.append(p)
 
-       print "processes:", processes
+       print("processes:", processes)
 
        try:
               ifile = ROOT.TFile.Open(ifilename)
        except IOError:
-              print "Cannot open ", ifilename
+              print("Cannot open ", ifilename)
        else:
-              print "Opening file ",  ifilename
+              print("Opening file ",  ifilename)
               ifile.cd()
-       print syst 
+       print(syst) 
 
        workdir_ = ifilename.split("/")[:-1]
        WORKDIR = "/".join(workdir_) + "/"
@@ -85,21 +85,21 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               histBkgData = getHist(ch, "Bkg", ifile)
               histData = histBkgData
               if (unblind):  
-                     print "BE CAREFUL: YOU ARE UNBLINDING"
+                     print("BE CAREFUL: YOU ARE UNBLINDING")
                      histData = getHist(ch, "data_obs", ifile)
-                     print "*********Number of data ", histData.Integral()
+                     print("*********Number of data ", histData.Integral())
               histSig = getHist(ch, sig, ifile)
               bkgData = RooDataHist("bkgdata", "Data (MC Bkg)",  RooArgList(mT), histBkgData, 1.)
               obsData = RooDataHist("data_obs", "(pseudo) Data",  RooArgList(mT), histData, 1.)
               sigData = RooDataHist("sigdata", "Data (MC sig)",  RooArgList(mT), histSig, 1.)
-              print "Bkg Integral: ", histData.Integral() 
+              print("Bkg Integral: ", histData.Integral()) 
               nBkgEvts = histBkgData.Integral() 
-              print "Bkg Events: ", nBkgEvts
+              print("Bkg Events: ", nBkgEvts)
 
-              print "Channel: ", ch
+              print("Channel: ", ch)
               modelBkg = fitParam[ch].modelBkg
               normzBkg = RooRealVar(modelBkg.GetName()+"_norm", "Number of background events", nBkgEvts, 0., 1.e3)
-              print "NormBkg ", nBkgEvts
+              print("NormBkg ", nBkgEvts)
               modelExt = RooExtendPdf(modelBkg.GetName()+"_ext", modelBkg.GetTitle(), modelBkg, normzBkg)
 
               # create workspace
@@ -110,7 +110,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               getattr(w, "import")(obsData, RooFit.Rename("data_obs"))
               getattr(w, "import")(sigData, RooFit.Rename(sig))
 
-              for i in xrange(hist.GetNbinsX()):
+              for i in range(hist.GetNbinsX()):
                      mcstatSysName = "mcstat_%s_%s_bin%d"  % (ch, sig, i+1)
                      #print mcstatSysName
                      #print sig + "_" + mcstatSysName + "Up"
@@ -123,11 +123,11 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      getattr(w, "import")(mcstatSigHistUp, RooFit.Rename(sig + "_" + mcstatSysName + "Up") )
                      getattr(w, "import")(mcstatSigHistDown, RooFit.Rename(sig + "_" + mcstatSysName + "Down") )
 
-              for sysName,sysValue  in syst.iteritems():
+              for sysName,sysValue  in syst.items():
                      if(sysValue[0]=="shape" and "mcstat" not in sysName):              
                             sysUp =  getHist(ch, sig + "_" + sysName + "Up", ifile)
                             sysDown =  getHist(ch, sig + "_" + sysName + "Down", ifile)
-                            print "==> Trigg sys name: ", sig + "_" + sysName + "Down"
+                            print("==> Trigg sys name: ", sig + "_" + sysName + "Down")
                             sysSigHistUp = RooDataHist(sig + "_" + sysName + "Up", sysName + " uncertainty",  RooArgList(mT), sysUp, 1.)
                             sysSigHistDown = RooDataHist(sig + "_" + sysName + "Down", sysName + " uncertainty",  RooArgList(mT), sysDown, 1.)
                             getattr(w, "import")(sysSigHistUp, RooFit.Rename(sig + "_" + sysName + "Up") )
@@ -138,7 +138,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               getattr(w, "import")(normzBkg, RooFit.Rename(normzBkg.GetName()))
               w.writeToFile("%sws_%s_%s_%s.root" % (carddir, sig, ch, mode), True)
 
-              print "Workspace", "%sws_%s_%s_%s.root" % (carddir, sig, ch, mode) , "saved successfully"
+              print("Workspace", "%sws_%s_%s_%s.root" % (carddir, sig, ch, mode) , "saved successfully")
                  
               workfile = "./ws_%s_%s_%s.root" % ( sig, ch, mode)
               # ======   END MODEL GENERATION   ======       
@@ -158,14 +158,14 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        else:
               i = 1
               bkgrate = 0
-              print "===> Backgrounds:  ", processes
+              print("===> Backgrounds:  ", processes)
               nproc=(len(processes)+1)
               for p in processes:
-                     print "======================= p for rate", p, " syst, ", syst
-                     print "ch is ", ch, " process is ", p, " ifile is ", ifile.GetName()
+                     print("======================= p for rate", p, " syst, ", syst)
+                     print("ch is ", ch, " process is ", p, " ifile is ", ifile.GetName())
                      rates[p] = getRate(ch, p, ifile)
                      bkgrate =  rates[p]
-                     if (p =="QCD"): print "qcd: ", bkgrate
+                     if (p =="QCD"): print("qcd: ", bkgrate)
 
                      if(bkgrate==0):
                             nproc=nproc -1
@@ -178,9 +178,9 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               binString += (("%-43s") % (ch) ) * (nproc)
 
        if ((not unblind) and (mode == "template")): 
-              print "N.B: We are in blind mode. Using MC bkg data for data_obs"
+              print("N.B: We are in blind mode. Using MC bkg data for data_obs")
               rates["data_obs"] = getRate(ch, "Bkg", ifile)
-              print "Pseudo data rate: ", rates["data_obs"]
+              print("Pseudo data rate: ", rates["data_obs"])
        else: rates["data_obs"] = getRate(ch, "data_obs", ifile)
        rates[sig] = getRate(ch, sig, ifile)
        card  = "imax 1 number of channels \n"
@@ -200,7 +200,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
               card += "shapes   data_obs      *   %s    %s\n" % (hist_filename, "$CHANNEL/$PROCESS")
        card += "-----------------------------------------------------------------------------------\n"
        card += "bin               %s\n" % ch
-       print "===> Observed data: ", rates["data_obs"]
+       print("===> Observed data: ", rates["data_obs"])
        card += "observation       %0.d\n" % (rates["data_obs"])
        card += "-----------------------------------------------------------------------------------\n"
        card += "bin                                     %-43s\n" % (binString)
@@ -208,8 +208,8 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
        card += "process                                 %-43s%-43s\n" % ("0", procNumbLine)
        card += "rate                                    %-43.6f%-43s\n" % (rates[sig], rateLine) #signalYield[m].getVal(), nevents
        card += "-----------------------------------------------------------------------------------\n"
-       for sysName,sysValue  in syst.iteritems():
-              print "Systematic Uncertainty: ", sysName
+       for sysName,sysValue  in syst.items():
+              print("Systematic Uncertainty: ", sysName)
               if("2016" in sysName and "2016" not in ch): continue
               elif("2017" in sysName and "2017" not in ch): continue
               elif("2018" in sysName and "2018" not in ch): continue
@@ -250,7 +250,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           card += "%-20s" % (bkgSys)
                                    else:  card += "%-20s" % ("-")
               elif(sysValue[0]=="shape"):
-                     print "sys shape named ", sysName
+                     print("sys shape named ", sysName)
                      if("mcstat" not in sysName and 'autoMCstat' not in sysName):
                             card += "%-20s     shape     " % (sysName)
                             isbogussys=False 
@@ -278,7 +278,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           sampName = sig
                                    elif(mode != "template"):
                                           line = "%-20s" % ( "-") 
-                                          lineProc = ["%-20s" % ( "-") for x in xrange (len(processes))]
+                                          lineProc = ["%-20s" % ( "-") for x in range (len(processes))]
                                           if samp in processes: 
                                                  index = processes.index(samp)  
                                                  lineProc[index] = "1"
@@ -287,7 +287,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           line += lineProc
                                           sampName =  samp
                                    else: continue
-                                   for i in xrange(hist.GetNbinsX()):
+                                   for i in range(hist.GetNbinsX()):
                                           sysName = "mcstat_%s_%s_bin%d      "  % (ch, sampName, i+1)
                                           card += "%-20s   shape   " % (sysName)
                                           card += line
@@ -296,7 +296,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
                      card += "%-20s%-20s%-20d%-20d\n " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
-       for k, v in rateParams.items():
+       for k, v in list(rateParams.items()):
               for ch_ in v.chs:
                      if("2016" in k and "2016" not in ch):
                             continue
@@ -338,14 +338,14 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo", unblind = False):
 #                                                       #
 #*******************************************************#
 def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
-       print "channel:", ch
-       print outdir
+       print("channel:", ch)
+       print(outdir)
 
        nop = coeff.split("_")[0]
        lssamp = ["", "", ""]
-       for name, coll in lssamples_1D.items():
+       for name, coll in list(lssamples_1D.items()):
               if name == coeff:
-                     for nout, nin in coll.items():
+                     for nout, nin in list(coll.items()):
                             if nout == "sm":
                                    lssamp[0] = nout# lss for lss in lssamples_1D if (lss=="sm" or ("_"+coeff) in lss)]
                             elif nout.startswith("sm_lin_"):
@@ -361,16 +361,16 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
               processes.append(p)
 
-       print "processes:", processes
+       print("processes:", processes)
 
        try:
               ifile = ROOT.TFile.Open(ifilename)
        except IOError:
-              print "Cannot open ", ifilename
+              print("Cannot open ", ifilename)
        else:
-              print "Opening file ",  ifilename
+              print("Opening file ",  ifilename)
               ifile.cd()
-       print syst 
+       print(syst) 
 
        workdir_ = ifilename.split("/")[:-1]
        WORKDIR = "/".join(workdir_) + "/"
@@ -394,21 +394,21 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               histBkgData = getHist(ch, "Bkg", ifile)
               histData = histBkgData
               if (unblind):  
-                     print "BE CAREFULL: YOU ARE UNBLINDING"
+                     print("BE CAREFULL: YOU ARE UNBLINDING")
                      histData = getHist(ch, "data_obs", ifile)
-                     print "*********Number of data ", histData.Integral()
+                     print("*********Number of data ", histData.Integral())
               histSig = getHist(ch, sig, ifile)
               bkgData = RooDataHist("bkgdata", "Data (MC Bkg)",  RooArgList(mT), histBkgData, 1.)
               obsData = RooDataHist("data_obs", "(pseudo) Data",  RooArgList(mT), histData, 1.)
               sigData = RooDataHist("sigdata", "Data (MC sig)",  RooArgList(mT), histSig, 1.)
-              print "Bkg Integral: ", histData.Integral() 
+              print("Bkg Integral: ", histData.Integral()) 
               nBkgEvts = histBkgData.Integral() 
-              print "Bkg Events: ", nBkgEvts
+              print("Bkg Events: ", nBkgEvts)
 
-              print "Channel: ", ch
+              print("Channel: ", ch)
               modelBkg = fitParam[ch].modelBkg
               normzBkg = RooRealVar(modelBkg.GetName()+"_norm", "Number of background events", nBkgEvts, 0., 1.e3)
-              print "NormBkg ", nBkgEvts
+              print("NormBkg ", nBkgEvts)
               modelExt = RooExtendPdf(modelBkg.GetName()+"_ext", modelBkg.GetTitle(), modelBkg, normzBkg)
 
               # create workspace
@@ -419,7 +419,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               getattr(w, "import")(obsData, RooFit.Rename("data_obs"))
               getattr(w, "import")(sigData, RooFit.Rename(sig))
 
-              for i in xrange(hist.GetNbinsX()):
+              for i in range(hist.GetNbinsX()):
                      mcstatSysName = "mcstat_%s_%s_bin%d"  % (ch, sig, i+1)
                      #print mcstatSysName
                      #print sig + "_" + mcstatSysName + "Up"
@@ -432,11 +432,11 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      getattr(w, "import")(mcstatSigHistUp, RooFit.Rename(sig + "_" + mcstatSysName + "Up") )
                      getattr(w, "import")(mcstatSigHistDown, RooFit.Rename(sig + "_" + mcstatSysName + "Down") )
 
-              for sysName,sysValue  in syst.iteritems():
+              for sysName,sysValue  in syst.items():
                      if(sysValue[0]=="shape" and "mcstat" not in sysName):              
                             sysUp =  getHist(ch, sig + "_" + sysName + "Up", ifile)
                             sysDown =  getHist(ch, sig + "_" + sysName + "Down", ifile)
-                            print "==> Trigg sys name: ", sig + "_" + sysName + "Down"
+                            print("==> Trigg sys name: ", sig + "_" + sysName + "Down")
                             sysSigHistUp = RooDataHist(sig + "_" + sysName + "Up", sysName + " uncertainty",  RooArgList(mT), sysUp, 1.)
                             sysSigHistDown = RooDataHist(sig + "_" + sysName + "Down", sysName + " uncertainty",  RooArgList(mT), sysDown, 1.)
                             getattr(w, "import")(sysSigHistUp, RooFit.Rename(sig + "_" + sysName + "Up") )
@@ -447,7 +447,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
               getattr(w, "import")(normzBkg, RooFit.Rename(normzBkg.GetName()))
               w.writeToFile("%sws_%s_%s_%s.root" % (carddir, coeff, ch, mode), True)
 
-              print "Workspace", "%sws_%s_%s_%s.root" % (carddir, coeff, ch, mode) , "saved successfully"
+              print("Workspace", "%sws_%s_%s_%s.root" % (carddir, coeff, ch, mode) , "saved successfully")
                  
               workfile = "./ws_%s_%s_%s.root" % ( coeff, ch, mode)
               # ======   END MODEL GENERATION   ======       
@@ -467,14 +467,14 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        else:
               i = 0
               bkgrate = 0
-              print "===> Backgrounds:  ", processes
+              print("===> Backgrounds:  ", processes)
               nproc=(len(processes)+1)
               for p in processes:
-                     print "======================= p for rate", p, " syst, ", syst
-                     print "ch is ", ch, " process is ", p, " ifile is ", ifile.GetName()
+                     print("======================= p for rate", p, " syst, ", syst)
+                     print("ch is ", ch, " process is ", p, " ifile is ", ifile.GetName())
                      rates[p] = getRate(ch, p, ifile)
                      bkgrate =  rates[p]
-                     if (p =="QCD"): print "qcd: ", bkgrate
+                     if (p =="QCD"): print("qcd: ", bkgrate)
                      if(bkgrate==0):
                             nproc=nproc -1
                             continue
@@ -483,22 +483,22 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      rateLine += ("%-43.2f") % (bkgrate)
                      i+=1
               binString += (("%-43s") % (ch) ) * (nproc + len(lssamp) - 1)
-              print 'rates:'
-              for k, v in rates.items():
-                     print k + ":", v
+              print('rates:')
+              for k, v in list(rates.items()):
+                     print(k + ":", v)
 
        if ((not unblind) and (mode == "template")): 
-              print "N.B: We are in blind mode. Using MC bkg data for data_obs"
+              print("N.B: We are in blind mode. Using MC bkg data for data_obs")
               rates["data_obs"] = getRate(ch, "Bkg", ifile)
-              print "Pseudo data rate: ", rates["data_obs"]
+              print("Pseudo data rate: ", rates["data_obs"])
        else:
               rates["data_obs"] = getRate(ch, "data_obs", ifile)
        for sgs in lssamp:
               rates[sgs] = getRate(ch, sgs, ifile)
        
-       print 'rates:'
-       for k, v in rates.items():
-              print k + ":", v
+       print('rates:')
+       for k, v in list(rates.items()):
+              print(k + ":", v)
 
        card  = "imax 1 number of channels \n"
        card += "jmax * number of backgrounds \n"
@@ -518,7 +518,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
        card += "-----------------------------------------------------------------------------------\n"
        card += "bin               %s\n" % ch
 
-       print "===> Observed data: ", rates["data_obs"]
+       print("===> Observed data: ", rates["data_obs"])
        card += "observation       %0.d\n" % (rates["data_obs"])
        card += "-----------------------------------------------------------------------------------\n"
        card += "bin                                     %-43s\n" % (binString)
@@ -550,8 +550,8 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
        card += "-----------------------------------------------------------------------------------\n"
 
-       for sysName,sysValue  in syst.iteritems():
-              print "Systematic Uncertainty: ", sysName
+       for sysName,sysValue  in syst.items():
+              print("Systematic Uncertainty: ", sysName)
               if("2016" in sysName and "2016" not in ch):
                      continue
               elif("2017" in sysName and "2017" not in ch):
@@ -603,7 +603,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           card += "%-20s" % (bkgSys)
                                    else:  card += "%-20s" % ("-")
               elif(sysValue[0]=="shape"):
-                     print "sys shape named ", sysName
+                     print("sys shape named ", sysName)
                      if("mcstat" not in sysName and 'autoMCstat' not in sysName):
                             card += "%-20s     shape     " % (sysName)
                             isbogussys=False 
@@ -631,7 +631,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           sampName = sig
                                    elif(mode != "template"):
                                           line = "%-20s" % ( "-") 
-                                          lineProc = ["%-20s" % ( "-") for x in xrange (len(processes))]
+                                          lineProc = ["%-20s" % ( "-") for x in range (len(processes))]
                                           if samp in processes: 
                                                  index = processes.index(samp)  
                                                  lineProc[index] = "1"
@@ -640,7 +640,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                                           line += lineProc
                                           sampName =  samp
                                    else: continue
-                                   for i in xrange(hist.GetNbinsX()):
+                                   for i in range(hist.GetNbinsX()):
                                           sysName = "mcstat_%s_%s_bin%d      "  % (ch, sampName, i+1)
                                           card += "%-20s   shape   " % (sysName)
                                           card += line
@@ -649,7 +649,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
                      card += "%-20s%-20s%-20d%-20d\n " % (ch, "autoMCStats", 10, 0)
               card += "\n"
        # End for loop on syst unc.       
-       for k, v in rateParams.items():
+       for k, v in list(rateParams.items()):
               for ch_ in v.chs:
                      if("2016" in k and "2016" not in ch):
                             continue
@@ -679,7 +679,7 @@ def getCardLS(coeff, ch, ifilename, outdir, mode = "histo", unblind = False):
 
 
        outname =  "%s%s_%s_%s.txt" % (carddir, coeff, ch, mode)
-       print 'outname:', outname
+       print('outname:', outname)
        cardfile = open(outname, 'w')
        cardfile.write(card)
        cardfile.close()

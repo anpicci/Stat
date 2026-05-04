@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 import sys
 import os
-import commands
+import subprocess
 import string
 import optparse
 from Stat.Limits.settings import *
@@ -21,7 +21,7 @@ def getLimits(optdir, post):
       os.system(("grep \"r < \" %s| awk '/Observed Limit/{f=1}f'") % (filename))
       os.system(("grep \"r < \" %s| awk '{print $5}' >> a%s") % (filename, i))
       
-      print ("grep \"r < \" %s| awk '{print $5}' >> a%i") % (filename, i)  
+      print(("grep \"r < \" %s| awk '{print $5}' >> a%i") % (filename, i))  
     
       count=0
       with open (('a%i' % i), 'rb') as f:
@@ -41,24 +41,24 @@ def getLimits(optdir, post):
    os.system("echo 'y_up_points1" + post + "      '>> left")
    os.system("echo 'y_up_points2" + post + "      '>> left")
    
-   for i in xrange(sigmodelpoints):
+   for i in range(sigmodelpoints):
          os.system("echo ' '>>commas")
          os.system("echo ' '>>right")
          
    os.system("rm data/limit"+post +".txt")
-   print "rm data/limit"+post +".txt"
+   print("rm data/limit"+post +".txt")
    #os.system("paste left a0 commas a1 commas a2 commas a3 commas a4 commas a5 commas a6 commas a7 commas a8 commas a9 commas a10 commas a11 commas a12 commas a13 commas a14 commas a15 commas a16 commas a17 commas a18 commas a19 commas a20 commas a21 commas a22 commas a23 commas a24 commas a25 commas a26 commas a27 commas a28 commas a29 commas a30 commas a31 commas a32 commas a33 commas a34 commas a35 commas a36 commas a37 commas a38 commas a39 commas a40 right  > data/limit" + post + ".txt")
 
    stringpaste="paste left "
  #  npaste=0
-   for npaste in xrange(0,sigmodelpoints):
+   for npaste in range(0,sigmodelpoints):
       stringpaste = stringpaste + "a"+str(npaste)
       if(npaste<sigmodelpoints-1):stringpaste = stringpaste+" commas "
       if(npaste==sigmodelpoints-1):stringpaste = stringpaste+" right "
       
   #    npaste=npaste+1
       
-   print stringpaste   
+   print(stringpaste)   
    stringpaste=stringpaste+" > data/limit"+post+".txt"
    os.system(stringpaste)
 #   os.system("paste left a0 commas a1 commas a2 commas a3 commas a4 commas a5 commas a6 commas a7 right  > data/limit" + post + ".txt")

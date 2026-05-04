@@ -6,6 +6,7 @@ import importlib
 import sys
 import optparse
 import copy
+import fnmatch
 from collections import OrderedDict
 LineWrite = lambda fname, s : fname.write(s + "\n") 
 
@@ -38,13 +39,13 @@ leptags = OrderedDict()
 leptags['electron'] = 'ele'
 leptags['muon'] = 'mu'
 
-def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, Frp, regions, leptons, settitle, noQCDScale, shapeN = True):
+def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, Frp, regions, leptons, settitle, noQCDScale, useSM, shapeN = True):
     if 'CRF' in regions:
         WithFakeCR = True
     else:
         WithFakeCR = False
     leps = leptons
-    print("Producing " + settitle)
+    print(("Producing " + settitle))
     settname = open(settitle, "w")
     LineWrite(settname, "import collections")
     LineWrite(settname, "import copy")
@@ -535,31 +536,45 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "\tsetpiecs.sort(reverse=True)")
     LineWrite(settname, "\tfor setpiec in setpiecs:")
     LineWrite(settname, "\t\tcombo = combo.replace(setpiec, \"\")")
-    LineWrite(settname, "\tif ops[0].startswith('c') and not '_' in ops[0]:")
-    LineWrite(settname, "\t\tsigs = [")
-    LineWrite(settname, "\t\t\t'SM',")
-    LineWrite(settname, "\t\t]")
-    LineWrite(settname, "\telse:")
-    LineWrite(settname, "\t\tsigs = [")
-    LineWrite(settname, "\t\t\tops[0]+'_0',")
-    LineWrite(settname, "\t\t]")
-    LineWrite(settname, "\tfor op in ops:")
-    LineWrite(settname, "\t\tsigs.append(op + '_SM')")
-    LineWrite(settname, "\t\tsigs.append(op + '_BSM')")
+    #LineWrite(settname, "\tif ops[0].startswith('c') and not '_' in ops[0]:")
+    LineWrite(settname, "\tsigs = [")
+    if not useSM:
+        LineWrite(settname, "\t\tops[0] + '_0',")
+        LineWrite(settname, "\t]")
+        LineWrite(settname, "\tfor op in ops:")
+        LineWrite(settname, "\t\tsigs.append(op + '_SM')")
+        LineWrite(settname, "\t\tsigs.append(op + '_BSM')")
+    else:
+        LineWrite(settname, "\t\t'WpWpJJ_EWK',")
+        LineWrite(settname, "\t]")
+        LineWrite(settname, "\tfor op in ops:")
+        LineWrite(settname, "\t\tsigs.append(op + '_LIN'),")
+        LineWrite(settname, "\t\tsigs.append(op + '_BSM'),")
+
+    #LineWrite(settname, "\telse:")
+    #LineWrite(settname, "\t\tsigs = [")
+    #LineWrite(settname, "\t\t\tops[0]+'_0',")
+
     LineWrite(settname, "")
     LineWrite(settname, "\tlssamples_1D = {")
     LineWrite(settname, "\t\tcombo:collections.OrderedDict([])")
     LineWrite(settname, "\t}")
     #LineWrite(settname, "\tlssamples_1D[combo]['sm'] = 'VBS_SSWW_SM'")
-    LineWrite(settname, "\tlssamples_1D[combo]['sm'] = 'VBS_SSWW_' + sigs[0]")
+    if not useSM:
+        LineWrite(settname, "\tlssamples_1D[combo]['sm'] = 'VBS_SSWW_' + sigs[0]")
+    else:
+        LineWrite(settname, "\tlssamples_1D[combo]['sm'] = sigs[0]")
     LineWrite(settname, "\tfor idop, op in enumerate(ops):")
-    LineWrite(settname, "\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] = 'VBS_SSWW_' + sigs[1+idop*2]")
-    LineWrite(settname, "\t\tif op.startswith('F'):")
-    LineWrite(settname, "\t\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] += ',VBS_SSWW_' + sigs[2*(1+idop)]")
+    if not useSM:
+        LineWrite(settname, "\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] = 'VBS_SSWW_' + sigs[1+idop*2]")
+    else:
+        LineWrite(settname, "\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] = sigs[0] + ',VBS_SSWW_' + sigs[1+idop*2] + ',VBS_SSWW_' + sigs[2*(1+idop)]")
+    #LineWrite(settname, "\t\tif op.startswith('F'):")
+    #LineWrite(settname, "\t\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] += ',VBS_SSWW_' + sigs[2*(1+idop)]")
     LineWrite(settname, "\t\tlssamples_1D[combo]['quad_'+op.split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)]")
     LineWrite(settname, "\t\tfor idothop in range(0, idop):")
     LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
-    LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
+    #LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
     LineWrite(settname, "\t\t\tif not op.startswith('F') and not ops[idothop].startswith('F'):")
     LineWrite(settname, "\t\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] += ',VBS_SSWW_' + op + '_' + ops[idothop] + ',VBS_SSWW_' + ops[idothop] + '_' + op")
     LineWrite(settname, "")
@@ -599,14 +614,22 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "")
     LineWrite(settname, "elif model.startswith('F') or (model.startswith('c') and \"_\" in model):")
     LineWrite(settname, "\tsigs = [")
-    LineWrite(settname, "\t\tmodel + '_0',")
-    LineWrite(settname, "\t\tmodel + '_SM',")
+    if not useSM:    
+        LineWrite(settname, "\t\tmodel + '_0',")
+        LineWrite(settname, "\t\tmodel + '_SM',")
+    else:
+        LineWrite(settname, "\t\t'WpWpJJ_EWK',")
+        LineWrite(settname, "\t\tmodel + '_LIN',")
     LineWrite(settname, "\t\tmodel + '_BSM',")
     LineWrite(settname, "\t]")
     LineWrite(settname, "\tlssamples_1D = {")
     LineWrite(settname, "\t\tmodel.split(\"_\")[0]:collections.OrderedDict([")
-    LineWrite(settname, "\t\t\t('sm', 'VBS_SSWW_' + sigs[0]),")
-    LineWrite(settname, "\t\t\t('sm_lin_quad_' + model.split(\"_\")[0], 'VBS_SSWW_' + sigs[1]),")
+    if not useSM:
+        LineWrite(settname, "\t\t\t('sm', 'VBS_SSWW_' + sigs[0]),")
+        LineWrite(settname, "\t\t\t('sm_lin_quad_' + model.split(\"_\")[0], 'VBS_SSWW_' + sigs[1]),")
+    else:
+        LineWrite(settname, "\t\t\t('sm', sigs[0]),")
+        LineWrite(settname, "\t\t\t('sm_lin_quad_' + model.split(\"_\")[0], sigs[0] + ',VBS_SSWW_' + sigs[1] + ',VBS_SSWW_' + sigs[2]),")
     LineWrite(settname, "\t\t\t('quad_' + model.split(\"_\")[0], 'VBS_SSWW_' + sigs[2]),")
     LineWrite(settname, "\t\t]),")
     LineWrite(settname, "\t}")
@@ -639,7 +662,7 @@ def WriteMeta(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
 def RecursiveImport(module):
     if module in sys.modules:
         del sys.modules[module]
-    print "Importing module", module 
+    print("Importing module", module) 
     globals()['gensettings'] = importlib.import_module(module)
     
 def AreVarsIncluded(varlist):
@@ -649,7 +672,7 @@ def AreVarsIncluded(varlist):
         for variable in variables:
             if potvar == variable.name:
                 IsIncluded = True
-                print potvar, "is acceptable as variable to fit!"
+                print(potvar, "is acceptable as variable to fit!")
                 break
         if not IsIncluded:
             varexcluded = potvar
@@ -658,7 +681,7 @@ def AreVarsIncluded(varlist):
             return True, varexcluded
 
 def IterateVars(srvarlist, crvarlist):
-    print srvarlist, crvarlist
+    print(srvarlist, crvarlist)
     fitvars = srvarlist.split(",")
     if not AreVarsIncluded(fitvars)[0]:
         raise RuntimeError(AreVarsIncluded(fitvars)[1] + " are not included in the variables! Please either insert it among the variables, or change it!")
@@ -675,7 +698,7 @@ def IterateVars(srvarlist, crvarlist):
     if not AreVarsIncluded(crvars)[0]:
         raise RuntimeError(AreVarsIncluded(crvars)[1] + " is not included in the variables! Please either insert it among the variables, or change it!")
 
-    return zip(fitvars, crvars)
+    return list(zip(fitvars, crvars))
 
 def PrepareToRun(fold, year, tagfold, folder): 
     eosfolder = '/eos/home-a/apiccine/VBS/nosynch/' + fold + "/plot"
@@ -702,10 +725,10 @@ def PrepareToRun(fold, year, tagfold, folder):
                 new_dest += of.replace("Mu", "").replace("Ele", "")
 
                 if (os.path.exists(new_dest) and os.path.getmtime(new_dest) < os.path.getmtime(eosfolder + new_sf[i] + "/" + of)) or not os.path.exists(new_dest):
-                    print "cp " + eosfolder + odir + "/" + of + " " + new_dest
+                    print("cp " + eosfolder + odir + "/" + of + " " + new_dest)
                     os.system("cp " + eosfolder + odir + "/" + of + " " + new_dest)
 
-def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, pdftype, UseHybridNew, settmod, folder, unblind):
+def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, pdftype, UseHybridNew, settmod, folder, unblind, mcstat):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -713,25 +736,25 @@ def RunSMSignificance(model, srvar, crvar, fold, year, username, tagfold, pdftyp
     
     folderhisto = folder + "/shapes"
 
-    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
-    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    collhist = "python3 collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
+    createdata = "python3 createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --mcstat " + mcstat
+    runcomb = "python3 runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
     if UseHybridNew:
         runcomb += " --HN"
     if unblind:
         runcomb += " -u"
-    print '\n'
-    print collhist
-    os.system(collhist)
-    print '\n'
-    print createdata
-    os.system(createdata)
-    print '\n'    
-    print runcomb
+    print('\n')
+    #print collhist
+    #os.system(collhist)
+    print('\n')
+    #print createdata
+    #os.system(createdata)
+    print('\n')    
+    print(runcomb)
     os.system(runcomb)
     
 
-def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, pdftype, settmod, folder, unblind):
+def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, pdftype, settmod, folder, unblind, mcstat):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -739,23 +762,23 @@ def RunEWvsQCD(model, srvar, crvar, fold, year, username, tagfold, pdftype, sett
 
     folderhisto = folder + "/shapes"
 
-    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
-    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
+    collhist = "python3 collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
+    createdata = "python3 createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --mcstat " + mcstat
+    runcomb = "python3 runCombine.py -y " + year + " -d " + folder + " -m hist --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
     if unblind:
         runcomb += " -u"
 
-    print '\n'
-    print collhist
+    print('\n')
+    print(collhist)
     os.system(collhist)
-    print '\n'
-    print createdata
+    print('\n')
+    print(createdata)
     os.system(createdata)
-    print '\n'
-    print runcomb
+    print('\n')
+    print(runcomb)
     os.system(runcomb)
 
-def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pdftype, profile, settmod, folder, unblind, rintt, rfixx):
+def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, doOnlyLin, pdftype, profile, settmod, folder, unblind, rintt, rfixx, mcstat):
     yeartag = year.replace("2016M,2017,2018", "RunII")
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
@@ -763,9 +786,9 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pd
 
     folderhisto = folder + "/shapes"
 
-    collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
-    createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --ls " + model+ " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod
-    runcomb = "python runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod 
+    collhist = "python3 collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + ".root --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --pdf " + pdftype
+    createdata = "python3 createDatacards.py -i " + folderhisto + "/histo_" + model + ".root -d " + folder + " --ls " + model+ " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod + " --mcstat " + mcstat
+    runcomb = "python3 runCombine.py -y " + year + " -d " + folder + " -m hist --ls " + model + " --model " + model + "_" + srvar + "_" + crvar + " --settmod " + settmod 
     if rintt != None:
         runcomb += " --rint " + rintt
     if rfixx != None:
@@ -773,21 +796,24 @@ def RunEFTFit(model, srvar, crvar, fold, year, username, tagfold, addLambda8, pd
 
     if addLambda8:
         collhist += " --Lambda8"
+    if doOnlyLin:
+        collhist += " --onlyLin"
+        runcomb += " --onlyLin"
     if profile:
         runcomb += " --profile"
     if unblind:
         runcomb += " -u"
    
-    print "\n"
-    print collhist
+    print("\n")
+    print(collhist)
     os.system(collhist)
     
-    print "\n"
-    print createdata
+    print("\n")
+    print(createdata)
     os.system(createdata)
-    
-    print "\n"
-    print runcomb
+
+    print("\n")
+    print(runcomb)
     os.system(runcomb)
     
 def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
@@ -849,7 +875,7 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    print "\n", cmdmer
+    print("\n", cmdmer)
     os.system(cmdmer)
     os.chdir(ipwd)
 
@@ -891,7 +917,7 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
    
     impactfolder = ipwd + "/" + folder + "/Checks_" + model + "/"
     impactfolder = folder + "/Checks_" + model + "/"
-    print "\n", impactfolder
+    print("\n", impactfolder)
     if not os.path.exists(impactfolder):
         os.system("mkdir " + impactfolder)
     else:
@@ -899,14 +925,14 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
     os.system("pwd")
-    print "\n", "cd " + impactfolder
+    print("\n", "cd " + impactfolder)
     os.chdir(impactfolder)
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
     
-    print "\n", cmdt2w
+    print("\n", cmdt2w)
     os.system(cmdt2w)
     
     cmd0 = "combine -M FitDiagnostics -d " + wscard + "  -n " + tag + "_t0"
@@ -931,14 +957,14 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmd1 += " " + optionals
     
     if not ":" in modeltot:
-        print "\n", cmd0
+        print("\n", cmd0)
         os.system(cmd0)
         if not isEFT:
-            print "\n", cmd1
+            print("\n", cmd1)
             os.system(cmd1)
 
-    cmddN0 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root "
-    cmddN1 = "python $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t1.root -g plots" + tag + "_t1.root "
+    cmddN0 = "python3 $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t0.root -g plots" + tag + "_t0.root "
+    cmddN1 = "python3 $CMSSW_BASE/src/HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a fitDiagnostics" + tag + "_t1.root -g plots" + tag + "_t1.root "
     
     if isEFT:
         cmddN0 += " --poi "
@@ -956,14 +982,14 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmddN1html = cmddN1 + " --format html >> " + "fitResults" + tag + "_t1.html"
 
     if not ":" in modeltot:
-        print "\n", cmddN0
+        print("\n", cmddN0)
         os.system(cmddN0)
-        print "\n", cmddN0html
+        print("\n", cmddN0html)
         os.system(cmddN0html)
         if not isEFT:
-            print "\n", cmddN1
+            print("\n", cmddN1)
             os.system(cmddN1)
-            print "\n", cmddN1html
+            print("\n", cmddN1html)
             os.system(cmddN1html)
         
 
@@ -1051,28 +1077,28 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
             printimp0 += "k_" + coeff
             printimp1 += "k_" + coeff
 
-    print "\n", imp0_0
+    print("\n", imp0_0)
     os.system(imp0_0)
     if not isEFT:
-        print "\n", imp0_1
+        print("\n", imp0_1)
         os.system(imp0_1)
     
-    print "\n", imp1_0
+    print("\n", imp1_0)
     os.system(imp1_0)
     if not isEFT:
-        print "\n", imp1_1
+        print("\n", imp1_1)
         os.system(imp1_1)
     
-    print "\n", ctimp0
+    print("\n", ctimp0)
     os.system(ctimp0)
     if not isEFT:
-        print "\n", ctimp1
+        print("\n", ctimp1)
         os.system(ctimp1)
     
-    print "\n", printimp0
+    print("\n", printimp0)
     os.system(printimp0)
     if not isEFT:
-        print "\n", printimp1
+        print("\n", printimp1)
         os.system(printimp1)
     
     os.system("rm higgsCombine_paramFit*")
@@ -1136,7 +1162,7 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    print "\n", cmdmer
+    print("\n", cmdmer)
     os.system(cmdmer)
     os.chdir(ipwd)
 
@@ -1186,14 +1212,14 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     wscard = dcname + ".root"
     tag = model + "_" + srvar + "_" + crvar
     os.system("pwd")
-    print "\n", "cd " + goffolder
+    print("\n", "cd " + goffolder)
     os.chdir(goffolder)
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
     
-    print "\n", cmdt2w
+    print("\n", cmdt2w)
     os.system(cmdt2w)
     
     tagdata = "_data"
@@ -1220,9 +1246,9 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     cmd1 += " " + optionals
     
     #if not ":" in modeltot:
-    print "\n", cmd0
+    print("\n", cmd0)
     os.system(cmd0)
-    print "\n", cmd1
+    print("\n", cmd1)
     os.system(cmd1)
 
     dataroot = "higgsCombine" + tagdata + ".GoodnessOfFit.mH120.root"
@@ -1230,29 +1256,29 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     gofjson = "combineTool.py -M CollectGoodnessOfFit --input " + dataroot + " " + toysroot + " -m 120.0 -o gof.json"
     gofprint = "plotGof.py gof.json --statistic saturated --mass 120.0 -o gof_plot --title-right=\"GoF saturated test\""
 
-    print "\n", gofjson
+    print("\n", gofjson)
     os.system(gofjson)
-    print "\n", gofprint
+    print("\n", gofprint)
     os.system(gofprint)
 
     os.chdir(ipwd)
 
     
-def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, tagfold, addLambda8, PDFWithTTDY, DYrp, noQCDscale, pdftype, flnN, frp, setmodd, setitlee, fitfolderr, folder, regions, leptons, unblind):
+def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username, tagfold, addLambda8, PDFWithTTDY, DYrp, noQCDscale, pdftype, flnN, frp, setmodd, setitlee, fitfolderr, folder, regions, leptons, mcstat, unblind):
     pwd = os.getcwd()
     vartopost = []
-    yeartag = year.replace("2016M,2017,2018", "RunII")# + "_"
+    yeartag = year.replace("2016oM,2017,2018", "RunII")# + "_"
     filerepo = '/eos/home-' + username[0]+'/' + username+'/VBS/nosynch/' + fold + '/'
     plotrepo = filerepo + 'plot'
     plotrepo += tagfold + "/"
 
     fparts = fitfolderr.split("/")
     #eospost = filerepo + "postfit_" #+ pdftype + tagfold
-    eospost = filerepo + "POST" + fparts[0].replace("_" + fold, "").replace("_DF", "").replace("_TF", "").replace("RESULTS", "").replace("Results", "")
+    eospost = filerepo + "CWR" + fparts[0].replace("_" + fold, "").replace("_DF", "").replace("_TF", "").replace("RESULTS", "").replace("Results", "")
     #"POSTFIT_" #+ pdftype + tagfold
 
     eospost += "_" + fparts[1] + "/" + fparts[2] + "/" + fparts[3]
-    print "eospost:", eospost
+    print("eospost:", eospost)
     #raise ValueError("bye!")
 
     if plotvars == "all":
@@ -1265,7 +1291,7 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
     for var in vartopost:
         varname = var.name
         folderhisto = folder + "/" + varname + "/shapes"
-        print folderhisto
+        print(folderhisto)
     
         if not os.path.exists(folder):
             os.system("mkdir -p " + folder) 
@@ -1279,11 +1305,11 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         WriteSett(varname, varname, fold, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, frp, regions, leptons, setitlevn, noQCDscale, False)
 
         setmodvn = setmodd.replace(srvar, varname).replace(crvar, varname)
-        print "settings to import for control variable:", setitlevn, setmodvn
+        print("settings to import for control variable:", setitlevn, setmodvn)
         RecursiveImport(setmodvn)
         PrepareToRun(fold, year, tagfold, fitfolderr)
-        #print "python PrepareEOSfolder.py ", fold
-        ##os.system("python PrepareEOSfolder.py " + fold)
+        print("python3 PrepareEOSfolder.py ", fold)
+        os.system("python3 PrepareEOSfolder.py " + fold + " " + tagfold)
     
         appendix = ""
         
@@ -1296,59 +1322,63 @@ def PrepareAndDoPostFit(model, srvar, crvar, plotvars, fold, cut, year, username
         if not os.path.exists(datafolder):
             os.system("mkdir " + datafolder)
 
-        collhist = "python collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + "_" + varname + ".root " + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn + " --pdf " + pdftype
-        createdata = "python createDatacards.py -i " + folderhisto + "/histo_" + model + "_" + varname + ".root -d " + datafolder + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn
+        collhist = "python3 collectHistos.py -i " + plotrepo + " -o " + folderhisto + "/histo_" + model + "_" + varname + ".root " + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn + " --pdf " + pdftype
+        createdata = "python3 createDatacards.py -i " + folderhisto + "/histo_" + model + "_" + varname + ".root -d " + datafolder + appendix + " --model " + model + "_" + varname + "_" + varname + " --settmod " + setmodvn + " --mcstat " + mcstat
 
         #os.system(collhist)
         #os.system(createdata)
     
-        print "settings to import for fitting variable:", setitlee
+        print("settings to import for fitting variable:", setitlee)
     
         WriteMeta(srvar, crvar, fold, model, cut, year)
         WriteSett(srvar, crvar, fold, model, cut, year, PDFWithTTDY, DYrp, pdftype, flnN, frp, regions, leptons, setitlee, noQCDscale, False)
         RecursiveImport(setmodd)
     
-        createpostfit = "python createPostFit.py --var " + varname + " --fitfolder " + fitfolderr + " --year " + year + " --model " + model + " --settmod " + setmodd + " --postfolder " + folder
+        createpostfit = "python3 createPostFit.py --var " + varname + " --fitfolder " + fitfolderr + " --year " + year + " --model " + model + " --settmod " + setmodd + " --postfolder " + folder
         
-        print "\n"
-        print "unblind?", unblind
+        print("\n")
+        print("unblind?", unblind)
         if unblind:
             createpostfit += " -u "
         
-        print createpostfit
-        #os.system(createpostfit)
+        print(createpostfit)
+        os.system(createpostfit)
         
-        poststring = "python plotter/PreFitPostFit_v3.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
+        poststring = "python3 plotter/PreFitPostFit_v3.py --era " + yeartag + " --folder " + folder + " --vars " + var.name + " --fitted " + srvar + "," + crvar + " --model " + model + " --settmod " + setmodd + " --eos " + eospost
     
         if unblind:
             poststring += " -u"
-        print "\n"
-        print poststring
+        print("\n")
+        print(poststring)
     
         if varname.startswith("DNN_"):
-            os.system(poststring + " --lastbins")
+            #os.system(poststring + " --lastbins")
             #os.system(poststring + " --lastbins --scale")
-            os.system(poststring + " --lastbins --linscale")
+            #os.system(poststring + " --lastbins --linscale")
             #os.system(poststring + " --lastbins --scale --linscale")
             pass
 
         os.system(poststring)
-        os.system(poststring + " --linscale")
+        
+        #os.system(poststring + " --linscale")
         #os.system(poststring + " --scale --linscale")
         
         os.chdir(pwd)
     
 
 def ProduceCLPlots(srvar, crvar, eftop, era, folder):
-    command = "python ciplots.py --folder " + folder + " --op " + eftop + " --era " + era + " --srvar " + srvar + " --crvar " + crvar
-    print command
+    command = "python3 ciplots.py --folder " + folder + " --op " + eftop + " --era " + era + " --srvar " + srvar + " --crvar " + crvar
+    print(command)
     os.system(command)
 
-def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
+def EFTScanAndLimits(srvar, crvar, eftop, era, folder, profiled=False):
     if eftop.startswith("c"):
         modfolder = folder + "/" + eftop
     else:
-        modfolder = folder + "/" + eftop.split("_")[0]
+        if not profiled:
+            modfolder = folder + "/" + eftop.split("_")[0]
+        else:
+            modfolder = folder + "/" + eftop
     if "_DF" in modfolder:
         obsfolder = copy.deepcopy(modfolder)
         expfolder = modfolder.replace("_DF", "_TF")
@@ -1361,42 +1391,167 @@ def EFTScanAndLimits(srvar, crvar, eftop, era, folder):
     obsroot = None
     exproot = None
 
-    obsfiles = [f for f in os.listdir(obsfolder) if f.startswith("higgs")]
-    expfiles = [f for f in os.listdir(expfolder) if f.startswith("higgs")]
+    if profiled:
+        obsfolder = obsfolder.replace("_1p0", "").replace("_0p9", "").replace("_1", "")
+        expfolder = expfolder.replace("_1p0", "").replace("_0p9", "").replace("_1", "")
+        eftop = eftop.replace("_1p0", "").replace("_0p9", "").replace("_1", "")
+
+
+    eftop_list = eftop.split(":")
+
+    #print obsfolder, expfolder
+
+    try:
+        if not profiled:
+            obsfiles = [f for f in os.listdir(obsfolder) if (f.startswith("higgsCombine" + eftop + ".MultiDimFit") and eftop.startswith("c")) or (f.startswith("higgsCombine" + eftop.split("_")[0] + ".MultiDimFit") and eftop.startswith("F"))]
+        else:
+            prefixes = ["higgsCombine" + eftop + "_k_" + eftopp.replace("F", "c") + ".MultiDimFit" for eftopp in eftop_list]
+            obsfiles = [f for f in os.listdir(obsfolder) if any(fnmatch.fnmatch(f, '{}*'.format(prefix)) for prefix in prefixes)]
+
+    except:
+        print(obsfolder, "does not exist!")
+        return
+    else:
+        pass
+
+    try:
+        if not profiled:
+            expfiles = [f for f in os.listdir(expfolder) if (f.startswith("higgsCombine" + eftop + ".MultiDimFit") and eftop.startswith("c")) or (f.startswith("higgsCombine" + eftop.split("_")[0] + ".MultiDimFit") and eftop.startswith("F"))]
+        else:
+            prefixes = ["higgsCombine" + eftop + "_k_" + eftopp.replace("F", "c") + ".MultiDimFit" for eftopp in eftop_list]
+            expfiles = [f for f in os.listdir(expfolder) if any(fnmatch.fnmatch(f, '{}*'.format(prefix)) for prefix in prefixes)]
+
+    
+
+    except:
+        print(expfolder, "does not exist!")
+        return
+    else:
+        pass
+
+    if len(obsfiles)==0 or len(expfiles)==0:
+        raise RuntimeError("No rootfiles with results!", obsfolder, expfolder) 
+    
+    print("\n\n\n")
+    print("obsfiles:", len(obsfiles), obsfiles)
+    print("expfiles:", len(expfiles), expfiles)
+    if len(obsfiles) >= len(expfiles):
+        list1, list2 = obsfiles, expfiles
+    else:
+        list1, list2 = expfiles, obsfiles
+
+    common = [item for item in list1 if item in list2]
+
+    print(len(common), common)
+
+    obsfiles = common
+    expfiles = common
+
+    print("\nAfter realigning")
+    print("obsfiles:", len(obsfiles), obsfiles)
+    print("expfiles:", len(expfiles), expfiles)
+    print("\n\n\n")
+
+    for idf, obsfile in enumerate(obsfiles):
+        obsroot = obsfolder + "/" + obsfiles[idf]
+        exproot = expfolder + "/" + expfiles[idf]        
+    
+        print(obsroot, exproot)
+        if obsroot is None or exproot is None:
+            print("One of the runs was not completed. Plot not produced")
+            continue
+
+        coefflab = eftop if not profiled else eftop_list[idf]
+
+        maincolor = ""
+        plotcommand = "python3 plot1DEFTScan.py "
+        if obsroot != None:
+            maincolor = "1"
+            plotcommand += obsroot + " --main-label \'Observed\' "
+            if exproot != None:
+                plotcommand += " --others \'" + exproot + "|Expected|2\' "
+        else:
+            maincolor = "2"
+            if exproot != None:
+                plotcommand += exproot + " --main-label \'Expected\' "
+            else:
+                print("Not runned")
+                continue
+        
+        plotcommand += " -o " 
+        if obsroot != None:
+            #plotcommand += obsfolder + "/FinalLS_" + coefflab + " "
+            plotcommand += obsfolder + "/FinalLS_" + eftop + "_" + coefflab + " "
+        elif exproot != None:
+            #plotcommand += expfolder + "/FinalLS_" + coefflab + " "
+            plotcommand += expfolder + "/FinalLS_" + eftop + "_" + coefflab + " "
+        else:
+            print("Not runned")
+            continue
+            
+        plotcommand += "--y-max 16 --y-cut 10 --main-color " + maincolor + " --POI k_" + coefflab.split("_")[0].replace("F", "c")
+    
+        print(plotcommand)
+        os.system(plotcommand)
+
+
+def EFTScanAndLimits2D(srvar, crvar, eftop, era, folder):
+    eftop_split = eftop.split(":")
+    
+    eftop_new = ""
+    for idp, piece in enumerate(eftop_split):
+        if piece.startswith("c"):
+            eftop_new += piece[:-2]
+        elif piece.startswith("F"):
+            eftop_new += piece[:-4]
+        if idp < len(eftop_split) - 1:
+            eftop_new += ":"
+
+    modfolder = folder + "/" + eftop_new
+
+    if "_DF" in modfolder:
+        obsfolder = copy.deepcopy(modfolder)
+        expfolder = modfolder.replace("_DF", "_TF")
+    elif "_TF" in modfolder:
+        obsfolder = modfolder.replace("_TF", "_DF")
+        expfolder = copy.deepcopy(modfolder)
+    else:
+        raise ValueError("path not valid!")
+    
+    obsroot = None
+    exproot = None
+
+    try:
+        obsfiles = [f for f in os.listdir(obsfolder) if (f.startswith("higgsCombine" + eftop_new + ".MultiDimFit"))]
+    except:
+        print("hello")
+        print(obsfolder, "does not exist!")
+        return
+    else:
+        pass
+
+    try:
+        expfiles = [f for f in os.listdir(expfolder) if (f.startswith("higgsCombine" + eftop_new + ".MultiDimFit"))]
+    except:
+        print(expfolder, "does not exist!")
+        return
+    else:
+        pass
 
     if len(obsfiles) != 0:
         obsroot = obsfolder + "/" + obsfiles[0]
     if len(expfiles) != 0:
-        exproot = expfolder + "/" + expfiles[0]        
-    
-    print obsroot, exproot
-    
-    maincolor = ""
-    plotcommand = "python plot1DEFTScan.py "
-    if obsroot != None:
-        maincolor = "1"
-        plotcommand += obsroot + " --main-label \'Observed\' "
-        if exproot != None:
-            plotcommand += " --others \'" + exproot + ":Expected:2\' "
-    else:
-        maincolor = "2"
-        if exproot != None:
-            plotcommand += exproot + " --main-label \'Expected\' "
-        else:
-            return "Not runned"
-    
-    plotcommand += " -o " 
-    if obsroot != None:
-        plotcommand += obsfolder + "/FinalLS_" + eftop + " "
-    elif exproot != None:
-        plotcommand += expfolder + "/FinalLS_" + eftop + " "
-    else:
-        return "Not runned"
-        
-    plotcommand += "--y-max 16 --y-cut 10 --main-color " + maincolor + " --POI k_" + eftop.split("_")[0].replace("F", "c")
-    
-    print plotcommand
-    os.system(plotcommand)
+        exproot = expfolder + "/" + expfiles[0]
+
+    print(obsroot, exproot)
+
+    if obsroot is None or exproot is None:
+        print("One of the runs was not completed. Plot not produced")
+        return
+
+    plotcommand = "python3 drawLS.py --in0 " + exproot + " --in1 " + obsroot + " --coeff " + eftop_new + " --2D --year 2016M,2017,2018"
+    print(plotcommand)
+    os.system(plotcommand)    
 
 def SMScan(srvar, crvar, signal, era, folder):
     modfolder = folder + "/Checks_" + signal
@@ -1422,7 +1577,7 @@ def SMScan(srvar, crvar, signal, era, folder):
         exproot = expfolder + "/" + expfiles[0]        
     
     maincolor = ""
-    plotcommand = "python plotSMScan.py "
+    plotcommand = "python3 plotSMScan.py "
     if obsroot != None:
         maincolor = "1"
         plotcommand += obsroot + " --main-label \'Observed\' "
@@ -1446,7 +1601,7 @@ def SMScan(srvar, crvar, signal, era, folder):
     plotcommand += "--y-max 32 --y-cut 25 --main-color " + maincolor 
     #plotcommand += " --main-color " + maincolor 
     
-    print plotcommand
+    print(plotcommand)
     os.system(plotcommand)
     
 
@@ -1511,7 +1666,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
         cmdmer += "> VBS_SSWW_%s_%s.txt" % (model, method)
     else:
         cmdmer += "> %s_%s.txt" % (model, method)
-    print cmdmer
+    print(cmdmer)
     
     os.system(cmdmer)
     os.chdir(upwd)
@@ -1558,28 +1713,28 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
 
     with open(dcpath, 'a') as dcfile:
         dcfile.write("\n")
-        print "YEARS", years
-        for systgroup, subsysts in systgroups.items():
+        print("YEARS", years)
+        for systgroup, subsysts in list(systgroups.items()):
             sysrow = systgroup + "\t="
             approw = ""
             #print "\n\nsyst", syst
-            print "\nsubsysts", subsysts
+            print("\nsubsysts", subsysts)
             for idsy, systname in enumerate(subsysts):
                 if "norm " in systgroup:
                     approw += " " + systname
                 elif syst[systname][0] == "lnN":
-                    print systname, syst[systname]
+                    print(systname, syst[systname])
                     #approw += " " + systname
                     if syst[systname][-1] == "uncorr":
-                        print "hello1"
+                        print("hello1")
                         for yr in years:
                             approw += " " + systname + "_" + yr
-                            print yr, approw
+                            print(yr, approw)
                     else:
-                        print "hello2"
+                        print("hello2")
                         approw += " " + systname
                 elif syst[systname][0].startswith("shape"):
-                    print systname, syst[systname]
+                    print(systname, syst[systname])
                     if syst[systname][-1] == "corr":
                         approw += " " + systname
                     elif syst[systname][-1] == "uncorr":
@@ -1587,7 +1742,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
                             approw += " " + systname + "_" + yr
             sysrow += approw
             dcfile.write("\n" + sysrow)
-    print "datacard:", dcpath
+    print("datacard:", dcpath)
     #raise ValueError("bye")
     impactfolder = upwd + "/" + folder + "/Checks_" + model + "/"
     if not os.path.exists(impactfolder):
@@ -1601,7 +1756,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     #raise ValueError("bye")
     if isEFT:
         cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
-    print cmdt2w
+    print(cmdt2w)
     os.system(cmdt2w)
     
     total = dcname + "_" + model + ".total"
@@ -1625,7 +1780,7 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
 
     cmdmd += " " + optionalss
 
-    print cmdmd
+    print(cmdmd)
     os.system(cmdmd)
     
     md = "combine " + totalfile + " -M MultiDimFit -m 120 --points " + points + " --algo grid "

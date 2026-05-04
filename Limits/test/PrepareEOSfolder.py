@@ -4,8 +4,8 @@ import sys
 print sys.argv
 folder = '/eos/home-a/apiccine/VBS/nosynch/' + sys.argv[1] + "/plot"
 #folder = '/eos/home-t/ttedesch/VBS/nosynch/' + sys.argv[1] + "/plot"
-if sys.argv[3] != "none":
-    folder += sys.argv[3]
+if sys.argv[2] != "none":
+    folder += sys.argv[2]
 folder += "/"
 
 #import importlib

@@ -13,6 +13,7 @@ parser.add_option('-m', '--model', dest='model', type='string', default= "./hist
 parser.add_option("-o","--outputFile",dest="output",type="string",default="histos_2017.root",help="Name of the output file collecting histos in Combine user frieldy schema. Default is histos.root")
 parser.add_option("--ls",dest="ls",type="string", default="")
 parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
+parser.add_option('--onlyLin', dest='onlyLin', default = False, action='store_true', help='add dim8 quad in 2D fits')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
 parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
 parser.add_option('--settitle"', dest='settitle', type='string', default = 'total', help = 'Specify settitle')
@@ -132,6 +133,7 @@ for year in years:
 
         else:
             ops = opt.ls.split(":")
+            #print "OPS", ops
             setpiecs = []
             for op in ops:
                 if len(op.split("_")) > 1:
@@ -167,7 +169,7 @@ for year in years:
 
 #print 'sampFiles:'
 #for k, v in sampFiles.items():
-    #print k
+    #print k, v
     #for el in v:
         #print el     
 
@@ -187,7 +189,7 @@ for year in years:
         yeartag = year
     
     for lep in leptons:
-        ##print "\n", lep
+        #print "\n", lep
         for k_, h_ in histos.iteritems():
             rootdir = k_ + "_" + lep + "_" + year
             ##print rootdir
@@ -245,14 +247,16 @@ for year in years:
                     hsyst[syskey] = [None, None]
                 
                 Error = False
+                #print "\n\nflist[0]", flist[0]
                 for f in flist[0]:
+                    #print "f", f
                     try:
                         ifile = ROOT.TFile.Open(path_ + f)
                     except IOError:
                         print "Cannot open ", f, + "\n"
                     else:
                         pass
-                        #print "Opening file ",  path_ + f
+                        #print "\nOpening file ",  path_ + f
                     ifile.cd()
     
                     #print "We are looking for object ", h_
@@ -263,22 +267,53 @@ for year in years:
                         Error = True
                         continue
                         
+                    #print "samp:", samp, samp.startswith("sm_lin_quad"), samp.startswith("quad_")
                     #print "before htemp", htemp.Integral()
                     sign = +1.
-                    if not ":" in opt.model:
-                        pass
-                    elif "VBS_SSWW_" in f and "_F" in f:
+                    #if not ":" in opt.model:
+                    #    pass
+                    
+                    if "VBS_SSWW_" in f and "_F" in f:
                         if samp.startswith("sm_lin_quad") and "_BSM_" in f:
-                            if not opt.Lambda8:
-                                sign = -1.
+                            if not opt.Lambda8 and ":" in opt.model: # or opt.onlyLin):
+                                if "_LIN" in flist[0][1]:
+                                    sign = 0.
+                                else:
+                                    sign = -1.
                             else:
-                                sign = 0.
+                                if "_LIN" in flist[0][1]:
+                                    sign = 1.
+                                else:
+                                    sign = 0.
                         elif samp.startswith("quad_"):
-                            if not opt.Lambda8:
+                            if not opt.Lambda8 and ":" in opt.model: # or opt.onlyLin:
                                 sign = 0.
                             else:
                                 sign = +1.
-                    
+                    elif "VBS_SSWW_" in f and "_c" in f:
+                        if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                            if False: #opt.onlyLin:
+                                if "_LIN_" in flist[0][1]:
+                                    sign = 0.
+                                else:
+                                    sign = -1.
+                            else:
+                                if "_LIN" in flist[0][1]:
+                                    sign = 1.
+                                else:
+                                    sign = 0.
+                                #if not ('_cHl3_' in f or '_cqq31_' in f):
+                                #sign = +1.
+                                #else:
+                                #    sign = 0.
+                        elif samp.startswith("quad_c"):
+                            if False: #opt.onlyLin:
+                                sign = 0.
+                            else:
+                                sign = +1.
+                        elif samp.startswith("quad_mixed") and ops[0] in f and ops[1] in f:
+                            sign = +1.
+
                     toAdjust = False
                     if not (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ")):
                         toAdjust = True
@@ -295,9 +330,19 @@ for year in years:
                     else:
                         htemp.Scale(sign)
                     
+                    
+                    #if (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ_EWK")): #"_LIN" in f or "_BSM" in f:
+                    #    #print "\nfile:", f
+                    #    #print "error before zeroing:", [htemp.GetBinError(ibin+1) for ibin in range(htemp.GetNbinsX())]
+                    #    for ibin in range(htemp.GetNbinsX()):
+                    #        htemp.SetBinError(ibin+1, 0.)
+                    #    #print "error after zeroing:", [htemp.GetBinError(ibin+1) for ibin in range(htemp.GetNbinsX())]
+                    
+
                     #print "after htemp", htemp.Integral()
                     #print "before h:", h #.GetName(), h.Integral()
                     ##print "htemp", htemp
+
                     if h is None:
                         h = copy.deepcopy(htemp)
                     else:
@@ -343,6 +388,7 @@ for year in years:
                             huptemp = copy.deepcopy(ifile.Get(hup_).Clone())
                             hdowntemp = copy.deepcopy(ifile.Get(hdown_).Clone())
                             sign = +1.
+                            '''
                             if not ":" in opt.model:
                                 pass
                     
@@ -357,7 +403,49 @@ for year in years:
                                         sign = 0.
                                     else:
                                         sign = +1.
-                    
+                            '''
+                            if "VBS_SSWW_" in f and "_F" in f:
+                                if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                                    if not opt.Lambda8 and ":" in opt.model: # or opt.onlyLin):
+                                        if "_LIN" in flist[0][1]:
+                                            sign = 0.
+                                        else:
+                                            sign = -1.
+                                    else:
+                                        if "_LIN" in flist[0][1]:
+                                            sign = +1.
+                                        else:
+                                            sign = 0.
+
+                                elif samp.startswith("quad_"):
+                                    if not opt.Lambda8 and ":" in opt.model: # or opt.onlyLin:
+                                        sign = 0.
+                                    else:
+                                        sign = +1.
+                            elif "VBS_SSWW_" in f and "_c" in f:
+                                if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                                    if False: #opt.onlyLin:
+                                        if "_LIN_" in flist[0][1]:
+                                            sign = 0.
+                                        else:
+                                            sign = -1.
+                                    else:
+                                        if "_LIN" in flist[0][1]:
+                                            sign = 1.
+                                        else:
+                                            sign = 0.
+                                        #if not ('_cHl3_' in f or '_cqq31_' in f):
+                                        #sign = +1.
+                                        #else:
+                                        #    sign = 0.
+
+                                elif samp.startswith("quad_"):
+                                    if False: #opt.onlyLin:
+                                        sign = 0.
+                                    else:
+                                        sign = +1.
+
+
                             if toAdjust:#huptemp.Integral()<=0.:
                                 for ibin in range(huptemp.GetNbinsX()):
                                     bincont = huptemp.GetBinContent(ibin+1)
@@ -371,8 +459,7 @@ for year in years:
                                     if bincont <= 0.:
                                         hdowntemp.SetBinContent(ibin+1, 0.001)
                                         #print ibin, "modified"
-                    
-        
+                            
                             if sign == 0:
                                 huptemp.Reset("ICE")
                                 hdowntemp.Reset("ICE")
@@ -429,7 +516,7 @@ for year in years:
                         samplab = samp
                 else:
                     samplab = samp
-                #print "\n\samplab", samplab
+                #print "samplab", samplab
 
                 #print "2after h:", h.GetName(), h.Integral()
                 #print "h", h, h.Integral()

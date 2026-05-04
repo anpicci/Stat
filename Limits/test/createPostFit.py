@@ -22,7 +22,7 @@ parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=F
 import importlib
 setname = opt.settmod
 
-print setname
+print(setname)
 settmod = importlib.import_module(setname)
 
 bkg = settmod.bkg
@@ -106,16 +106,16 @@ else:
     os.system("rm " + fitdiagdir + "/*")
     pass
 
-print "Creating FitDiagnostics for fitting datacard..."
+print("Creating FitDiagnostics for fitting datacard...")
 fitdiagcomm = "combine -M FitDiagnostics " + fitroot.split("/")[-1] + " --out " + fitdiagdir + " --expectSignal=1 --rMin 0.0001 --saveNormalizations --saveWithUncertainties --cminDefaultMinimizerStrategy 0 --plots --toysFreq"#-n _" + tag + " --robustFit=1 "
 if not opt.unblind:
     fitdiagcomm += " -t -1 "
-print fitdiagcomm
+print(fitdiagcomm)
 os.system(fitdiagcomm)
 
 
 for c in channels:
-    print "\n c", c
+    print("\n c", c)
     cstring = copy.deepcopy(string)
     controlcard = "control_card_" + postvar + "_" + c + ".txt"
     controlroot = controlcard.replace("txt", "root")
@@ -125,16 +125,16 @@ for c in channels:
         os.system("rm " + controlroot)
     
     for idc, card in enumerate(cards[postvar][c]):
-        print c, card
+        print(c, card)
         cbin = c + "_" + card.split("_hist")[0].split("_")[-1]
-        print cbin
+        print(cbin)
         cstring += " " + cbin + "=" + card
         
     cstring += " > " + controlcard
-    #print ofold
+    print(ofold)
 
     print("\nCreating card for " + yeardir + " " + postvar + " " + c + " control plots...")
-    print cstring
+    print(cstring)
 
     os.system(cstring)
         
@@ -143,8 +143,8 @@ for c in channels:
     print(ctstring)
     os.system(ctstring)
     
-    print "PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + postvar + "_" + c + ".root --postfit -f " + fitdiagdir + "/fitDiagnosticsTest.root:fit_s --total-shapes"
-    os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " -o histo_" + postvar + "_" + c + ".root --postfit -f " + fitdiagdir + "/fitDiagnosticsTest.root:fit_s --total-shapes")
+    print("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " --output histo_" + postvar + "_" + c + ".root --postfit -f " + fitdiagdir + "/fitDiagnosticsTest.root:fit_s --total-shapes")
+    os.system("PostFitShapesFromWorkspace -w " + controlroot + " -d " + controlcard + " --output histo_" + postvar + "_" + c + ".root --postfit -f " + fitdiagdir + "/fitDiagnosticsTest.root:fit_s --total-shapes")
 
 os.chdir(pwd)
 
