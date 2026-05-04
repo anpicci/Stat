@@ -20,6 +20,7 @@ parser.add_option('--HN', dest='HN', default = False, action='store_true', help 
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option('--rint', dest='rint', type='string', default = 'None', help = 'r interval for EFT')
 parser.add_option('--rfix', dest='rfix', type='string', default = 'None', help = 'r interval for EFT')
+parser.add_option('--onlyLin', dest='onlyLin', default = False, action='store_true', help='add dim8 quad in 2D fits')
 
 (opt, args) = parser.parse_args()
 
@@ -98,5 +99,5 @@ if wilson == "":
 else:
     for method in methods:
         #print "hello", path_, wilson, channels, method, opt.runSingleCat, years
-        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile, opt.unblind, rintt, rfixx)
+        runSinglePointVBS_LS(path_, wilson, channels, method, opt.runSingleCat, years, opt.profile, opt.unblind, rintt, rfixx, opt.onlyLin)
 

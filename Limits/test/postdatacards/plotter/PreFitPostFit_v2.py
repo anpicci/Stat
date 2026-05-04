@@ -177,12 +177,12 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, sb = True, isUL =
 
         if channel == 'ltau':
             if "muon" in region:
-                lep_tag = "#mu+"
+                lep_tag = "#mu"
             elif "electron" in region:
-                lep_tag = "e+"
+                lep_tag = "e"
             cmsreg = channel.replace("ltau", "#tau_{h}")
         else:
-            lep_tag = "e+#mu"
+            lep_tag = "e#mu"
             cmsreg = ""
 
         cmsreg = lep_tag + cmsreg 

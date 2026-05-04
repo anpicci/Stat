@@ -161,7 +161,7 @@ def CMS_lumi(pad,  lumi_sqrtS,  iPosX , lepText):
                 latex.SetTextFont(42)
                 #latex.SetTextAlign(31)
                 latex.SetTextSize(lumiTextSize*t*0.8)
-                latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t - relExtraDY*extraTextSize*t , lepText.split("\n")[0])
+                latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t - relExtraDY*extraTextSize*t + 10 , lepText.split("\n")[0])
                 latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t - 2*relExtraDY*extraTextSize*t , lepText.split("\n")[1])
     
     elif( writeExtraText ):

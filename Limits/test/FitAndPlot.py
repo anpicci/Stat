@@ -8,7 +8,7 @@ import optparse
 from FitAndPlotUtils import *
 import copy
 
-os.system("reset")
+#os.system("reset")
 
 usage = "python3 FitAndPlot.py"
 parser = optparse.OptionParser(usage)
@@ -23,6 +23,7 @@ parser.add_option('--notImpacts', dest='impacts', default = True, action='store_
 parser.add_option('--notUncBreak', dest='uncbreak', default = True, action='store_false', help = 'Default does unc. breaking')
 parser.add_option('--eft', dest='eft', type='string', default = 'none', help = 'EFT operators to do LS')
 parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
+parser.add_option('--onlyLin', dest='onlyLin', default = False, action='store_true', help='add dim8 quad in 2D fits')
 parser.add_option('--plot', dest='plotvar', type='string', default = 'all', help = 'Specify variables to plot in postfit')
 parser.add_option('--year', dest='year', type='string', default = 'RunII', help = 'Specify year, default is RunII')
 parser.add_option('--pol', dest='pol', type='string', default = '', help = 'Specify polarization, default is not included')
@@ -37,6 +38,7 @@ parser.add_option('--vvbroad', dest='vvbroad', default = False, action='store_tr
 parser.add_option('--vvvbroad', dest='vvvbroad', default = False, action='store_true', help='Enable vvvery broad')
 parser.add_option('--noflat', dest='flat', default = True, action='store_false', help='Disable flattening bin')
 parser.add_option('--sm', dest='sm', default = False, action='store_true', help = 'Default does not run SM significance')
+parser.add_option('--useSM', dest='useSM', default = False, action='store_true', help = 'Use VBS EW for EFT fits')
 parser.add_option('--vbs', dest='vbs', default = False, action='store_true', help = 'Default does not run on polarized signals')
 parser.add_option('--wpwp', dest='wpwp', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW+QCD')
 parser.add_option('--wpwpEW', dest='wpwpEW', default = False, action='store_true', help = 'Default does not run on unpolarized signals EW')
@@ -59,6 +61,7 @@ parser.add_option('--HN', dest='HN', default = False, action='store_true', help 
 parser.add_option('--rint', dest='rint', type='string', default = 'None', help = 'r interval for EFT')
 parser.add_option('--rfix', dest='rfix', type='string', default = 'None', help = 'r interval for EFT')
 parser.add_option('--merge', dest='merge', type='string', default = '0', help='Default no merging bins')
+parser.add_option('--mcstat', dest='mcstat', type='string', default = '10', help='Default no merging bins')
 
 (opt, args) = parser.parse_args()
 
@@ -130,16 +133,28 @@ for model in models:
 #for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     for fitvar, crvar in IterateVars(opt.varfit, opt.varcr):
     #for model in models:
-        print "\n\nStart fitting with", fitvar, "in SR and CRs and", crvar, "in Fake CR"
-        print "\tRegions:", opt.regions
-        print "\tChannels:", opt.leptons
+        print("\n\nStart fitting with", fitvar, "in SR and CRs and", crvar, "in Fake CR")
+        print("\tRegions:", opt.regions)
+        print("\tChannels:", opt.leptons)
     
         #fitfolder = "FitResults_" + folder
-        fitfolder = "FitResults_mcStat10_SM" 
+        #fitfolder = "FitResults_randp_mcStat" + opt.mcstat + "_SMdef_noEFTStat" 
+        #fitfolder = "FitResults_randp_mcStat" + opt.mcstat + "_SMdef_xComb" 
+
+        #if not opt.profile:
+        #fitfolder = "FitResults_randp_mcStat" + opt.mcstat + "_SMdef"
+
+        #else:
+        fitfolder = "FitResults_COMP2605_CS14_mcStat" + opt.mcstat + "_noEFTStat" 
+        #fitfolder = "FitResults_JHEP_mcStat" + opt.mcstat + "_VBSStat" 
+
         if rint is not None:
             fitfolder += "_rint" + opt.rint.replace(".", "p")
         if rfix is not None:
             fitfolder += "_rfix" + opt.rfix.replace(".", "p")
+
+        if opt.useSM:
+            fitfolder += "_useVBSEW"
 
         fitfolder += "_" + folder
         #fitfolder = "FitResults_S3_" + folder
@@ -157,7 +172,7 @@ for model in models:
         setmod = 'Stat.Limits.settings_' + model + "_" + fitvar + "_" + crvar
         setitle = "../python/settings_" + model + "_" + fitvar + "_" + crvar
 
-        print "Fitting for model", model
+        print("Fitting for model", model)
         ### Write the file with metasettings for settings.py, and load the latter recursively
         if opt.pdfttdy:
             if not fitfolder.endswith("/"):
@@ -209,20 +224,24 @@ for model in models:
             fitfolder += tagfolder.replace("_", "")
         if opt.Lambda8:
             fitfolder += "_Lambda8"
-        
+        if opt.onlyLin:
+            print("hello!")
+            fitfolder += "_onlyLin"
         sfitfolder = copy.deepcopy(fitfolder)
         fitfolder += "/" + fitvar + "_" + crvar
 
+        print(sfitfolder)
+        
         postfitfolder = "Post" + fitfolder
         if not os.path.exists(fitfolder):
             os.system("mkdir -p " + fitfolder)
         if not os.path.exists(postfitfolder):
             os.system("mkdir -p " + postfitfolder)
     
-        print "doFit?", opt.dofit
+        print("doFit?", opt.dofit)
         if opt.dofit:
             WriteMeta(fitvar, crvar, folder, model, opt.cut, yeartag)
-            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, opt.noQCDScale) #, False)
+            WriteSett(fitvar, crvar, folder, model, opt.cut, yeartag, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, regions, leptons, setitle, opt.noQCDScale, opt.useSM) #, False)
             #RecursiveImport(setmod)
 
             ### Prepare plots for the run and clean remnants from previous fits
@@ -231,16 +250,16 @@ for model in models:
             ### Run Significance for only-SM models
             if opt.sm:
                 #RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.pdfttdy, DYrp, pdftype, opt.flnN, opt.frp, opt.HN, setmod, setitle, fitfolder)
-                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, opt.HN, setmod, fitfolder, opt.unblind)
+                RunSMSignificance(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, opt.HN, setmod, fitfolder, opt.unblind, opt.mcstat)
             
             ### Run EW vs QCD VBS fit
             elif opt.ewvsqcd:
-                print "model", model
-                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, setmod, fitfolder, opt.unblind)
+                print("model", model)
+                RunEWvsQCD(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, pdftype, setmod, fitfolder, opt.unblind, opt.mcstat)
             
             ### Run EFT Likelihood Scan for EFT models
             else:
-                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, pdftype, opt.profile, setmod, fitfolder, opt.unblind, rint, rfix)
+                RunEFTFit(model, fitvar, crvar, folder, yeartag, opt.user, tagfolder, opt.Lambda8, opt.onlyLin, pdftype, opt.profile, setmod, fitfolder, opt.unblind, rint, rfix, opt.mcstat)
                 pass
 
         ### Print SM Likelihood Scan
@@ -264,12 +283,17 @@ for model in models:
             UncBreak(model, fitvar, crvar, yeartag, opt.user, setmod, fitfolder, opt.unblind)
 
         if opt.EFTscan:
-            EFTScanAndLimits(opt.varfit, opt.varcr, model, opt.year, fitfolder)
-        
+            if ":" in model and not opt.profile:
+                EFTScanAndLimits2D(opt.varfit, opt.varcr, model, opt.year, fitfolder)
+            else:
+                EFTScanAndLimits(opt.varfit, opt.varcr, model, opt.year, fitfolder, opt.profile)
+
+                
+
         ### Run PostFit plots, if desiderd
         if opt.postfit:
             #os.system("reset")
-            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, opt.noQCDScale, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.unblind) 
+            PrepareAndDoPostFit(model, fitvar, crvar, opt.plotvar, folder, opt.cut, yeartag, opt.user, tagfolder, opt.Lambda8, opt.pdfttdy, DYrp, opt.noQCDScale, pdftype, opt.flnN, opt.frp, setmod, setitle, fitfolder, postfitfolder, regions, leptons, opt.mcstat, opt.unblind) 
         
 
     #if opt.eft != "none" and not ":" in opt.eft and opt.doCI:

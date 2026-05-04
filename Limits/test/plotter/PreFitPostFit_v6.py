@@ -774,7 +774,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, infold, sb = True
 
         ratiosys_post.SetLineWidth(1)
         ratiosys_post.SetMarkerSize(0)
-        ratiosys_post.GetYaxis().SetTitle("Data/Pred.")
+        ratiosys_post.GetYaxis().SetTitle("Data/Bkg.")
 
 
         ratiosys_pre = h_all_prefit.Clone()
@@ -811,7 +811,7 @@ def PreFitPostFit_v2(region, channel, variable, outdir, years, infold, sb = True
 
         ratiosys_pre.SetLineWidth(1)
         ratiosys_pre.SetMarkerSize(0)
-        ratiosys_pre.GetYaxis().SetTitle("Data/Pred.")
+        ratiosys_pre.GetYaxis().SetTitle("Data/Bkg.")
 
         if opt.lastbins:
             ratiosys_pre.GetXaxis().SetRangeUser(firstbin, lastbin)
