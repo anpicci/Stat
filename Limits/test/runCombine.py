@@ -15,7 +15,7 @@ parser.add_option('-d', '--dir', dest='dir', type='string', default = 'outdir', 
 parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
 parser.add_option("--runSingleCat",dest="runSingleCat",action='store_true', default=False)
 parser.add_option('--profile', dest='profile', default = False, action='store_true', help = 'EFT fit with profiling')
-parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
+parser.add_option('--settmod', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
 parser.add_option('--HN', dest='HN', default = False, action='store_true', help = 'Use HybridNew')
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option('--rint', dest='rint', type='string', default = 'None', help = 'r interval for EFT')

@@ -2,7 +2,16 @@ import os
 import subprocess
 #from Stat.Limits.settings import *
 import copy
+import json
 from datetime import datetime
+
+def writeCombinationJson(jsonPath, categories, years, coeffs):
+    binOpsMap = {}
+    for year in years:
+        for category in categories:
+            binOpsMap[category + "_" + year] = list(coeffs)
+    with open(jsonPath, "w") as jsonFile:
+        json.dump(binOpsMap, jsonFile, indent=2, sort_keys=True)
 
 def runCombine(cmdStr, logFile):
     "run combine for a specific case"
@@ -187,9 +196,9 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
     pmodel = ''
     if not onlyLin:
         optionals += "--X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "
-        pmodel ='HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative'
+        pmodel ='HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative_comb:analiticAnomalousCouplingEFTNegative_comb'
     else:
-        pmodel ='HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingLinearEFTNegative:analiticAnomalousCouplingLinearEFTNegative --PO reuseCompleteDatacards'
+        pmodel ='HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingLinearEFTNegative_comb:analiticAnomalousCouplingLinearEFTNegative_comb --PO reuseCompleteDatacards'
 
     if not unblind:
         optionals += " -t -1 --toysFreq "
@@ -413,14 +422,17 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
     
                 os.system(cmd)
                 
+                jsonCombPath = "jsonComb.json"
+                writeCombinationJson(jsonCombPath, categories, years, coeffs)
+
                 cmd = "text2workspace.py "
                 cmd += global_dc + " -P " + pmodel + " -o "
 
                 rootdc = dirmodel + "_" + method+ ".root"
-                cmd += rootdc +" --X-allow-no-signal --PO eftOperators=" + opstring
-                if len(coeffs) > 1:
-                    cmd += " --PO eftAlternative"
-                    print("\n\n\n\nTEXT2WS\n\n\n\n", cmd)
+                cmd += rootdc + " --X-allow-no-signal --PO fileCombination=" + jsonCombPath + " --PO eftOperators=" + opstring
+                if not onlyLin:
+                    cmd += " --PO reuseCompleteDatacards"
+                print("\n\n\n\nTEXT2WS\n\n\n\n", cmd)
                 os.system(cmd)
     
                 intervalstr = ""

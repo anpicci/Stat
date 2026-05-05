@@ -14,7 +14,7 @@ parser.add_option('--fitfolder', dest='fitfolder', type='string', default = 'vUL
 parser.add_option('--postfolder', dest='postfolder', type='string', default = 'vUL025', help = 'PostFit folder')
 parser.add_option('--year', dest='year', type='string', default = '2016M,2017,2018', help = 'Variables to postfit')
 parser.add_option('--model', dest='model', type='string', default = 'sm', help = 'Variables to postfit')
-parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
+parser.add_option('--settmod', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
 parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 
 (opt, args) = parser.parse_args()

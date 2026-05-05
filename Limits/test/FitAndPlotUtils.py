@@ -6,10 +6,29 @@ import importlib
 import sys
 import optparse
 import copy
+import json
 import fnmatch
 from collections import OrderedDict
 def LineWrite(fname, s=""):
     fname.write(str(s) + "\n")
+
+def WriteCombinationJson(jsonPath, channels, years, coeffs):
+    binOpsMap = {}
+    for year in years:
+        for channel in channels:
+            binOpsMap[channel + "_" + year] = list(coeffs)
+    with open(jsonPath, "w") as jsonFile:
+        json.dump(binOpsMap, jsonFile, indent=2, sort_keys=True)
+
+def BuildCombinationPhysicsModelOptions(opstring, jsonPath):
+    return (
+        " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative_comb:"
+        "analiticAnomalousCouplingEFTNegative_comb"
+        " --X-allow-no-signal"
+        " --PO reuseCompleteDatacards"
+        " --PO fileCombination=" + jsonPath +
+        " --PO eftOperators=" + opstring
+    )
 
 colors = [
     str(ROOT.kGray+3),
@@ -574,10 +593,17 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     #LineWrite(settname, "\t\t\tlssamples_1D[combo]['sm_lin_quad_'+op.split('_')[0]] += ',VBS_SSWW_' + sigs[2*(1+idop)]")
     LineWrite(settname, "\t\tlssamples_1D[combo]['quad_'+op.split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)]")
     LineWrite(settname, "\t\tfor idothop in range(0, idop):")
-    LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
-    #LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
-    LineWrite(settname, "\t\t\tif not op.startswith('F') and not ops[idothop].startswith('F'):")
-    LineWrite(settname, "\t\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] += ',VBS_SSWW_' + op + '_' + ops[idothop] + ',VBS_SSWW_' + ops[idothop] + '_' + op")
+    if not useSM:
+        LineWrite(settname, "\t\t\t# Legacy no--useSM multidimensional samples keep the alternative quad_mixed basis.")
+        LineWrite(settname, "\t\t\t# Use --useSM to generate the standard sm_lin_quad_mixed basis expected by the combination _comb PhysicsModel.")
+        LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
+        #LineWrite(settname, "\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = 'VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
+        LineWrite(settname, "\t\t\tif not op.startswith('F') and not ops[idothop].startswith('F'):")
+        LineWrite(settname, "\t\t\t\tlssamples_1D[combo]['quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] += ',VBS_SSWW_' + ops[idothop] + '_' + op")
+    else:
+        LineWrite(settname, "\t\t\tlssamples_1D[combo]['sm_lin_quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] = sigs[0] + ',VBS_SSWW_' + sigs[1+idop*2] + ',VBS_SSWW_' + sigs[2*(1+idop)] + ',VBS_SSWW_' + sigs[1+idothop*2] + ',VBS_SSWW_' + sigs[2*(1+idothop)]")
+        LineWrite(settname, "\t\t\tif not op.startswith('F') and not ops[idothop].startswith('F'):")
+        LineWrite(settname, "\t\t\t\tlssamples_1D[combo]['sm_lin_quad_mixed_'+op.split('_')[0]+'_'+ops[idothop].split('_')[0]] += ',VBS_SSWW_' + ops[idothop] + '_' + op")
     LineWrite(settname, "")
     LineWrite(settname, "elif ':' in model and model.startswith('WpWp'):")
     LineWrite(settname, "\tsigs = model.split(':')")
@@ -932,7 +958,9 @@ def DoImpacts(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
     if isEFT:
-        cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
+        jsonCombPath = "jsonComb.json"
+        WriteCombinationJson(jsonCombPath, channels, yearsett, coeffs)
+        cmdt2w += BuildCombinationPhysicsModelOptions(opstring, jsonCombPath)
     
     print("\n", cmdt2w)
     os.system(cmdt2w)
@@ -1219,7 +1247,9 @@ def DoGoF(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     
     cmdt2w ="text2workspace.py " + dcpath + " -o " + wscard
     if isEFT:
-        cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
+        jsonCombPath = "jsonComb.json"
+        WriteCombinationJson(jsonCombPath, channels, yearsett, coeffs)
+        cmdt2w += BuildCombinationPhysicsModelOptions(opstring, jsonCombPath)
     
     print("\n", cmdt2w)
     os.system(cmdt2w)
@@ -1757,7 +1787,9 @@ def UncBreak(modeltot, srvar, crvar, year, username, setmodd, folder, unblind):
     
     #raise ValueError("bye")
     if isEFT:
-        cmdt2w += " -P HiggsAnalysis.AnalyticAnomalousCoupling.AnomalousCouplingEFTNegative:analiticAnomalousCouplingEFTNegative --X-allow-no-signal --PO eftOperators=" + opstring
+        jsonCombPath = "jsonComb.json"
+        WriteCombinationJson(jsonCombPath, channels, yearsett, coeffs)
+        cmdt2w += BuildCombinationPhysicsModelOptions(opstring, jsonCombPath)
     print(cmdt2w)
     os.system(cmdt2w)
     

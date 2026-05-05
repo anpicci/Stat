@@ -150,12 +150,23 @@ for year in years:
                 ninlist = nin.split(",")
                 sampFiles[year+lep].append([[], nout])
 
+                missingInputs = []
                 for ninel in ninlist:
+                    foundInput = False
                     for fn in tmp_list:
 
                         if fn.startswith(ninel+"_"):
                             sampFiles[year+lep][-1][0].append(fn)
+                            foundInput = True
                             break
+                    if not foundInput:
+                        missingInputs.append(ninel)
+                if len(missingInputs) > 0:
+                    raise RuntimeError(
+                        "Missing input ROOT files for logical sample " + nout +
+                        " in " + path_ +
+                        ". Missing prefixes: " + ",".join(missingInputs)
+                    )
 
         for p in procs:
             #print p
@@ -253,7 +264,7 @@ for year in years:
                     try:
                         ifile = ROOT.TFile.Open(path_ + f)
                     except IOError:
-                        print("Cannot open ", f, + "\n")
+                        print("Cannot open", f)
                     else:
                         pass
                         #print "\nOpening file ",  path_ + f
@@ -274,7 +285,9 @@ for year in years:
                     #    pass
                     
                     if "VBS_SSWW_" in f and "_F" in f:
-                        if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                        if samp.startswith("sm_lin_quad_mixed_"):
+                            sign = +1.
+                        elif samp.startswith("sm_lin_quad") and "_BSM_" in f:
                             if not opt.Lambda8 and ":" in opt.model: # or opt.onlyLin):
                                 if "_LIN" in flist[0][1]:
                                     sign = 0.
@@ -291,7 +304,9 @@ for year in years:
                             else:
                                 sign = +1.
                     elif "VBS_SSWW_" in f and "_c" in f:
-                        if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                        if samp.startswith("sm_lin_quad_mixed_"):
+                            sign = +1.
+                        elif samp.startswith("sm_lin_quad") and "_BSM_" in f:
                             if False: #opt.onlyLin:
                                 if "_LIN_" in flist[0][1]:
                                     sign = 0.
@@ -400,7 +415,9 @@ for year in years:
                                         sign = +1.
                             '''
                             if "VBS_SSWW_" in f and "_F" in f:
-                                if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                                if samp.startswith("sm_lin_quad_mixed_"):
+                                    sign = +1.
+                                elif samp.startswith("sm_lin_quad") and "_BSM_" in f:
                                     if not opt.Lambda8 and ":" in opt.model: # or opt.onlyLin):
                                         if "_LIN" in flist[0][1]:
                                             sign = 0.
@@ -418,7 +435,9 @@ for year in years:
                                     else:
                                         sign = +1.
                             elif "VBS_SSWW_" in f and "_c" in f:
-                                if samp.startswith("sm_lin_quad") and "_BSM_" in f:
+                                if samp.startswith("sm_lin_quad_mixed_"):
+                                    sign = +1.
+                                elif samp.startswith("sm_lin_quad") and "_BSM_" in f:
                                     if False: #opt.onlyLin:
                                         if "_LIN_" in flist[0][1]:
                                             sign = 0.
