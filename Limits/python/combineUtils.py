@@ -11,7 +11,7 @@ def runCombine(cmdStr, logFile):
     #writer = open(logFile, 'w') 
     #process = subprocess.call(cmd, shell = True, stdout=writer)
     #logFile = logfile.replace(".log", datetime.now().time().strftime("%H%M%S%f") + ".log")
-    print((cmdStr + " 2>&1 | tee " + logFile))
+    print(cmdStr + " 2>&1 | tee " + logFile)
     os.system(cmdStr + " 2>&1 | tee " + logFile)
     return
 
@@ -25,9 +25,9 @@ def runSinglePointVBS_sign(path_, model, categories, method, runSingleCat, years
         if ids < len(model) - 1:
             modelname += "_"
 
-    print(("evaluate limit for model ", model))
+    print("evaluate limit for model", model)
+    print("categories:", categories)
     path = "" + path_ + "/" + modelname
-    print(("categories:", categories))
     
     if(os.path.exists(path)):
         os.chdir(path)
@@ -65,12 +65,13 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
     optionalsSM = " --algo=grid --points=50000 --cminDefaultMinimizerStrategy=0 --X-rtd SIMNLL_NO_LEE --X-rtd NO_ADDNLL_FASTEXIT "#--setRobustFitTolerance=0.1 --cminDefaultMinimizerTolerance 0.1 --X-rtd=MINIMIZER_analytic --X-rtd MINIMIZER_MaxCalls=99999999999999 --cminFallbackAlgo Minuit2,Migrad,0:1 --stepSize=0.1 --setRobustFitStrategy=1 --maxFailedSteps 999999 --X-rtd FITTER_NEW_CROSSING_ALGO --X-rtd FITTER_NEVER_GIVE_UP --X-rtd FITTER_BOUND" #--autoBoundsPOIs * --autoRange 3" #--fastScan"
     if not unblind:
         optionalsSM += " -t -1 --toysFreq "
-    print(("model", model))
+
     modelname = model.replace(":", "_")
     #print "evaluate limit for model ", model
     path = "" + path_ + "/" + modelname
     vbsmodels = model.split(":")
-    print(("hello", path))
+    print("model", model)
+    print("hello", path)
     if(os.path.exists(path)):
         print("ok i'm in the directory")
         os.chdir(path)
@@ -132,7 +133,7 @@ def runSinglePointVBS_EWvsQCD(path_, model, categories, method, runSingleCat, ye
                 os.system("rm higgsCombineTest.*.MultiDimFit.mH125.root")
                 
 def runSinglePointVBS_AL(path_, model, categories, method, runSingleCat, years, unblind):
-    print(("evaluate limit for VBS_SSWW_" + model))
+    print("evaluate limit for VBS_SSWW_" + model)
     path = ("%s/VBS_SSWW_%s" % (path_, model) )
     #print "==>path: ", path
     #print os.path.exists(path)
@@ -220,7 +221,7 @@ def runSinglePointVBS_LS(path_, models, categories, method, runSingleCat, years,
     print(os.path.exists(path))
     maindir = os.getcwd() + "/"
     if(os.path.exists(path)):
-        print(("ok i'm in the directory", path))
+        print("ok i'm in the directory", path)
         os.chdir(path)
         #print "We are in the right folder ",  len(categories)
         extraoption = ""

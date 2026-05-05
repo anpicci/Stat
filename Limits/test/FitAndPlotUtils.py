@@ -8,7 +8,8 @@ import optparse
 import copy
 import fnmatch
 from collections import OrderedDict
-LineWrite = lambda fname, s : fname.write(s + "\n") 
+def LineWrite(fname, s=""):
+    fname.write(str(s) + "\n")
 
 colors = [
     str(ROOT.kGray+3),
@@ -59,7 +60,7 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "#*********************************")
     LineWrite(settname, "hist_pre = 'h_'")
     LineWrite(settname, "")
-    LineWrite(settname, "setfile = open('/afs/cern.ch/work/a/apiccine/CMSSW_10_2_13/src/Stat/Limits/python/metasett_" + model + "_" + srvar + "_" + crvar + "_" + folder + ".txt', 'r')")
+    LineWrite(settname, "setfile = open('/afs/cern.ch/work/a/apiccine/CMSSW_14_1_0_pre4/src/Stat/Limits/python/metasett_" + model + "_" + srvar + "_" + crvar + "_" + folder + ".txt', 'r')")
     LineWrite(settname, "setlist = [line.replace('\\n', '') for line in setfile.readlines()]")
     LineWrite(settname, "sr_var, cr_var = setlist[0].split(',')")
     LineWrite(settname, "intfolder = setlist[1]")
@@ -646,9 +647,10 @@ def WriteSett(srvar, crvar, folder, model, cut, year, PDFWithTTDY, DYrp, pdftype
     LineWrite(settname, "else:")
     LineWrite(settname, "\traise RuntimeError('Warning! Please insert valid model!')")
     LineWrite(settname, "")
-    LineWrite(settname, "print 'sigs:', sigs")
-    LineWrite(settname, "print 'lssamples in settings:', lssamples_1D")
+    LineWrite(settname, "print('sigs:', sigs)")
+    LineWrite(settname, "print('lssamples in settings:', lssamples_1D)")
     LineWrite(settname, "sigpoints = [sigs]")
+    settname.close()
 
 def WriteMeta(srvar, crvar, folder, model, cut, year = "2016M,2017,2018"):
     metasett = open("../python/metasett_" + model + "_" + srvar + "_" + crvar + "_" + folder + ".txt", "w")

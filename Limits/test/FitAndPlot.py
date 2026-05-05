@@ -146,7 +146,8 @@ for model in models:
 
         #else:
         #fitfolder = "FitResults_CWR_mcStat" + opt.mcstat + "_noEFTStat" 
-        fitfolder = "FitResults_JHEP3_mcStat" + opt.mcstat + "_VBSStat" 
+        #fitfolder = "FitResults_JHEP3_mcStat" + opt.mcstat + "_VBSStat"
+        fitfolder = "FitResults_COMP26_mcStat" + opt.mcstat + "_VBSStat" 
 
         if rint is not None:
             fitfolder += "_rint" + opt.rint.replace(".", "p")

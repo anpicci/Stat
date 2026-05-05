@@ -17,7 +17,7 @@ parser.add_option("--model",dest="model",type="string",default="",help="model")
 parser.add_option("-c","--channel",dest="ch",type="string",default="all",help="Indicate channels of interest. Default is all")
 #parser.add_option("-u","--unblind",dest="unblind",action='store_true', default=False)
 parser.add_option('--ls', dest='ls', type='string', default = '', help='wilson coeff')
-parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
+parser.add_option('--settmod', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
 parser.add_option('--mcstat', dest='mcstat', type='string', default = '10', help='Default no merging bins')
 
 (opt, args) = parser.parse_args()
@@ -131,7 +131,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
        try:
               ifile = ROOT.TFile.Open(ifilename)
        except IOError:
-              print "Cannot open ", ifilename
+              print("Cannot open ", ifilename)
        else:
               ##print "Opening file ",  ifilename
               ifile.cd()
@@ -177,7 +177,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
                      rates[p] = getRate(ch, p, ifile)
 
                      bkgrate = rates[p]
-                     if (p =="QCD"): print "qcd: ", bkgrate
+                     if (p =="QCD"): print("qcd: ", bkgrate)
 
                      #if(bkgrate<=0.):
                             #nproc = nproc - 1
@@ -228,7 +228,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
        card += "%-50s%-35s%-35s\n" % ("rate", sigLine3, rateLine) #signalYield[m].getVal(), nevents
        card += "-----------------------------------------------------------------------------------\n"
 
-       for sysname, sysValue in syst.iteritems():
+       for sysname, sysValue in syst.items():
               sysName = ""
               #### insert year in sysName if sys in uncorr, o
               if sysValue[0].startswith("shape") or sysValue[0] == 'lnN':
@@ -344,10 +344,10 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
 
                                        if (abs(lnNUp - 1.) < 5.e-4 and abs(lnNDo - 1.) < 5.e-4) or (abs(lnNUp) < 0.1 or abs(lnNDo) < 0.1) or (abs(lnNUp) > 2. or abs(lnNDo) > 2.):
                                            card += "%-35s" % ( "-")
-                                           print ("%-35s" % ( "-"))
+                                           print(("%-35s" % ( "-")))
                                        else:
                                            card += "%-35s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4)))
-                                           print ("%-35s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4))))
+                                           print(("%-35s" % (str(round(lnNUp, 4)) + "/" + str(round(lnNDo, 4)))))
 
                             else:  
                                 card += "%-35s" % ("-") * (len(sig))
@@ -431,7 +431,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
                                    elif isbogussys: 
                                           card += "%-35s" % ( "-")
 
-                                          print p, "bogus", sysname
+                                          print(p, "bogus", sysname)
                      elif("mcstat" in sysName):
                             # CAMBIARE NOME DELLA SYST                     #here
                             for samp in sysValue[1]:
@@ -447,7 +447,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
                                                  
                                    elif(mode != "template"):
                                           line = "%-35s" % ( "-") 
-                                          lineProc = ["%-35s" % ( "-") for x in xrange (len(processes))]
+                                          lineProc = ["%-35s" % ( "-") for x in range (len(processes))]
                                           if samp in processes: 
                                                  index = processes.index(samp)  
                                                  lineProc[index] = "1"
@@ -463,7 +463,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
                                           sampNameLine += sampn 
                                           if ids < (len(sampName) - 1):
                                                  sampNameLine += "_"
-                                   for i in xrange(hist.GetNbinsX()):
+                                   for i in range(hist.GetNbinsX()):
                                           sysName = "mcstat_%s_%s_bin%d      "  % (ch, sampNameLine, i+1)
                                           card += "%-35s   shape   " % (sysName)
                                           card += line
@@ -476,7 +476,7 @@ def getCard(sig, ch, ifilename, outdir, mode = "histo"):#, unblind = False):
               card += "\n"
        # End for loop on syst unc.       
        card += "\n"
-       for k, v in rateParams.items():
+       for k, v in list(rateParams.items()):
               rpyear = k.split("_")[-1]
               for ch_ in v.chs:
                      if("2016" in k and "2016" not in ch):
@@ -548,8 +548,8 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                      coeff = coeff.replace(setpiec, "")
 
        lssamp = []
-       for name, coll in lssamples_1D.items():
-              for nout, nin in coll.items():
+       for name, coll in list(lssamples_1D.items()):
+              for nout, nin in list(coll.items()):
                      lssamp.append(nout)
        #print "coeff:", coeff
        ##print lssamp
@@ -559,7 +559,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
        try:
               ifile = ROOT.TFile.Open(ifilename)
        except IOError:
-              print "Cannot open ", ifilename
+              print("Cannot open ", ifilename)
        else:
               ##print "Opening file ",  ifilename
               ifile.cd()
@@ -694,7 +694,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
 
        card += "-----------------------------------------------------------------------------------\n"
 
-       for sysname,sysValue  in syst.iteritems():
+       for sysname,sysValue  in syst.items():
               sysName = ""
               #### insert year in sysName if sys in uncorr, o
               if sysValue[0].startswith("shape") or sysValue[0] == 'lnN':
@@ -910,7 +910,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                                                  sampName.append(sig)
                                    elif(mode != "template"):
                                           line = "%-35s" % ( "-") 
-                                          lineProc = ["%-35s" % ( "-") for x in xrange (len(processes))]
+                                          lineProc = ["%-35s" % ( "-") for x in range (len(processes))]
                                           if samp in processes: 
                                                  index = processes.index(samp)  
                                                  lineProc[index] = "1"
@@ -927,7 +927,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                                           if ids < (len(sampName) - 1):
                                                  sampNameLine += "_"
 
-                                   for i in xrange(hist.GetNbinsX()):
+                                   for i in range(hist.GetNbinsX()):
                                           sysName = "mcstat_%s_%s_bin%d      "  % (ch, sampNameLine, i+1)
                                           card += "%-35s%-35s" % (sysName, sysValue[0])
                                           card += line
@@ -936,7 +936,7 @@ def getCardLS(incoeff, ch, ifilename, outdir, mode = "histo"):#, unblind = False
                      card += "%-35s%-35s%-35d%-35d\n " % (ch, "autoMCStats", mcstatt, 0)
               card += "\n"
        # End for loop on syst unc.       
-       for k, v in rateParams.items():
+       for k, v in list(rateParams.items()):
               rpyear = k.split("_")[-1]
               for ch_ in v.chs:
                      if("2016" in k and "2016" not in ch):
@@ -1030,7 +1030,7 @@ if wilson == "":
 try:
     ifile = ROOT.TFile.Open(ifilename)
 except IOError:
-    print "Cannot open ", ifilename
+    print("Cannot open ", ifilename)
 else:
     pass
 

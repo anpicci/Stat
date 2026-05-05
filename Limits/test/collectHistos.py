@@ -15,8 +15,8 @@ parser.add_option("--ls",dest="ls",type="string", default="")
 parser.add_option('--Lambda8', dest='Lambda8', default = False, action='store_true', help='add dim8 quad in 2D fits')
 parser.add_option('--onlyLin', dest='onlyLin', default = False, action='store_true', help='add dim8 quad in 2D fits')
 parser.add_option('--pdf', dest='pdf', type='string', default = 'total', help = 'Specify type of pdf')
-parser.add_option('--settmod"', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
-parser.add_option('--settitle"', dest='settitle', type='string', default = 'total', help = 'Specify settitle')
+parser.add_option('--settmod', dest='settmod', type='string', default = 'total', help = 'Specify settmod')
+parser.add_option('--settitle', dest='settitle', type='string', default = 'total', help = 'Specify settitle')
 
 (opt, args) = parser.parse_args()
 sys.argv.append('-b')
@@ -34,12 +34,12 @@ sigpoints = settmod.sigpoints
 lssamples_1D = settmod.lssamples_1D
 syst = settmod.syst
 
-print "lssamples:", lssamples_1D
+print("lssamples:", lssamples_1D)
 
 path = opt.path
 ofilename = opt.output
-print "From", path
-print "Creating output file", ofilename
+print("From", path)
+print("Creating output file", ofilename)
 shapedir = ofilename.replace(ofilename.split("/")[-1], "")
 
 
@@ -146,7 +146,7 @@ for year in years:
             ls_dict = lssamples_1D[combo]
             #print ls_dict
 
-            for nout, nin in ls_dict.items():
+            for nout, nin in list(ls_dict.items()):
                 ninlist = nin.split(",")
                 sampFiles[year+lep].append([[], nout])
 
@@ -190,7 +190,7 @@ for year in years:
     
     for lep in leptons:
         #print "\n", lep
-        for k_, h_ in histos.iteritems():
+        for k_, h_ in histos.items():
             rootdir = k_ + "_" + lep + "_" + year
             ##print rootdir
             #if not os.path.isdir(k_+ "_" + year):
@@ -205,9 +205,9 @@ for year in years:
         histos_data = []
         fstoopen = []
 
-        histData = dict(zip(histos.keys(), [None]*len(histos.keys())))
+        histData = dict(list(zip(list(histos.keys()), [None]*len(list(histos.keys())))))
 
-        for k_, h__ in histos.iteritems():
+        for k_, h__ in histos.items():
          
         
             if lep=='emu' and not k_.startswith("CRTT"):
@@ -226,7 +226,7 @@ for year in years:
 
                 
                 hsyst = collections.OrderedDict()
-                for sysnam, systype in syst.items():
+                for sysnam, systype in list(syst.items()):
                     if not (systype[0].startswith("shape") or (systype[0] == 'lnN' and systype[2] == 0.) ) or sysnam == "autoMCstat":
                     #if not systype[0].startswith("shape") or sysnam == "autoMCstat":
                         continue
@@ -253,7 +253,7 @@ for year in years:
                     try:
                         ifile = ROOT.TFile.Open(path_ + f)
                     except IOError:
-                        print "Cannot open ", f, + "\n"
+                        print("Cannot open ", f, + "\n")
                     else:
                         pass
                         #print "\nOpening file ",  path_ + f
@@ -263,7 +263,7 @@ for year in years:
                     try:
                         htemp = copy.deepcopy(ifile.Get(h_).Clone())
                     except:
-                        print "Problems in " + path_ + f + " searching for " + h_
+                        print("Problems in " + path_ + f + " searching for " + h_)
                         Error = True
                         continue
                         
@@ -330,18 +330,13 @@ for year in years:
                     else:
                         htemp.Scale(sign)
                     
-                    
-                    #if (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ_EWK")): #"_LIN" in f or "_BSM" in f:
-                    #    #print "\nfile:", f
-                    #    #print "error before zeroing:", [htemp.GetBinError(ibin+1) for ibin in range(htemp.GetNbinsX())]
-                    #    for ibin in range(htemp.GetNbinsX()):
-                    #        htemp.SetBinError(ibin+1, 0.)
-                    #    #print "error after zeroing:", [htemp.GetBinError(ibin+1) for ibin in range(htemp.GetNbinsX())]
-                    
-
-                    #print "after htemp", htemp.Integral()
-                    #print "before h:", h #.GetName(), h.Integral()
-                    ##print "htemp", htemp
+                                        
+                    if (f.startswith("VBS_SSWW_") or f.startswith("WpWpJJ_EWK")): #"_LIN" in f or "_BSM" in f:
+                        print("\nfile:", f)
+                        print("error before zeroing:", [htemp.GetBinError(ibin+1) for ibin in range(htemp.GetNbinsX())])
+                        for ibin in range(htemp.GetNbinsX()):
+                            htemp.SetBinError(ibin+1, 0.)
+                        print("error after zeroing:", [htemp.GetBinError(ibin+1) for ibin in range(htemp.GetNbinsX())])
 
                     if h is None:
                         h = copy.deepcopy(htemp)
@@ -352,7 +347,7 @@ for year in years:
                     #hsyst = collections.OrderedDict()
                     #print "\nsamp:", samp
 
-                    for sysnam, systype in syst.items():
+                    for sysnam, systype in list(syst.items()):
                         sysname = None
                         if not (systype[0].startswith("shape") or (systype[0] == 'lnN' and systype[2] == 0.) ) or sysnam == "autoMCstat":
                             continue
@@ -530,7 +525,7 @@ for year in years:
                     else:
                         histData[k_].Add(h)
                     
-                for sname, shists in hsyst.items():
+                for sname, shists in list(hsyst.items()):
                     if None in shists:
                         continue
                     #print "\nsystematic:", sname, shists[0].GetName(), shists[1].GetName()
