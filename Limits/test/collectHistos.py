@@ -43,6 +43,33 @@ print("Creating output file", ofilename)
 shapedir = ofilename.replace(ofilename.split("/")[-1], "")
 
 
+def get_swapped_mixed_prefix(prefix):
+    pieces = prefix.split("_")
+
+    if len(pieces) != 6:
+        return None
+
+    if pieces[0] != "VBS" or pieces[1] != "SSWW":
+        return None
+
+    return "_".join(pieces[:2] + pieces[4:6] + pieces[2:4])
+
+
+def find_input_file_for_prefix(tmp_list, prefix):
+    candidate_prefixes = [prefix]
+    swapped_prefix = get_swapped_mixed_prefix(prefix)
+
+    if swapped_prefix is not None and swapped_prefix not in candidate_prefixes:
+        candidate_prefixes.append(swapped_prefix)
+
+    for candidate_prefix in candidate_prefixes:
+        for fn in tmp_list:
+            if fn.startswith(candidate_prefix + "_"):
+                return fn, candidate_prefix
+
+    return None, None
+
+
 if os.path.exists(ofilename):
     os.system("rm " + ofilename)
 elif not os.path.exists(shapedir):
@@ -152,15 +179,24 @@ for year in years:
 
                 missingInputs = []
                 for ninel in ninlist:
-                    foundInput = False
-                    for fn in tmp_list:
+                    matchedFile, matchedPrefix = find_input_file_for_prefix(tmp_list, ninel)
 
-                        if fn.startswith(ninel+"_"):
-                            sampFiles[year+lep][-1][0].append(fn)
-                            foundInput = True
-                            break
-                    if not foundInput:
+                    if matchedFile is None:
                         missingInputs.append(ninel)
+                        continue
+
+                    if matchedPrefix != ninel:
+                        print(
+                            "Using swapped mixed input prefix for",
+                            nout,
+                            ":",
+                            ninel,
+                            "->",
+                            matchedPrefix,
+                        )
+
+                    sampFiles[year+lep][-1][0].append(matchedFile)
+
                 if len(missingInputs) > 0:
                     raise RuntimeError(
                         "Missing input ROOT files for logical sample " + nout +
